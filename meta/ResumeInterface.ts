@@ -1,145 +1,113 @@
-interface resume {
-  version: string;
+type TAGS = string[];
 
-  basics: {
+interface ENGINEERING_RESUME {
+  version: string; // eg . "1" , "2"
+  personal_details: {
     name: string;
-    label?: {
+    tag_line?: {
       text: string;
-      tags: string[];
+      tags: TAGS;
     }[];
     summary?: {
       text: string;
-      tags: string[];
+      tags: TAGS;
     }[];
     email: string;
     phone?: string;
-    dateOfBirth?: string;
-    location?: {
-      address: string;
-      postalCode: string;
+    date_of_birth?: string;
+    address?: {
+      address_line: string;
       city: string;
-      countryCode: string;
-      region: string;
+      country: string;
     };
-    profiles?: {
-      network: string;
-      username: string;
+    social_links?: {
+      name: string;
       url: string;
+      tags: TAGS;
+    }[];
+  };
+
+  work_experience?: {
+    company: string;
+    tags: TAGS;
+    position: {
+      text: string;
+      tags: TAGS;
+    }[];
+    website?: string;
+    start_date: Date;
+    end_date?: Date;
+    summary: {
+      text: string;
+      tags: TAGS;
+    }[];
+    highlights: {
+      text: string[];
+      tags: TAGS;
+    }[];
+  }[];
+
+  skills?: {
+    soft?: {
+      name: string;
+      level?: string; // eg. "beginner", "intermediate", "advanced"
+      tags: string[];
+    }[];
+    technical?: {
+      name: string;
+      level?: string;
       tags: string[];
     }[];
   };
 
-  work: {
-    company: string;
-    position: {
-      text: string;
-      tags: string[];
-    }[];
-    website: {
-      text: string;
-      tags: string[];
-    }[];
-    startDate: Date;
-    endDate: Date;
-    summary: {
-      text: string;
-      tags: string[];
-    }[];
-    highlights: {
-      text: string[];
-      tags: string[];
-    }[];
-    tags: string[];
-  }[];
-
-  volunteer: {
-    organization: string;
-    position: {
-      text: string;
-      tags: string[];
-    }[];
-    website: {
-      text: string;
-      tags: string[];
-    }[];
-    startDate: Date;
-    endDate: Date;
-    summary: {
-      text: string;
-      tags: string[];
-    }[];
-    highlights: {
-      text: string[];
-      tags: string[];
-    }[]
-    tags: string[];
-  }[];
-
-  education: {
-    institution: string;
-    area: {
-      text: string;
-      tags: string[];
-    }[];
-    studyType: {
-      text: string;
-      tags: string[];
-    }[];
-    startDate: Date;
-    endDate: Date;
-    gpa: string;
-    courses: {
-      text: string[];
-      tags: string[];
-    }[];
-    tags: string[];
-  }[];
-
-  awards: {
+  achievements?: {
     title: string;
+    tags: string[];
     date: Date;
-    awarder: string;
-    summary: {
+    awarded_by?: string;  // eg. "Google", "Microsoft", Dev.to
+    summary?: {
       text: string;
       tags: string[];
     }[];
-    tags: string[];
   }[];
 
-  publications: {
+  education?: {
+    institution: string;
+    tags: string[];
+    field: {       // eg. "Computer Science", "Software Engineering"
+      text: string;
+      tags: string[];
+    }[];
+    degree_level: {  // eg. "Bachelor", "Master", "PhD"
+      text: string;
+      tags: string[];
+    }[];
+    startDate: Date;
+    endDate: Date;
+    score: string; // eg. "3.5/4.0", "80%"
+  }[];
+
+  publications?: {   //eg "Research Papers", "Books", "Articles"
     name: string;
+    tags: string[];
     publisher: string;
     releaseDate: Date;
-    website: string;
-    summary: {
+    url: string;
+    summary?: {
       text: string;
       tags: string[];
     }[];
-    tags: string[];
   }[];
 
-  skills: {
-    name: string;
-    level: string;
-    categories: string;
+  otherLists: {  // eg. "Projects", "Courses", "Certifications"
     tags: string[];
-  }[];
-
-  otherLists: {
     heading: {
       text: string;
       tags: string[];
     }[];
-    items: {
-      name: {
-        text: string;
-        tags: string[];
-      }[];
-      summary: {
-        text: string;
-        tags: string[];
-      }[];
+    summary: {
+      text: string;
+      tags: string[];
     }[];
-    tags: string[];
   }[];
 }
