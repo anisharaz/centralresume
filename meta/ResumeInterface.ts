@@ -99,7 +99,7 @@ interface ENGINEERING_RESUME {
     }[];
   }[];
 
-  otherLists: {  // eg. "Projects", "Courses", "Certifications"
+  otherLists?: {  // eg. "Projects", "Courses", "Certifications"
     tags: string[];
     heading: {
       text: string;
