@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -9,15 +8,19 @@ datasource db {
 }
 
 model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean
-  image         String?
-  createdAt     DateTime
-  updatedAt     DateTime
-  sessions      Session[]
-  accounts      Account[]
+  id               String             @id
+  name             String
+  email            String
+  emailVerified    Boolean
+  image            String?
+  createdAt        DateTime
+  updatedAt        DateTime
+  sessions         Session[]
+  accounts         Account[]
+  userProfile      userProfile?
+  oauth_client     oauth_client[]
+  oauth_auth_token oauth_auth_token[]
+  oauth_token      oauth_token[]
 
   @@unique([email])
   @@map("user")
@@ -66,4 +69,70 @@ model Verification {
   updatedAt  DateTime?
 
   @@map("verification")
+}
+
+enum VISIBILITY {
+  PUBLIC
+  PRIVATE
+}
+
+// used for user profile page. user can sets a public profile which is searchable
+model userProfile {
+  id           String     @id
+  userId       String     @unique
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  profileImage String?
+  bannerImage  String?
+  visibility   VISIBILITY
+  createdAt    DateTime
+  updatedAt    DateTime
+
+  @@map("user_profile")
+}
+
+// !             oAuth tables         // 
+model oauth_client {
+  clientId         String             @id
+  clientSecret     String             @unique
+  redirect_uri     String
+  image            String?
+  name             String
+  description      String?
+  website          String?
+  userId           String
+  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt        DateTime
+  updatedAt        DateTime
+  oauth_token      oauth_token[]
+  oauth_auth_token oauth_auth_token[]
+
+  @@map("oauth_client")
+}
+
+model oauth_auth_token {
+  id            String       @id
+  authToken     String       @unique
+  scope         String // space delimited tags name eg, "devops marketing webdev"
+  userId        String
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  oauthclientId String
+  oauthClient   oauth_client @relation(fields: [oauthclientId], references: [clientId], onDelete: Cascade)
+  createdAt     DateTime
+  updatedAt     DateTime
+
+  @@map("oauth_auth_token")
+}
+
+model oauth_token {
+  id            String       @id
+  accessToken   String       @unique
+  scope         String // copy scope from oauth_auth_token table after token generation
+  userId        String
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt     DateTime
+  updatedAt     DateTime
+  oauthclientId String
+  oauthClient   oauth_client @relation(fields: [oauthclientId], references: [clientId], onDelete: Cascade)
+
+  @@map("oauth_token")
 }
