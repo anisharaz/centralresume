@@ -1,6 +1,9 @@
 import express from 'express';
 import logger from 'morgan';
 import { ConfigManager } from './config';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 const configManager = ConfigManager.getInstance();
 const port = configManager.getConfig().port;
@@ -10,7 +13,9 @@ const app = express();
 app.use(logger('dev'));
 
 app.get('/', (_req, res) => {
-  res.send('Hello World!');
+  prisma.user.findMany().then((users) => {
+    res.send(JSON.stringify(users));
+  });
 });
 
 app.listen(port, host, () => {
