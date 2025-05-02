@@ -8,19 +8,20 @@ datasource db {
 }
 
 model User {
-  id                 String               @id
-  name               String
-  email              String
-  emailVerified      Boolean
-  image              String?
-  createdAt          DateTime
-  updatedAt          DateTime
-  sessions           Session[]
-  accounts           Account[]
-  userProfile        userProfile?
-  oauth_client       oauth_client[]
-  oauth_grant_token  oauth_grant_token[]
-  oauth_access_token oauth_access_token[]
+  id               String             @id
+  name             String
+  email            String
+  emailVerified    Boolean
+  image            String?
+  createdAt        DateTime
+  updatedAt        DateTime
+  sessions         Session[]
+  accounts         Account[]
+  userProfile      userProfile?
+  oauthClient      oauthClient[]
+  oauthGrantToken  oauthGrantToken[]
+  oauthAccessToken oauthAccessToken[]
+  codeChallenge    codeChallenge[]
 
   @@unique([email])
   @@map("user")
@@ -91,48 +92,66 @@ model userProfile {
 }
 
 // !             oAuth tables         // 
-model oauth_client {
-  clientId           String               @id
-  clientSecret       String               @unique
-  redirect_uri       String
-  image              String?
-  name               String
-  description        String?
-  website            String?
-  userId             String
-  user               User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt          DateTime
-  updatedAt          DateTime
-  oauth_grant_token  oauth_grant_token[]
-  oauth_access_token oauth_access_token[]
+model oauthClient {
+  clientId         String             @id
+  clientSecret     String             @unique
+  redirect_uri     String
+  image            String?
+  name             String
+  description      String?
+  website          String?
+  userId           String
+  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt        DateTime
+  updatedAt        DateTime
+  oauthGrantToken  oauthGrantToken[]
+  oauthAccessToken oauthAccessToken[]
+  codeChallenge    codeChallenge[]
 
   @@map("oauth_client")
 }
 
-model oauth_grant_token {
-  id            String       @id
-  authToken     String       @unique
-  scope         String // space delimited tags name eg, "devops marketing webdev"
-  userId        String
-  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  oauthclientId String
-  oauthClient   oauth_client @relation(fields: [oauthclientId], references: [clientId], onDelete: Cascade)
-  createdAt     DateTime
-  updatedAt     DateTime
+model oauthGrantToken {
+  id              String        @id
+  grantToken      String        @unique
+  scope           String // space delimited tags name eg, "devops marketing webdev"
+  userId          String
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  oauthclientId   String
+  oauthClient     oauthClient   @relation(fields: [oauthclientId], references: [clientId], onDelete: Cascade)
+  createdAt       DateTime
+  updatedAt       DateTime
+  codeChallengeId String        @unique
+  codeChallenge   codeChallenge @relation(fields: [codeChallengeId], references: [id], onDelete: Cascade)
 
-  @@map("oauth_auth_token")
+  @@map("oauth_grant_token")
 }
 
-model oauth_access_token {
-  id            String       @id
-  accessToken   String       @unique
+model oauthAccessToken {
+  id            String      @id
+  accessToken   String      @unique
   scope         String // copy scope from oauth_auth_token table after token generation
   userId        String
-  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt     DateTime
   updatedAt     DateTime
   oauthclientId String
-  oauthClient   oauth_client @relation(fields: [oauthclientId], references: [clientId], onDelete: Cascade)
+  oauthClient   oauthClient @relation(fields: [oauthclientId], references: [clientId], onDelete: Cascade)
 
-  @@map("oauth_token")
+  @@map("oauth_access_token")
+}
+
+model codeChallenge {
+  id                  String           @id
+  codeChallenge       String           @unique
+  codeChallengeMethod String
+  userId              String
+  user                User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt           DateTime
+  updatedAt           DateTime
+  oauthGrantToken     oauthGrantToken?
+  oauthClientId       String
+  oauthClient         oauthClient      @relation(fields: [oauthClientId], references: [clientId], onDelete: Cascade)
+
+  @@map("code_challenge")
 }
