@@ -93,7 +93,7 @@ model userProfile {
 
 // !             oAuth tables         // 
 model oauthClient {
-  clientId         String             @id
+  clientId         String             @id @default(cuid())
   clientSecret     String             @unique
   redirect_uri     String
   image            String?
@@ -112,7 +112,7 @@ model oauthClient {
 }
 
 model oauthGrantToken {
-  id              String        @id
+  id              String        @id @default(cuid())
   grantToken      String        @unique
   scope           String // space delimited tags name eg, "devops marketing webdev"
   userId          String
@@ -128,7 +128,7 @@ model oauthGrantToken {
 }
 
 model oauthAccessToken {
-  id            String      @id
+  id            String      @id @default(cuid())
   accessToken   String      @unique
   scope         String // copy scope from oauth_auth_token table after token generation
   userId        String
@@ -142,7 +142,7 @@ model oauthAccessToken {
 }
 
 model codeChallenge {
-  id                  String           @id
+  id                  String           @id @default(cuid())
   codeChallenge       String           @unique
   codeChallengeMethod String
   userId              String
