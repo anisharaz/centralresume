@@ -2,10 +2,13 @@
 
 import { auth } from "@/auth";
 import prisma from "@/lib/db";
-import { GenerateGrantToken } from "@/lib/oauth";
+import { GenerateGrantToken, GenerateClientSecret } from "@/lib/oauth";
 import { AllowOauthAccessToGeneralTagParams } from "@/lib/types";
+import { createOauthClientSchema } from "@/lib/zod/schemas";
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { z } from "zod";
 
 export async function AllowOauthAccessToGeneralTag(
   params: AllowOauthAccessToGeneralTagParams
@@ -56,6 +59,44 @@ export async function AllowOauthAccessToGeneralTag(
     redirectUrl.searchParams.set("grantToken", oauthGrantToken);
     redirectUrl.searchParams.set("scope", params.scope);
     redirect(redirectUrl.toString());
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message,
+      data: null,
+    };
+  }
+}
+
+export async function CreateOauthClient(
+  params: z.infer<typeof createOauthClientSchema>
+) {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+    if (!session) throw new Error("Session not found");
+    const paramCheck = createOauthClientSchema.safeParse(params);
+    if (paramCheck.success === false) throw new Error("Invalid parameters");
+    await prisma.oauthClient.create({
+      data: {
+        clientSecret: GenerateClientSecret(),
+        redirect_uri: params.redirectUri,
+        name: params.name,
+        userId: session.user.id,
+        image: null,
+        description: params.description,
+        website: params.website,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    });
+    revalidatePath("/user/setting/oauth");
+    return {
+      success: true,
+      message: "Oauth client created successfully",
+      data: null,
+    };
   } catch (error: any) {
     return {
       success: false,

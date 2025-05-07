@@ -43,3 +43,11 @@ export const formSchema = z.object({
   // Skills
   skills: z.array(z.string()).optional().default([]),
 });
+
+export const createOauthClientSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  description: z.string().optional(),
+  redirectUri: z.string().url("Please enter a valid URL"),
+  icon: z.string().optional(),
+  website: z.string().url("Please enter a valid URL").optional(),
+});
