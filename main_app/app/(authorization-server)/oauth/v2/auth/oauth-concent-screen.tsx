@@ -26,10 +26,10 @@ export default async function OAuthConsentScreen({
   console.log(session);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
-      <Card className="w-full max-w-md shadow-lg">
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
+      <Card className="w-full max-w-md shadow-lg bg-white dark:bg-gray-800">
         <CardHeader className="flex flex-col items-center space-y-4 pb-2">
-          <div className="h-16 w-16 overflow-hidden rounded-full border bg-white p-2">
+          <div className="h-16 w-16 overflow-hidden rounded-full border bg-white dark:bg-gray-700 p-2">
             <Image
               src="/globe.svg?height=60&width=60"
               width={60}
@@ -39,10 +39,10 @@ export default async function OAuthConsentScreen({
             />
           </div>
           <div className="space-y-1 text-center">
-            <CardTitle className="text-xl">
+            <CardTitle className="text-xl text-gray-900 dark:text-gray-100">
               {params.appName} wants to access your account
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-gray-600 dark:text-gray-400">
               This will allow {params.appName} to:
             </CardDescription>
           </div>
@@ -50,12 +50,12 @@ export default async function OAuthConsentScreen({
         <CardContent className="space-y-4 pb-6 pt-2">
           <div className="space-y-3">
             <div className="flex items-start gap-3">
-              <Shield className="mt-0.5 h-5 w-5 text-gray-500" />
+              <Shield className="mt-0.5 h-5 w-5 text-gray-500 dark:text-gray-400" />
               <div>
-                <p className="font-medium">
+                <p className="font-medium text-gray-900 dark:text-gray-100">
                   View your resume with #general tag
                 </p>
-                <p className="text-sm text-muted-foreground"></p>
+                <p className="text-sm text-gray-600 dark:text-gray-400"></p>
               </div>
             </div>
           </div>

@@ -13,6 +13,7 @@ import { z } from "zod";
 export async function AllowOauthAccessToGeneralTag(
   params: AllowOauthAccessToGeneralTagParams
 ) {
+  let url = "";
   try {
     const session = await auth.api.getSession({
       headers: await headers(),
@@ -58,14 +59,16 @@ export async function AllowOauthAccessToGeneralTag(
     const redirectUrl = new URL(params.redirect_uri);
     redirectUrl.searchParams.set("grantToken", oauthGrantToken);
     redirectUrl.searchParams.set("scope", params.scope);
-    redirect(redirectUrl.toString());
+    url = redirectUrl.toString();
   } catch (error: any) {
+    console.log(error);
     return {
       success: false,
       message: error.message,
       data: null,
     };
   }
+  redirect(url);
 }
 
 export async function CreateOauthClient(
