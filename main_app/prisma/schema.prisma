@@ -22,6 +22,7 @@ model User {
   oauthGrantToken  oauthGrantToken[]
   oauthAccessToken oauthAccessToken[]
   codeChallenge    codeChallenge[]
+  completedSignup  String             @default("false")
 
   @@unique([email])
   @@map("user")

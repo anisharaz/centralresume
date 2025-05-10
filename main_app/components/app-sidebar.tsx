@@ -6,6 +6,7 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -34,9 +35,12 @@ const items = [
 export function AppSidebar() {
   return (
     <Sidebar variant="sidebar">
+      <SidebarHeader>
+        <div className="font-bold">Central-Resume</div>
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Central Resume</SidebarGroupLabel>
+          <SidebarGroupLabel>General Section</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -56,7 +60,7 @@ export function AppSidebar() {
           <SidebarGroup>
             <SidebarGroupLabel asChild>
               <CollapsibleTrigger>
-                Settings
+                Settings Section
                 <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
               </CollapsibleTrigger>
             </SidebarGroupLabel>
@@ -70,7 +74,7 @@ export function AppSidebar() {
               <SidebarMenuButton asChild>
                 <Link href={"/user/setting/oauth"}>
                   <Lock />
-                  <span>oauth</span>
+                  <span>oauth client</span>
                 </Link>
               </SidebarMenuButton>
             </CollapsibleContent>
