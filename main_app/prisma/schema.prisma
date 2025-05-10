@@ -23,6 +23,8 @@ model User {
   oauthAccessToken oauthAccessToken[]
   codeChallenge    codeChallenge[]
   completedSignup  String             @default("false")
+  resumeProfiles   resumeProfiles[]
+  userResume       userResume[]
 
   @@unique([email])
   @@map("user")
@@ -80,16 +82,36 @@ enum VISIBILITY {
 
 // used for user profile page. user can sets a public profile which is searchable
 model userProfile {
-  id           String     @id
-  userId       String     @unique
-  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  profileImage String?
-  bannerImage  String?
-  visibility   VISIBILITY
-  createdAt    DateTime
-  updatedAt    DateTime
+  id          String     @id
+  userId      String     @unique
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bannerImage String?
+  visibility  VISIBILITY
+  createdAt   DateTime
+  updatedAt   DateTime
 
   @@map("user_profile")
+}
+
+model userResume {
+  userId    String   @id
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resumeId  String // ID of document stored in mongoDB
+  createdAt DateTime
+  updatedAt DateTime
+
+  @@map("user_resume")
+}
+
+model resumeProfiles {
+  userId               String     @id
+  user                 User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resumeProfileTagName String // eg. "devops", "marketing"
+  visibility           VISIBILITY
+  createdAt            DateTime
+  updatedAt            DateTime
+
+  @@map("resume_profiles")
 }
 
 // !             oAuth tables         // 
