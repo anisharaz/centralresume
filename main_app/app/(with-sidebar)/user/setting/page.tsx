@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
@@ -10,8 +11,14 @@ function UserSettings() {
   ];
 
   return (
-    <div className="container mx-auto w-full p-2">
-      <div className="text-lg font-semibold mb-4">Websites With your resume access</div>
+    <div className="container mx-auto w-full">
+      <div className="flex justify-between items-center">
+        <div className="text-lg underline underline-offset-4 font-semibold">
+          Website with your resume access
+        </div>
+      </div>
+      <Separator className="my-4" />
+
       <div className="space-y-4">
         {oauthClients.map((client) => (
           <div
@@ -23,6 +30,7 @@ function UserSettings() {
           >
             <div className="flex justify-center items-center space-x-4">
               <div className="relative h-10 w-10 ">
+                {/* // TODO: show oauth client logo */}
                 <Image src={"/globe.svg"} fill alt="" className="p-2" />
               </div>
               <div className="text-base font-medium mb-2">{client.name}</div>

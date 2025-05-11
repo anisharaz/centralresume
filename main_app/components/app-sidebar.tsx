@@ -25,18 +25,15 @@ const items = [
     url: "/user/profile",
     icon: User,
   },
-  // {
-  //   title: "Setting",
-  //   url: "/user/setting",
-  //   icon: Settings,
-  // },
 ];
 
 export function AppSidebar() {
   return (
     <Sidebar variant="sidebar">
       <SidebarHeader>
-        <div className="font-bold">Central-Resume</div>
+        <Link href={"/"}>
+          <div className="font-bold text-xl p-2">Central-Resume</div>
+        </Link>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
