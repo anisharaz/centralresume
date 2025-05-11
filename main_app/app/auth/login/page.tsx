@@ -40,7 +40,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 px-4 py-12">
+    <div className="flex min-h-screen items-center justify-center px-4 py-12">
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">
@@ -104,7 +104,7 @@ export default function LoginPage() {
             onClick={() => {
               authClient.signIn.social({
                 provider: "google",
-                callbackURL: redirect || window.location.href,
+                callbackURL: redirect || "/user/profile",
               });
             }}
             disabled={isLoading}

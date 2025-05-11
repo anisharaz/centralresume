@@ -15,9 +15,18 @@ import Image from "next/image";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { authClient } from "@/auth";
-
+import { filteredDummyResumeData } from "@/lib/utils";
+import { ENGINEERING_RESUME } from "@/lib/types";
+import ResumeSectionCard from "./ResumeSectionCard";
 export default function ProfilePage() {
   const { data: session } = authClient.useSession();
+  let dummyResumeData = filteredDummyResumeData;
+
+  // remove version from Data
+  dummyResumeData = Object.fromEntries(
+    Object.entries(dummyResumeData).filter(([key]) => key !== "version")
+  );
+  const sections = Object.entries(dummyResumeData);
   return (
     <div className="container mx-auto w-full pb-10">
       <div className="relative">
@@ -68,50 +77,21 @@ export default function ProfilePage() {
             </SelectContent>
           </Select>
         </div>
-        <Card>
+        {/* <Card>
           <CardHeader>
-            <CardTitle>About</CardTitle>
+            <CardTitle>Personal Details</CardTitle>
           </CardHeader>
-          <CardContent>
-            <p>Good Good</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Experience</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p>Good Good</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Education</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p>Good Good</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Contact Info</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p>Good Good</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Skills</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p>Good Good</p>
-          </CardContent>
-        </Card>
+          <CardContent>content</CardContent>
+        </Card> */}
+        {sections.map(([key, value]) => (
+          <ResumeSectionCard
+            key={key}
+            title={key
+              .replace(/_/g, " ")
+              .replace(/\b\w/g, (c) => c.toUpperCase())}
+            data={value}
+          />
+        ))}
       </div>
     </div>
   );

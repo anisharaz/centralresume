@@ -11,7 +11,7 @@ function UserSettings() {
   ];
 
   return (
-    <div className="container mx-auto w-full">
+    <div className="container mx-auto w-full ">
       <div className="flex justify-between items-center">
         <div className="text-lg underline underline-offset-4 font-semibold">
           Website with your resume access
