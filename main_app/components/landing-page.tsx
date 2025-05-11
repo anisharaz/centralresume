@@ -16,7 +16,7 @@ export default function LandingPage() {
   useEffect(() => {
     const handleScroll = () => {
       const heroHeight = document.getElementById("hero")?.offsetHeight || 0;
-      setShowNavbar(window.scrollY > heroHeight - 100);
+      setShowNavbar(window.scrollY > heroHeight - 50);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -114,12 +114,12 @@ export default function LandingPage() {
             </motion.div>
           </motion.div>
         </div>
-        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2">
+        <div className="absolute bottom-20 left-1/2 transform z-20 -translate-x-1/2">
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1.5 }}
           >
-            <ArrowRight className="h-10 w-10 text-white transform rotate-90" />
+            <ArrowRight className="h-10 w-10 text-black transform rotate-90" />
           </motion.div>
         </div>
       </section>

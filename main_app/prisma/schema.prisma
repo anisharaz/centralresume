@@ -104,9 +104,10 @@ model userResume {
 }
 
 model resumeProfiles {
-  userId               String     @id
+  id                   String     @id @default(cuid())
+  userId               String
   user                 User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  resumeProfileTagName String // eg. "devops", "marketing"
+  resumeProfileTagName String // eg. "devops"
   visibility           VISIBILITY
   createdAt            DateTime
   updatedAt            DateTime

@@ -1,10 +1,7 @@
+import { ResumeForm } from "@/components/getting-started-form/resume-form";
+
 function GettingStarted() {
-    return (
-        <div>
-            <h1>Getting Started</h1>
-            <p>Welcome to the Getting Started page!</p>
-        </div>
-    );
+  return <ResumeForm />;
 }
 
 export default GettingStarted;
