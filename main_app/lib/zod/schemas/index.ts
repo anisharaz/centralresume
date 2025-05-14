@@ -1,5 +1,12 @@
 import { z } from "zod";
 
+export const createOauthClientSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  description: z.string().optional(),
+  redirectUri: z.string().url("Please enter a valid URL"),
+  icon: z.string().optional(),
+  website: z.string().url("Please enter a valid URL").optional(),
+});
 export const TAGS = z.array(z.string());
 export const ENGINEERING_RESUME = z.object({
   version: z.string(),

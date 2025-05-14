@@ -1,29 +1,29 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface NavbarProps {
-  show: boolean
+  show: boolean;
 }
 
 export default function Navbar({ show }: NavbarProps) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   const navItems = [
     { name: "Home", href: "/" },
-    { name: "Features", href: "#features" },
-    { name: "Pricing", href: "#pricing" },
-    { name: "About", href: "#about" },
-    { name: "Contact", href: "#contact" },
-  ]
+    // { name: "Features", href: "#features" },
+    // { name: "Pricing", href: "#pricing" },
+    // { name: "About", href: "#about" },
+    // { name: "Contact", href: "#contact" },
+  ];
 
   return (
     <>
@@ -52,13 +52,20 @@ export default function Navbar({ show }: NavbarProps) {
               ))}
             </nav>
             <div className="hidden md:flex items-center space-x-4">
-              <Button variant="outline" className="border-cyan-500 text-cyan-600 hover:bg-cyan-50">
-                Sign In
+              <Button variant="default">Sign In</Button>
+              <Button className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white">
+                Sign Up
               </Button>
-              <Button className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white">Sign Up</Button>
             </div>
-            <button onClick={toggleMenu} className="md:hidden text-gray-700 focus:outline-none">
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            <button
+              onClick={toggleMenu}
+              className="md:hidden text-gray-700 focus:outline-none"
+            >
+              {isMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </button>
           </div>
         </div>
@@ -86,15 +93,20 @@ export default function Navbar({ show }: NavbarProps) {
                 </Link>
               ))}
               <div className="flex flex-col space-y-3 pt-4 border-t">
-                <Button variant="outline" className="border-cyan-500 text-cyan-600 hover:bg-cyan-50 w-full">
+                <Button
+                  variant="outline"
+                  className="border-cyan-500 text-cyan-600 hover:bg-cyan-50 w-full"
+                >
                   Sign In
                 </Button>
-                <Button className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white w-full">Sign Up</Button>
+                <Button className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white w-full">
+                  Sign Up
+                </Button>
               </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
     </>
-  )
+  );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { MapPin, Pencil } from "lucide-react";
+import { MapPin } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -16,7 +16,6 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { authClient } from "@/auth";
 import { filteredDummyResumeData } from "@/lib/utils";
-import { ENGINEERING_RESUME } from "@/lib/types";
 import ResumeSectionCard from "./ResumeSectionCard";
 export default function ProfilePage() {
   const { data: session } = authClient.useSession();

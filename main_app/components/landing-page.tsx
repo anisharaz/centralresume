@@ -8,6 +8,7 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { authClient } from "@/auth";
 import { useRouter } from "next/navigation";
+import WaitlistForm from "./waitlist-form";
 
 export default function LandingPage() {
   const [showNavbar, setShowNavbar] = useState(false);
@@ -89,10 +90,8 @@ export default function LandingPage() {
               className="max-w-[800px] text-lg md:text-xl text-white/90"
             >
               Login With Google but for{" "}
-              <span className="underline underline-offset-8 bg-gradient-to-r from-amber-200 to-amber-400 p-1 rounded-xl text-black">
-                #resume
-              </span>
-              . Basically, central resume is oAuth for resume. You can create,
+              <span className="underline underline-offset-4">#resume</span>.
+              Basically, central resume is oAuth for resume. You can create,
               manage, and share your resume across all platforms from one place.
             </motion.p>
             <motion.div
@@ -100,7 +99,7 @@ export default function LandingPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
-              <Button
+              {/* <Button
                 onClick={() => {
                   if (session) router.push("/user/profile");
                   router.push("/auth/login");
@@ -110,7 +109,8 @@ export default function LandingPage() {
               >
                 {session ? "Dashboard" : "Get started"}{" "}
                 <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+              </Button> */}
+              <WaitlistForm />
             </motion.div>
           </motion.div>
         </div>
@@ -119,7 +119,7 @@ export default function LandingPage() {
             animate={{ y: [0, 10, 0] }}
             transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1.5 }}
           >
-            <ArrowRight className="h-10 w-10 text-black transform rotate-90" />
+            <ArrowRight className="h-10 w-10 text-white transform rotate-90" />
           </motion.div>
         </div>
       </section>
@@ -185,12 +185,13 @@ export default function LandingPage() {
               Join thousands of professionals who have simplified their resume
               management with CentralResume
             </p>
-            <Button
+            {/* <Button
               size="lg"
               className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-8 py-6 text-lg rounded-full"
             >
               Get Started <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+            </Button> */}
+            <WaitlistForm />
           </motion.div>
         </div>
       </section>

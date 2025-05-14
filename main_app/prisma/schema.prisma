@@ -179,3 +179,11 @@ model codeChallenge {
 
   @@map("code_challenge")
 }
+
+model waitlist {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+
+  @@map("waitlist")
+}
