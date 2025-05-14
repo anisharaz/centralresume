@@ -111,3 +111,5 @@ interface ENGINEERING_RESUME {
     }[];
   }[];
 }
+
+export type { ENGINEERING_RESUME, TAGS };
