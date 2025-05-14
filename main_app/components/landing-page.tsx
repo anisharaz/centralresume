@@ -139,11 +139,11 @@ export default function LandingPage() {
                 <div className="flex-1 relative">
                   <div className="aspect-video rounded-xl overflow-hidden bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center">
                     <Image
-                      src={`/placeholder.svg?height=400&width=600&text=Benefit+${
-                        index + 1
-                      }`}
+                      src={`/placeholder.svg`}
                       alt={`Benefit ${index + 1} illustration`}
                       className="w-full h-full object-cover"
+                      width={500}
+                      height={300}
                     />
                   </div>
                 </div>
