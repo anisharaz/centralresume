@@ -3,17 +3,13 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
-import { authClient } from "@/auth";
-import { useRouter } from "next/navigation";
 import WaitlistForm from "./waitlist-form";
+import Image from "next/image";
 
 export default function LandingPage() {
   const [showNavbar, setShowNavbar] = useState(false);
-  const { data: session } = authClient.useSession();
-  const router = useRouter();
   useEffect(() => {
     const handleScroll = () => {
       const heroHeight = document.getElementById("hero")?.offsetHeight || 0;
@@ -142,7 +138,7 @@ export default function LandingPage() {
               >
                 <div className="flex-1 relative">
                   <div className="aspect-video rounded-xl overflow-hidden bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center">
-                    <img
+                    <Image
                       src={`/placeholder.svg?height=400&width=600&text=Benefit+${
                         index + 1
                       }`}

@@ -1,0 +1,7 @@
+
+DATABASE_URL="postgresql://postgres:postgresql@192.168.122.2:5432/centralresume"
+# DATABASE_URL="postgres://avnadmin:AVNS_qWBucu8xfJ4BwP_ybRm@common-db-anisharaz919-2c67.h.aivencloud.com:13903/defaultdb?sslmode=require"
+
+AUTH_GOOGLE_ID="591191723608-u75rgivmt71dkk0cef6o48cl4ecbconj.apps.googleusercontent.com"
+AUTH_GOOGLE_SECRET="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"
+AUTH_SECRET="supersecret"

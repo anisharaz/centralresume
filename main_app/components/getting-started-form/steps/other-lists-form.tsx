@@ -105,8 +105,8 @@ export function OtherListsForm({ form }: OtherListsFormProps) {
     <div className="space-y-6">
       <h2 className="text-xl font-semibold">Other Lists</h2>
       <p className="text-muted-foreground">
-        Add any other sections you'd like to include in your resume, such as
-        projects, volunteering, interests, etc.
+        Add any other sections you&apos;d like to include in your resume, such
+        as projects, volunteering, interests, etc.
       </p>
 
       <div className="space-y-4 border p-4 rounded-md">

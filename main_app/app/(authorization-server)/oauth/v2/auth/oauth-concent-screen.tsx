@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Shield, Info } from "lucide-react";
+import { Shield } from "lucide-react";
 import { auth } from "@/auth";
 import { headers } from "next/headers";
 import ActionButtons from "./ActionButtons";

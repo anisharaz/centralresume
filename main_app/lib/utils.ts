@@ -20,7 +20,6 @@ function filterByTag(data: any, tag: string): any {
               : Object.keys(item).length > 0))
         );
       });
-    // @ts-ignore
     return filteredArray.length > 0 ? filteredArray : [];
   } else if (typeof data === "object" && data !== null) {
     if ("tags" in data && !data.tags.includes(tag)) {

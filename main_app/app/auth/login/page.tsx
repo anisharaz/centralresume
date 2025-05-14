@@ -1,41 +1,35 @@
 "use client";
 
 import type React from "react";
-import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
+  // CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
+// import { Input } from "@/components/ui/input";
+// import { Label } from "@/components/ui/label";
+// import { Separator } from "@/components/ui/separator";
 import { authClient } from "@/auth";
 
 export default function LoginPage() {
-  const params = useSearchParams();
-  const redirect = params.get("redirect");
-  const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  // const router = useRouter();
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setIsLoading(true);
 
-    // Simulate authentication
-    setTimeout(() => {
-      setIsLoading(false);
-      router.push("/dashboard");
-    }, 1000);
-  };
+  //   setTimeout(() => {
+  //     setIsLoading(false);
+  //     router.push("/dashboard");
+  //   }, 1000);
+  // };
 
   return (
     <div className="flex min-h-screen items-center justify-center px-4 py-12">
@@ -102,10 +96,8 @@ export default function LoginPage() {
             onClick={() => {
               authClient.signIn.social({
                 provider: "google",
-                callbackURL: redirect || "/user/profile",
               });
             }}
-            disabled={isLoading}
           >
             <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
               <path

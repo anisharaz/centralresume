@@ -23,8 +23,8 @@ export function ReviewForm({ form }: ReviewFormProps) {
     <div className="space-y-6">
       <h2 className="text-xl font-semibold">Review Your Resume</h2>
       <p className="text-muted-foreground">
-        Please review all the information you've entered before submitting your
-        resume.
+        Please review all the information you&apos;ve entered before submitting
+        your resume.
       </p>
 
       <Tabs defaultValue="personal" className="w-full">

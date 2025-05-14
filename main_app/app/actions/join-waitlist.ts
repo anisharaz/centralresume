@@ -20,6 +20,7 @@ export async function joinWaitlist(email: string) {
       message: "You have been added to the waitlist.",
     };
   } catch (error: any) {
+    console.log(error);
     return {
       success: false,
       message: "Something went wrong. Please try again later.",
