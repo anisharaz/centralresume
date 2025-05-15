@@ -10,7 +10,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-// import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -76,12 +75,6 @@ export default function ProfilePage() {
             </SelectContent>
           </Select>
         </div>
-        {/* <Card>
-          <CardHeader>
-            <CardTitle>Personal Details</CardTitle>
-          </CardHeader>
-          <CardContent>content</CardContent>
-        </Card> */}
         {sections.map(([key, value]) => (
           <ResumeSectionCard
             key={key}

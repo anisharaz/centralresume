@@ -29,6 +29,7 @@ async function Authorization({
   return (
     <OAuthConsentScreen
       params={{
+        // TODO: supply real app name 
         appName: "wellfound",
       }}
     />

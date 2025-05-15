@@ -110,18 +110,17 @@ export default function LandingPage() {
             </motion.div>
           </motion.div>
         </div>
-        <div className="absolute bottom-20 left-1/2 transform z-20 -translate-x-1/2">
+        {/* <div className="absolute bottom-20 left-1/2 transform z-20 -translate-x-1/2">
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1.5 }}
           >
             <ArrowRight className="h-10 w-10 text-white transform rotate-90" />
           </motion.div>
-        </div>
+        </div> */}
       </section>
 
-      {/* Benefits Section */}
-      <section className="py-20 bg-gray-100 border-t border-b border-gray-200">
+      {/* <section className="py-20 bg-gray-100 border-t border-b border-gray-200">
         <div className="container px-4 md:px-6 mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">
             Why Choose <span className="text-cyan-600">Central</span>
@@ -164,7 +163,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-purple-400 to-pink-500 text-white">
         <div className="container px-4 md:px-6 mx-auto">
           <motion.div
@@ -181,18 +179,12 @@ export default function LandingPage() {
               Join thousands of professionals who have simplified their resume
               management with CentralResume
             </p>
-            {/* <Button
-              size="lg"
-              className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-8 py-6 text-lg rounded-full"
-            >
-              Get Started <ArrowRight className="ml-2 h-5 w-5" />
-            </Button> */}
             <WaitlistForm />
           </motion.div>
         </div>
-      </section>
+      </section> */}
 
-      <Footer />
+      {/* <Footer /> */}
     </main>
   );
 }

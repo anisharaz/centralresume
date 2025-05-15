@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  // FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -13,7 +12,6 @@ import { Input } from "@/components/ui/input";
 import {
   Dialog,
   DialogContent,
-  // DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -57,7 +55,6 @@ function CreateOauthClientForm() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <DialogHeader>
               <DialogTitle>Fill the details</DialogTitle>
-              {/* <DialogDescription></DialogDescription> */}
               <div className="space-y-6">
                 <FormField
                   control={form.control}
@@ -70,7 +67,6 @@ function CreateOauthClientForm() {
                       <FormControl>
                         <Input placeholder="" {...field} />
                       </FormControl>
-                      {/* <FormDescription></FormDescription> */}
                       <FormMessage />
                     </FormItem>
                   )}
@@ -84,7 +80,6 @@ function CreateOauthClientForm() {
                       <FormControl>
                         <Input placeholder="" {...field} />
                       </FormControl>
-                      {/* <FormDescription></FormDescription> */}
                       <FormMessage />
                     </FormItem>
                   )}
@@ -100,7 +95,6 @@ function CreateOauthClientForm() {
                       <FormControl>
                         <Input placeholder="" {...field} />
                       </FormControl>
-                      {/* <FormDescription></FormDescription> */}
                       <FormMessage />
                     </FormItem>
                   )}
@@ -114,7 +108,6 @@ function CreateOauthClientForm() {
                       <FormControl>
                         <Input placeholder="" {...field} />
                       </FormControl>
-                      {/* <FormDescription></FormDescription> */}
                       <FormMessage />
                     </FormItem>
                   )}
