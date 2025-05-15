@@ -1,7 +1,7 @@
 import isEqual from 'lodash.isequal';
 import { PartialDeep } from 'type-fest';
 
-interface ResumeInterface {
+export interface ResumeInterface {
   version: string; // eg . "1" , "2"
 }
 
