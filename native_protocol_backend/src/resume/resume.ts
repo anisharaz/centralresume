@@ -94,7 +94,7 @@ export class Resume<T extends ResumeInterface> {
   }
 }
 
-type DeepOmitTags<T> =
+export type DeepOmitTags<T> =
   T extends Array<infer U>
     ? DeepOmitTags<U>[]
     : T extends object
@@ -103,7 +103,7 @@ type DeepOmitTags<T> =
         }
       : T;
 
-function removeTags<T extends ResumeInterface>(
+export function removeTags<T extends ResumeInterface>(
   input: PartialDeep<T> | string,
 ): PartialDeep<DeepOmitTags<T>> {
   let update = () => {

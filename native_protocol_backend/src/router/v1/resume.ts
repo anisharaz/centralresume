@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createOrUpdateResume } from '@/core/resume';
+import { createOrUpdateResume, getResume } from '@/core/resume';
 import { ENGINEERING_RESUME } from '@/meta/ResumeInterface';
 import { Datastore } from '@/database_mongodb/datastore';
 
@@ -18,7 +18,16 @@ router.put('/internal/resume', (_req, res) => {
 });
 
 router.get('resume', (_req, res) => {
-  res.send('Welcome to the Native Protocol Backend API');
+  const userId = String(_req.query.userId);
+  const tag = String(_req.query.tag);
+  const schema = _req.query.schema; //TODO: Not sure what to do with this yet
+  if (schema == 'engineering') {
+    let datastore = new Datastore<ENGINEERING_RESUME, string>();
+    const resume = getResume(userId, tag, datastore);
+    res.status(200).send(resume);
+  } else {
+    res.status(400).send('Invalid schema');
+  }
 });
 
 export default router;

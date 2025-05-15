@@ -6,7 +6,7 @@ export class Datastore<T extends ResumeInterface, UserId>
 {
   storeResume(userId: UserId, resume: T): void {}
 
-  getResume(userId: UserId): T {
+  getResume(userId: UserId): T | undefined {
     return {} as T;
   }
 }
