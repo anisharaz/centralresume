@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 
 export interface Authorizer {
-  isAuthorized: (req: Request) => boolean;
+  isAuthorized: (req: Request) => Promise<boolean>;
 }
 
 export function authorization(authorizer: Authorizer) {
-  return (req: Request, res: Response, next: NextFunction) => {
-    if (authorizer.isAuthorized(req)) {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    if (await authorizer.isAuthorized(req)) {
       next();
     } else {
       res.status(401).json({

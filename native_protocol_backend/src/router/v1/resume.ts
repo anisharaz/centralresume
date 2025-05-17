@@ -5,13 +5,13 @@ import { Datastore } from '@/database_mongodb/datastore';
 
 const router = Router();
 
-router.put('/internal/resume', (_req, res) => {
+router.put('/internal/resume', async (_req, res) => {
   const userId = String(_req.query.userId);
   const tag = String(_req.query.tag);
   const resume = _req.body;
   const schema = _req.query.schema;
   if (schema == 'engineering') {
-    const datastore = Datastore.getInstance();
+    const datastore = await Datastore.getInstance();
     createOrUpdateResume<ENGINEERING_RESUME, Datastore>(
       userId,
       tag,
@@ -22,12 +22,12 @@ router.put('/internal/resume', (_req, res) => {
   res.status(200).send('Resume updated successfully');
 });
 
-router.get('resume', (_req, res) => {
+router.get('resume', async (_req, res) => {
   const userId = String(_req.query.userId);
   const tag = String(_req.query.tag);
   const schema = _req.query.schema; //TODO: Not sure what to do with this yet
   if (schema == 'engineering') {
-    const datastore = Datastore.getInstance();
+    const datastore = await Datastore.getInstance();
     const resume = getResume<ENGINEERING_RESUME, Datastore>(
       userId,
       tag,

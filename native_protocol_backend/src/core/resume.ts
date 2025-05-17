@@ -3,7 +3,7 @@ import { ResumeStore } from '@/database/resume';
 import { Resume, DeepOmitTags } from '@/resume/resume';
 import { PartialDeep } from 'type-fest';
 
-export function createOrUpdateResume<
+export async function createOrUpdateResume<
   T extends ResumeInterface,
   Store extends ResumeStore,
 >(
@@ -12,7 +12,7 @@ export function createOrUpdateResume<
   resume: PartialDeep<DeepOmitTags<T>>,
   datastore: Store,
 ) {
-  const storedResume = datastore.getResume<T>(userId);
+  const storedResume = await datastore.getResume<T>(userId);
   if (storedResume) {
     const resumeData = new Resume(storedResume);
     resumeData.updateResume(tag, resume);
@@ -21,12 +21,11 @@ export function createOrUpdateResume<
   }
 }
 
-export function getResume<T extends ResumeInterface, Store extends ResumeStore>(
-  userId: string,
-  tag: string,
-  datastore: Store,
-): T {
-  const storedResume = datastore.getResume<T>(userId);
+export async function getResume<
+  T extends ResumeInterface,
+  Store extends ResumeStore,
+>(userId: string, tag: string, datastore: Store): Promise<T> {
+  const storedResume = await datastore.getResume<T>(userId);
   if (storedResume) {
     const resumeData = new Resume(storedResume);
     return resumeData.makeResume(tag);

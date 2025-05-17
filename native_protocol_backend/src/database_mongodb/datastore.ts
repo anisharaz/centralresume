@@ -1,9 +1,8 @@
 import { ResumeStore } from '@/database/resume';
 import { Session } from '@/database/session';
 import { ResumeInterface } from '@/resume/resume';
-import { Mongoose } from 'mongoose';
 import mongoose from 'mongoose';
-import { ConfigManager } from '@/config';
+import { ConfigManager } from '../config';
 import { PrismaClient } from '@prisma/client';
 
 const resumeSchema = new mongoose.Schema({
