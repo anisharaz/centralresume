@@ -18,18 +18,18 @@ export class Resume<T extends ResumeInterface> {
       if (Object.prototype.toString.call(chunk) === '[object Date]') {
         return chunk;
       } else if (Array.isArray(chunk)) {
-        let newChunk = [];
-        for (let element of chunk) {
-          let newElement: any = update(element);
+        const newChunk = [];
+        for (const element of chunk) {
+          const newElement: any = update(element);
           if (newElement !== undefined) newChunk.push(newElement);
         }
         return newChunk;
       } else if (typeof chunk == 'object') {
-        let tags = chunk['tags'];
+        const tags = chunk['tags'];
         if ((tags && Array.isArray(tags) && tags.includes(tag)) || !tags) {
-          let newChunk: any = {};
-          for (let key in chunk) {
-            let newElement: any = update(chunk[key]);
+          const newChunk: any = {};
+          for (const key in chunk) {
+            const newElement: any = update(chunk[key]);
             if (newElement !== undefined) newChunk[key] = newElement;
           }
           return newChunk;
@@ -52,11 +52,11 @@ export class Resume<T extends ResumeInterface> {
       if (Object.prototype.toString.call(chunk) === '[object Date]') {
         return chunkPatch;
       } else if (Array.isArray(chunk) && Array.isArray(chunkPatch)) {
-        let newChunk = [];
-        for (let elementPatch of chunkPatch) {
+        const newChunk = [];
+        for (const elementPatch of chunkPatch) {
           let isAdded = false;
-          for (let element of chunk) {
-            let newElement: any = update(element, elementPatch);
+          for (const element of chunk) {
+            const newElement: any = update(element, elementPatch);
             if (newElement !== undefined) {
               isAdded = true;
               newChunk.push(newElement);
@@ -67,11 +67,11 @@ export class Resume<T extends ResumeInterface> {
         }
         return newChunk;
       } else if (typeof chunk == 'object') {
-        let tags = chunk['tags'];
+        const tags = chunk['tags'];
         if ((tags && Array.isArray(tags) && tags.includes(tag)) || !tags) {
-          let newChunk: any = {};
-          for (let key in chunk) {
-            let newElement: any = update(chunk[key], chunkPatch[key]);
+          const newChunk: any = {};
+          for (const key in chunk) {
+            const newElement: any = update(chunk[key], chunkPatch[key]);
             if (newElement !== undefined) newChunk[key] = newElement;
           }
           return newChunk;
@@ -96,17 +96,17 @@ export class Resume<T extends ResumeInterface> {
 
 export type DeepOmitTags<T> =
   T extends Array<infer U>
-    ? DeepOmitTags<U>[]
-    : T extends object
-      ? {
-          [K in keyof T as K extends 'tags' ? never : K]: DeepOmitTags<T[K]>;
-        }
-      : T;
+  ? DeepOmitTags<U>[]
+  : T extends object
+  ? {
+    [K in keyof T as K extends 'tags' ? never : K]: DeepOmitTags<T[K]>;
+  }
+  : T;
 
 export function removeTags<T extends ResumeInterface>(
   input: PartialDeep<T> | string,
 ): PartialDeep<DeepOmitTags<T>> {
-  let update = () => {
+  const update = () => {
     if (Array.isArray(input)) {
       return input.map(removeTags) as PartialDeep<DeepOmitTags<T>>;
     }

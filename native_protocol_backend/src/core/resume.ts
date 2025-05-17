@@ -5,31 +5,30 @@ import { PartialDeep } from 'type-fest';
 
 export function createOrUpdateResume<
   T extends ResumeInterface,
-  UserId,
-  Store extends ResumeStore<T, UserId>,
+  Store extends ResumeStore,
 >(
-  userId: UserId,
+  userId: string,
   tag: string,
   resume: PartialDeep<DeepOmitTags<T>>,
   datastore: Store,
 ) {
-  let storedResume = datastore.getResume(userId);
+  const storedResume = datastore.getResume<T>(userId);
   if (storedResume) {
-    let resumeData = new Resume(storedResume);
+    const resumeData = new Resume(storedResume);
     resumeData.updateResume(tag, resume);
     const newResume = resumeData.getAll();
-    datastore.storeResume(userId, newResume);
+    datastore.storeResume<T>(userId, newResume);
   }
 }
 
-export function getResume<
-  T extends ResumeInterface,
-  UserId,
-  Store extends ResumeStore<T, UserId>,
->(userId: UserId, tag: string, datastore: Store): T {
-  let storedResume = datastore.getResume(userId);
+export function getResume<T extends ResumeInterface, Store extends ResumeStore>(
+  userId: string,
+  tag: string,
+  datastore: Store,
+): T {
+  const storedResume = datastore.getResume<T>(userId);
   if (storedResume) {
-    let resumeData = new Resume(storedResume);
+    const resumeData = new Resume(storedResume);
     return resumeData.makeResume(tag);
   } else {
     throw new Error('Resume not found');

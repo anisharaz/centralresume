@@ -1,6 +1,6 @@
 import { ResumeInterface } from '@/resume/resume';
 
-export interface ResumeStore<T extends ResumeInterface, UserId> {
-  storeResume(userId: UserId, resume: T): void;
-  getResume(userId: UserId): T | undefined;
+export interface ResumeStore {
+  storeResume<T extends ResumeInterface>(userId: string, resume: T): void;
+  getResume<T extends ResumeInterface>(userId: string): T | undefined;
 }

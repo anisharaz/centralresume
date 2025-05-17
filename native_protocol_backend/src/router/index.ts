@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-let router = Router();
+const router = Router();
 
 router.get('/', (_req, res) => {
   res.send('Welcome to the Native Protocol Backend API');
