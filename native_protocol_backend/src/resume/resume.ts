@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import isEqual from 'lodash.isequal';
 import { PartialDeep } from 'type-fest';
 
