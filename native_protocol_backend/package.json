@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --watch src --exec ts-node src/main.ts",
+    "dev": "nodemon --watch src --exec ts-node -r tsconfig-paths/register src/main.ts",
     "build": "tsc",
     "start": "node build/main.js",
     "format": "prettier --write .",
@@ -28,6 +28,7 @@
     "type-fest": "^4.41.0"
   },
   "devDependencies": {
+    "@ef-carbon/tspm": "^2.2.5",
     "@eslint/js": "^9.25.1",
     "@types/express": "^5.0.1",
     "@types/jest": "^29.5.14",
@@ -45,6 +46,7 @@
     "prisma": "6.7.0",
     "ts-jest": "^29.3.2",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.31.1"
   }
