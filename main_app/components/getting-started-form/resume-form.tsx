@@ -39,10 +39,6 @@ export function ResumeForm() {
     resolver: zodResolver(ENGINEERING_RESUME),
     defaultValues: {
       version: "1.0.0",
-      personal_details: {
-        name: "",
-        email: "",
-      },
       work_experience: [],
       skills: {
         soft: [],
@@ -71,13 +67,23 @@ export function ResumeForm() {
   };
 
   return (
-    <div className="space-y-16 max-w-3xl mx-auto mt-6">
-      <StepIndicator steps={steps} currentStep={currentStep} />
+    <div className="space-y-16 container mx-auto mt-6">
+      <StepIndicator
+        steps={steps}
+        currentStep={currentStep}
+        setCurrentStep={setCurrentStep}
+      />
 
       <Card>
         <CardContent>
-          <FormProvider {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+          <FormProvider {...form} >
+            <form
+              onSubmit={form.handleSubmit(onSubmit, (d) => {
+                alert(
+                  "Required fields are missing and marked in red, please check the form."
+                );
+              })}
+            >
               {currentStep === 0 && <PersonalDetailsForm form={form} />}
               {currentStep === 1 && <WorkExperienceForm form={form} />}
               {currentStep === 2 && <SkillsForm form={form} />}

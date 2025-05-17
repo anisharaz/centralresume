@@ -113,38 +113,43 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold">Personal Details</h2>
+      <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+        <FormField
+          control={form.control}
+          name="personal_details.name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Full Name <span className="text-red-500">*</span>
+              </FormLabel>
+              <FormControl>
+                <Input placeholder="John Doe" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      <FormField
-        control={form.control}
-        name="personal_details.name"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Full Name</FormLabel>
-            <FormControl>
-              <Input placeholder="John Doe" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-
-      <FormField
-        control={form.control}
-        name="personal_details.email"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Email</FormLabel>
-            <FormControl>
-              <Input
-                placeholder="john.doe@example.com"
-                type="email"
-                {...field}
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+        <FormField
+          control={form.control}
+          name="personal_details.email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Email <span className="text-red-500">*</span>
+              </FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="john.doe@example.com"
+                  type="email"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
 
       <FormField
         control={form.control}

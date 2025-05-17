@@ -15,10 +15,10 @@ interface ENGINEERING_RESUME {
     email: string;
     phone?: string;
     date_of_birth?: string;
-    address?: {
-      address_line: string;
-      city: string;
-      country: string;
+    address: {
+      address_line?: string;
+      city?: string;
+      country?: string;
     };
     social_links?: {
       name: string;

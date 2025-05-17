@@ -9,25 +9,30 @@ interface Step {
 interface StepIndicatorProps {
   steps: Step[];
   currentStep: number;
+  setCurrentStep: (step: number) => void;
 }
 
-export function StepIndicator({ steps, currentStep }: StepIndicatorProps) {
+export function StepIndicator({
+  steps,
+  currentStep,
+  setCurrentStep,
+}: StepIndicatorProps) {
   return (
     <div className="relative">
       <div className="flex items-center justify-between w-full">
         {steps.map((step, index) => (
-          <div key={step.id} className="relative flex flex-col items-center">
+          <div
+            key={step.id}
+            className="relative cursor-pointer flex flex-col items-center"
+            onClick={() => setCurrentStep(index)}
+          >
             <div
               className={cn(
                 "flex h-10 w-10 items-center justify-center rounded-full border-2 border-primary z-10 bg-background",
                 index <= currentStep ? "bg-primary text-primary-foreground" : ""
               )}
             >
-              {index < currentStep ? (
-                <CheckIcon className="h-6 w-6" />
-              ) : (
-                <span>{index + 1}</span>
-              )}
+              <span>{index + 1}</span>
             </div>
             <span className="absolute mt-12 text-xs font-medium text-center w-20">
               {step.label}

@@ -31,13 +31,11 @@ export const ENGINEERING_RESUME = z.object({
     email: z.string(),
     phone: z.string().optional(),
     date_of_birth: z.string().optional(),
-    address: z
-      .object({
-        address_line: z.string(),
-        city: z.string(),
-        country: z.string(),
-      })
-      .optional(),
+    address: z.object({
+      address_line: z.string().optional(),
+      city: z.string().optional(),
+      country: z.string().optional(),
+    }),
     social_links: z
       .array(
         z.object({
