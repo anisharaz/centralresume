@@ -1,3 +1,3 @@
 export interface Session {
-  isValidToken(userId: string): boolean;
+  isValidToken(userId: string): Promise<boolean>;
 }

@@ -5,6 +5,8 @@ interface Config {
   port: number;
   // The host name of the server
   host: string;
+
+  mongodb: string;
 }
 
 export class ConfigManager {
@@ -13,9 +15,14 @@ export class ConfigManager {
 
   private constructor() {
     configDotenv();
+    const mongodb = process.env.MONGODB;
+    if (!mongodb) {
+      throw new Error('MONGODB environment variable is not set');
+    }
     this.config = {
       port: parseInt(process.env.PORT || '3000', 10),
       host: process.env.HOST || 'localhost',
+      mongodb,
     };
   }
 
