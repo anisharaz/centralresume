@@ -15,7 +15,7 @@ app.use('/', routes);
 
 const RouteAuthorizer: Authorizer = {
   isAuthorized: async (req) => {
-    if (req.path.startsWith('/internal')) return true;
+    if (req.path.startsWith('/v1/internal')) return true;
 
     const auth_header = req.headers['authorization']?.split(' ');
     if (auth_header?.length !== 2) return false;
