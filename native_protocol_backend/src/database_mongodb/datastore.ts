@@ -7,6 +7,7 @@ import { PrismaClient } from '@prisma/client';
 
 const resumeSchema = new mongoose.Schema(
   {
+    _id: mongoose.Schema.Types.ObjectId,
     userId: String,
     resume: Object,
   },
@@ -41,7 +42,17 @@ export class Datastore implements ResumeStore, Session {
       userId,
       resume,
     });
-    await resumeData.save();
+
+    const fetchedResumeData = await ResumeModel.findOne({ userId });
+    if (fetchedResumeData) {
+      resumeData._id = fetchedResumeData?._id;
+      const result = await resumeData.updateOne();
+      if (!result) throw new Error('Failed to save resume');
+    } else {
+      resumeData._id = new mongoose.Types.ObjectId();
+      const result = await resumeData.save();
+      if (!result) throw new Error('Failed to save resume');
+    }
   }
 
   async getResume<T extends ResumeInterface>(
