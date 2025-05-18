@@ -59,11 +59,33 @@ export class Datastore implements ResumeStore, Session {
     userId: string,
   ): Promise<{ resume: T } | undefined> {
     const resume = await ResumeModel.findOne({ userId });
-    return resume as { resume: T };
+    if (!resume) return undefined;
+    return sanitizeResult(resume?.toObject()) as { resume: T };
   }
 
   async isValidToken(userId: string): Promise<boolean> {
     const result = await this.prisma?.session.findFirst({ where: { userId } });
     return !!result;
   }
+}
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+function sanitizeResult(data: any): object {
+  const update = (chunk: any): any => {
+    if (chunk !== null && typeof chunk === 'object') {
+      if (
+        !Object.keys(chunk)
+          .map((key) => Number(key))
+          .includes(NaN)
+      )
+        return Object.values(chunk).map((value) => update(value));
+
+      const result: any = {};
+      for (const [key, value] of Object.entries(chunk)) {
+        result[key] = update(value);
+      }
+      return result;
+    } else return chunk;
+  };
+  return update(data) as object;
 }
