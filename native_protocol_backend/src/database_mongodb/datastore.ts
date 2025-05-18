@@ -5,16 +5,19 @@ import mongoose from 'mongoose';
 import { ConfigManager } from '../config';
 import { PrismaClient } from '@prisma/client';
 
-const resumeSchema = new mongoose.Schema({
-  userId: String,
-  resume: Object,
-});
+const resumeSchema = new mongoose.Schema(
+  {
+    userId: String,
+    resume: Object,
+  },
+  { strict: false },
+);
 const ResumeModel = mongoose.model('Resume', resumeSchema);
 
 export class Datastore implements ResumeStore, Session {
   private static instance: Datastore;
   private prisma: PrismaClient | undefined = undefined;
-  private constructor() { }
+  private constructor() {}
   static async getInstance(): Promise<Datastore> {
     if (!Datastore.instance) {
       Datastore.instance = new Datastore();
@@ -43,9 +46,9 @@ export class Datastore implements ResumeStore, Session {
 
   async getResume<T extends ResumeInterface>(
     userId: string,
-  ): Promise<T | undefined> {
+  ): Promise<{ resume: T } | undefined> {
     const resume = await ResumeModel.findOne({ userId });
-    return resume as T;
+    return resume as { resume: T };
   }
 
   async isValidToken(userId: string): Promise<boolean> {

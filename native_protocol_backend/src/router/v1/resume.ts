@@ -22,8 +22,10 @@ router.put('/internal/resume', async (_req, res) => {
       resume,
       datastore,
     );
+    res.status(200).send('Resume updated successfully');
+    return;
   }
-  res.status(200).send('Resume updated successfully');
+  res.status(400).send('Invalid schema');
 });
 
 router.get('resume', async (_req, res) => {

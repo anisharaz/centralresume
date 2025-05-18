@@ -50,8 +50,7 @@ export class Resume<T extends ResumeInterface> {
     let resume = structuredClone(this._resume);
     const update = (chunk: any, chunkPatch: any) => {
       if (!chunkPatch) return chunk;
-
-      if (Object.prototype.toString.call(chunk) === '[object Date]') {
+      if (Object.prototype.toString.call(chunkPatch) === '[object Date]') {
         return chunkPatch;
       } else if (Array.isArray(chunk) && Array.isArray(chunkPatch)) {
         const newChunk = [];
@@ -68,12 +67,15 @@ export class Resume<T extends ResumeInterface> {
           if (!isAdded) newChunk.push(elementPatch);
         }
         return newChunk;
-      } else if (typeof chunk == 'object') {
-        const tags = chunk['tags'];
+      } else if (typeof chunkPatch == 'object') {
+        const tags = chunk && 'tags' in chunk ? chunk['tags'] : undefined;
         if ((tags && Array.isArray(tags) && tags.includes(tag)) || !tags) {
           const newChunk: any = {};
-          for (const key in chunk) {
-            const newElement: any = update(chunk[key], chunkPatch[key]);
+          for (const key in chunkPatch) {
+            const newElement: any = update(
+              chunk && key in chunk ? chunk[key] : undefined,
+              chunkPatch[key],
+            );
             if (newElement !== undefined) newChunk[key] = newElement;
           }
           return newChunk;
@@ -88,6 +90,7 @@ export class Resume<T extends ResumeInterface> {
       }
     };
     resume = update(resume, resumePatch);
+    this._resume = resume;
     return resume;
   }
 
@@ -98,12 +101,12 @@ export class Resume<T extends ResumeInterface> {
 
 export type DeepOmitTags<T> =
   T extends Array<infer U>
-  ? DeepOmitTags<U>[]
-  : T extends object
-  ? {
-    [K in keyof T as K extends 'tags' ? never : K]: DeepOmitTags<T[K]>;
-  }
-  : T;
+    ? DeepOmitTags<U>[]
+    : T extends object
+      ? {
+          [K in keyof T as K extends 'tags' ? never : K]: DeepOmitTags<T[K]>;
+        }
+      : T;
 
 export function removeTags<T extends ResumeInterface>(
   input: PartialDeep<T> | string,

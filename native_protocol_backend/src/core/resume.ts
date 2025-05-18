@@ -13,12 +13,12 @@ export async function createOrUpdateResume<
   datastore: Store,
 ) {
   const storedResume = await datastore.getResume<T>(userId);
-  if (storedResume) {
-    const resumeData = new Resume(storedResume);
-    resumeData.updateResume(tag, resume);
-    const newResume = resumeData.getAll();
-    datastore.storeResume<T>(userId, newResume);
-  }
+  const resumeData = new Resume(
+    storedResume?.resume ? storedResume.resume : ({} as T),
+  );
+  resumeData.updateResume(tag, resume);
+  const newResume = resumeData.getAll();
+  datastore.storeResume<T>(userId, newResume);
 }
 
 export async function getResume<
@@ -27,7 +27,7 @@ export async function getResume<
 >(userId: string, tag: string, datastore: Store): Promise<T> {
   const storedResume = await datastore.getResume<T>(userId);
   if (storedResume) {
-    const resumeData = new Resume(storedResume);
+    const resumeData = new Resume(storedResume.resume);
     return resumeData.makeResume(tag);
   } else {
     throw new Error('Resume not found');

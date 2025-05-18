@@ -5,5 +5,7 @@ export interface ResumeStore {
     userId: string,
     resume: T,
   ): Promise<void>;
-  getResume<T extends ResumeInterface>(userId: string): Promise<T | undefined>;
+  getResume<T extends ResumeInterface>(
+    userId: string,
+  ): Promise<{ resume: T } | undefined>;
 }
