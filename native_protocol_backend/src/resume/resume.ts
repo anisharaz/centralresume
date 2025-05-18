@@ -114,18 +114,14 @@ export function removeTags<T extends ResumeInterface>(
   const update = () => {
     if (Array.isArray(input)) {
       return input.map(removeTags) as PartialDeep<DeepOmitTags<T>>;
-    }
-
-    if (input !== null && typeof input === 'object') {
+    } else if (input !== null && typeof input === 'object') {
       const result: any = {};
       for (const [key, value] of Object.entries(input)) {
         if (key === 'tags') continue;
         result[key] = removeTags(value);
       }
       return result;
-    }
-
-    return input;
+    } else return input;
   };
   return update() as PartialDeep<DeepOmitTags<T>>;
 }
