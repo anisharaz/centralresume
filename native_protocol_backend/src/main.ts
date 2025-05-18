@@ -3,7 +3,7 @@ import logger from 'morgan';
 import { ConfigManager } from './config';
 import { authorization, Authorizer } from './middlewares/authorization';
 import routes from './router/routes';
-import { Datastore } from './database_mongodb/datastore';
+import { Datastore } from './database_impl/datastore';
 
 const configManager = ConfigManager.getInstance();
 const app = express();

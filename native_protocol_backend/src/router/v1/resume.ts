@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { createOrUpdateResume, getResume } from '@/core/resume';
 import { ENGINEERING_RESUME } from '@/meta/ResumeInterface';
-import { Datastore } from '@/database_mongodb/datastore';
+import { Datastore } from '@/database_impl/datastore';
 
 const router = Router();
 
