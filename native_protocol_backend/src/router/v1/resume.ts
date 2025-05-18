@@ -28,7 +28,7 @@ router.put('/internal/resume', async (_req, res) => {
   res.status(400).send('Invalid schema');
 });
 
-router.get('resume', async (_req, res) => {
+router.get('/resume', async (_req, res) => {
   const userId = String(_req.query.userId);
   const tag = String(_req.query.tag);
   const schema = _req.query.schema; //TODO: Not sure what to do with this yet
@@ -38,7 +38,7 @@ router.get('resume', async (_req, res) => {
   }
   if (schema == 'engineering') {
     const datastore = await Datastore.getInstance();
-    const resume = getResume<ENGINEERING_RESUME, Datastore>(
+    const resume = await getResume<ENGINEERING_RESUME, Datastore>(
       userId,
       tag,
       datastore,
