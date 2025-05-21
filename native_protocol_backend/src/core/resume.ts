@@ -3,7 +3,16 @@ import { ResumeStore } from '@/database-interface/resume';
 import { Resume, DeepOmitTags } from '@/resume/resume';
 import { PartialDeep } from 'type-fest';
 
-export async function createOrUpdateResume<
+export async function createResume<
+  T extends ResumeInterface,
+  Store extends ResumeStore,
+>(userId: string, resume: T, datastore: Store) {
+  const resumeData = new Resume(resume);
+  const newResume = resumeData.getAll();
+  datastore.storeResume<T>(userId, newResume);
+}
+
+export async function updateResume<
   T extends ResumeInterface,
   Store extends ResumeStore,
 >(
