@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createOrUpdateResume, getResume } from '@/core/resume';
+import { createResume, updateResume, getResume } from '@/core/resume';
 import { ENGINEERING_RESUME } from '@/meta/ResumeInterface';
 import { Datastore } from '@/database-implementation/datastore';
 
@@ -16,13 +16,25 @@ router.put('/internal/resume', async (_req, res) => {
   }
   if (schema == 'engineering') {
     const datastore = await Datastore.getInstance();
-    createOrUpdateResume<ENGINEERING_RESUME, Datastore>(
-      userId,
-      tag,
-      resume,
-      datastore,
-    );
+    updateResume<ENGINEERING_RESUME, Datastore>(userId, tag, resume, datastore);
     res.status(200).send('Resume updated successfully');
+    return;
+  }
+  res.status(400).send('Invalid schema');
+});
+
+router.post('/internal/resume', async (_req, res) => {
+  const userId = String(_req.query.userId);
+  const resume = _req.body;
+  const schema = _req.query.schema;
+  if (!userId || !resume || !schema) {
+    res.status(400).send('Missing required parameters');
+    return;
+  }
+  if (schema == 'engineering') {
+    const datastore = await Datastore.getInstance();
+    createResume<ENGINEERING_RESUME, Datastore>(userId, resume, datastore);
+    res.status(200).send('Resume created successfully');
     return;
   }
   res.status(400).send('Invalid schema');
