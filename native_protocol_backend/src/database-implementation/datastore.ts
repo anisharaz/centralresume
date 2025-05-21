@@ -18,7 +18,7 @@ const ResumeModel = mongoose.model('Resume', resumeSchema);
 export class Datastore implements ResumeStore, Session {
   private static instance: Datastore;
   private prisma: PrismaClient | undefined = undefined;
-  private constructor() {}
+  private constructor() { }
   static async getInstance(): Promise<Datastore> {
     if (!Datastore.instance) {
       Datastore.instance = new Datastore();
@@ -63,8 +63,10 @@ export class Datastore implements ResumeStore, Session {
     return sanitizeResult(resume?.toObject()) as { resume: T };
   }
 
-  async isValidToken(userId: string): Promise<boolean> {
-    const result = await this.prisma?.session.findFirst({ where: { userId } });
+  async isValidToken(accessToken: string): Promise<boolean> {
+    const result = await this.prisma?.oauth_access_token.findFirst({
+      where: { accessToken },
+    });
     return !!result;
   }
 }
