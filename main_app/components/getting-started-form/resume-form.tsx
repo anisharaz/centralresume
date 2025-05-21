@@ -76,7 +76,7 @@ export function ResumeForm() {
 
       <Card>
         <CardContent>
-          <FormProvider {...form} >
+          <FormProvider {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit, (d) => {
                 alert(
@@ -96,20 +96,24 @@ export function ResumeForm() {
               <div className="flex justify-between mt-8">
                 <Button
                   type="button"
-                  variant="outline"
+                  variant={"outline"}
                   onClick={prevStep}
                   disabled={currentStep === 0}
                 >
                   Previous
                 </Button>
 
-                {currentStep < steps.length - 1 ? (
-                  <Button type="button" onClick={nextStep}>
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    onClick={nextStep}
+                    disabled={currentStep === 7}
+                    variant={"outline"}
+                  >
                     Next
                   </Button>
-                ) : (
                   <Button type="submit">Submit</Button>
-                )}
+                </div>
               </div>
             </form>
           </FormProvider>
