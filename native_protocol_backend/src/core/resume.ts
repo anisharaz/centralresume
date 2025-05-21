@@ -42,3 +42,16 @@ export async function getResume<
     throw new Error('Resume not found');
   }
 }
+
+export async function getCompleteResume<
+  T extends ResumeInterface,
+  Store extends ResumeStore,
+>(userId: string, datastore: Store): Promise<T> {
+  const storedResume = await datastore.getResume<T>(userId);
+  if (storedResume) {
+    const resumeData = new Resume(storedResume.resume);
+    return resumeData.getAll();
+  } else {
+    throw new Error('Resume not found');
+  }
+}

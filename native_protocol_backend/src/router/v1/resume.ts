@@ -1,5 +1,10 @@
 import { Router } from 'express';
-import { createResume, updateResume, getResume } from '@/core/resume';
+import {
+  createResume,
+  updateResume,
+  getResume,
+  getCompleteResume,
+} from '@/core/resume';
 import { ENGINEERING_RESUME } from '@/meta/ResumeInterface';
 import { Datastore } from '@/database-implementation/datastore';
 
@@ -40,7 +45,24 @@ router.post('/internal/resume', async (_req, res) => {
   res.status(400).send('Invalid schema');
 });
 
-// TODO:piyush add post route to store resume data
+router.get('/internal/resume', async (_req, res) => {
+  const userId = String(_req.query.userId);
+  const schema = _req.query.schema;
+  if (!userId || !schema) {
+    res.status(400).send('Missing required parameters');
+    return;
+  }
+  if (schema == 'engineering') {
+    const datastore = await Datastore.getInstance();
+    const resume = await getCompleteResume<ENGINEERING_RESUME, Datastore>(
+      userId,
+      datastore,
+    );
+    res.status(200).send(resume);
+  } else {
+    res.status(400).send('Invalid schema');
+  }
+});
 
 router.get('/resume', async (_req, res) => {
   const userId = String(_req.query.userId);
