@@ -16,6 +16,7 @@ export class Resume<T extends ResumeInterface> {
 
   makeResume(tag: string): T {
     let resume = structuredClone(this._resume);
+    // TODO:piyush Rename to filterTags
     const update = (chunk: any) => {
       if (Object.prototype.toString.call(chunk) === '[object Date]') {
         return chunk;
@@ -99,6 +100,7 @@ export class Resume<T extends ResumeInterface> {
   }
 }
 
+// TODO:piyush required fields are not being considered while using PartialDeep
 export type DeepOmitTags<T> =
   T extends Array<infer U>
     ? DeepOmitTags<U>[]

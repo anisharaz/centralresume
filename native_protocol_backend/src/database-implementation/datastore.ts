@@ -1,5 +1,5 @@
-import { ResumeStore } from '@/database/resume';
-import { Session } from '@/database/session';
+import { ResumeStore } from '@/database-interface/resume';
+import { Session } from '@/database-interface/session';
 import { ResumeInterface } from '@/resume/resume';
 import mongoose from 'mongoose';
 import { ConfigManager } from '../config';

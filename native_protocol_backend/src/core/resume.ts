@@ -1,5 +1,5 @@
 import { ResumeInterface } from '@/resume/resume';
-import { ResumeStore } from '@/database/resume';
+import { ResumeStore } from '@/database-interface/resume';
 import { Resume, DeepOmitTags } from '@/resume/resume';
 import { PartialDeep } from 'type-fest';
 
