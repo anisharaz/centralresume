@@ -64,7 +64,7 @@ export class Datastore implements ResumeStore, Session {
   }
 
   async isValidToken(accessToken: string): Promise<boolean> {
-    const result = await this.prisma?.oauth_access_token.findFirst({
+    const result = await this.prisma?.oauthAccessToken.findFirst({
       where: { accessToken },
     });
     return !!result;

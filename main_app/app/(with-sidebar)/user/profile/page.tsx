@@ -1,5 +1,3 @@
-"use client";
-
 import { MapPin } from "lucide-react";
 import {
   Select,
@@ -13,12 +11,23 @@ import {
 import Image from "next/image";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { authClient } from "@/auth";
-import { filteredDummyResumeData } from "@/lib/utils";
+import { auth } from "@/auth";
+import { filterByTag } from "@/lib/utils";
 import ResumeSectionCard from "./ResumeSectionCard";
-export default function ProfilePage() {
-  const { data: session } = authClient.useSession();
-  let dummyResumeData = filteredDummyResumeData;
+import { headers } from "next/headers";
+import { resumeBackendAxiosClient } from "@/lib/axios-client";
+export default async function ProfilePage() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  const { data } = await resumeBackendAxiosClient.get("/v1/internal/resume", {
+    params: {
+      schema: "engineering",
+      userId: session?.user.id,
+    },
+  });
+  let dummyResumeData = filterByTag({data,tag:"devops"});
 
   // remove version from Data
   dummyResumeData = Object.fromEntries(

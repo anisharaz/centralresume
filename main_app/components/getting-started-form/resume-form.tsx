@@ -19,6 +19,7 @@ import { OtherListsForm } from "./steps/other-lists-form";
 import { ReviewForm } from "./steps/review-form";
 import { StepIndicator } from "./step-indicator";
 import { HandleResumeCreation } from "@/app/actions/getting-started";
+import { useRouter } from "next/navigation";
 
 const steps = [
   { id: "personal", label: "Personal Details" },
@@ -33,7 +34,7 @@ const steps = [
 
 export function ResumeForm() {
   const [currentStep, setCurrentStep] = useState(0);
-
+  const router = useRouter();
   // Initialize form with default values
   const form = useForm<ENGINEERING_RESUME_TYPE>({
     resolver: zodResolver(ENGINEERING_RESUME),
@@ -62,8 +63,13 @@ export function ResumeForm() {
 
   const onSubmit = async (data: ENGINEERING_RESUME_TYPE) => {
     console.log("Form submitted:", data);
-    await HandleResumeCreation({ resumeData: data });
+    const res = await HandleResumeCreation({ resumeData: data });
+    if (!res.success) {
+      alert("Failed to submit resume data. Please try again.");
+      return;
+    }
     alert("Resume data submitted successfully!");
+    router.push("/user/profile");
   };
 
   return (
@@ -112,7 +118,10 @@ export function ResumeForm() {
                   >
                     Next
                   </Button>
-                  <Button type="submit">Submit</Button>
+
+                  <Button type="submit" disabled={form.formState.isSubmitting}>
+                    {form.formState.isSubmitting ? "Submitting..." : "Submit"}
+                  </Button>
                 </div>
               </div>
             </form>

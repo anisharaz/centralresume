@@ -6,10 +6,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-function filterByTag(data: any, tag: string): any {
+export function filterByTag({ data, tag }: { data: any; tag: string }): any {
   if (Array.isArray(data)) {
     const filteredArray = data
-      .map((item) => filterByTag(item, tag))
+      .map((item) => filterByTag({ data: item, tag }))
       .filter((item) => {
         // Keep only non-empty objects and primitives
         return (
@@ -29,7 +29,7 @@ function filterByTag(data: any, tag: string): any {
     const result: Record<string, any> = {};
     for (const key in data) {
       if (key === "tags") continue; // remove tags field
-      const filtered = filterByTag(data[key], tag);
+      const filtered = filterByTag({ data: data[key], tag });
       result[key] = filtered;
     }
 
@@ -39,7 +39,28 @@ function filterByTag(data: any, tag: string): any {
   return data;
 }
 
-export const filteredDummyResumeData = filterByTag(
-  JSON.parse(JSON.stringify(dummyResumeData)),
-  "#devops"
-);
+export function extractAllTags(resume: any): string[] {
+  const collectedTags: Set<string> = new Set();
+
+  function extractTags(obj: any): void {
+    if (!obj) return;
+
+    if (Array.isArray(obj)) {
+      for (const item of obj) {
+        extractTags(item);
+      }
+    } else if (typeof obj === "object") {
+      for (const key in obj) {
+        if (key === "tags" && Array.isArray(obj[key])) {
+          for (const tag of obj[key]) {
+            collectedTags.add(tag);
+          }
+        } else {
+          extractTags(obj[key]);
+        }
+      }
+    }
+  }
+  extractTags(resume);
+  return Array.from(collectedTags);
+}

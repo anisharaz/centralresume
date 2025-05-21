@@ -39,6 +39,7 @@ router.post('/internal/resume', async (_req, res) => {
   if (schema == 'engineering') {
     const datastore = await Datastore.getInstance();
     createResume<ENGINEERING_RESUME, Datastore>(userId, resume, datastore);
+    // TODO: return _id of the created document
     res.status(200).send('Resume created successfully');
     return;
   }
