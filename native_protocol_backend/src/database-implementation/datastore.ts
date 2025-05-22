@@ -37,7 +37,7 @@ export class Datastore implements ResumeStore, Session {
   async storeResume<T extends ResumeInterface>(
     userId: string,
     resume: T,
-  ): Promise<void> {
+  ): Promise<string> {
     const resumeData = new ResumeModel({
       userId,
       resume,
@@ -53,6 +53,8 @@ export class Datastore implements ResumeStore, Session {
       const result = await resumeData.save();
       if (!result) throw new Error('Failed to save resume');
     }
+
+    return resumeData._id?.toString() || '';
   }
 
   async getResume<T extends ResumeInterface>(

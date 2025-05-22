@@ -9,7 +9,7 @@ export async function createResume<
 >(userId: string, resume: T, datastore: Store) {
   const resumeData = new Resume(resume);
   const newResume = resumeData.getAll();
-  datastore.storeResume<T>(userId, newResume);
+  return datastore.storeResume<T>(userId, newResume);
 }
 
 export async function updateResume<
