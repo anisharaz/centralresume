@@ -38,7 +38,7 @@ router.post('/internal/resume', async (_req, res) => {
   }
   if (schema == 'engineering') {
     const datastore = await Datastore.getInstance();
-    const resumeId = createResume<ENGINEERING_RESUME, Datastore>(
+    const resumeId = await createResume<ENGINEERING_RESUME, Datastore>(
       userId,
       resume,
       datastore,

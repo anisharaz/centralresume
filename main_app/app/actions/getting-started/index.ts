@@ -20,8 +20,7 @@ export async function HandleResumeCreation({
   try {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session?.user.id) throw new Error("User not authenticated");
-    console.log("Resume Data:", JSON.stringify(resumeData, null, 2));
-    const { status } = await resumeBackendAxiosClient.post(
+    const { data, status } = await resumeBackendAxiosClient.post(
       "/v1/internal/resume",
       resumeData,
       {
@@ -51,8 +50,24 @@ export async function HandleResumeCreation({
         data: resumeProfiles(),
       });
     }
-    // TODO: update completeSignup to true
-    // TODO: create entry in userResume table
+    await prisma.$transaction(async (tx) => {
+      await tx.userResume.create({
+        data: {
+          userId: session?.session.userId as string,
+          resumeId: data.id,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      });
+      await tx.user.update({
+        where: {
+          email: session?.user.email as string,
+        },
+        data: {
+          completedSignup: "true",
+        },
+      });
+    });
     return { success: true };
   } catch (error: any) {
     console.error(error);
