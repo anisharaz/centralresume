@@ -37,7 +37,7 @@ export async function HandleResumeCreation({
       const profiles = [];
       for (const tag of tags) {
         profiles.push({
-          userId: session?.user.id as string,
+          userId: session?.session.userId as string,
           visibility: $Enums.VISIBILITY.PRIVATE,
           resumeProfileTagName: tag,
           createdAt: new Date(),
@@ -46,10 +46,13 @@ export async function HandleResumeCreation({
       }
       return profiles;
     }
-    await prisma.resumeProfiles.createMany({
-      data: resumeProfiles(),
-    });
+    if (tags.length != 0) {
+      await prisma.resumeProfiles.createMany({
+        data: resumeProfiles(),
+      });
+    }
     // TODO: update completeSignup to true
+    // TODO: create entry in userResume table
     return { success: true };
   } catch (error: any) {
     console.error(error);

@@ -13,7 +13,7 @@ async function GettingStarted() {
       id: session?.user.id,
     },
   });
-  if (user?.completedSignup) permanentRedirect("/user/profile");
+  if (user?.completedSignup === "true") permanentRedirect("/user/profile");
   return <ResumeForm />;
 }
 

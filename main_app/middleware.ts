@@ -12,5 +12,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/user/:path*"], // protected routes
+  matcher: ["/user/:path*","/getting-started"], // protected routes
 };

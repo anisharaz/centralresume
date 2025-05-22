@@ -1,24 +1,40 @@
 import { MapPin } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import Image from "next/image";
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { auth } from "@/auth";
 import { filterByTag } from "@/lib/utils";
 import ResumeSectionCard from "./ResumeSectionCard";
 import { headers } from "next/headers";
 import { resumeBackendAxiosClient } from "@/lib/axios-client";
-export default async function ProfilePage() {
+import ChangeCurrentResumeProfile from "./change-current-resume-profile";
+import prisma from "@/lib/db";
+import { Suspense } from "react";
+export default async function ProfilePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}) {
+  const resumeProfile = (await searchParams).resumeProfile;
+
   const session = await auth.api.getSession({
     headers: await headers(),
+  });
+
+  const user = await prisma.user.findUnique({
+    where: {
+      email: session?.user.email,
+    },
+    include: {
+      resumeProfiles: {
+        select: {
+          resumeProfileTagName: true,
+        },
+        orderBy: {
+          resumeProfileTagName: "asc",
+        },
+      },
+    },
   });
 
   const { data } = await resumeBackendAxiosClient.get("/v1/internal/resume", {
@@ -27,7 +43,12 @@ export default async function ProfilePage() {
       userId: session?.user.id,
     },
   });
-  let dummyResumeData = filterByTag({data,tag:"devops"});
+  let dummyResumeData = filterByTag({
+    data,
+    tag: resumeProfile
+      ? resumeProfile
+      : (user?.resumeProfiles[0]?.resumeProfileTagName as string),
+  });
 
   // remove version from Data
   dummyResumeData = Object.fromEntries(
@@ -67,23 +88,18 @@ export default async function ProfilePage() {
 
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="profile" className="text-md font-bold">
-            Select profile to view
-          </Label>
-          <Select defaultValue="#general">
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Profile" />
-            </SelectTrigger>
-            <SelectContent id="profile">
-              <SelectGroup>
-                <SelectLabel>Profile</SelectLabel>
-                <SelectItem value="#general">General</SelectItem>
-                <SelectItem value="#devops">Devops</SelectItem>
-                <SelectItem value="#sre">SRE</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <Suspense>
+            <ChangeCurrentResumeProfile
+              resumeProfileTagName={user?.resumeProfiles!}
+              tagSelected={
+                resumeProfile
+                  ? resumeProfile
+                  : (user?.resumeProfiles[0]?.resumeProfileTagName as string)
+              }
+            />
+          </Suspense>
         </div>
+
         {sections.map(([key, value]) => (
           <ResumeSectionCard
             key={key}
