@@ -101,7 +101,7 @@ export default function LandingPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
-              <Button
+              {/* <Button
                 onClick={() => {
                   if (data) {
                     router.push("/user/profile");
@@ -114,8 +114,8 @@ export default function LandingPage() {
               >
                 {data ? "Dashboard" : "Get started"}{" "}
                 <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              {/* <WaitlistForm /> */}
+              </Button> */}
+              <WaitlistForm />
             </motion.div>
           </motion.div>
         </div>

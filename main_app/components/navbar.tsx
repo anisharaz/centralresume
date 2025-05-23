@@ -18,7 +18,7 @@ export default function Navbar({ show }: NavbarProps) {
 
   const navItems = [
     { name: "Home", href: "/" },
-    { name: "Profile", href: "/user/profile" },
+    // { name: "Profile", href: "/user/profile" },
     // { name: "Pricing", href: "#pricing" },
     // { name: "About", href: "#about" },
     // { name: "Contact", href: "#contact" },
