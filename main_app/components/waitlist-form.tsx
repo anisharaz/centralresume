@@ -44,7 +44,7 @@ const WaitlistForm = () => {
         type="submit"
         className="h-12 px-6 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center gap-2 transition-all duration-300 ease-in-out whitespace-nowrap"
       >
-        {loading ? <Loader className="animate-spin" /> : "Join Waitlist"}
+        {loading ? <Loader className="animate-spin" /> : "Subscribe"}
         <ArrowRight size={16} />
       </Button>
     </form>

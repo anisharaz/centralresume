@@ -89,14 +89,16 @@ export default async function ProfilePage({
       <div className="space-y-4">
         <div className="space-y-2">
           <Suspense>
-            <ChangeCurrentResumeProfile
-              resumeProfileTagName={user?.resumeProfiles!}
-              tagSelected={
-                resumeProfile
-                  ? resumeProfile
-                  : (user?.resumeProfiles[0]?.resumeProfileTagName as string)
-              }
-            />
+            {user?.resumeProfiles && (
+              <ChangeCurrentResumeProfile
+                resumeProfileTagName={user.resumeProfiles}
+                tagSelected={
+                  resumeProfile
+                    ? resumeProfile
+                    : (user.resumeProfiles[0]?.resumeProfileTagName as string)
+                }
+              />
+            )}
           </Suspense>
         </div>
 

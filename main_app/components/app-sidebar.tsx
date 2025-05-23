@@ -32,7 +32,7 @@ export function AppSidebar() {
     <Sidebar variant="sidebar">
       <SidebarHeader>
         <Link href={"/"}>
-          <div className="font-bold text-xl p-2">Central-Resume</div>
+          <div className="font-bold text-xl p-2">Central<span className="text-yellow-300">#resume</span></div>
         </Link>
       </SidebarHeader>
       <SidebarContent>

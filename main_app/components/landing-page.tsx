@@ -7,8 +7,14 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import WaitlistForm from "./waitlist-form";
 import Image from "next/image";
+import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/auth";
 
 export default function LandingPage() {
+  const router = useRouter();
+  const { data } = authClient.useSession();
+
   const [showNavbar, setShowNavbar] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
@@ -22,34 +28,34 @@ export default function LandingPage() {
 
   const benefits = [
     {
-      title: "Centralized Resume Management",
+      title:
+        "You may require different version of resume for different job application with specific details on the resume for that particular job.",
       description:
-        "Reduces the effort to create and maintain resume for different profiles (e.g., Developer, CA, marketing, lawyer, etc.)",
+        "Central#resume makes it very easy to create multiple version of your resume with very little effort. You give tag to every detail on your resume and according to tag we generate your resume. Tag can be name of the job profiles you are applying. For e.g. frontend_dev, backend_dev, marketing, product_manager etc. ",
       icon: CheckCircle,
+      image: "/1.png",
     },
     {
-      title: "Easy Sharing",
+      title:
+        "Traditionally you share your resume either by link or pdf file. This approach is hard to manage because if you update your resume you need to upload new resume and share a new link again and again. And having multiple resume makes this process a pain.",
       description:
-        "Easy to share resume using resume link. No need to download and maintain different resume PDF files. Updating the resume is easy and in a central place. Imagine you can update your resume even after sharing it with others in case you need a correction.",
+        "central#resume make this process very easy by just having one link of your resume and the resume detail will auto update when you make changes to your resume on our platform. And if your require a pdf file, you can always download from that link.",
       icon: CheckCircle,
+      image: "/2.png",
     },
     {
-      title: "Real-time Updates",
+      title: "What is LOGIN WITH CENTRAL#RESUME?",
       description:
-        "You can add more skills to your resume, and it will automatically reflect to whoever you shared the resume link with. No need to download the resume and reshare it again.",
+        "We have created API which the job platforms like wellfound or any other can use to integrate a button called LOGIN WITH CENTRAL#RESUME on their platform. This button allows you to share your resume with the job portal as easily as you do with login with google. This removed the pain of needing to create a resume profile on every job platform that you use. #Create once use everywhere.",
       icon: CheckCircle,
+      image: "/3.png",
     },
     {
-      title: "Standardized Format",
+      title: "Now the best part this whole platform.",
       description:
-        "A standard protocol for resume management. It makes resume sharing and maintaining easy. Along with this, it also helps us use better search and filter to find the best one because of the standard format of the resume.",
+        "We developed a standard structure of representing the details on the resume. Having a standard structure unlocks a lot of benefits. Since the data is highly structured, AI can now make better use of it and perform activity like resume matching much more efficiently. Using standard format bring uniformity in the resume world where it becomes very easy to share and represent resume. Now, the resume pdf can be generated in different styles with same data with very less effort only because it is in standard format.",
       icon: CheckCircle,
-    },
-    {
-      title: "Universal Login",
-      description:
-        'Providing your resume to a job portal becomes as easy as "login with Google." You no longer need to enter data and create your profile on every job portal you use. Just create one and use "login with central resume." Even if you need to update your resume, you can through our website, and every other job website will reflect the new changes. It saved you a lot of time.',
-      icon: CheckCircle,
+      image: "/4.png",
     },
   ];
 
@@ -83,62 +89,69 @@ export default function LandingPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="max-w-[800px] text-lg md:text-xl text-white/90"
+              className="max-w-[1000px] text-lg md:text-2xl text-white/90"
             >
-              Login With Google but for{" "}
-              <span className="underline underline-offset-4">#resume</span>.
-              Basically, central resume is oAuth for resume. You can create,
-              manage, and share your resume across all platforms from one place.
+              Central resume is a platform for resume where you can create,
+              manage and share your resume with people, recruiter or job
+              platforms from one place. Read exiting features below or Get
+              started with button below.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
-              {/* <Button
+              <Button
                 onClick={() => {
-                  if (session) router.push("/user/profile");
+                  if (data) {
+                    router.push("/user/profile");
+                    return;
+                  }
                   router.push("/auth/login");
                 }}
                 size="lg"
                 className="bg-green-400 hover:bg-green-500 cursor-pointer text-black font-bold px-8 py-6 text-lg rounded-full"
               >
-                {session ? "Dashboard" : "Get started"}{" "}
+                {data ? "Dashboard" : "Get started"}{" "}
                 <ArrowRight className="ml-2 h-5 w-5" />
-              </Button> */}
-              <WaitlistForm />
+              </Button>
+              {/* <WaitlistForm /> */}
             </motion.div>
           </motion.div>
         </div>
-        {/* <div className="absolute bottom-20 left-1/2 transform z-20 -translate-x-1/2">
+        <div className="absolute bottom-20 left-1/2 transform z-20 -translate-x-1/2">
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1.5 }}
           >
             <ArrowRight className="h-10 w-10 text-white transform rotate-90" />
           </motion.div>
-        </div> */}
+        </div>
       </section>
 
-      {/* <section className="py-20 bg-gray-100 border-t border-b border-gray-200">
+      <section className="py-20 bg-gradient-to-r from-purple-400 to-pink-500  border-gray-200">
         <div className="container px-4 md:px-6 mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">
-            Why Choose <span className="text-cyan-600">Central</span>
-            <span className="text-blue-600">Resume</span>?
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 ">
+            Why do i use <span className="text-cyan-400">Central</span>
+            <span className="text-yellow-300">#resume</span> ?
           </h2>
 
-          <div className="grid gap-12 md:gap-16">
+          <div className="grid bg-gradient-to-r from-purple-400 rounded-2xl to-pink-600 gap-12 md:gap-16">
             {benefits.map((benefit, index) => (
-              <div
+              <motion.div
                 key={index}
-                className={`flex flex-col md:flex-row items-start md:items-center gap-6 bg-white rounded-xl shadow-lg p-6 ${
+                initial={{ opacity: 0, x: index % 2 === 1 ? 100 : -100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className={`flex flex-col md:flex-row items-start border-b-4 border-white/50 md:items-center  gap-6 rounded-xl text-white p-6 ${
                   index % 2 === 1 ? "md:flex-row-reverse" : ""
                 }`}
               >
                 <div className="flex-1 relative">
                   <div className="aspect-video rounded-xl overflow-hidden bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center">
                     <Image
-                      src={`/placeholder.svg`}
+                      src={benefit.image}
                       alt={`Benefit ${index + 1} illustration`}
                       className="w-full h-full object-cover"
                       width={500}
@@ -146,18 +159,16 @@ export default function LandingPage() {
                     />
                   </div>
                 </div>
-                <div className="flex-1 space-y-4">
-                  <div className="flex items-center gap-3">
-                    <benefit.icon className="h-8 w-8 text-cyan-500" />
-                    <h3 className="text-2xl font-bold text-gray-900">
+                <div className="flex-1 space-y-4 ">
+                  <div className="flex items-center space-x-4">
+                    <benefit.icon className="h-8 min-w-8 text-yellow-300" />
+                    <h3 className="text-xl font-semibold underline underline-offset-4">
                       {benefit.title}
                     </h3>
                   </div>
-                  <p className="text-lg text-gray-700 leading-relaxed">
-                    {benefit.description}
-                  </p>
+                  <p className="text-lg">{benefit.description}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -182,9 +193,9 @@ export default function LandingPage() {
             <WaitlistForm />
           </motion.div>
         </div>
-      </section> */}
+      </section>
 
-      {/* <Footer /> */}
+      <Footer />
     </main>
   );
 }

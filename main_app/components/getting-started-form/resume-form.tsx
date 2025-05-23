@@ -84,7 +84,7 @@ export function ResumeForm() {
         <CardContent>
           <FormProvider {...form}>
             <form
-              onSubmit={form.handleSubmit(onSubmit, (d) => {
+              onSubmit={form.handleSubmit(onSubmit, () => {
                 alert(
                   "Required fields are missing and marked in red, please check the form."
                 );

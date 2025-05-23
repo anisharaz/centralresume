@@ -5,16 +5,16 @@ import Image from "next/image";
 
 function UserSettings() {
   const oauthClients = [
-    { id: 1, name: "WellFound", badges: ["#general", "#devop"] },
-    { id: 2, name: "Naukri.com", badges: ["#general", "#SRE"] },
-    { id: 3, name: "remote.com", badges: ["#general", "#SE"] },
+    { id: 1, name: "Example Website", badges: ["#general", "#devop"] },
+    // { id: 2, name: "Naukri.com", badges: ["#general", "#SRE"] },
+    // { id: 3, name: "remote.com", badges: ["#general", "#SE"] },
   ];
 
   return (
     <div className="container mx-auto w-full ">
       <div className="flex justify-between items-center">
         <div className="text-lg underline underline-offset-4 font-semibold">
-          Website with your resume access
+          Website with your resume access (this page is under development)
         </div>
       </div>
       <Separator className="my-4" />

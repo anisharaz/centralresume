@@ -3,13 +3,13 @@ import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-50 border-t border-gray-200 py-8">
+    <footer className="bg-white py-8">
       <div className="container px-4 md:px-6 mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
             <Link href="/" className="flex items-center space-x-2">
               <span className="text-xl font-bold bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent">
-                Central<span className="text-blue-600">Resume</span>
+                Central<span className="text-yellow-300 ">#resume</span>
               </span>
             </Link>
           </div>
@@ -37,5 +37,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
