@@ -1,4 +1,4 @@
-import { MapPin } from "lucide-react";
+// import { MapPin } from "lucide-react";
 
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
@@ -10,6 +10,7 @@ import { resumeBackendAxiosClient } from "@/lib/axios-client";
 import ChangeCurrentResumeProfile from "./change-current-resume-profile";
 import prisma from "@/lib/db";
 import { Suspense } from "react";
+import { getResumeFromResumeStore } from "@/lib/services/resume-store";
 export default async function ProfilePage({
   searchParams,
 }: {
@@ -37,11 +38,9 @@ export default async function ProfilePage({
     },
   });
 
-  const { data } = await resumeBackendAxiosClient.get("/v1/internal/resume", {
-    params: {
-      schema: "engineering",
-      userId: session?.user.id,
-    },
+  const data = await getResumeFromResumeStore({
+    userId: session?.session.userId as string,
+    resumeProfile: "engineering",
   });
   let dummyResumeData = filterByTag({
     data,
@@ -77,12 +76,12 @@ export default async function ProfilePage({
 
       {/* Profile Info */}
       <div className="mt-20 mb-8 px-8">
-        <h1 className="text-2xl font-bold">Anish Araz</h1>
-        <p className="text-lg text-muted-foreground mt-1">Devops engineer</p>
+        <h1 className="text-2xl font-bold">{user?.name}</h1>
+        {/* <p className="text-lg text-muted-foreground mt-1">Devops engineer</p>
         <div className="flex items-center mt-2 text-muted-foreground">
           <MapPin className="h-4 w-4 mr-1" />
           <span>India</span>
-        </div>
+        </div> */}
       </div>
       <Separator className="my-4" />
 
