@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 import { resumeBackendAxiosClient } from "@/lib/axios-client";
 import prisma from "@/lib/db";
 import { Resume } from "@/lib/resume";
-import { ENGINEERING_RESUME_TYPE } from "@/lib/zod/schemas";
+import { RESUME_TYPE } from "@/lib/zod/schemas";
 import { $Enums } from "@prisma/client";
 import { headers } from "next/headers";
 
@@ -15,7 +15,7 @@ type ResumeCreationResponse = {
 export async function HandleResumeCreation({
   resumeData,
 }: {
-  resumeData: ENGINEERING_RESUME_TYPE;
+  resumeData: RESUME_TYPE;
 }): Promise<ResumeCreationResponse> {
   try {
     const session = await auth.api.getSession({ headers: await headers() });

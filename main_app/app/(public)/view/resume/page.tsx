@@ -1,5 +1,6 @@
 "use client";
-import CustomErrorPage from "@/components/custom-error-page";
+import ErrorPage from "@/components/error-page";
+
 // import prisma from "@/lib/db";
 import {
   Page,
@@ -24,10 +25,10 @@ const PDFViewerDynamic = dynamic(() =>
 //   searchParams: Promise<{ [key: string]: string | undefined }>;
 // }
 ) {
-//   const { linkId, resumeTag } = await searchParams;
-//   if (!linkId || !resumeTag) {
-    // return <CustomErrorPage message={"Link Not Found"} />;
-//   }
+  //   const { linkId, resumeTag } = await searchParams;
+  //   if (!linkId || !resumeTag) {
+  // return <CustomErrorPage message={"Link Not Found"} />;
+  //   }
   //   const resumeLink = await prisma.resumeLink.findUnique({
   //     where: {
   //       id: linkId,
@@ -40,7 +41,7 @@ const PDFViewerDynamic = dynamic(() =>
   //   });
 
   //   if (!resumeLink || resumeLink.visibility == "PRIVATE") {
-  //     return <CustomErrorPage message={"Link Not Found"} />;
+  //     return <ErrorPage message={"Link Not Found"} />;
   //   }
 
   return (

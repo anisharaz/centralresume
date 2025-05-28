@@ -9,7 +9,7 @@ export type AllowOauthAccessToGeneralTagParams = {
 
 type TAGS = string[];
 
-export interface ENGINEERING_RESUME {
+export interface RESUME_INTERFACE {
   version: string; // eg . "1" , "2"
   personal_details: {
     name: string;

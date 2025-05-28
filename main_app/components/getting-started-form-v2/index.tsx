@@ -16,7 +16,7 @@ import { Info, Rocket, User } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
 import { Separator } from "../ui/separator";
 import { FormProvider, useForm } from "react-hook-form";
-import { ENGINEERING_RESUME, ENGINEERING_RESUME_TYPE } from "@/lib/zod/schemas";
+import { RESUME_ZOD_SCHEMA, RESUME_TYPE } from "@/lib/zod/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PersonalDetailsForm } from "../getting-started-form/steps/personal-details-form";
 import { HandleResumeCreation } from "@/app/actions/getting-started";
@@ -34,8 +34,8 @@ export default function GettingStartedFormV2({
   const router = useRouter();
   const [currentStage, setCurrentStage] = useState(0);
   const [understoodTags, setunderstoodTags] = useState(false);
-  const form = useForm<ENGINEERING_RESUME_TYPE>({
-    resolver: zodResolver(ENGINEERING_RESUME),
+  const form = useForm<RESUME_TYPE>({
+    resolver: zodResolver(RESUME_ZOD_SCHEMA),
     defaultValues: {
       version: "1.0.0",
       personal_details: {
@@ -55,7 +55,7 @@ export default function GettingStartedFormV2({
     mode: "onChange",
   });
 
-  const onSubmit = async (data: ENGINEERING_RESUME_TYPE) => {
+  const onSubmit = async (data: RESUME_TYPE) => {
     const res = await HandleResumeCreation({ resumeData: data });
     if (!res.success) {
       alert("Failed to submit resume data. Please try again.");

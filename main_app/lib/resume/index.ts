@@ -1,8 +1,8 @@
-import { ENGINEERING_RESUME as ResumeBaseDataType, ResumeData } from "../types";
+import { RESUME_INTERFACE, ResumeData } from "../types";
 
 export class Resume {
-  private data: ResumeBaseDataType;
-  constructor(resumeData: ResumeBaseDataType) {
+  private data: RESUME_INTERFACE;
+  constructor(resumeData: RESUME_INTERFACE) {
     this.data = resumeData;
   }
 

@@ -8,7 +8,7 @@ export const createOauthClientSchema = z.object({
   website: z.string().url("Please enter a valid URL").optional(),
 });
 export const TAGS = z.array(z.string());
-export const ENGINEERING_RESUME = z.object({
+export const RESUME_ZOD_SCHEMA = z.object({
   version: z.string(),
   personal_details: z.object({
     name: z.string(),
@@ -178,4 +178,4 @@ export const ENGINEERING_RESUME = z.object({
     .optional(),
 });
 
-export type ENGINEERING_RESUME_TYPE = z.infer<typeof ENGINEERING_RESUME>;
+export type RESUME_TYPE = z.infer<typeof RESUME_ZOD_SCHEMA>;
