@@ -3,7 +3,7 @@
 import { auth } from "@/auth";
 import { resumeBackendAxiosClient } from "@/lib/axios-client";
 import prisma from "@/lib/db";
-import { extractAllTags } from "@/lib/utils";
+import { Resume } from "@/lib/resume";
 import { ENGINEERING_RESUME_TYPE } from "@/lib/zod/schemas";
 import { $Enums } from "@prisma/client";
 import { headers } from "next/headers";
@@ -31,7 +31,8 @@ export async function HandleResumeCreation({
       }
     );
     if (status !== 200) throw new Error("Failed to create resume");
-    const tags = extractAllTags(resumeData);
+    const resume = new Resume(data);
+    const tags = resume.extractTags();
     function resumeProfiles() {
       const profiles = [];
       for (const tag of tags) {
