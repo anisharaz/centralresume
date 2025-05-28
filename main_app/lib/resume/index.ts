@@ -1,8 +1,8 @@
-import { RESUME_INTERFACE, ResumeDataType } from "../types";
-
+import { ResumeDataType } from "../types";
+import { RESUME_TYPE } from "@/lib/zod/schemas";
 export class Resume {
-  private data: RESUME_INTERFACE;
-  constructor(resumeData: RESUME_INTERFACE) {
+  private data: RESUME_TYPE;
+  constructor(resumeData: RESUME_TYPE) {
     this.data = resumeData;
   }
 
