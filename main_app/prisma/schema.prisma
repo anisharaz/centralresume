@@ -25,6 +25,7 @@ model User {
   completedSignup  String             @default("false")
   resumeProfiles   resumeProfiles[]
   userResume       userResume[]
+  resumeLink       resumeLink[]
 
   @@unique([email])
   @@map("user")
@@ -87,8 +88,8 @@ model userProfile {
   user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   bannerImage String?
   visibility  VISIBILITY
-  createdAt   DateTime
-  updatedAt   DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@map("user_profile")
 }
@@ -97,8 +98,8 @@ model userResume {
   userId    String   @id
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   resumeId  String // ID of document stored in mongoDB
-  createdAt DateTime
-  updatedAt DateTime
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
 
   @@map("user_resume")
 }
@@ -109,10 +110,21 @@ model resumeProfiles {
   user                 User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   resumeProfileTagName String // eg. "devops"
   visibility           VISIBILITY
-  createdAt            DateTime
-  updatedAt            DateTime
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
 
   @@map("resume_profiles")
+}
+
+model resumeLink {
+  id                   String     @id @default(cuid())
+  userId               String
+  user                 User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resumeProfileTagName String // eg. "devops"
+  visibility           VISIBILITY
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  @@map("resume_link")
 }
 
 // !             oAuth tables         // 
@@ -126,8 +138,8 @@ model oauthClient {
   website          String?
   userId           String
   user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt        DateTime
-  updatedAt        DateTime
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
   oauthGrantToken  oauthGrantToken[]
   oauthAccessToken oauthAccessToken[]
   codeChallenge    codeChallenge[]
@@ -143,8 +155,8 @@ model oauthGrantToken {
   user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   oauthclientId   String
   oauthClient     oauthClient   @relation(fields: [oauthclientId], references: [clientId], onDelete: Cascade)
-  createdAt       DateTime
-  updatedAt       DateTime
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
   codeChallengeId String        @unique
   codeChallenge   codeChallenge @relation(fields: [codeChallengeId], references: [id], onDelete: Cascade)
 
@@ -157,8 +169,8 @@ model oauthAccessToken {
   scope         String // copy scope from oauth_auth_token table after token generation
   userId        String
   user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt     DateTime
-  updatedAt     DateTime
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
   oauthclientId String
   oauthClient   oauthClient @relation(fields: [oauthclientId], references: [clientId], onDelete: Cascade)
 
@@ -171,8 +183,8 @@ model codeChallenge {
   codeChallengeMethod String
   userId              String
   user                User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt           DateTime
-  updatedAt           DateTime
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
   oauthGrantToken     oauthGrantToken?
   oauthClientId       String
   oauthClient         oauthClient      @relation(fields: [oauthClientId], references: [clientId], onDelete: Cascade)

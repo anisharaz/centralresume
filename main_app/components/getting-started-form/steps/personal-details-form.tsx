@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, X } from "lucide-react";
 import { useState } from "react";
+import { Separator } from "@/components/ui/separator";
 
 interface PersonalDetailsFormProps {
   form: UseFormReturn<ENGINEERING_RESUME_TYPE>;
@@ -112,43 +113,48 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-xl font-semibold">Personal Details</h2>
-      <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
-        <FormField
-          control={form.control}
-          name="personal_details.name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>
-                Full Name <span className="text-red-500">*</span>
-              </FormLabel>
-              <FormControl>
-                <Input placeholder="John Doe" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <h2 className="text-xl font-semibold">Basic Details</h2>
+      <div className="space-y-4">
+        <h3 className="text-lg font-bold text-left underline underline-offset-4">
+          Profile
+        </h3>
+        <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+          <FormField
+            control={form.control}
+            name="personal_details.name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Full Name <span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input placeholder="John Doe" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="personal_details.email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>
-                Email <span className="text-red-500">*</span>
-              </FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="john.doe@example.com"
-                  type="email"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="personal_details.email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Email <span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="john.doe@example.com"
+                    type="email"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
       </div>
 
       <FormField
@@ -164,10 +170,11 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
           </FormItem>
         )}
       />
-
+      <Separator className="my-4" />
       <div className="space-y-4">
-        <h3 className="text-md font-medium">Tag Lines</h3>
-
+        <h3 className="text-md font-bold text-left underline underline-offset-4">
+          Tag Lines
+        </h3>
         <div className="flex gap-2">
           <Input
             placeholder="Tag line text"
@@ -218,7 +225,9 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
       </div>
 
       <div className="space-y-4">
-        <h3 className="text-md font-medium">Summary</h3>
+        <h3 className="text-lg font-bold text-left underline underline-offset-4">
+          Summery
+        </h3>
 
         <div className="flex gap-2">
           <Input
@@ -268,10 +277,11 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
           ))}
         </div>
       </div>
-
+      <Separator className="my-4" />
       <div className="space-y-4">
-        <h3 className="text-md font-medium">Address (Optional)</h3>
-
+        <h3 className="text-lg font-bold text-left underline underline-offset-4">
+          Address
+        </h3>
         <FormField
           control={form.control}
           name="personal_details.address.address_line"
@@ -318,7 +328,9 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
       </div>
 
       <div className="space-y-4">
-        <h3 className="text-md font-medium">Social Links</h3>
+        <h3 className="text-lg font-bold text-left underline underline-offset-4">
+          Social Links
+        </h3>
 
         <div className="flex gap-2">
           <Input

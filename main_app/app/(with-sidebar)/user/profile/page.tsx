@@ -3,14 +3,13 @@
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import { auth } from "@/auth";
-import { filterByTag } from "@/lib/utils";
 import ResumeSectionCard from "./ResumeSectionCard";
 import { headers } from "next/headers";
-import { resumeBackendAxiosClient } from "@/lib/axios-client";
 import ChangeCurrentResumeProfile from "./change-current-resume-profile";
 import prisma from "@/lib/db";
 import { Suspense } from "react";
 import { getResumeFromResumeStore } from "@/lib/services/resume-store";
+import { Resume } from "@/lib/resume";
 export default async function ProfilePage({
   searchParams,
 }: {
@@ -42,18 +41,18 @@ export default async function ProfilePage({
     userId: session?.session.userId as string,
     resumeProfile: "engineering",
   });
-  let dummyResumeData = filterByTag({
-    data,
-    tag: resumeProfile
-      ? resumeProfile
-      : (user?.resumeProfiles[0]?.resumeProfileTagName as string),
-  });
-
-  // remove version from Data
-  dummyResumeData = Object.fromEntries(
-    Object.entries(dummyResumeData).filter(([key]) => key !== "version")
+  const resume = new Resume(data);
+  const sections = Object.entries(
+    Object.fromEntries(
+      Object.entries(
+        resume.getByTag(
+          resumeProfile
+            ? resumeProfile
+            : (user?.resumeProfiles[0]?.resumeProfileTagName as string)
+        )
+      ).filter(([key]) => key !== "version")
+    )
   );
-  const sections = Object.entries(dummyResumeData);
   return (
     <div className="container mx-auto w-full pb-10">
       <div className="relative">
