@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 
-function ChangeCurrentResumeProfile({
+function SwitchCurrentResumeTag({
   resumeProfileTagName,
   tagSelected,
 }: {
@@ -25,7 +25,7 @@ function ChangeCurrentResumeProfile({
   return (
     <>
       <Label htmlFor="profile" className="text-md font-bold">
-        Select profile to view
+        Select Tag to view
       </Label>
       <div className="flex items-center gap-2">
         <Select
@@ -38,11 +38,11 @@ function ChangeCurrentResumeProfile({
           }}
         >
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="resume profile" />
+            <SelectValue placeholder="resume tag" />
           </SelectTrigger>
           <SelectContent id="profile">
             <SelectGroup>
-              <SelectLabel>Select Resume Profiles</SelectLabel>
+              <SelectLabel>Select Resume Tag</SelectLabel>
               {resumeProfileTagName.map((profile) => (
                 <SelectItem
                   key={profile.resumeProfileTagName}
@@ -64,4 +64,4 @@ function ChangeCurrentResumeProfile({
   );
 }
 
-export default ChangeCurrentResumeProfile;
+export default SwitchCurrentResumeTag;

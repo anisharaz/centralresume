@@ -5,11 +5,12 @@ import { Separator } from "@/components/ui/separator";
 import { auth } from "@/auth";
 import ResumeSectionCard from "./ResumeSectionCard";
 import { headers } from "next/headers";
-import ChangeCurrentResumeProfile from "./change-current-resume-profile";
+import SwitchCurrentResumeTag from "./switch-resume-tag";
 import prisma from "@/lib/db";
 import { Suspense } from "react";
 import { getResumeFromResumeStore } from "@/lib/services/resume-store";
 import { Resume } from "@/lib/resume";
+import { PersonalDetailsCard } from "@/components/resume-view/personal-detail-section";
 export default async function ProfilePage({
   searchParams,
 }: {
@@ -42,17 +43,12 @@ export default async function ProfilePage({
     resumeProfile: "engineering",
   });
   const resume = new Resume(data);
-  const sections = Object.entries(
-    Object.fromEntries(
-      Object.entries(
-        resume.getByTag(
-          resumeProfile
-            ? resumeProfile
-            : (user?.resumeProfiles[0]?.resumeProfileTagName as string)
-        )
-      ).filter(([key]) => key !== "version")
-    )
+  const resumeByTag = resume.getByTag(
+    resumeProfile
+      ? resumeProfile
+      : (user?.resumeProfiles[0]?.resumeProfileTagName as string)
   );
+
   return (
     <div className="container mx-auto w-full pb-10">
       <div className="relative">
@@ -88,7 +84,7 @@ export default async function ProfilePage({
         <div className="space-y-2">
           <Suspense>
             {user?.resumeProfiles && (
-              <ChangeCurrentResumeProfile
+              <SwitchCurrentResumeTag
                 resumeProfileTagName={user.resumeProfiles}
                 tagSelected={
                   resumeProfile
@@ -100,15 +96,7 @@ export default async function ProfilePage({
           </Suspense>
         </div>
 
-        {sections.map(([key, value]) => (
-          <ResumeSectionCard
-            key={key}
-            title={key
-              .replace(/_/g, " ")
-              .replace(/\b\w/g, (c) => c.toUpperCase())}
-            data={value}
-          />
-        ))}
+        <PersonalDetailsCard data={resumeByTag.personal_details} />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { RESUME_INTERFACE, ResumeData } from "../types";
+import { RESUME_INTERFACE, ResumeDataType } from "../types";
 
 export class Resume {
   private data: RESUME_INTERFACE;
@@ -9,7 +9,7 @@ export class Resume {
   /**
    * getByTag
    */
-  public getByTag(tag: string): ResumeData {
+  public getByTag(tag: string): ResumeDataType {
     function filterByTag({ data, tag }: { data: any; tag: string }): any {
       if (Array.isArray(data)) {
         const filteredArray = data

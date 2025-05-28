@@ -18,7 +18,7 @@ import { Separator } from "../ui/separator";
 import { FormProvider, useForm } from "react-hook-form";
 import { RESUME_ZOD_SCHEMA, RESUME_TYPE } from "@/lib/zod/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PersonalDetailsForm } from "../getting-started-form/steps/personal-details-form";
+import { PersonalDetailsForm } from "./personal-detail-form";
 import { HandleResumeCreation } from "@/app/actions/getting-started";
 import { useRouter } from "next/navigation";
 

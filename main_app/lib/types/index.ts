@@ -125,7 +125,7 @@ export interface RESUME_INTERFACE {
   }[];
 }
 
-export type ResumeData = {
+export type ResumeDataType = {
   personal_details: {
     name: string;
     tag_line?: {
