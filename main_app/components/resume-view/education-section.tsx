@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { GraduationCap, Calendar, Award } from "lucide-react";
 import { ResumeDataType } from "@/lib/types";
 import { DUMMY_MODE } from "@/lib/vars";
+import EducationEditForm from "./edit-forms/education-edit-form";
 
 type Education = ResumeDataType["education"];
 
@@ -75,7 +76,12 @@ export function EducationCard({ data }: { data: Education }) {
       <div className="w-full mx-auto">
         <Card>
           <CardHeader>
-            <CardTitle className="text-4xl">Education</CardTitle>
+             <CardTitle className="text-4xl flex gap-5">
+              <div>Education</div>
+              <div>
+                <EducationEditForm />
+              </div>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground text-sm">
@@ -91,7 +97,12 @@ export function EducationCard({ data }: { data: Education }) {
     <div className="w-full mx-auto">
       <Card>
         <CardHeader>
-          <CardTitle className="text-4xl">Education</CardTitle>
+           <CardTitle className="text-4xl flex gap-5">
+              <div>Education</div>
+              <div>
+                <EducationEditForm />
+              </div>
+            </CardTitle>
         </CardHeader>
 
         <CardContent className="space-y-6 p-2">

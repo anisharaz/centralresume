@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ResumeDataType } from "@/lib/types";
 import Link from "next/link";
 import { DUMMY_MODE } from "@/lib/vars";
+import WorkExperienceEditForm from "./edit-forms/work-experience-edit-form";
 
 type WorkExperience = ResumeDataType["work_experience"];
 
@@ -100,7 +101,12 @@ export function WorkExperienceCard({ data }: { data: WorkExperience }) {
       <div className="w-full mx-auto">
         <Card>
           <CardHeader>
-            <CardTitle className="text-4xl">Work Experience</CardTitle>
+            <CardTitle className="text-4xl">
+              <div>Work experience</div>
+              <div>
+                <WorkExperienceEditForm />
+              </div>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground text-sm">
@@ -116,7 +122,12 @@ export function WorkExperienceCard({ data }: { data: WorkExperience }) {
     <div className="w-full mx-auto">
       <Card>
         <CardHeader>
-          <CardTitle className="text-4xl">Work Experience</CardTitle>
+          <CardTitle className="text-4xl flex gap-5">
+            <div>Work experience</div>
+            <div>
+              <WorkExperienceEditForm />
+            </div>
+          </CardTitle>
         </CardHeader>
 
         <CardContent className="space-y-6 p-2">

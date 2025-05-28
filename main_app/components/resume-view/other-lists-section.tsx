@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { List, Folder } from "lucide-react";
 import { ResumeDataType } from "@/lib/types";
 import { DUMMY_MODE } from "@/lib/vars";
+import OthersListEditForm from "./edit-forms/others-list-edit-form";
 
 type OtherLists = ResumeDataType["otherLists"];
 
@@ -67,7 +68,12 @@ export function OtherListsCard({ data }: { data: OtherLists }) {
       <div className="w-full mx-auto">
         <Card>
           <CardHeader>
-            <CardTitle className="text-4xl">Additional Information</CardTitle>
+            <CardTitle className="text-4xl flex gap-5">
+              <div>Additional Information</div>
+              <div>
+                <OthersListEditForm />
+              </div>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground text-sm">
@@ -83,7 +89,12 @@ export function OtherListsCard({ data }: { data: OtherLists }) {
     <div className="w-full mx-auto">
       <Card>
         <CardHeader>
-          <CardTitle className="text-4xl">Additional Information</CardTitle>
+          <CardTitle className="text-4xl flex gap-5">
+            <div>Additional Information</div>
+            <div>
+              <OthersListEditForm />
+            </div>
+          </CardTitle>
         </CardHeader>
 
         <CardContent className="space-y-6 p-2">

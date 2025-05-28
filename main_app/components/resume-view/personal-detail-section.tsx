@@ -6,6 +6,7 @@ import { Mail, Phone, MapPin, Calendar, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ResumeDataType } from "@/lib/types";
 import { DUMMY_MODE } from "@/lib/vars";
+import PersonalDetailEditForm from "./edit-forms/personal-detail-edit-form";
 
 type PersonalDetails = ResumeDataType["personal_details"];
 
@@ -63,7 +64,12 @@ export function PersonalDetailsCard({ data }: { data: PersonalDetails }) {
         <CardHeader>
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
             <div className="space-y-4">
-              <CardTitle className="text-4xl">{data.name} </CardTitle>
+              <CardTitle className="text-4xl flex gap-5">
+                <div>{data.name}</div>
+                <div>
+                  <PersonalDetailEditForm/>
+                </div>
+              </CardTitle>
               {data.tag_line && data.tag_line.length > 0 && (
                 <div className="flex flex-wrap gap-2">
                   {data.tag_line.map((tag, index) => (

@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Trophy, Calendar, Building } from "lucide-react";
 import { ResumeDataType } from "@/lib/types";
 import { DUMMY_MODE } from "@/lib/vars";
+import AchievementEditForm from "./edit-forms/achievement-edit-form";
 
 type Achievements = ResumeDataType["achievements"];
 
@@ -89,7 +90,12 @@ export function AchievementsCard({ data }: { data: Achievements }) {
       <div className="w-full mx-auto">
         <Card>
           <CardHeader>
-            <CardTitle className="text-4xl">Achievements</CardTitle>
+             <CardTitle className="text-4xl flex gap-5">
+              <div>Achievements</div>
+              <div>
+                <AchievementEditForm />
+              </div>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground text-sm">
@@ -105,7 +111,12 @@ export function AchievementsCard({ data }: { data: Achievements }) {
     <div className="w-full mx-auto">
       <Card>
         <CardHeader>
-          <CardTitle className="text-4xl">Achievements</CardTitle>
+          <CardTitle className="text-4xl flex gap-5">
+            <div>Achievements</div>
+            <div>
+              <AchievementEditForm />
+            </div>
+          </CardTitle>
         </CardHeader>
 
         <CardContent className="space-y-6 p-2">

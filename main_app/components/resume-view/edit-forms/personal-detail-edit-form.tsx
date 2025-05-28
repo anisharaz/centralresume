@@ -1,5 +1,11 @@
+import BaseSheetComponentForEdit from "./base-sheet-component-for-edit";
+
 function PersonalDetailEditForm() {
-  return <div></div>;
+  return (
+    <BaseSheetComponentForEdit> 
+    <div>good edit</div>
+    </BaseSheetComponentForEdit>
+  );
 }
 
 export default PersonalDetailEditForm;

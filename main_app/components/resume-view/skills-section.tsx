@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Brain, Code, Star } from "lucide-react";
 import { ResumeDataType } from "@/lib/types";
 import { DUMMY_MODE } from "@/lib/vars";
+import SkillsEditForm from "./edit-forms/skills-edit-form";
 
 type Skills = ResumeDataType["skills"];
 
@@ -65,7 +66,12 @@ export function SkillsCard({ data }: { data: Skills }) {
       <div className="w-full mx-auto">
         <Card>
           <CardHeader>
-            <CardTitle className="text-4xl">Skills</CardTitle>
+            <CardTitle className="text-4xl">
+              <div>Skills</div>
+              <div>
+                <SkillsEditForm />
+              </div>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground text-sm">
@@ -81,7 +87,12 @@ export function SkillsCard({ data }: { data: Skills }) {
     <div className="w-full mx-auto">
       <Card>
         <CardHeader>
-          <CardTitle className="text-4xl">Skills</CardTitle>
+          <CardTitle className="text-4xl flex gap-5">
+            <div>Skills</div>
+            <div>
+              <SkillsEditForm />
+            </div>
+          </CardTitle>
         </CardHeader>
 
         <CardContent className="space-y-6 p-2">
