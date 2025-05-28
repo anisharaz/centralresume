@@ -1,63 +1,66 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { List, Folder } from "lucide-react";
 import { ResumeDataType } from "@/lib/types";
+import { DUMMY_MODE } from "@/lib/vars";
 
 type OtherLists = ResumeDataType["otherLists"];
 
 export function OtherListsCard({ data }: { data: OtherLists }) {
-  // TODO: remove dummy data
-  data = [
-    {
-      heading: [{ text: "Open Source Projects" }],
-      summary: [
-        {
-          text: "Maintainer of a popular TypeScript utility library with over 2,000 stars on GitHub.",
-        },
-        {
-          text: "Contributor to React ecosystem packages with cumulative downloads exceeding 100K monthly.",
-        },
-        {
-          text: "Created developer tools that improved workflow efficiency for teams across multiple organizations.",
-        },
-      ],
-    },
-    {
-      heading: [{ text: "Professional Certifications" }],
-      summary: [
-        {
-          text: "AWS Certified Solutions Architect – Associate (Valid until 2026)",
-        },
-        { text: "Google Cloud Professional Developer Certificate" },
-        { text: "Microsoft Azure Fundamentals (AZ-900)" },
-        { text: "Kubernetes Application Developer (CKAD)" },
-      ],
-    },
-    {
-      heading: [{ text: "Notable Projects" }],
-      summary: [
-        {
-          text: "E-commerce Platform: Built a full-stack e-commerce solution serving 10,000+ users with real-time inventory management.",
-        },
-        {
-          text: "AI Content Generator: Developed a machine learning-powered content creation tool that increased team productivity by 60%.",
-        },
-        {
-          text: "Mobile Banking App: Led development of a secure banking application with biometric authentication and real-time transactions.",
-        },
-      ],
-    },
-    {
-      heading: [{ text: "Professional Development" }],
-      summary: [
-        { text: "Advanced React Patterns and Performance Optimization (2023)" },
-        { text: "Microservices Architecture Design Workshop (2022)" },
-        { text: "Leadership in Tech: Managing Engineering Teams (2022)" },
-        { text: "Machine Learning for Web Developers Bootcamp (2021)" },
-      ],
-    },
-  ];
+  if (DUMMY_MODE) {
+    data = [
+      {
+        heading: [{ text: "Open Source Projects" }],
+        summary: [
+          {
+            text: "Maintainer of a popular TypeScript utility library with over 2,000 stars on GitHub.",
+          },
+          {
+            text: "Contributor to React ecosystem packages with cumulative downloads exceeding 100K monthly.",
+          },
+          {
+            text: "Created developer tools that improved workflow efficiency for teams across multiple organizations.",
+          },
+        ],
+      },
+      {
+        heading: [{ text: "Professional Certifications" }],
+        summary: [
+          {
+            text: "AWS Certified Solutions Architect – Associate (Valid until 2026)",
+          },
+          { text: "Google Cloud Professional Developer Certificate" },
+          { text: "Microsoft Azure Fundamentals (AZ-900)" },
+          { text: "Kubernetes Application Developer (CKAD)" },
+        ],
+      },
+      {
+        heading: [{ text: "Notable Projects" }],
+        summary: [
+          {
+            text: "E-commerce Platform: Built a full-stack e-commerce solution serving 10,000+ users with real-time inventory management.",
+          },
+          {
+            text: "AI Content Generator: Developed a machine learning-powered content creation tool that increased team productivity by 60%.",
+          },
+          {
+            text: "Mobile Banking App: Led development of a secure banking application with biometric authentication and real-time transactions.",
+          },
+        ],
+      },
+      {
+        heading: [{ text: "Professional Development" }],
+        summary: [
+          {
+            text: "Advanced React Patterns and Performance Optimization (2023)",
+          },
+          { text: "Microservices Architecture Design Workshop (2022)" },
+          { text: "Leadership in Tech: Managing Engineering Teams (2022)" },
+          { text: "Machine Learning for Web Developers Bootcamp (2021)" },
+        ],
+      },
+    ];
+  }
 
   if (!data || data.length === 0) {
     return (

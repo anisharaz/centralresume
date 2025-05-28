@@ -1,36 +1,37 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { Brain, Code, Star } from "lucide-react";
 import { ResumeDataType } from "@/lib/types";
+import { DUMMY_MODE } from "@/lib/vars";
 
 type Skills = ResumeDataType["skills"];
 
 export function SkillsCard({ data }: { data: Skills }) {
-  // TODO: remove dummy data
-  data = {
-    soft: [
-      { name: "Communication", level: "advanced" },
-      { name: "Leadership", level: "intermediate" },
-      { name: "Problem Solving", level: "advanced" },
-      { name: "Team Collaboration", level: "advanced" },
-      { name: "Time Management", level: "intermediate" },
-      { name: "Adaptability", level: "advanced" },
-    ],
-    technical: [
-      { name: "JavaScript", level: "advanced" },
-      { name: "TypeScript", level: "advanced" },
-      { name: "React", level: "advanced" },
-      { name: "Node.js", level: "intermediate" },
-      { name: "Python", level: "intermediate" },
-      { name: "Docker", level: "beginner" },
-      { name: "AWS", level: "intermediate" },
-      { name: "PostgreSQL", level: "intermediate" },
-      { name: "MongoDB", level: "beginner" },
-      { name: "Git", level: "advanced" },
-    ],
-  };
+  if (DUMMY_MODE) {
+    data = {
+      soft: [
+        { name: "Communication", level: "advanced" },
+        { name: "Leadership", level: "intermediate" },
+        { name: "Problem Solving", level: "advanced" },
+        { name: "Team Collaboration", level: "advanced" },
+        { name: "Time Management", level: "intermediate" },
+        { name: "Adaptability", level: "advanced" },
+      ],
+      technical: [
+        { name: "JavaScript", level: "advanced" },
+        { name: "TypeScript", level: "advanced" },
+        { name: "React", level: "advanced" },
+        { name: "Node.js", level: "intermediate" },
+        { name: "Python", level: "intermediate" },
+        { name: "Docker", level: "beginner" },
+        { name: "AWS", level: "intermediate" },
+        { name: "PostgreSQL", level: "intermediate" },
+        { name: "MongoDB", level: "beginner" },
+        { name: "Git", level: "advanced" },
+      ],
+    };
+  }
 
   const getLevelColor = (level?: string) => {
     switch (level?.toLowerCase()) {

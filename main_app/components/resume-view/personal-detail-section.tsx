@@ -5,43 +5,46 @@ import { Separator } from "@/components/ui/separator";
 import { Mail, Phone, MapPin, Calendar, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ResumeDataType } from "@/lib/types";
+import { DUMMY_MODE } from "@/lib/vars";
 
 type PersonalDetails = ResumeDataType["personal_details"];
 
 export function PersonalDetailsCard({ data }: { data: PersonalDetails }) {
-  // TODO: remove dummy data
-  data = {
-    name: "John Doe",
-    tag_line: [
-      { text: "Full Stack Developer" },
-      { text: "React Enthusiast" },
-      { text: "Open Source Contributor" },
-    ],
-    summary: [
-      {
-        text: "Passionate software developer with 5+ years of experience building modern web applications. I love creating intuitive user experiences and solving complex technical challenges.",
+  if (DUMMY_MODE) {
+    data = {
+      name: "John Doe",
+      tag_line: [
+        { text: "Full Stack Developer" },
+        { text: "React Enthusiast" },
+        { text: "Open Source Contributor" },
+      ],
+      summary: [
+        {
+          text: "Passionate software developer with 5+ years of experience building modern web applications. I love creating intuitive user experiences and solving complex technical challenges.",
+        },
+        {
+          text: "Specialized in React, TypeScript, and Node.js with a focus on creating user-friendly and scalable solutions. Currently exploring AI integration and serverless architectures.",
+        },
+      ],
+      email: "john.doe@example.com",
+      phone: "+1 (555) 123-4567",
+      date_of_birth: "1995-06-15",
+      address: {
+        address_line: "123 Tech Street, Apt 4B",
+        city: "San Francisco",
+        country: "United States",
       },
-      {
-        text: "Specialized in React, TypeScript, and Node.js with a focus on creating user-friendly and scalable solutions. Currently exploring AI integration and serverless architectures.",
-      },
-    ],
-    email: "john.doe@example.com",
-    phone: "+1 (555) 123-4567",
-    date_of_birth: "1995-06-15",
-    address: {
-      address_line: "123 Tech Street, Apt 4B",
-      city: "San Francisco",
-      country: "United States",
-    },
-    social_links: [
-      { name: "GitHub", url: "https://github.com/johndoe" },
-      { name: "LinkedIn", url: "https://linkedin.com/in/johndoe" },
-      { name: "Twitter", url: "https://twitter.com/johndoe" },
-      { name: "Portfolio", url: "https://johndoe.dev" },
-      { name: "Blog", url: "https://blog.johndoe.dev" },
-      { name: "YouTube", url: "https://youtube.com/@johndoe" },
-    ],
-  };
+      social_links: [
+        { name: "GitHub", url: "https://github.com/johndoe" },
+        { name: "LinkedIn", url: "https://linkedin.com/in/johndoe" },
+        { name: "Twitter", url: "https://twitter.com/johndoe" },
+        { name: "Portfolio", url: "https://johndoe.dev" },
+        { name: "Blog", url: "https://blog.johndoe.dev" },
+        { name: "YouTube", url: "https://youtube.com/@johndoe" },
+      ],
+    };
+  }
+
   const formatDate = (dateString: string) => {
     try {
       return new Date(dateString).toLocaleDateString("en-US", {

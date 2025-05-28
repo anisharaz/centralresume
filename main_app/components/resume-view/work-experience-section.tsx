@@ -1,51 +1,65 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { Calendar, ExternalLink, Building2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ResumeDataType } from "@/lib/types";
 import Link from "next/link";
+import { DUMMY_MODE } from "@/lib/vars";
 
 type WorkExperience = ResumeDataType["work_experience"];
 
 export function WorkExperienceCard({ data }: { data: WorkExperience }) {
-  // Example data for demonstration purposes
-  data = [
-    {
-      company: "TechCorp Inc.",
-      position: [
-        { text: "Software Engineer" },
-        { text: "Team Lead" }
-      ],
-      website: "https://techcorp.com",
-      start_date: new Date("2020-01-15"),
-      end_date: new Date("2023-05-28"),
-      summary: [
-        { text: "Developed scalable web applications using React and Node.js." },
-        { text: "Led a team of 5 engineers to deliver high-quality software solutions." }
-      ],
-      highlights: [
-        { text: ["Implemented CI/CD pipelines to improve deployment efficiency.", "Optimized database queries, reducing response time by 30%."] }
-      ]
-    },
-    {
-      company: "Innovatech Solutions",
-      position: [
-        { text: "Junior Developer" }
-      ],
-      website: "https://innovatech.com",
-      start_date: new Date("2018-06-01"),
-      end_date: new Date("2019-12-31"),
-      summary: [
-        { text: "Assisted in the development of internal tools and dashboards." },
-        { text: "Collaborated with cross-functional teams to gather requirements." }
-      ],
-      highlights: [
-        { text: ["Contributed to open-source projects, enhancing company visibility.", "Automated repetitive tasks, saving 10+ hours weekly."] }
-      ]
-    }
-  ];
+  if (DUMMY_MODE) {
+    data = [
+      {
+        company: "TechCorp Inc.",
+        position: [{ text: "Software Engineer" }, { text: "Team Lead" }],
+        website: "https://techcorp.com",
+        start_date: new Date("2020-01-15"),
+        end_date: new Date("2023-05-28"),
+        summary: [
+          {
+            text: "Developed scalable web applications using React and Node.js.",
+          },
+          {
+            text: "Led a team of 5 engineers to deliver high-quality software solutions.",
+          },
+        ],
+        highlights: [
+          {
+            text: [
+              "Implemented CI/CD pipelines to improve deployment efficiency.",
+              "Optimized database queries, reducing response time by 30%.",
+            ],
+          },
+        ],
+      },
+      {
+        company: "Innovatech Solutions",
+        position: [{ text: "Junior Developer" }],
+        website: "https://innovatech.com",
+        start_date: new Date("2018-06-01"),
+        end_date: new Date("2019-12-31"),
+        summary: [
+          {
+            text: "Assisted in the development of internal tools and dashboards.",
+          },
+          {
+            text: "Collaborated with cross-functional teams to gather requirements.",
+          },
+        ],
+        highlights: [
+          {
+            text: [
+              "Contributed to open-source projects, enhancing company visibility.",
+              "Automated repetitive tasks, saving 10+ hours weekly.",
+            ],
+          },
+        ],
+      },
+    ];
+  }
 
   const formatDate = (dateString: Date) => {
     try {
@@ -62,18 +76,20 @@ export function WorkExperienceCard({ data }: { data: WorkExperience }) {
   const calculateDuration = (startDate: Date, endDate?: Date) => {
     const start = new Date(startDate);
     const end = endDate ? new Date(endDate) : new Date();
-    
+
     const diffTime = Math.abs(end.getTime() - start.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     const years = Math.floor(diffDays / 365);
     const months = Math.floor((diffDays % 365) / 30);
-    
+
     if (years > 0 && months > 0) {
-      return `${years} yr${years > 1 ? 's' : ''} ${months} mo${months > 1 ? 's' : ''}`;
+      return `${years} yr${years > 1 ? "s" : ""} ${months} mo${
+        months > 1 ? "s" : ""
+      }`;
     } else if (years > 0) {
-      return `${years} yr${years > 1 ? 's' : ''}`;
+      return `${years} yr${years > 1 ? "s" : ""}`;
     } else if (months > 0) {
-      return `${months} mo${months > 1 ? 's' : ''}`;
+      return `${months} mo${months > 1 ? "s" : ""}`;
     } else {
       return "Less than 1 month";
     }

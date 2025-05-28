@@ -1,59 +1,76 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { Trophy, Calendar, Building } from "lucide-react";
 import { ResumeDataType } from "@/lib/types";
+import { DUMMY_MODE } from "@/lib/vars";
 
 type Achievements = ResumeDataType["achievements"];
 
 export function AchievementsCard({ data }: { data: Achievements }) {
-  // TODO: remove dummy data
-  data = [
-    {
-      title: "Best Innovation Award 2023",
-      date: new Date("2023-12-15"),
-      awarded_by: "TechCorp Inc.",
-      summary: [
-        { text: "Recognized for developing an AI-powered automation tool that reduced manual processing time by 75%." },
-        { text: "Led a cross-functional team of 8 members to deliver the project ahead of schedule." }
-      ]
-    },
-    {
-      title: "Employee of the Year",
-      date: new Date("2022-11-20"),
-      awarded_by: "Innovatech Solutions",
-      summary: [
-        { text: "Awarded for exceptional performance and leadership in driving team productivity." },
-        { text: "Mentored 5 junior developers and improved overall team code quality by 40%." }
-      ]
-    },
-    {
-      title: "Hackathon Winner - FinTech Challenge",
-      date: new Date("2022-06-10"),
-      awarded_by: "Dev Community",
-      summary: [
-        { text: "First place winner among 200+ participants for building a blockchain-based payment solution." },
-        { text: "Completed the entire application in 48 hours with real-time transaction processing." }
-      ]
-    },
-    {
-      title: "AWS Certified Solutions Architect",
-      date: new Date("2021-09-05"),
-      awarded_by: "Amazon Web Services",
-      summary: [
-        { text: "Professional certification demonstrating expertise in designing distributed systems on AWS." }
-      ]
-    },
-    {
-      title: "Open Source Contributor Recognition",
-      date: new Date("2021-03-22"),
-      awarded_by: "GitHub",
-      summary: [
-        { text: "Recognized for significant contributions to popular open-source projects with over 500 commits." }
-      ]
-    }
-  ];
+  if (DUMMY_MODE) {
+    data = [
+      {
+        title: "Best Innovation Award 2023",
+        date: new Date("2023-12-15"),
+        awarded_by: "TechCorp Inc.",
+        summary: [
+          {
+            text: "Recognized for developing an AI-powered automation tool that reduced manual processing time by 75%.",
+          },
+          {
+            text: "Led a cross-functional team of 8 members to deliver the project ahead of schedule.",
+          },
+        ],
+      },
+      {
+        title: "Employee of the Year",
+        date: new Date("2022-11-20"),
+        awarded_by: "Innovatech Solutions",
+        summary: [
+          {
+            text: "Awarded for exceptional performance and leadership in driving team productivity.",
+          },
+          {
+            text: "Mentored 5 junior developers and improved overall team code quality by 40%.",
+          },
+        ],
+      },
+      {
+        title: "Hackathon Winner - FinTech Challenge",
+        date: new Date("2022-06-10"),
+        awarded_by: "Dev Community",
+        summary: [
+          {
+            text: "First place winner among 200+ participants for building a blockchain-based payment solution.",
+          },
+          {
+            text: "Completed the entire application in 48 hours with real-time transaction processing.",
+          },
+        ],
+      },
+      {
+        title: "AWS Certified Solutions Architect",
+        date: new Date("2021-09-05"),
+        awarded_by: "Amazon Web Services",
+        summary: [
+          {
+            text: "Professional certification demonstrating expertise in designing distributed systems on AWS.",
+          },
+        ],
+      },
+      {
+        title: "Open Source Contributor Recognition",
+        date: new Date("2021-03-22"),
+        awarded_by: "GitHub",
+        summary: [
+          {
+            text: "Recognized for significant contributions to popular open-source projects with over 500 commits.",
+          },
+        ],
+      },
+    ];
+  }
 
   const formatDate = (dateString: Date) => {
     try {

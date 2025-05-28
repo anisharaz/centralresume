@@ -1,71 +1,72 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { BookOpen, Calendar, ExternalLink, Building } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ResumeDataType } from "@/lib/types";
 import Link from "next/link";
+import { DUMMY_MODE } from "@/lib/vars";
 
 type Publications = ResumeDataType["publications"];
 
 export function PublicationsCard({ data }: { data: Publications }) {
-  // TODO: remove dummy data
-  data = [
-    {
-      name: "Machine Learning in Modern Web Development: A Comprehensive Guide",
-      publisher: "Tech Publications Inc.",
-      releaseDate: new Date("2023-11-15"),
-      url: "https://techpublications.com/ml-web-dev-guide",
-      summary: [
-        {
-          text: "A comprehensive guide covering the integration of machine learning models into web applications using modern frameworks.",
-        },
-        {
-          text: "Includes practical examples, best practices, and performance optimization techniques for ML-powered web apps.",
-        },
-      ],
-    },
-    {
-      name: "Optimizing React Performance: Advanced Techniques and Patterns",
-      publisher: "Medium",
-      releaseDate: new Date("2023-08-22"),
-      url: "https://medium.com/@johndoe/react-performance-optimization",
-      summary: [
-        {
-          text: "An in-depth article exploring advanced React optimization techniques including memoization, code splitting, and virtual DOM optimizations.",
-        },
-        {
-          text: "Featured article with over 10,000 reads and positive feedback from the developer community.",
-        },
-      ],
-    },
-    {
-      name: "The Future of Serverless Architecture",
-      publisher: "Dev.to",
-      releaseDate: new Date("2023-05-10"),
-      url: "https://dev.to/johndoe/future-serverless-architecture",
-      summary: [
-        {
-          text: "Discusses emerging trends in serverless computing and their impact on modern application development.",
-        },
-      ],
-    },
-    {
-      name: "Building Scalable Microservices with Node.js",
-      publisher: "JavaScript Weekly",
-      releaseDate: new Date("2022-12-08"),
-      url: "https://javascriptweekly.com/microservices-nodejs",
-      summary: [
-        {
-          text: "A practical guide to designing and implementing microservices architecture using Node.js and Docker.",
-        },
-        {
-          text: "Covers service discovery, API gateways, and monitoring strategies for distributed systems.",
-        },
-      ],
-    },
-  ];
+  if (DUMMY_MODE) {
+    data = [
+      {
+        name: "Machine Learning in Modern Web Development: A Comprehensive Guide",
+        publisher: "Tech Publications Inc.",
+        releaseDate: new Date("2023-11-15"),
+        url: "https://techpublications.com/ml-web-dev-guide",
+        summary: [
+          {
+            text: "A comprehensive guide covering the integration of machine learning models into web applications using modern frameworks.",
+          },
+          {
+            text: "Includes practical examples, best practices, and performance optimization techniques for ML-powered web apps.",
+          },
+        ],
+      },
+      {
+        name: "Optimizing React Performance: Advanced Techniques and Patterns",
+        publisher: "Medium",
+        releaseDate: new Date("2023-08-22"),
+        url: "https://medium.com/@johndoe/react-performance-optimization",
+        summary: [
+          {
+            text: "An in-depth article exploring advanced React optimization techniques including memoization, code splitting, and virtual DOM optimizations.",
+          },
+          {
+            text: "Featured article with over 10,000 reads and positive feedback from the developer community.",
+          },
+        ],
+      },
+      {
+        name: "The Future of Serverless Architecture",
+        publisher: "Dev.to",
+        releaseDate: new Date("2023-05-10"),
+        url: "https://dev.to/johndoe/future-serverless-architecture",
+        summary: [
+          {
+            text: "Discusses emerging trends in serverless computing and their impact on modern application development.",
+          },
+        ],
+      },
+      {
+        name: "Building Scalable Microservices with Node.js",
+        publisher: "JavaScript Weekly",
+        releaseDate: new Date("2022-12-08"),
+        url: "https://javascriptweekly.com/microservices-nodejs",
+        summary: [
+          {
+            text: "A practical guide to designing and implementing microservices architecture using Node.js and Docker.",
+          },
+          {
+            text: "Covers service discovery, API gateways, and monitoring strategies for distributed systems.",
+          },
+        ],
+      },
+    ];
+  }
 
   const formatDate = (dateString: Date) => {
     try {

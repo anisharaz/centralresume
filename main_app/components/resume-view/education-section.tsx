@@ -1,40 +1,41 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { GraduationCap, Calendar, Award } from "lucide-react";
 import { ResumeDataType } from "@/lib/types";
+import { DUMMY_MODE } from "@/lib/vars";
 
 type Education = ResumeDataType["education"];
 
 export function EducationCard({ data }: { data: Education }) {
-  // TODO: remove dummy data
-  data = [
-    {
-      institution: "Stanford University",
-      field: [{ text: "Computer Science" }, { text: "Software Engineering" }],
-      degree_level: [{ text: "Master of Science" }],
-      startDate: new Date("2018-09-01"),
-      endDate: new Date("2020-06-15"),
-      score: "3.8/4.0",
-    },
-    {
-      institution: "University of California, Berkeley",
-      field: [{ text: "Computer Science" }],
-      degree_level: [{ text: "Bachelor of Science" }],
-      startDate: new Date("2014-08-25"),
-      endDate: new Date("2018-05-20"),
-      score: "3.6/4.0",
-    },
-    {
-      institution: "Community College of San Francisco",
-      field: [{ text: "General Studies" }],
-      degree_level: [{ text: "Associate Degree" }],
-      startDate: new Date("2012-09-01"),
-      endDate: new Date("2014-06-10"),
-      score: "3.9/4.0",
-    },
-  ];
+  if (DUMMY_MODE) {
+    data = [
+      {
+        institution: "Stanford University",
+        field: [{ text: "Computer Science" }, { text: "Software Engineering" }],
+        degree_level: [{ text: "Master of Science" }],
+        startDate: new Date("2018-09-01"),
+        endDate: new Date("2020-06-15"),
+        score: "3.8/4.0",
+      },
+      {
+        institution: "University of California, Berkeley",
+        field: [{ text: "Computer Science" }],
+        degree_level: [{ text: "Bachelor of Science" }],
+        startDate: new Date("2014-08-25"),
+        endDate: new Date("2018-05-20"),
+        score: "3.6/4.0",
+      },
+      {
+        institution: "Community College of San Francisco",
+        field: [{ text: "General Studies" }],
+        degree_level: [{ text: "Associate Degree" }],
+        startDate: new Date("2012-09-01"),
+        endDate: new Date("2014-06-10"),
+        score: "3.9/4.0",
+      },
+    ];
+  }
 
   const formatDate = (dateString: Date) => {
     try {
