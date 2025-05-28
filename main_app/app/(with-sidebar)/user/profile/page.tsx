@@ -1,16 +1,13 @@
-// import { MapPin } from "lucide-react";
-
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import { auth } from "@/auth";
-import ResumeSectionCard from "./ResumeSectionCard";
 import { headers } from "next/headers";
 import SwitchCurrentResumeTag from "./switch-resume-tag";
 import prisma from "@/lib/db";
 import { Suspense } from "react";
 import { getResumeFromResumeStore } from "@/lib/services/resume-store";
 import { Resume } from "@/lib/resume";
-import { PersonalDetailsCard } from "@/components/resume-view/personal-detail-section";
+import { PersonalDetailsCard, WorkExperienceCard } from "@/components/resume-view";
 export default async function ProfilePage({
   searchParams,
 }: {
@@ -97,6 +94,7 @@ export default async function ProfilePage({
         </div>
 
         <PersonalDetailsCard data={resumeByTag.personal_details} />
+        <WorkExperienceCard data={resumeByTag.work_experience}/>
       </div>
     </div>
   );
