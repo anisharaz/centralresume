@@ -7,7 +7,15 @@ import prisma from "@/lib/db";
 import { Suspense } from "react";
 import { getResumeFromResumeStore } from "@/lib/services/resume-store";
 import { Resume } from "@/lib/resume";
-import { PersonalDetailsCard, WorkExperienceCard } from "@/components/resume-view";
+import {
+  AchievementsCard,
+  EducationCard,
+  OtherListsCard,
+  PersonalDetailsCard,
+  PublicationsCard,
+  SkillsCard,
+  WorkExperienceCard,
+} from "@/components/resume-view";
 export default async function ProfilePage({
   searchParams,
 }: {
@@ -92,9 +100,15 @@ export default async function ProfilePage({
             )}
           </Suspense>
         </div>
-
-        <PersonalDetailsCard data={resumeByTag.personal_details} />
-        <WorkExperienceCard data={resumeByTag.work_experience}/>
+        <div className="space-y-6">
+          <PersonalDetailsCard data={resumeByTag.personal_details} />
+          <WorkExperienceCard data={resumeByTag.work_experience} />
+          <SkillsCard data={resumeByTag.skills} />
+          <AchievementsCard data={resumeByTag.achievements} />
+          <EducationCard data={resumeByTag.education} />
+          <PublicationsCard data={resumeByTag.publications} />
+          <OtherListsCard data={resumeByTag.otherLists} />
+        </div>
       </div>
     </div>
   );
