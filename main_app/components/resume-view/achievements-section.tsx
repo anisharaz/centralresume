@@ -123,9 +123,18 @@ export function AchievementsCard({ data }: { data: Achievements }) {
           {data.map((achievement, index) => (
             <div
               key={index}
-              className=" border border-neutral-600 p-3 rounded-md"
+              className=" border border-neutral-600 p-3 rounded-md relative"
             >
-              <div className="space-y-4">
+              {/* Edit button for this specific achievement */}
+              <div className="absolute top-4 right-4">
+                <AchievementEditForm
+                  title={`Edit ${achievement.title}`}
+                  description={`Edit details for ${achievement.title}`}
+                  isEdit={true}
+                />
+              </div>
+
+              <div className="space-y-4 pr-12">
                 {/* Achievement Header */}
                 <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                   <div className="space-y-3">

@@ -79,7 +79,11 @@ export function EducationCard({ data }: { data: Education }) {
              <CardTitle className="text-4xl flex gap-5">
               <div>Education</div>
               <div>
-                <EducationEditForm />
+                <EducationEditForm
+                  title="Add Education"
+                  description="Add a new education entry"
+                  isEdit={false}
+                />
               </div>
             </CardTitle>
           </CardHeader>
@@ -100,7 +104,11 @@ export function EducationCard({ data }: { data: Education }) {
            <CardTitle className="text-4xl flex gap-5">
               <div>Education</div>
               <div>
-                <EducationEditForm />
+                <EducationEditForm
+                  title="Add Education"
+                  description="Add a new education entry"
+                  isEdit={false}
+                />
               </div>
             </CardTitle>
         </CardHeader>
@@ -109,9 +117,18 @@ export function EducationCard({ data }: { data: Education }) {
           {data.map((education, index) => (
             <div
               key={index}
-              className="border border-neutral-600 p-3 rounded-md"
+              className="border border-neutral-600 p-3 rounded-md relative"
             >
-              <div className="space-y-4">
+              {/* Edit button for this specific education */}
+              <div className="absolute top-4 right-4">
+                <EducationEditForm
+                  title={`Edit ${education.institution}`}
+                  description={`Edit details for ${education.institution}`}
+                  isEdit={true}
+                />
+              </div>
+
+              <div className="space-y-4 pr-12">
                 {/* Institution Header */}
                 <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                   <div className="space-y-3">
