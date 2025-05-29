@@ -90,6 +90,7 @@ export function EducationCard({
                   title="Add Education"
                   description="Add a new education entry"
                   isEdit={false}
+                  dataWithTag={dataWithTag}
                 />
               </div>
             </CardTitle>
@@ -115,6 +116,7 @@ export function EducationCard({
                 title="Add Education"
                 description="Add a new education entry"
                 isEdit={false}
+                dataWithTag={dataWithTag}
               />
             </div>
           </CardTitle>
@@ -132,6 +134,7 @@ export function EducationCard({
                   title={`Edit ${education.institution}`}
                   description={`Edit details for ${education.institution}`}
                   isEdit={true}
+                  dataWithTag={dataWithTag}
                 />
               </div>
 
