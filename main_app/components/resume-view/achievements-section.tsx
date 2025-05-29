@@ -100,7 +100,7 @@ export function AchievementsCard({
             <CardTitle className="text-4xl flex gap-5">
               <div>Achievements</div>
               <div>
-                <AchievementEditForm />
+                <AchievementEditForm dataWithTag={dataWithTag} />
               </div>
             </CardTitle>
           </CardHeader>
@@ -121,7 +121,7 @@ export function AchievementsCard({
           <CardTitle className="text-4xl flex gap-5">
             <div>Achievements</div>
             <div>
-              <AchievementEditForm />
+              <AchievementEditForm dataWithTag={dataWithTag} />
             </div>
           </CardTitle>
         </CardHeader>
@@ -138,6 +138,7 @@ export function AchievementsCard({
                   title={`Edit ${achievement.title}`}
                   description={`Edit details for ${achievement.title}`}
                   isEdit={true}
+                  dataWithTag={dataWithTag}
                 />
               </div>
 

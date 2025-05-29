@@ -12,88 +12,33 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  ACHIEVEMENT_SCHEMA,
-} from "@/lib/zod/schemas/resume/achievement";
+import { ACHIEVEMENT_SCHEMA } from "@/lib/zod/schemas/resume/achievement";
 import { z } from "zod";
+import { RESUME_TYPE } from "@/lib/zod/schemas";
 
-interface AchievementEditFormProps {
+function AchievementEditForm({
+  title = "Edit Achievements",
+  description = "Edit your achievements and save the changes",
+  isEdit = false,
+  dataWithTag,
+}: {
   title?: string;
   description?: string;
   isEdit?: boolean; // Flag to determine if we're editing existing data
-}
-
-function AchievementEditForm({ 
-  title = "Edit Achievements",
-  description = "Edit your achievements and save the changes",
-  isEdit = false
-}: AchievementEditFormProps) {
+  dataWithTag: RESUME_TYPE["achievements"];
+}) {
   const FormSchema = z.object({
     achievements: ACHIEVEMENT_SCHEMA,
   });
   type FormValues = z.infer<typeof FormSchema>;
-  
-  // Dummy data for testing edit functionality
-  // TODO: receive actual data
-  const dummyAchievementsForEdit = [
-    {
-      title: "Excellence in Software Development Award",
-      tags: ["Software", "Excellence", "Recognition"],
-      date: new Date("2023-12-15"),
-      awarded_by: "Tech Innovation Society",
-      summary: [
-        {
-          text: "Recognized for outstanding contributions to open-source projects.",
-          tags: ["Open Source", "Community", "Impact"],
-        },
-        {
-          text: "Led development of a widely-adopted library with 10k+ downloads.",
-          tags: ["Leadership", "Library", "Popular"],
-        },
-      ],
-    },
-    {
-      title: "Best Employee of the Year",
-      tags: ["Employee", "Performance", "Annual"],
-      date: new Date("2022-11-30"),
-      awarded_by: "TechCorp Inc.",
-      summary: [
-        {
-          text: "Achieved highest performance rating for exceptional project delivery.",
-          tags: ["Performance", "Delivery", "Excellence"],
-        },
-        {
-          text: "Mentored junior developers and improved team productivity by 25%.",
-          tags: ["Mentoring", "Productivity", "Team"],
-        },
-      ],
-    },
-    {
-      title: "Hackathon Winner - AI Innovation Challenge",
-      tags: ["Hackathon", "AI", "Innovation", "Competition"],
-      date: new Date("2024-03-22"),
-      awarded_by: "AI Tech Conference",
-      summary: [
-        {
-          text: "Developed an AI-powered solution for sustainable agriculture.",
-          tags: ["AI", "Agriculture", "Sustainability"],
-        },
-        {
-          text: "Solution was adopted by 3 local farms and increased yield by 15%.",
-          tags: ["Adoption", "Impact", "Agriculture"],
-        },
-      ],
-    },
-  ];
-  
-  // Use dummy data for edit mode or create empty defaults for new entries
+
   const getDefaultValues = (): FormValues => {
     if (isEdit) {
       return {
-        achievements: dummyAchievementsForEdit
+        achievements: dataWithTag,
       };
     }
-    
+
     return {
       achievements: [
         {
@@ -112,7 +57,7 @@ function AchievementEditForm({
     defaultValues: getDefaultValues(),
   });
 
-  const { control, register, handleSubmit } = form;
+  const { control, handleSubmit } = form;
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -122,8 +67,9 @@ function AchievementEditForm({
   const onSubmit = (data: FormValues) => {
     console.log("Updated achievements data:", data);
     // TODO: Add actual save logic here
+    // TODO: validate the data before saving
   };
-  
+
   return (
     <BaseSheetComponentForEdit title={title} description={description}>
       <Form {...form}>
@@ -154,7 +100,10 @@ function AchievementEditForm({
                   <FormItem>
                     <FormLabel>Awarded By</FormLabel>
                     <FormControl>
-                      <Input placeholder="Organization or institution" {...field} />
+                      <Input
+                        placeholder="Organization or institution"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -168,10 +117,20 @@ function AchievementEditForm({
                   <FormItem>
                     <FormLabel>Date</FormLabel>
                     <FormControl>
-                      <Input 
-                        type="date" 
-                        value={field.value ? new Date(field.value).toISOString().split('T')[0] : ''}
-                        onChange={(e) => field.onChange(e.target.value ? new Date(e.target.value) : new Date())}
+                      <Input
+                        type="date"
+                        value={
+                          field.value
+                            ? new Date(field.value).toISOString().split("T")[0]
+                            : ""
+                        }
+                        onChange={(e) =>
+                          field.onChange(
+                            e.target.value
+                              ? new Date(e.target.value)
+                              : new Date()
+                          )
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -204,7 +163,10 @@ function AchievementEditForm({
                               variant="outline"
                               size="sm"
                               onClick={() => {
-                                const newTags = field.value?.filter((_, i) => i !== tagIndex) || [];
+                                const newTags =
+                                  field.value?.filter(
+                                    (_, i) => i !== tagIndex
+                                  ) || [];
                                 field.onChange(newTags);
                               }}
                             >
@@ -216,7 +178,9 @@ function AchievementEditForm({
                           type="button"
                           variant="outline"
                           size="sm"
-                          onClick={() => field.onChange([...(field.value || []), ""])}
+                          onClick={() =>
+                            field.onChange([...(field.value || []), ""])
+                          }
                         >
                           Add Tag
                         </Button>
@@ -231,91 +195,118 @@ function AchievementEditForm({
               <div>
                 <FormLabel>Summary</FormLabel>
                 <div className="space-y-4 mt-2">
-                  {form.watch(`achievements.${index}.summary`)?.map((_, summaryIndex) => (
-                    <div key={summaryIndex} className="border p-3 rounded space-y-2">
-                      <FormField
-                        control={control}
-                        name={`achievements.${index}.summary.${summaryIndex}.text`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Summary Text</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Describe your achievement" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <FormField
-                        control={control}
-                        name={`achievements.${index}.summary.${summaryIndex}.tags`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Summary Tags</FormLabel>
-                            <FormControl>
-                              <div className="space-y-2">
-                                {field.value?.map((tag, tagIndex) => (
-                                  <div key={tagIndex} className="flex gap-2">
-                                    <Input
-                                      value={tag}
-                                      onChange={(e) => {
-                                        const newTags = [...(field.value || [])];
-                                        newTags[tagIndex] = e.target.value;
-                                        field.onChange(newTags);
-                                      }}
-                                      placeholder={`Tag ${tagIndex + 1}`}
-                                    />
-                                    <Button
-                                      type="button"
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={() => {
-                                        const newTags = field.value?.filter((_, i) => i !== tagIndex) || [];
-                                        field.onChange(newTags);
-                                      }}
-                                    >
-                                      Remove
-                                    </Button>
-                                  </div>
-                                ))}
-                                <Button
-                                  type="button"
-                                  variant="outline"
-                                  size="sm"
-                                  onClick={() => field.onChange([...(field.value || []), ""])}
-                                >
-                                  Add Summary Tag
-                                </Button>
-                              </div>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <Button
-                        type="button"
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => {
-                          const currentSummary = form.getValues(`achievements.${index}.summary`);
-                          const newSummary = currentSummary.filter((_, i) => i !== summaryIndex);
-                          form.setValue(`achievements.${index}.summary`, newSummary);
-                        }}
+                  {form
+                    .watch(`achievements.${index}.summary`)
+                    ?.map((_, summaryIndex) => (
+                      <div
+                        key={summaryIndex}
+                        className="border p-3 rounded space-y-2"
                       >
-                        Remove Summary
-                      </Button>
-                    </div>
-                  ))}
+                        <FormField
+                          control={control}
+                          name={`achievements.${index}.summary.${summaryIndex}.text`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Summary Text</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="Describe your achievement"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={control}
+                          name={`achievements.${index}.summary.${summaryIndex}.tags`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Summary Tags</FormLabel>
+                              <FormControl>
+                                <div className="space-y-2">
+                                  {field.value?.map((tag, tagIndex) => (
+                                    <div key={tagIndex} className="flex gap-2">
+                                      <Input
+                                        value={tag}
+                                        onChange={(e) => {
+                                          const newTags = [
+                                            ...(field.value || []),
+                                          ];
+                                          newTags[tagIndex] = e.target.value;
+                                          field.onChange(newTags);
+                                        }}
+                                        placeholder={`Tag ${tagIndex + 1}`}
+                                      />
+                                      <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => {
+                                          const newTags =
+                                            field.value?.filter(
+                                              (_, i) => i !== tagIndex
+                                            ) || [];
+                                          field.onChange(newTags);
+                                        }}
+                                      >
+                                        Remove
+                                      </Button>
+                                    </div>
+                                  ))}
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() =>
+                                      field.onChange([
+                                        ...(field.value || []),
+                                        "",
+                                      ])
+                                    }
+                                  >
+                                    Add Summary Tag
+                                  </Button>
+                                </div>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => {
+                            const currentSummary = form.getValues(
+                              `achievements.${index}.summary`
+                            );
+                            const newSummary = currentSummary.filter(
+                              (_, i) => i !== summaryIndex
+                            );
+                            form.setValue(
+                              `achievements.${index}.summary`,
+                              newSummary
+                            );
+                          }}
+                        >
+                          Remove Summary
+                        </Button>
+                      </div>
+                    ))}
                   <Button
                     type="button"
                     variant="outline"
                     onClick={() => {
-                      const currentSummary = form.getValues(`achievements.${index}.summary`);
+                      const currentSummary = form.getValues(
+                        `achievements.${index}.summary`
+                      );
                       form.setValue(`achievements.${index}.summary`, [
                         ...currentSummary,
-                        { text: "", tags: [] }
+                        { text: "", tags: [] },
                       ]);
                     }}
                   >
@@ -333,23 +324,23 @@ function AchievementEditForm({
               </Button>
             </div>
           ))}
-
-          <Button
-            type="button"
-            onClick={() =>
-              append({
-                title: "",
-                tags: [],
-                date: new Date(),
-                awarded_by: "",
-                summary: [{ text: "", tags: [] }],
-              })
-            }
-          >
-            Add Achievement
-          </Button>
-
-          <Button type="submit">Submit</Button>
+          <div className="flex gap-4">
+            <Button
+              type="button"
+              onClick={() =>
+                append({
+                  title: "",
+                  tags: [],
+                  date: new Date(),
+                  awarded_by: "",
+                  summary: [{ text: "", tags: [] }],
+                })
+              }
+            >
+              Add Achievement
+            </Button>
+            <Button type="submit">Submit</Button>
+          </div>
         </form>
       </Form>
     </BaseSheetComponentForEdit>
