@@ -12,83 +12,35 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  WORK_EXPERIENCE_SCHEMA,
-} from "@/lib/zod/schemas/resume/work-experience";
+import { WORK_EXPERIENCE_SCHEMA } from "@/lib/zod/schemas/resume/work-experience";
 import { z } from "zod";
+import { RESUME_TYPE } from "@/lib/zod/schemas";
 
-interface WorkExperienceEditFormProps {
+function WorkExperienceEditForm({
+  title = "Edit Work Experience",
+  description = "Edit your work experience details and save the changes",
+  isEdit = false,
+  dataWithTag,
+}: {
   title?: string;
   description?: string;
   isEdit?: boolean; // Flag to determine if we're editing existing data
-}
-
-function WorkExperienceEditForm({ 
-  title = "Edit Work Experience",
-  description = "Edit your work experience details and save the changes",
-  isEdit = false
-}: WorkExperienceEditFormProps) {
+  dataWithTag: RESUME_TYPE["work_experience"];
+}) {
   const FormSchema = z.object({
     work_experience: WORK_EXPERIENCE_SCHEMA,
   });
   type FormValues = z.infer<typeof FormSchema>;
-  
-  // Dummy data for testing edit functionality
-  // TODO: receive actual data
-  const dummyWorkExperienceForEdit = [
-    {
-      company: "TechCorp Inc.",
-      tags: ["Technology", "Software", "Innovation"],
-      position: [
-        { text: "Software Engineer", tags: ["Frontend", "React"] },
-        { text: "Team Lead", tags: ["Leadership", "Management"] },
-      ],
-      website: "https://techcorp.com",
-      start_date: new Date("2020-01-15"),
-      end_date: new Date("2023-05-28"),
-      summary: [
-        {
-          text: "Developed scalable web applications using React and Node.js.",
-          tags: ["React", "Node.js", "Web Development"],
-        },
-        {
-          text: "Led a team of 5 engineers to deliver high-quality software solutions.",
-          tags: ["Leadership", "Team Management"],
-        },
-      ],
-      highlights: [
-        {
-          text: [
-            "Implemented CI/CD pipelines to improve deployment efficiency.",
-            "Optimized database queries, reducing response time by 30%.",
-          ],
-          tags: ["CI/CD", "Performance", "Database"],
-        },
-      ],
-    },
-  ];
-  
-  // Use dummy data for edit mode or create empty defaults for new entries
+
   const getDefaultValues = (): FormValues => {
     if (isEdit) {
       return {
-        work_experience: dummyWorkExperienceForEdit
+        work_experience: dataWithTag,
       };
     }
-    
+
     return {
-      work_experience: [
-        {
-          company: "",
-          tags: [],
-          website: "",
-          start_date: new Date(),
-          end_date: undefined,
-          position: [{ text: "", tags: [] }],
-          summary: [{ text: "", tags: [] }],
-          highlights: [{ text: [""], tags: [] }],
-        },
-      ],
+      work_experience: [],
     };
   };
 
@@ -97,7 +49,7 @@ function WorkExperienceEditForm({
     defaultValues: getDefaultValues(),
   });
 
-  const { control, register, handleSubmit } = form;
+  const { control, handleSubmit } = form;
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -106,9 +58,10 @@ function WorkExperienceEditForm({
 
   const onSubmit = (data: FormValues) => {
     console.log("Updated work experience data:", data);
+    // TODO: validate data before storing it
     // TODO: Add actual save logic here
   };
-  
+
   return (
     <BaseSheetComponentForEdit title={title} description={description}>
       <Form {...form}>
@@ -154,10 +107,22 @@ function WorkExperienceEditForm({
                     <FormItem>
                       <FormLabel>Start Date</FormLabel>
                       <FormControl>
-                        <Input 
-                          type="date" 
-                          value={field.value ? new Date(field.value).toISOString().split('T')[0] : ''}
-                          onChange={(e) => field.onChange(e.target.value ? new Date(e.target.value) : undefined)}
+                        <Input
+                          type="date"
+                          value={
+                            field.value
+                              ? new Date(field.value)
+                                  .toISOString()
+                                  .split("T")[0]
+                              : ""
+                          }
+                          onChange={(e) =>
+                            field.onChange(
+                              e.target.value
+                                ? new Date(e.target.value)
+                                : undefined
+                            )
+                          }
                         />
                       </FormControl>
                       <FormMessage />
@@ -172,10 +137,22 @@ function WorkExperienceEditForm({
                     <FormItem>
                       <FormLabel>End Date</FormLabel>
                       <FormControl>
-                        <Input 
-                          type="date" 
-                          value={field.value ? new Date(field.value).toISOString().split('T')[0] : ''}
-                          onChange={(e) => field.onChange(e.target.value ? new Date(e.target.value) : undefined)}
+                        <Input
+                          type="date"
+                          value={
+                            field.value
+                              ? new Date(field.value)
+                                  .toISOString()
+                                  .split("T")[0]
+                              : ""
+                          }
+                          onChange={(e) =>
+                            field.onChange(
+                              e.target.value
+                                ? new Date(e.target.value)
+                                : undefined
+                            )
+                          }
                         />
                       </FormControl>
                       <FormMessage />
@@ -209,7 +186,10 @@ function WorkExperienceEditForm({
                               variant="outline"
                               size="sm"
                               onClick={() => {
-                                const newTags = field.value?.filter((_, i) => i !== tagIndex) || [];
+                                const newTags =
+                                  field.value?.filter(
+                                    (_, i) => i !== tagIndex
+                                  ) || [];
                                 field.onChange(newTags);
                               }}
                             >
@@ -221,7 +201,9 @@ function WorkExperienceEditForm({
                           type="button"
                           variant="outline"
                           size="sm"
-                          onClick={() => field.onChange([...(field.value || []), ""])}
+                          onClick={() =>
+                            field.onChange([...(field.value || []), ""])
+                          }
                         >
                           Add Tag
                         </Button>
@@ -236,91 +218,118 @@ function WorkExperienceEditForm({
               <div>
                 <FormLabel>Positions</FormLabel>
                 <div className="space-y-4 mt-2">
-                  {form.watch(`work_experience.${index}.position`)?.map((_, posIndex) => (
-                    <div key={posIndex} className="border p-3 rounded space-y-2">
-                      <FormField
-                        control={control}
-                        name={`work_experience.${index}.position.${posIndex}.text`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Position Title</FormLabel>
-                            <FormControl>
-                              <Input placeholder="e.g., Senior Software Engineer" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <FormField
-                        control={control}
-                        name={`work_experience.${index}.position.${posIndex}.tags`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Position Tags</FormLabel>
-                            <FormControl>
-                              <div className="space-y-2">
-                                {field.value?.map((tag, tagIndex) => (
-                                  <div key={tagIndex} className="flex gap-2">
-                                    <Input
-                                      value={tag}
-                                      onChange={(e) => {
-                                        const newTags = [...(field.value || [])];
-                                        newTags[tagIndex] = e.target.value;
-                                        field.onChange(newTags);
-                                      }}
-                                      placeholder={`Tag ${tagIndex + 1}`}
-                                    />
-                                    <Button
-                                      type="button"
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={() => {
-                                        const newTags = field.value?.filter((_, i) => i !== tagIndex) || [];
-                                        field.onChange(newTags);
-                                      }}
-                                    >
-                                      Remove
-                                    </Button>
-                                  </div>
-                                ))}
-                                <Button
-                                  type="button"
-                                  variant="outline"
-                                  size="sm"
-                                  onClick={() => field.onChange([...(field.value || []), ""])}
-                                >
-                                  Add Position Tag
-                                </Button>
-                              </div>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <Button
-                        type="button"
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => {
-                          const currentPositions = form.getValues(`work_experience.${index}.position`);
-                          const newPositions = currentPositions.filter((_, i) => i !== posIndex);
-                          form.setValue(`work_experience.${index}.position`, newPositions);
-                        }}
+                  {form
+                    .watch(`work_experience.${index}.position`)
+                    ?.map((_, posIndex) => (
+                      <div
+                        key={posIndex}
+                        className="border p-3 rounded space-y-2"
                       >
-                        Remove Position
-                      </Button>
-                    </div>
-                  ))}
+                        <FormField
+                          control={control}
+                          name={`work_experience.${index}.position.${posIndex}.text`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Position Title</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="e.g., Senior Software Engineer"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={control}
+                          name={`work_experience.${index}.position.${posIndex}.tags`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Position Tags</FormLabel>
+                              <FormControl>
+                                <div className="space-y-2">
+                                  {field.value?.map((tag, tagIndex) => (
+                                    <div key={tagIndex} className="flex gap-2">
+                                      <Input
+                                        value={tag}
+                                        onChange={(e) => {
+                                          const newTags = [
+                                            ...(field.value || []),
+                                          ];
+                                          newTags[tagIndex] = e.target.value;
+                                          field.onChange(newTags);
+                                        }}
+                                        placeholder={`Tag ${tagIndex + 1}`}
+                                      />
+                                      <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => {
+                                          const newTags =
+                                            field.value?.filter(
+                                              (_, i) => i !== tagIndex
+                                            ) || [];
+                                          field.onChange(newTags);
+                                        }}
+                                      >
+                                        Remove
+                                      </Button>
+                                    </div>
+                                  ))}
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() =>
+                                      field.onChange([
+                                        ...(field.value || []),
+                                        "",
+                                      ])
+                                    }
+                                  >
+                                    Add Position Tag
+                                  </Button>
+                                </div>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => {
+                            const currentPositions = form.getValues(
+                              `work_experience.${index}.position`
+                            );
+                            const newPositions = currentPositions.filter(
+                              (_, i) => i !== posIndex
+                            );
+                            form.setValue(
+                              `work_experience.${index}.position`,
+                              newPositions
+                            );
+                          }}
+                        >
+                          Remove Position
+                        </Button>
+                      </div>
+                    ))}
                   <Button
                     type="button"
                     variant="outline"
                     onClick={() => {
-                      const currentPositions = form.getValues(`work_experience.${index}.position`);
+                      const currentPositions = form.getValues(
+                        `work_experience.${index}.position`
+                      );
                       form.setValue(`work_experience.${index}.position`, [
                         ...currentPositions,
-                        { text: "", tags: [] }
+                        { text: "", tags: [] },
                       ]);
                     }}
                   >
@@ -333,91 +342,118 @@ function WorkExperienceEditForm({
               <div>
                 <FormLabel>Summary</FormLabel>
                 <div className="space-y-4 mt-2">
-                  {form.watch(`work_experience.${index}.summary`)?.map((_, summaryIndex) => (
-                    <div key={summaryIndex} className="border p-3 rounded space-y-2">
-                      <FormField
-                        control={control}
-                        name={`work_experience.${index}.summary.${summaryIndex}.text`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Summary Text</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Describe your role and responsibilities" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <FormField
-                        control={control}
-                        name={`work_experience.${index}.summary.${summaryIndex}.tags`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Summary Tags</FormLabel>
-                            <FormControl>
-                              <div className="space-y-2">
-                                {field.value?.map((tag, tagIndex) => (
-                                  <div key={tagIndex} className="flex gap-2">
-                                    <Input
-                                      value={tag}
-                                      onChange={(e) => {
-                                        const newTags = [...(field.value || [])];
-                                        newTags[tagIndex] = e.target.value;
-                                        field.onChange(newTags);
-                                      }}
-                                      placeholder={`Tag ${tagIndex + 1}`}
-                                    />
-                                    <Button
-                                      type="button"
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={() => {
-                                        const newTags = field.value?.filter((_, i) => i !== tagIndex) || [];
-                                        field.onChange(newTags);
-                                      }}
-                                    >
-                                      Remove
-                                    </Button>
-                                  </div>
-                                ))}
-                                <Button
-                                  type="button"
-                                  variant="outline"
-                                  size="sm"
-                                  onClick={() => field.onChange([...(field.value || []), ""])}
-                                >
-                                  Add Summary Tag
-                                </Button>
-                              </div>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <Button
-                        type="button"
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => {
-                          const currentSummary = form.getValues(`work_experience.${index}.summary`);
-                          const newSummary = currentSummary.filter((_, i) => i !== summaryIndex);
-                          form.setValue(`work_experience.${index}.summary`, newSummary);
-                        }}
+                  {form
+                    .watch(`work_experience.${index}.summary`)
+                    ?.map((_, summaryIndex) => (
+                      <div
+                        key={summaryIndex}
+                        className="border p-3 rounded space-y-2"
                       >
-                        Remove Summary
-                      </Button>
-                    </div>
-                  ))}
+                        <FormField
+                          control={control}
+                          name={`work_experience.${index}.summary.${summaryIndex}.text`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Summary Text</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="Describe your role and responsibilities"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={control}
+                          name={`work_experience.${index}.summary.${summaryIndex}.tags`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Summary Tags</FormLabel>
+                              <FormControl>
+                                <div className="space-y-2">
+                                  {field.value?.map((tag, tagIndex) => (
+                                    <div key={tagIndex} className="flex gap-2">
+                                      <Input
+                                        value={tag}
+                                        onChange={(e) => {
+                                          const newTags = [
+                                            ...(field.value || []),
+                                          ];
+                                          newTags[tagIndex] = e.target.value;
+                                          field.onChange(newTags);
+                                        }}
+                                        placeholder={`Tag ${tagIndex + 1}`}
+                                      />
+                                      <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => {
+                                          const newTags =
+                                            field.value?.filter(
+                                              (_, i) => i !== tagIndex
+                                            ) || [];
+                                          field.onChange(newTags);
+                                        }}
+                                      >
+                                        Remove
+                                      </Button>
+                                    </div>
+                                  ))}
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() =>
+                                      field.onChange([
+                                        ...(field.value || []),
+                                        "",
+                                      ])
+                                    }
+                                  >
+                                    Add Summary Tag
+                                  </Button>
+                                </div>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => {
+                            const currentSummary = form.getValues(
+                              `work_experience.${index}.summary`
+                            );
+                            const newSummary = currentSummary.filter(
+                              (_, i) => i !== summaryIndex
+                            );
+                            form.setValue(
+                              `work_experience.${index}.summary`,
+                              newSummary
+                            );
+                          }}
+                        >
+                          Remove Summary
+                        </Button>
+                      </div>
+                    ))}
                   <Button
                     type="button"
                     variant="outline"
                     onClick={() => {
-                      const currentSummary = form.getValues(`work_experience.${index}.summary`);
+                      const currentSummary = form.getValues(
+                        `work_experience.${index}.summary`
+                      );
                       form.setValue(`work_experience.${index}.summary`, [
                         ...currentSummary,
-                        { text: "", tags: [] }
+                        { text: "", tags: [] },
                       ]);
                     }}
                   >
@@ -430,120 +466,163 @@ function WorkExperienceEditForm({
               <div>
                 <FormLabel>Highlights</FormLabel>
                 <div className="space-y-4 mt-2">
-                  {form.watch(`work_experience.${index}.highlights`)?.map((_, highlightIndex) => (
-                    <div key={highlightIndex} className="border p-3 rounded space-y-2">
-                      <FormLabel>Highlight Items</FormLabel>
-                      <div className="space-y-2">
-                        {form.watch(`work_experience.${index}.highlights.${highlightIndex}.text`)?.map((_, textIndex) => (
-                          <div key={textIndex} className="flex gap-2">
-                            <FormField
-                              control={control}
-                              name={`work_experience.${index}.highlights.${highlightIndex}.text.${textIndex}`}
-                              render={({ field }) => (
-                                <FormItem className="flex-1">
-                                  <FormControl>
-                                    <Input placeholder="Achievement or highlight" {...field} />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="sm"
-                              onClick={() => {
-                                const currentTexts = form.getValues(`work_experience.${index}.highlights.${highlightIndex}.text`);
-                                const newTexts = currentTexts.filter((_, i) => i !== textIndex);
-                                form.setValue(`work_experience.${index}.highlights.${highlightIndex}.text`, newTexts);
-                              }}
-                            >
-                              Remove
-                            </Button>
-                          </div>
-                        ))}
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={() => {
-                            const currentTexts = form.getValues(`work_experience.${index}.highlights.${highlightIndex}.text`);
-                            form.setValue(`work_experience.${index}.highlights.${highlightIndex}.text`, [...currentTexts, ""]);
-                          }}
-                        >
-                          Add Highlight Item
-                        </Button>
-                      </div>
-                      
-                      <FormField
-                        control={control}
-                        name={`work_experience.${index}.highlights.${highlightIndex}.tags`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Highlight Tags</FormLabel>
-                            <FormControl>
-                              <div className="space-y-2">
-                                {field.value?.map((tag, tagIndex) => (
-                                  <div key={tagIndex} className="flex gap-2">
-                                    <Input
-                                      value={tag}
-                                      onChange={(e) => {
-                                        const newTags = [...(field.value || [])];
-                                        newTags[tagIndex] = e.target.value;
-                                        field.onChange(newTags);
-                                      }}
-                                      placeholder={`Tag ${tagIndex + 1}`}
-                                    />
-                                    <Button
-                                      type="button"
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={() => {
-                                        const newTags = field.value?.filter((_, i) => i !== tagIndex) || [];
-                                        field.onChange(newTags);
-                                      }}
-                                    >
-                                      Remove
-                                    </Button>
-                                  </div>
-                                ))}
+                  {form
+                    .watch(`work_experience.${index}.highlights`)
+                    ?.map((_, highlightIndex) => (
+                      <div
+                        key={highlightIndex}
+                        className="border p-3 rounded space-y-2"
+                      >
+                        <FormLabel>Highlight Items</FormLabel>
+                        <div className="space-y-2">
+                          {form
+                            .watch(
+                              `work_experience.${index}.highlights.${highlightIndex}.text`
+                            )
+                            ?.map((_, textIndex) => (
+                              <div key={textIndex} className="flex gap-2">
+                                <FormField
+                                  control={control}
+                                  name={`work_experience.${index}.highlights.${highlightIndex}.text.${textIndex}`}
+                                  render={({ field }) => (
+                                    <FormItem className="flex-1">
+                                      <FormControl>
+                                        <Input
+                                          placeholder="Achievement or highlight"
+                                          {...field}
+                                        />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
                                 <Button
                                   type="button"
                                   variant="outline"
                                   size="sm"
-                                  onClick={() => field.onChange([...(field.value || []), ""])}
+                                  onClick={() => {
+                                    const currentTexts = form.getValues(
+                                      `work_experience.${index}.highlights.${highlightIndex}.text`
+                                    );
+                                    const newTexts = currentTexts.filter(
+                                      (_, i) => i !== textIndex
+                                    );
+                                    form.setValue(
+                                      `work_experience.${index}.highlights.${highlightIndex}.text`,
+                                      newTexts
+                                    );
+                                  }}
                                 >
-                                  Add Highlight Tag
+                                  Remove
                                 </Button>
                               </div>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <Button
-                        type="button"
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => {
-                          const currentHighlights = form.getValues(`work_experience.${index}.highlights`);
-                          const newHighlights = currentHighlights.filter((_, i) => i !== highlightIndex);
-                          form.setValue(`work_experience.${index}.highlights`, newHighlights);
-                        }}
-                      >
-                        Remove Highlight
-                      </Button>
-                    </div>
-                  ))}
+                            ))}
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              const currentTexts = form.getValues(
+                                `work_experience.${index}.highlights.${highlightIndex}.text`
+                              );
+                              form.setValue(
+                                `work_experience.${index}.highlights.${highlightIndex}.text`,
+                                [...currentTexts, ""]
+                              );
+                            }}
+                          >
+                            Add Highlight Item
+                          </Button>
+                        </div>
+
+                        <FormField
+                          control={control}
+                          name={`work_experience.${index}.highlights.${highlightIndex}.tags`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Highlight Tags</FormLabel>
+                              <FormControl>
+                                <div className="space-y-2">
+                                  {field.value?.map((tag, tagIndex) => (
+                                    <div key={tagIndex} className="flex gap-2">
+                                      <Input
+                                        value={tag}
+                                        onChange={(e) => {
+                                          const newTags = [
+                                            ...(field.value || []),
+                                          ];
+                                          newTags[tagIndex] = e.target.value;
+                                          field.onChange(newTags);
+                                        }}
+                                        placeholder={`Tag ${tagIndex + 1}`}
+                                      />
+                                      <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => {
+                                          const newTags =
+                                            field.value?.filter(
+                                              (_, i) => i !== tagIndex
+                                            ) || [];
+                                          field.onChange(newTags);
+                                        }}
+                                      >
+                                        Remove
+                                      </Button>
+                                    </div>
+                                  ))}
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() =>
+                                      field.onChange([
+                                        ...(field.value || []),
+                                        "",
+                                      ])
+                                    }
+                                  >
+                                    Add Highlight Tag
+                                  </Button>
+                                </div>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => {
+                            const currentHighlights = form.getValues(
+                              `work_experience.${index}.highlights`
+                            );
+                            const newHighlights = currentHighlights.filter(
+                              (_, i) => i !== highlightIndex
+                            );
+                            form.setValue(
+                              `work_experience.${index}.highlights`,
+                              newHighlights
+                            );
+                          }}
+                        >
+                          Remove Highlight
+                        </Button>
+                      </div>
+                    ))}
                   <Button
                     type="button"
                     variant="outline"
                     onClick={() => {
-                      const currentHighlights = form.getValues(`work_experience.${index}.highlights`);
+                      const currentHighlights = form.getValues(
+                        `work_experience.${index}.highlights`
+                      );
                       form.setValue(`work_experience.${index}.highlights`, [
                         ...currentHighlights,
-                        { text: [""], tags: [] }
+                        { text: [""], tags: [] },
                       ]);
                     }}
                   >

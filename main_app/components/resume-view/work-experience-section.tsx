@@ -115,6 +115,7 @@ export function WorkExperienceCard({
                   title="Add Work Experience"
                   description="Add your first work experience entry"
                   isEdit={false}
+                  dataWithTag={dataWithTag}
                 />
               </div>
             </CardTitle>
@@ -140,6 +141,7 @@ export function WorkExperienceCard({
                 title="Add Work Experience"
                 description="Add a new work experience entry"
                 isEdit={false}
+                dataWithTag={dataWithTag}
               />
             </div>
           </CardTitle>
@@ -157,6 +159,7 @@ export function WorkExperienceCard({
                   title={`Edit ${experience.company}`}
                   description={`Edit details for ${experience.company}`}
                   isEdit={true}
+                  dataWithTag={dataWithTag}
                 />
               </div>
 
