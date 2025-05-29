@@ -104,7 +104,11 @@ export function WorkExperienceCard({ data }: { data: WorkExperience }) {
             <CardTitle className="text-4xl">
               <div>Work experience</div>
               <div>
-                <WorkExperienceEditForm />
+                <WorkExperienceEditForm
+                  title="Add Work Experience"
+                  description="Add your first work experience entry"
+                  isEdit={false}
+                />
               </div>
             </CardTitle>
           </CardHeader>
@@ -125,7 +129,11 @@ export function WorkExperienceCard({ data }: { data: WorkExperience }) {
           <CardTitle className="text-4xl flex gap-5">
             <div>Work experience</div>
             <div>
-              <WorkExperienceEditForm />
+              <WorkExperienceEditForm
+                title="Add Work Experience"
+                description="Add a new work experience entry"
+                isEdit={false}
+              />
             </div>
           </CardTitle>
         </CardHeader>
@@ -134,11 +142,18 @@ export function WorkExperienceCard({ data }: { data: WorkExperience }) {
           {data.map((experience, index) => (
             <div
               key={index}
-              className="border border-neutral-600 rounded-md p-2"
+              className="border border-neutral-600 rounded-md p-2 relative"
             >
-              {/* {index > 0 && <Separator className="my-6" />} */}
+              {/* Edit button for this specific experience */}
+              <div className="absolute top-4 right-4">
+                <WorkExperienceEditForm
+                  title={`Edit ${experience.company}`}
+                  description={`Edit details for ${experience.company}`}
+                  isEdit={true}
+                />
+              </div>
 
-              <div className="space-y-4">
+              <div className="space-y-4 pr-12">
                 {/* Company Header */}
                 <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                   <div className="space-y-3">

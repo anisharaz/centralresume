@@ -1,5 +1,5 @@
 import { z } from "zod";
-export const TAGS = z.array(z.string());
+import { TAGS } from "./constants";
 import { WORK_EXPERIENCE_SCHEMA } from "./work-experience";
 import { SKILLS_SCHEMA } from "./skills";
 import { EDUCATION_SCHEMA } from "./education";
@@ -7,6 +7,9 @@ import { ACHIEVEMENT_SCHEMA } from "./achievement";
 import { OTHER_LIST_SCHEMA } from "./other-list";
 import { PERSONAL_DETAILS_SCHEMA } from "./personal-detail";
 import { PUBLICATION_SCHEMA } from "./publication";
+
+// Re-export TAGS for convenience
+export { TAGS };
 
 export const RESUME_ZOD_SCHEMA = z
   .object({

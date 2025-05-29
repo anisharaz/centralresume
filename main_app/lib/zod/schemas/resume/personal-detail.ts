@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { TAGS } from "./index";
+import { TAGS } from "./constants";
 
 export const PERSONAL_DETAILS_SCHEMA = z.object({
   name: z.string(),

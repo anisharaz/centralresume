@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { TAGS } from "./index";
+import { TAGS } from "./constants";
 
 export const WORK_EXPERIENCE_SCHEMA = z
   .array(
