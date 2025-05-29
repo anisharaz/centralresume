@@ -17,12 +17,12 @@ import { z } from "zod";
 import { RESUME_TYPE } from "@/lib/zod/schemas";
 
 function PersonalDetailEditForm({
-  title = "Edit Personal Details",
-  description = "Edit your personal information and save the changes",
+  title,
+  description,
   dataWithTag,
 }: {
-  title?: string;
-  description?: string;
+  title: string;
+  description: string;
   dataWithTag: RESUME_TYPE["personal_details"];
 }) {
   const FormSchema = z.object({

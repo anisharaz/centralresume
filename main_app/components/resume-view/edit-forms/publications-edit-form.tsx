@@ -15,24 +15,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { PUBLICATION_SCHEMA } from "@/lib/zod/schemas/resume/publication";
 import { z } from "zod";
 
-interface PublicationsEditFormProps {
-  title?: string;
-  description?: string;
-  isEdit?: boolean;
-}
-
 function PublicationsEditForm({
   title = "Edit Publications",
   description = "Edit your publications and save the changes",
-  isEdit = true
-}: PublicationsEditFormProps) {
+}: {
+  title?: string;
+  description?: string;
+}) {
   const FormSchema = z.object({
     publications: PUBLICATION_SCHEMA,
   });
   type FormValues = z.infer<typeof FormSchema>;
-
-  // Dummy data for testing edit functionality
-  // TODO: receive actual data
   const dummyPublicationsForEdit = [
     {
       name: "Advanced Machine Learning Techniques in Web Development",
@@ -79,7 +72,11 @@ function PublicationsEditForm({
 
   const { control, handleSubmit } = form;
 
-  const { fields: publicationFields, append: appendPublication, remove: removePublication } = useFieldArray({
+  const {
+    fields: publicationFields,
+    append: appendPublication,
+    remove: removePublication,
+  } = useFieldArray({
     control,
     name: "publications",
   });
@@ -99,21 +96,26 @@ function PublicationsEditForm({
               type="button"
               variant="outline"
               size="sm"
-              onClick={() => appendPublication({
-                name: "",
-                tags: [],
-                publisher: "",
-                releaseDate: new Date(),
-                url: "",
-                summary: [],
-              })}
+              onClick={() =>
+                appendPublication({
+                  name: "",
+                  tags: [],
+                  publisher: "",
+                  releaseDate: new Date(),
+                  url: "",
+                  summary: [],
+                })
+              }
             >
               Add Publication
             </Button>
           </div>
 
           {publicationFields.map((item, index) => (
-            <div key={item.id} className="border p-4 rounded-lg shadow-sm space-y-4">
+            <div
+              key={item.id}
+              className="border p-4 rounded-lg shadow-sm space-y-4"
+            >
               <div className="flex items-center justify-between">
                 <h4 className="text-md font-medium">Publication {index + 1}</h4>
                 <Button
@@ -149,7 +151,10 @@ function PublicationsEditForm({
                     <FormItem>
                       <FormLabel>Publisher</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., IEEE, ACM, Journal Name" {...field} />
+                        <Input
+                          placeholder="e.g., IEEE, ACM, Journal Name"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -165,8 +170,16 @@ function PublicationsEditForm({
                       <FormControl>
                         <Input
                           type="date"
-                          value={field.value ? new Date(field.value).toISOString().split('T')[0] : ''}
-                          onChange={(e) => field.onChange(new Date(e.target.value))}
+                          value={
+                            field.value
+                              ? new Date(field.value)
+                                  .toISOString()
+                                  .split("T")[0]
+                              : ""
+                          }
+                          onChange={(e) =>
+                            field.onChange(new Date(e.target.value))
+                          }
                         />
                       </FormControl>
                       <FormMessage />
@@ -182,7 +195,10 @@ function PublicationsEditForm({
                   <FormItem>
                     <FormLabel>URL</FormLabel>
                     <FormControl>
-                      <Input placeholder="https://doi.org/... or publication URL" {...field} />
+                      <Input
+                        placeholder="https://doi.org/... or publication URL"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -214,7 +230,10 @@ function PublicationsEditForm({
                               variant="outline"
                               size="sm"
                               onClick={() => {
-                                const newTags = field.value?.filter((_: string, i: number) => i !== tagIndex) || [];
+                                const newTags =
+                                  field.value?.filter(
+                                    (_: string, i: number) => i !== tagIndex
+                                  ) || [];
                                 field.onChange(newTags);
                               }}
                             >
@@ -226,7 +245,9 @@ function PublicationsEditForm({
                           type="button"
                           variant="outline"
                           size="sm"
-                          onClick={() => field.onChange([...(field.value || []), ""])}
+                          onClick={() =>
+                            field.onChange([...(field.value || []), ""])
+                          }
                         >
                           Add Tag
                         </Button>
@@ -238,7 +259,10 @@ function PublicationsEditForm({
               />
 
               {/* Publication Summary */}
-              <PublicationSummarySection control={control} publicationIndex={index} />
+              <PublicationSummarySection
+                control={control}
+                publicationIndex={index}
+              />
             </div>
           ))}
 
@@ -254,8 +278,18 @@ function PublicationsEditForm({
 }
 
 // Separate component for publication summary management
-function PublicationSummarySection({ control, publicationIndex }: { control: Control<any>, publicationIndex: number }) {
-  const { fields: summaryFields, append: appendSummary, remove: removeSummary } = useFieldArray({
+function PublicationSummarySection({
+  control,
+  publicationIndex,
+}: {
+  control: Control<any>;
+  publicationIndex: number;
+}) {
+  const {
+    fields: summaryFields,
+    append: appendSummary,
+    remove: removeSummary,
+  } = useFieldArray({
     control,
     name: `publications.${publicationIndex}.summary`,
   });
@@ -283,7 +317,10 @@ function PublicationSummarySection({ control, publicationIndex }: { control: Con
               <FormItem>
                 <FormLabel>Summary Text</FormLabel>
                 <FormControl>
-                  <Input placeholder="Describe the publication's key findings or contributions" {...field} />
+                  <Input
+                    placeholder="Describe the publication's key findings or contributions"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -314,7 +351,10 @@ function PublicationSummarySection({ control, publicationIndex }: { control: Con
                           variant="outline"
                           size="sm"
                           onClick={() => {
-                            const newTags = field.value?.filter((_: string, i: number) => i !== tagIndex) || [];
+                            const newTags =
+                              field.value?.filter(
+                                (_: string, i: number) => i !== tagIndex
+                              ) || [];
                             field.onChange(newTags);
                           }}
                         >
@@ -326,7 +366,9 @@ function PublicationSummarySection({ control, publicationIndex }: { control: Con
                       type="button"
                       variant="outline"
                       size="sm"
-                      onClick={() => field.onChange([...(field.value || []), ""])}
+                      onClick={() =>
+                        field.onChange([...(field.value || []), ""])
+                      }
                     >
                       Add Tag
                     </Button>

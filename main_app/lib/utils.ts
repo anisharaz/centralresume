@@ -5,38 +5,27 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function filterByTag({ data, tag }: { data: any; tag: string }): any {
-  if (Array.isArray(data)) {
-    const filteredArray = data
-      .map((item) => filterByTag({ data: item, tag }))
-      .filter((item) => {
-        // Keep only non-empty objects and primitives
-        return (
-          item !== null &&
-          (typeof item !== "object" ||
-            (Array.isArray(item)
-              ? item.length > 0
-              : Object.keys(item).length > 0))
-        );
-      });
-    return filteredArray.length > 0 ? filteredArray : [];
-  } else if (typeof data === "object" && data !== null) {
-    if ("tags" in data && !data.tags.includes(tag)) {
-      return null; // remove object from output
-    }
+export const calculateDuration = (startDate: Date, endDate?: Date) => {
+  const start = new Date(startDate);
+  const end = endDate ? new Date(endDate) : new Date();
 
-    const result: Record<string, any> = {};
-    for (const key in data) {
-      if (key === "tags") continue; // remove tags field
-      const filtered = filterByTag({ data: data[key], tag });
-      result[key] = filtered;
-    }
+  const diffTime = Math.abs(end.getTime() - start.getTime());
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  const years = Math.floor(diffDays / 365);
+  const months = Math.floor((diffDays % 365) / 30);
 
-    return result;
+  if (years > 0 && months > 0) {
+    return `${years} yr${years > 1 ? "s" : ""} ${months} mo${
+      months > 1 ? "s" : ""
+    }`;
+  } else if (years > 0) {
+    return `${years} yr${years > 1 ? "s" : ""}`;
+  } else if (months > 0) {
+    return `${months} mo${months > 1 ? "s" : ""}`;
+  } else {
+    return "Less than 1 month";
   }
-
-  return data;
-}
+};
 
 export function extractAllTags(resume: any): string[] {
   const collectedTags: Set<string> = new Set();

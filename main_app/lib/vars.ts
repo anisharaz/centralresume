@@ -1,1 +1,1 @@
-export const DUMMY_MODE = false;
+export const DUMMY_MODE = true;

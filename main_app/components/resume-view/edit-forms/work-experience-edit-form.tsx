@@ -17,14 +17,12 @@ import { z } from "zod";
 import { RESUME_TYPE } from "@/lib/zod/schemas";
 
 function WorkExperienceEditForm({
-  title = "Edit Work Experience",
-  description = "Edit your work experience details and save the changes",
-  isEdit = false,
+  title,
+  description,
   dataWithTag,
 }: {
-  title?: string;
-  description?: string;
-  isEdit?: boolean; // Flag to determine if we're editing existing data
+  title: string;
+  description: string;
   dataWithTag: RESUME_TYPE["work_experience"];
 }) {
   const FormSchema = z.object({
@@ -33,14 +31,8 @@ function WorkExperienceEditForm({
   type FormValues = z.infer<typeof FormSchema>;
 
   const getDefaultValues = (): FormValues => {
-    if (isEdit) {
-      return {
-        work_experience: dataWithTag,
-      };
-    }
-
     return {
-      work_experience: [],
+      work_experience: dataWithTag,
     };
   };
 
@@ -58,8 +50,6 @@ function WorkExperienceEditForm({
 
   const onSubmit = (data: FormValues) => {
     console.log("Updated work experience data:", data);
-    // TODO: validate data before storing it
-    // TODO: Add actual save logic here
   };
 
   return (
@@ -640,26 +630,26 @@ function WorkExperienceEditForm({
               </Button>
             </div>
           ))}
-
-          <Button
-            type="button"
-            onClick={() =>
-              append({
-                company: "",
-                tags: [],
-                website: "",
-                start_date: new Date(),
-                end_date: undefined,
-                position: [{ text: "", tags: [] }],
-                summary: [{ text: "", tags: [] }],
-                highlights: [{ text: [""], tags: [] }],
-              })
-            }
-          >
-            Add Experience
-          </Button>
-
-          <Button type="submit">Submit</Button>
+          <div className="flex gap-5">
+            <Button
+              type="button"
+              onClick={() =>
+                append({
+                  company: "",
+                  tags: [],
+                  website: "",
+                  start_date: new Date(),
+                  end_date: undefined,
+                  position: [{ text: "", tags: [] }],
+                  summary: [{ text: "", tags: [] }],
+                  highlights: [{ text: [""], tags: [] }],
+                })
+              }
+            >
+              Add Experience
+            </Button>
+            <Button type="submit">Submit</Button>
+          </div>
         </form>
       </Form>
     </BaseSheetComponentForEdit>
