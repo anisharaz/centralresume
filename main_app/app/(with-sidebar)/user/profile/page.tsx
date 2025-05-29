@@ -101,13 +101,13 @@ export default async function ProfilePage({
           </Suspense>
         </div>
         <div className="space-y-6">
-          <PersonalDetailsCard data={resumeByTag.personal_details} />
-          <WorkExperienceCard data={resumeByTag.work_experience} />
-          <SkillsCard data={resumeByTag.skills} />
-          <AchievementsCard data={resumeByTag.achievements} />
-          <EducationCard data={resumeByTag.education} />
-          <PublicationsCard data={resumeByTag.publications} />
-          <OtherListsCard data={resumeByTag.otherLists} />
+          <PersonalDetailsCard data={resumeByTag.personal_details} dataWithTag={resume.getResume().personal_details} />
+          <WorkExperienceCard data={resumeByTag.work_experience} dataWithTag={resume.getResume().work_experience} />
+          <SkillsCard data={resumeByTag.skills} dataWithTag={resume.getResume().skills} />
+          <AchievementsCard data={resumeByTag.achievements} dataWithTag={resume.getResume().achievements} />
+          <EducationCard data={resumeByTag.education} dataWithTag={resume.getResume().education} />
+          <PublicationsCard data={resumeByTag.publications} dataWithTag={resume.getResume().publications} />
+          <OtherListsCard data={resumeByTag.otherLists} dataWithTag={resume.getResume().otherLists} />
         </div>
       </div>
     </div>

@@ -5,10 +5,17 @@ import { GraduationCap, Calendar, Award } from "lucide-react";
 import { ResumeDataType } from "@/lib/types";
 import { DUMMY_MODE } from "@/lib/vars";
 import EducationEditForm from "./edit-forms/education-edit-form";
+import { RESUME_TYPE } from "@/lib/zod/schemas";
 
 type Education = ResumeDataType["education"];
 
-export function EducationCard({ data }: { data: Education }) {
+export function EducationCard({
+  data,
+  dataWithTag,
+}: {
+  data: Education;
+  dataWithTag: RESUME_TYPE["education"];
+}) {
   if (DUMMY_MODE) {
     data = [
       {
@@ -76,7 +83,7 @@ export function EducationCard({ data }: { data: Education }) {
       <div className="w-full mx-auto">
         <Card>
           <CardHeader>
-             <CardTitle className="text-4xl flex gap-5">
+            <CardTitle className="text-4xl flex gap-5">
               <div>Education</div>
               <div>
                 <EducationEditForm
@@ -101,16 +108,16 @@ export function EducationCard({ data }: { data: Education }) {
     <div className="w-full mx-auto">
       <Card>
         <CardHeader>
-           <CardTitle className="text-4xl flex gap-5">
-              <div>Education</div>
-              <div>
-                <EducationEditForm
-                  title="Add Education"
-                  description="Add a new education entry"
-                  isEdit={false}
-                />
-              </div>
-            </CardTitle>
+          <CardTitle className="text-4xl flex gap-5">
+            <div>Education</div>
+            <div>
+              <EducationEditForm
+                title="Add Education"
+                description="Add a new education entry"
+                isEdit={false}
+              />
+            </div>
+          </CardTitle>
         </CardHeader>
 
         <CardContent className="space-y-6 p-2">

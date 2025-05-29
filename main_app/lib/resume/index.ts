@@ -76,4 +76,11 @@ export class Resume {
     }
     return extractAllTags(this.data);
   }
+
+  /**
+   * getResume
+   */
+  public getResume() {
+    return this.data;
+  }
 }

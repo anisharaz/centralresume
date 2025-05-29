@@ -7,10 +7,17 @@ import { Button } from "@/components/ui/button";
 import { ResumeDataType } from "@/lib/types";
 import { DUMMY_MODE } from "@/lib/vars";
 import PersonalDetailEditForm from "./edit-forms/personal-detail-edit-form";
-
+import { RESUME_TYPE } from "@/lib/zod/schemas/";
 type PersonalDetails = ResumeDataType["personal_details"];
 
-export function PersonalDetailsCard({ data }: { data: PersonalDetails }) {
+export function PersonalDetailsCard({
+  data,
+  dataWithTag,
+}: {
+  data: PersonalDetails;
+  dataWithTag: RESUME_TYPE["personal_details"];
+}) {
+
   if (DUMMY_MODE) {
     data = {
       name: "John Doe",
@@ -67,7 +74,7 @@ export function PersonalDetailsCard({ data }: { data: PersonalDetails }) {
               <CardTitle className="text-4xl flex gap-5">
                 <div>{data.name}</div>
                 <div>
-                  <PersonalDetailEditForm/>
+                  <PersonalDetailEditForm />
                 </div>
               </CardTitle>
               {data.tag_line && data.tag_line.length > 0 && (

@@ -7,10 +7,17 @@ import { ResumeDataType } from "@/lib/types";
 import Link from "next/link";
 import { DUMMY_MODE } from "@/lib/vars";
 import WorkExperienceEditForm from "./edit-forms/work-experience-edit-form";
+import { RESUME_TYPE } from "@/lib/zod/schemas";
 
 type WorkExperience = ResumeDataType["work_experience"];
 
-export function WorkExperienceCard({ data }: { data: WorkExperience }) {
+export function WorkExperienceCard({
+  data,
+  dataWithTag,
+}: {
+  data: WorkExperience;
+  dataWithTag: RESUME_TYPE["work_experience"];
+}) {
   if (DUMMY_MODE) {
     data = [
       {
@@ -101,7 +108,7 @@ export function WorkExperienceCard({ data }: { data: WorkExperience }) {
       <div className="w-full mx-auto">
         <Card>
           <CardHeader>
-            <CardTitle className="text-4xl">
+            <CardTitle className="text-4xl flex gap-5">
               <div>Work experience</div>
               <div>
                 <WorkExperienceEditForm

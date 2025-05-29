@@ -7,10 +7,17 @@ import { ResumeDataType } from "@/lib/types";
 import Link from "next/link";
 import { DUMMY_MODE } from "@/lib/vars";
 import PublicationsEditForm from "./edit-forms/publications-edit-form";
+import { RESUME_TYPE } from "@/lib/zod/schemas";
 
 type Publications = ResumeDataType["publications"];
 
-export function PublicationsCard({ data }: { data: Publications }) {
+export function PublicationsCard({
+  data,
+  dataWithTag,
+}: {
+  data: Publications;
+  dataWithTag: RESUME_TYPE["publications"];
+}) {
   if (DUMMY_MODE) {
     data = [
       {

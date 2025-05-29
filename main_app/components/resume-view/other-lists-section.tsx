@@ -4,10 +4,17 @@ import { List, Folder } from "lucide-react";
 import { ResumeDataType } from "@/lib/types";
 import { DUMMY_MODE } from "@/lib/vars";
 import OthersListEditForm from "./edit-forms/others-list-edit-form";
+import { RESUME_TYPE } from "@/lib/zod/schemas";
 
 type OtherLists = ResumeDataType["otherLists"];
 
-export function OtherListsCard({ data }: { data: OtherLists }) {
+export function OtherListsCard({
+  data,
+  dataWithTag,
+}: {
+  data: OtherLists;
+  dataWithTag: RESUME_TYPE["otherLists"];
+}) {
   if (DUMMY_MODE) {
     data = [
       {

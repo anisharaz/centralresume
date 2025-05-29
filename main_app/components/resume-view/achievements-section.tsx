@@ -5,10 +5,17 @@ import { Trophy, Calendar, Building } from "lucide-react";
 import { ResumeDataType } from "@/lib/types";
 import { DUMMY_MODE } from "@/lib/vars";
 import AchievementEditForm from "./edit-forms/achievement-edit-form";
+import { RESUME_TYPE } from "@/lib/zod/schemas";
 
 type Achievements = ResumeDataType["achievements"];
 
-export function AchievementsCard({ data }: { data: Achievements }) {
+export function AchievementsCard({
+  data,
+  dataWithTag,
+}: {
+  data: Achievements;
+  dataWithTag: RESUME_TYPE["achievements"];
+}) {
   if (DUMMY_MODE) {
     data = [
       {
@@ -90,7 +97,7 @@ export function AchievementsCard({ data }: { data: Achievements }) {
       <div className="w-full mx-auto">
         <Card>
           <CardHeader>
-             <CardTitle className="text-4xl flex gap-5">
+            <CardTitle className="text-4xl flex gap-5">
               <div>Achievements</div>
               <div>
                 <AchievementEditForm />

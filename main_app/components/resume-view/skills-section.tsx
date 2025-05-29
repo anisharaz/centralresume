@@ -5,10 +5,17 @@ import { Brain, Code, Star } from "lucide-react";
 import { ResumeDataType } from "@/lib/types";
 import { DUMMY_MODE } from "@/lib/vars";
 import SkillsEditForm from "./edit-forms/skills-edit-form";
+import { RESUME_TYPE } from "@/lib/zod/schemas";
 
 type Skills = ResumeDataType["skills"];
 
-export function SkillsCard({ data }: { data: Skills }) {
+export function SkillsCard({
+  data,
+  dataWithTag,
+}: {
+  data: Skills;
+  dataWithTag: RESUME_TYPE["skills"];
+}) {
   if (DUMMY_MODE) {
     data = {
       soft: [
