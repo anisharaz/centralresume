@@ -19,6 +19,7 @@ export function WorkExperienceCard({
   dataWithTag: RESUME_TYPE["work_experience"];
 }) {
   if (DUMMY_MODE) {
+    // TODO: separate dummy data to new file
     data = [
       {
         company: "TechCorp Inc.",

@@ -80,6 +80,7 @@ export function SkillsCard({
                   title="Add Skills"
                   description="Add your first skills"
                   isEdit={false}
+                  dataWithTag={dataWithTag}
                 />
               </div>
             </CardTitle>
@@ -104,6 +105,7 @@ export function SkillsCard({
               <SkillsEditForm
                 title="Add Skills"
                 description="Add new skills to your profile"
+                dataWithTag={dataWithTag}
                 isEdit={false}
               />
             </div>
@@ -118,6 +120,7 @@ export function SkillsCard({
                 <SkillsEditForm
                   title="Edit Skills"
                   description="Edit your skills and expertise levels"
+                  dataWithTag={dataWithTag}
                   isEdit={true}
                 />
               </div>
@@ -157,6 +160,7 @@ export function SkillsCard({
                   title="Edit Skills"
                   description="Edit your skills and expertise levels"
                   isEdit={true}
+                  dataWithTag={dataWithTag}
                 />
               </div>
 

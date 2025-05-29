@@ -12,10 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  SKILLS_SCHEMA,
-  SKILLS_SCHEMA_TYPE,
-} from "@/lib/zod/schemas/resume/skills";
+import { SKILLS_SCHEMA } from "@/lib/zod/schemas/resume/skills";
 import { z } from "zod";
 import {
   Select,
@@ -24,71 +21,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
-
-interface SkillsEditFormProps {
-  title?: string;
-  description?: string;
-  isEdit?: boolean;
-}
+import { RESUME_TYPE } from "@/lib/zod/schemas";
 
 function SkillsEditForm({
   title = "Edit Skills",
   description = "Edit your skills and expertise levels",
   isEdit = false,
-}: SkillsEditFormProps) {
+  dataWithTag,
+}: {
+  title?: string;
+  description?: string;
+  isEdit?: boolean;
+  dataWithTag: RESUME_TYPE["skills"];
+}) {
   const FormSchema = z.object({
     skills: SKILLS_SCHEMA,
   });
   type FormValues = z.infer<typeof FormSchema>;
 
-  // Dummy data for testing edit functionality
-  const dummySkillsForEdit = {
-    soft: [
-      {
-        name: "Communication",
-        level: "advanced",
-        tags: ["Leadership", "Presentation", "Public Speaking"],
-      },
-      {
-        name: "Problem Solving",
-        level: "advanced",
-        tags: ["Analytical", "Creative", "Strategic"],
-      },
-      {
-        name: "Team Collaboration",
-        level: "intermediate",
-        tags: ["Teamwork", "Coordination", "Cross-functional"],
-      },
-    ],
-    technical: [
-      {
-        name: "JavaScript",
-        level: "advanced",
-        tags: ["Frontend", "Backend", "ES6+", "Node.js"],
-      },
-      {
-        name: "React",
-        level: "advanced",
-        tags: ["Hooks", "Context", "Redux", "Next.js"],
-      },
-      {
-        name: "TypeScript",
-        level: "intermediate",
-        tags: ["Type Safety", "Interfaces", "Generics"],
-      },
-      {
-        name: "Python",
-        level: "beginner",
-        tags: ["Django", "Flask", "Data Science"],
-      },
-    ],
-  };
-
   const getDefaultValues = (): FormValues => {
     if (isEdit) {
       return {
-        skills: dummySkillsForEdit,
+        skills: dataWithTag,
       };
     }
 
@@ -105,7 +59,7 @@ function SkillsEditForm({
     defaultValues: getDefaultValues(),
   });
 
-  const { control, handleSubmit, watch } = form;
+  const { control, handleSubmit } = form;
 
   const softSkillsArray = useFieldArray({
     control,
@@ -261,7 +215,10 @@ function SkillsEditForm({
   );
 
   return (
-    <BaseSheetComponentForEdit title={"Soft & technical skills edit"} description={description}>
+    <BaseSheetComponentForEdit
+      title={"Soft & technical skills edit"}
+      description={description}
+    >
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           {renderSkillSection("Soft Skills", softSkillsArray, "skills.soft")}
