@@ -17,14 +17,12 @@ import { z } from "zod";
 import { RESUME_TYPE } from "@/lib/zod/schemas";
 
 function AchievementEditForm({
-  title = "Edit Achievements",
-  description = "Edit your achievements and save the changes",
-  isEdit = false,
+  title,
+  description,
   dataWithTag,
 }: {
-  title?: string;
-  description?: string;
-  isEdit?: boolean; // Flag to determine if we're editing existing data
+  title: string;
+  description: string;
   dataWithTag: RESUME_TYPE["achievements"];
 }) {
   const FormSchema = z.object({
@@ -33,22 +31,8 @@ function AchievementEditForm({
   type FormValues = z.infer<typeof FormSchema>;
 
   const getDefaultValues = (): FormValues => {
-    if (isEdit) {
-      return {
-        achievements: dataWithTag,
-      };
-    }
-
     return {
-      achievements: [
-        {
-          title: "",
-          tags: [],
-          date: new Date(),
-          awarded_by: "",
-          summary: [{ text: "", tags: [] }],
-        },
-      ],
+      achievements: dataWithTag,
     };
   };
 
@@ -66,8 +50,6 @@ function AchievementEditForm({
 
   const onSubmit = (data: FormValues) => {
     console.log("Updated achievements data:", data);
-    // TODO: Add actual save logic here
-    // TODO: validate the data before saving
   };
 
   return (

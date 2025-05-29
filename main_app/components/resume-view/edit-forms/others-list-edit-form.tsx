@@ -14,77 +14,25 @@ import { useForm, useFieldArray, Control } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { OTHER_LIST_SCHEMA } from "@/lib/zod/schemas/resume/other-list";
 import { z } from "zod";
-
-interface OthersListEditFormProps {
-  title?: string;
-  description?: string;
-  isEdit?: boolean;
-}
+import { RESUME_TYPE } from "@/lib/zod/schemas";
 
 function OthersListEditForm({
-  title = "Edit Other Lists",
-  description = "Edit your other lists and save the changes",
-  isEdit = true
-}: OthersListEditFormProps) {
+  title,
+  description,
+  dataWithTag,
+}: {
+  title: string;
+  description: string;
+  dataWithTag: RESUME_TYPE["otherLists"];
+}) {
   const FormSchema = z.object({
     otherLists: OTHER_LIST_SCHEMA,
   });
   type FormValues = z.infer<typeof FormSchema>;
 
-  // Dummy data for testing edit functionality
-  // TODO: receive actual data
-  const dummyOtherListsForEdit = [
-    {
-      tags: ["Volunteer", "Community", "Leadership"],
-      heading: [
-        {
-          text: "Volunteer Work",
-          tags: ["Community Service", "Volunteer"],
-        },
-        {
-          text: "Red Cross Blood Drive Coordinator",
-          tags: ["Healthcare", "Organization"],
-        },
-      ],
-      summary: [
-        {
-          text: "Organized and coordinated monthly blood drives for the local community, resulting in 200+ donations annually.",
-          tags: ["Organization", "Community Impact", "Healthcare"],
-        },
-        {
-          text: "Managed volunteer teams of 15+ people and liaised with medical professionals to ensure smooth operations.",
-          tags: ["Team Management", "Communication", "Leadership"],
-        },
-      ],
-    },
-    {
-      tags: ["Awards", "Recognition", "Professional"],
-      heading: [
-        {
-          text: "Professional Recognition",
-          tags: ["Awards", "Achievement"],
-        },
-        {
-          text: "Employee of the Year 2024",
-          tags: ["Excellence", "Performance"],
-        },
-      ],
-      summary: [
-        {
-          text: "Recognized for outstanding performance and leadership in driving key company initiatives.",
-          tags: ["Leadership", "Performance", "Excellence"],
-        },
-        {
-          text: "Led cross-functional team that increased productivity by 35% through process optimization.",
-          tags: ["Process Improvement", "Team Leadership", "Results"],
-        },
-      ],
-    },
-  ];
-
   const getDefaultValues = (): FormValues => {
     return {
-      otherLists: dummyOtherListsForEdit,
+      otherLists: dataWithTag,
     };
   };
 
@@ -95,14 +43,17 @@ function OthersListEditForm({
 
   const { control, handleSubmit } = form;
 
-  const { fields: otherListFields, append: appendOtherList, remove: removeOtherList } = useFieldArray({
+  const {
+    fields: otherListFields,
+    append: appendOtherList,
+    remove: removeOtherList,
+  } = useFieldArray({
     control,
     name: "otherLists",
   });
 
   const onSubmit = (data: FormValues) => {
     console.log("Updated other lists data:", data);
-    // TODO: Add actual save logic here
   };
 
   return (
@@ -115,18 +66,23 @@ function OthersListEditForm({
               type="button"
               variant="outline"
               size="sm"
-              onClick={() => appendOtherList({
-                tags: [],
-                heading: [],
-                summary: [],
-              })}
+              onClick={() =>
+                appendOtherList({
+                  tags: [],
+                  heading: [],
+                  summary: [],
+                })
+              }
             >
               Add List
             </Button>
           </div>
 
           {otherListFields.map((item, index) => (
-            <div key={item.id} className="border p-4 rounded-lg shadow-sm space-y-4">
+            <div
+              key={item.id}
+              className="border p-4 rounded-lg shadow-sm space-y-4"
+            >
               <div className="flex items-center justify-between">
                 <h4 className="text-md font-medium">List {index + 1}</h4>
                 <Button
@@ -164,7 +120,10 @@ function OthersListEditForm({
                               variant="outline"
                               size="sm"
                               onClick={() => {
-                                const newTags = field.value?.filter((_: string, i: number) => i !== tagIndex) || [];
+                                const newTags =
+                                  field.value?.filter(
+                                    (_: string, i: number) => i !== tagIndex
+                                  ) || [];
                                 field.onChange(newTags);
                               }}
                             >
@@ -176,7 +135,9 @@ function OthersListEditForm({
                           type="button"
                           variant="outline"
                           size="sm"
-                          onClick={() => field.onChange([...(field.value || []), ""])}
+                          onClick={() =>
+                            field.onChange([...(field.value || []), ""])
+                          }
                         >
                           Add Tag
                         </Button>
@@ -207,8 +168,18 @@ function OthersListEditForm({
 }
 
 // Separate component for heading management
-function OtherListHeadingSection({ control, listIndex }: { control: Control<any>, listIndex: number }) {
-  const { fields: headingFields, append: appendHeading, remove: removeHeading } = useFieldArray({
+function OtherListHeadingSection({
+  control,
+  listIndex,
+}: {
+  control: Control<any>;
+  listIndex: number;
+}) {
+  const {
+    fields: headingFields,
+    append: appendHeading,
+    remove: removeHeading,
+  } = useFieldArray({
     control,
     name: `otherLists.${listIndex}.heading`,
   });
@@ -236,7 +207,10 @@ function OtherListHeadingSection({ control, listIndex }: { control: Control<any>
               <FormItem>
                 <FormLabel>Heading Text</FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g., Volunteer Work, Awards, Projects" {...field} />
+                  <Input
+                    placeholder="e.g., Volunteer Work, Awards, Projects"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -267,7 +241,10 @@ function OtherListHeadingSection({ control, listIndex }: { control: Control<any>
                           variant="outline"
                           size="sm"
                           onClick={() => {
-                            const newTags = field.value?.filter((_: string, i: number) => i !== tagIndex) || [];
+                            const newTags =
+                              field.value?.filter(
+                                (_: string, i: number) => i !== tagIndex
+                              ) || [];
                             field.onChange(newTags);
                           }}
                         >
@@ -279,7 +256,9 @@ function OtherListHeadingSection({ control, listIndex }: { control: Control<any>
                       type="button"
                       variant="outline"
                       size="sm"
-                      onClick={() => field.onChange([...(field.value || []), ""])}
+                      onClick={() =>
+                        field.onChange([...(field.value || []), ""])
+                      }
                     >
                       Add Tag
                     </Button>
@@ -305,8 +284,18 @@ function OtherListHeadingSection({ control, listIndex }: { control: Control<any>
 }
 
 // Separate component for summary management
-function OtherListSummarySection({ control, listIndex }: { control: Control<any>, listIndex: number }) {
-  const { fields: summaryFields, append: appendSummary, remove: removeSummary } = useFieldArray({
+function OtherListSummarySection({
+  control,
+  listIndex,
+}: {
+  control: Control<any>;
+  listIndex: number;
+}) {
+  const {
+    fields: summaryFields,
+    append: appendSummary,
+    remove: removeSummary,
+  } = useFieldArray({
     control,
     name: `otherLists.${listIndex}.summary`,
   });
@@ -334,7 +323,10 @@ function OtherListSummarySection({ control, listIndex }: { control: Control<any>
               <FormItem>
                 <FormLabel>Summary Text</FormLabel>
                 <FormControl>
-                  <Input placeholder="Describe the activities, achievements, or details" {...field} />
+                  <Input
+                    placeholder="Describe the activities, achievements, or details"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -365,7 +357,10 @@ function OtherListSummarySection({ control, listIndex }: { control: Control<any>
                           variant="outline"
                           size="sm"
                           onClick={() => {
-                            const newTags = field.value?.filter((_: string, i: number) => i !== tagIndex) || [];
+                            const newTags =
+                              field.value?.filter(
+                                (_: string, i: number) => i !== tagIndex
+                              ) || [];
                             field.onChange(newTags);
                           }}
                         >
@@ -377,7 +372,9 @@ function OtherListSummarySection({ control, listIndex }: { control: Control<any>
                       type="button"
                       variant="outline"
                       size="sm"
-                      onClick={() => field.onChange([...(field.value || []), ""])}
+                      onClick={() =>
+                        field.onChange([...(field.value || []), ""])
+                      }
                     >
                       Add Tag
                     </Button>

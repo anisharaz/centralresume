@@ -11,7 +11,7 @@ function ProfileDetailSectionView({
   children,
   data,
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   data: PersonalDetails;
 }) {
   const formatDate = (dateString: string) => {

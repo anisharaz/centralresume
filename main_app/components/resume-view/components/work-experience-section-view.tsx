@@ -5,8 +5,6 @@ import { Calendar, ExternalLink, Building2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ResumeDataType } from "@/lib/types";
 import Link from "next/link";
-import { DUMMY_MODE } from "@/lib/vars";
-import { WORK_EXPERIENCE_DUMMY_DATA } from "@/lib/dummy-data";
 import { calculateDuration } from "@/lib/utils";
 
 type WorkExperience = ResumeDataType["work_experience"];
@@ -16,12 +14,8 @@ export function WorkExperienceSectionView({
   children,
 }: {
   data: WorkExperience;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) {
-  if (DUMMY_MODE) {
-    data = WORK_EXPERIENCE_DUMMY_DATA;
-  }
-
   const formatDate = (dateString: Date) => {
     try {
       return new Date(dateString).toLocaleDateString("en-US", {

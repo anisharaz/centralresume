@@ -3,8 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Brain, Code, Star } from "lucide-react";
 import { ResumeDataType } from "@/lib/types";
-import { DUMMY_MODE } from "@/lib/vars";
-import { SKILLS_DUMMY_DATA } from "@/lib/dummy-data";
 
 type Skills = ResumeDataType["skills"];
 
@@ -13,12 +11,8 @@ export function SkillsSectionView({
   children,
 }: {
   data: Skills;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) {
-  if (DUMMY_MODE) {
-    data = SKILLS_DUMMY_DATA;
-  }
-
   const getLevelColor = (level?: string) => {
     switch (level?.toLowerCase()) {
       case "advanced":

@@ -14,54 +14,25 @@ import { useForm, useFieldArray, Control } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PUBLICATION_SCHEMA } from "@/lib/zod/schemas/resume/publication";
 import { z } from "zod";
+import { RESUME_TYPE } from "@/lib/zod/schemas";
 
 function PublicationsEditForm({
-  title = "Edit Publications",
-  description = "Edit your publications and save the changes",
+  title,
+  description,
+  dataWithTag,
 }: {
-  title?: string;
-  description?: string;
+  title: string;
+  description: string;
+  dataWithTag: RESUME_TYPE["publications"];
 }) {
   const FormSchema = z.object({
     publications: PUBLICATION_SCHEMA,
   });
   type FormValues = z.infer<typeof FormSchema>;
-  const dummyPublicationsForEdit = [
-    {
-      name: "Advanced Machine Learning Techniques in Web Development",
-      tags: ["Machine Learning", "Web Development", "Research"],
-      publisher: "Journal of Computer Science",
-      releaseDate: new Date("2024-03-15"),
-      url: "https://doi.org/10.1000/jcs.2024.ml.web",
-      summary: [
-        {
-          text: "Explored novel applications of machine learning algorithms in modern web development frameworks.",
-          tags: ["ML", "Algorithms", "Frameworks"],
-        },
-        {
-          text: "Demonstrated 40% improvement in user experience through intelligent content personalization.",
-          tags: ["UX", "Personalization", "Performance"],
-        },
-      ],
-    },
-    {
-      name: "Scalable Architecture Patterns for Cloud-Native Applications",
-      tags: ["Cloud Computing", "Architecture", "Scalability"],
-      publisher: "IEEE Software Engineering",
-      releaseDate: new Date("2023-11-20"),
-      url: "https://doi.org/10.1109/ieee.2023.cloud.patterns",
-      summary: [
-        {
-          text: "Comprehensive analysis of microservices architecture patterns for large-scale cloud deployments.",
-          tags: ["Microservices", "Cloud", "Patterns"],
-        },
-      ],
-    },
-  ];
 
   const getDefaultValues = (): FormValues => {
     return {
-      publications: dummyPublicationsForEdit,
+      publications: dataWithTag,
     };
   };
 
@@ -83,7 +54,6 @@ function PublicationsEditForm({
 
   const onSubmit = (data: FormValues) => {
     console.log("Updated publications data:", data);
-    // TODO: Add actual save logic here
   };
 
   return (

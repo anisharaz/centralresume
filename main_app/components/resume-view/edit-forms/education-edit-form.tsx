@@ -17,14 +17,12 @@ import { z } from "zod";
 import { RESUME_TYPE } from "@/lib/zod/schemas";
 
 function EducationEditForm({
-  title = "Edit Education",
-  description = "Edit your education details and save the changes",
-  isEdit = false,
+  title,
+  description,
   dataWithTag,
 }: {
-  title?: string;
-  description?: string;
-  isEdit?: boolean; // Flag to determine if we're editing existing data
+  title: string;
+  description: string;
   dataWithTag: RESUME_TYPE["education"];
 }) {
   const FormSchema = z.object({
@@ -33,24 +31,8 @@ function EducationEditForm({
   type FormValues = z.infer<typeof FormSchema>;
 
   const getDefaultValues = (): FormValues => {
-    if (isEdit) {
-      return {
-        education: dataWithTag,
-      };
-    }
-
     return {
-      education: [
-        {
-          institution: "",
-          tags: [],
-          field: [{ text: "", tags: [] }],
-          degree_level: [{ text: "", tags: [] }],
-          startDate: new Date(),
-          endDate: new Date(),
-          score: "",
-        },
-      ],
+      education: dataWithTag,
     };
   };
 
@@ -68,7 +50,6 @@ function EducationEditForm({
 
   const onSubmit = (data: FormValues) => {
     console.log("Updated education data:", data);
-    // TODO: Add actual save logic here
   };
 
   return (
