@@ -68,12 +68,12 @@ export function SkillsCard({
     }
   };
 
-  if (!data || (!data.soft && !data.technical)) {
+  if (!data || (data.soft.length == 0 && data.technical.length == 0)) {
     return (
       <div className="w-full mx-auto">
         <Card>
           <CardHeader>
-            <CardTitle className="text-4xl">
+            <CardTitle className="text-4xl flex gap-5">
               <div>Skills</div>
               <div>
                 <SkillsEditForm

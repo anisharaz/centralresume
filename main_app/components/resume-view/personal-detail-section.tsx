@@ -17,7 +17,6 @@ export function PersonalDetailsCard({
   data: PersonalDetails;
   dataWithTag: RESUME_TYPE["personal_details"];
 }) {
-
   if (DUMMY_MODE) {
     data = {
       name: "John Doe",
@@ -74,7 +73,7 @@ export function PersonalDetailsCard({
               <CardTitle className="text-4xl flex gap-5">
                 <div>{data.name}</div>
                 <div>
-                  <PersonalDetailEditForm />
+                  <PersonalDetailEditForm dataWithTag={dataWithTag} />
                 </div>
               </CardTitle>
               {data.tag_line && data.tag_line.length > 0 && (

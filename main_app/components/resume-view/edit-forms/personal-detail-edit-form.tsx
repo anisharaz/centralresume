@@ -12,72 +12,27 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  PERSONAL_DETAILS_SCHEMA,
-} from "@/lib/zod/schemas/resume/personal-detail";
+import { PERSONAL_DETAILS_SCHEMA } from "@/lib/zod/schemas/resume/personal-detail";
 import { z } from "zod";
+import { RESUME_TYPE } from "@/lib/zod/schemas";
 
-interface PersonalDetailEditFormProps {
-  title?: string;
-  description?: string;
-  isEdit?: boolean; // Flag to determine if we're editing existing data
-}
-
-function PersonalDetailEditForm({ 
+function PersonalDetailEditForm({
   title = "Edit Personal Details",
   description = "Edit your personal information and save the changes",
-  isEdit = true // Changed to true by default to populate existing data
-}: PersonalDetailEditFormProps) {
+  dataWithTag,
+}: {
+  title?: string;
+  description?: string;
+  dataWithTag: RESUME_TYPE["personal_details"];
+}) {
   const FormSchema = z.object({
     personal_details: PERSONAL_DETAILS_SCHEMA,
   });
   type FormValues = z.infer<typeof FormSchema>;
-  
-  // Dummy data for testing edit functionality
-  // TODO: receive actual data
-  const dummyPersonalDetailsForEdit = {
-    name: "John Doe",
-    tag_line: [
-      { text: "Full Stack Developer", tags: ["Technology", "Software"] },
-      { text: "React Enthusiast", tags: ["Frontend", "React"] },
-    ],
-    summary: [
-      {
-        text: "Passionate software developer with 5+ years of experience building modern web applications.",
-        tags: ["Experience", "Web Development"],
-      },
-      {
-        text: "Specialized in React, TypeScript, and Node.js with a focus on creating scalable solutions.",
-        tags: ["React", "TypeScript", "Node.js"],
-      },
-    ],
-    email: "john.doe@example.com",
-    phone: "+1 (555) 123-4567",
-    date_of_birth: "1995-06-15",
-    address: {
-      address_line: "123 Tech Street, Apt 4B",
-      city: "San Francisco",
-      country: "United States",
-    },
-    social_links: [
-      {
-        name: "LinkedIn",
-        url: "https://linkedin.com/in/johndoe",
-        tags: ["Professional", "Networking"],
-      },
-      {
-        name: "GitHub",
-        url: "https://github.com/johndoe",
-        tags: ["Code", "Portfolio"],
-      },
-    ],
-  };
-  
-  // Use dummy data for edit mode or create empty defaults for new entries
+
   const getDefaultValues = (): FormValues => {
-    // Always populate with existing data for better UX
     return {
-      personal_details: dummyPersonalDetailsForEdit
+      personal_details: dataWithTag,
     };
   };
 
@@ -88,17 +43,29 @@ function PersonalDetailEditForm({
 
   const { control, handleSubmit } = form;
 
-  const { fields: tagLineFields, append: appendTagLine, remove: removeTagLine } = useFieldArray({
+  const {
+    fields: tagLineFields,
+    append: appendTagLine,
+    remove: removeTagLine,
+  } = useFieldArray({
     control,
     name: "personal_details.tag_line",
   });
 
-  const { fields: summaryFields, append: appendSummary, remove: removeSummary } = useFieldArray({
+  const {
+    fields: summaryFields,
+    append: appendSummary,
+    remove: removeSummary,
+  } = useFieldArray({
     control,
     name: "personal_details.summary",
   });
 
-  const { fields: socialLinkFields, append: appendSocialLink, remove: removeSocialLink } = useFieldArray({
+  const {
+    fields: socialLinkFields,
+    append: appendSocialLink,
+    remove: removeSocialLink,
+  } = useFieldArray({
     control,
     name: "personal_details.social_links",
   });
@@ -107,7 +74,7 @@ function PersonalDetailEditForm({
     console.log("Updated personal details data:", data);
     // TODO: Add actual save logic here
   };
-  
+
   return (
     <BaseSheetComponentForEdit title={title} description={description}>
       <Form {...form}>
@@ -115,7 +82,7 @@ function PersonalDetailEditForm({
           {/* Basic Information */}
           <div className="border p-4 rounded-lg shadow-sm space-y-4">
             <h3 className="text-lg font-semibold">Basic Information</h3>
-            
+
             <FormField
               control={control}
               name="personal_details.name"
@@ -138,7 +105,11 @@ function PersonalDetailEditForm({
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="john.doe@example.com" type="email" {...field} />
+                      <Input
+                        placeholder="john.doe@example.com"
+                        type="email"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -197,13 +168,16 @@ function PersonalDetailEditForm({
                     <FormItem>
                       <FormLabel>Tag Line Text</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Full Stack Developer" {...field} />
+                        <Input
+                          placeholder="e.g., Full Stack Developer"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                
+
                 <FormField
                   control={control}
                   name={`personal_details.tag_line.${index}.tags`}
@@ -228,7 +202,10 @@ function PersonalDetailEditForm({
                                 variant="outline"
                                 size="sm"
                                 onClick={() => {
-                                  const newTags = field.value?.filter((_, i) => i !== tagIndex) || [];
+                                  const newTags =
+                                    field.value?.filter(
+                                      (_, i) => i !== tagIndex
+                                    ) || [];
                                   field.onChange(newTags);
                                 }}
                               >
@@ -240,7 +217,9 @@ function PersonalDetailEditForm({
                             type="button"
                             variant="outline"
                             size="sm"
-                            onClick={() => field.onChange([...(field.value || []), ""])}
+                            onClick={() =>
+                              field.onChange([...(field.value || []), ""])
+                            }
                           >
                             Add Tag
                           </Button>
@@ -250,7 +229,7 @@ function PersonalDetailEditForm({
                     </FormItem>
                   )}
                 />
-                
+
                 <Button
                   type="button"
                   variant="destructive"
@@ -285,13 +264,16 @@ function PersonalDetailEditForm({
                     <FormItem>
                       <FormLabel>Summary Text</FormLabel>
                       <FormControl>
-                        <Input placeholder="Describe yourself professionally" {...field} />
+                        <Input
+                          placeholder="Describe yourself professionally"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                
+
                 <FormField
                   control={control}
                   name={`personal_details.summary.${index}.tags`}
@@ -316,7 +298,10 @@ function PersonalDetailEditForm({
                                 variant="outline"
                                 size="sm"
                                 onClick={() => {
-                                  const newTags = field.value?.filter((_, i) => i !== tagIndex) || [];
+                                  const newTags =
+                                    field.value?.filter(
+                                      (_, i) => i !== tagIndex
+                                    ) || [];
                                   field.onChange(newTags);
                                 }}
                               >
@@ -328,7 +313,9 @@ function PersonalDetailEditForm({
                             type="button"
                             variant="outline"
                             size="sm"
-                            onClick={() => field.onChange([...(field.value || []), ""])}
+                            onClick={() =>
+                              field.onChange([...(field.value || []), ""])
+                            }
                           >
                             Add Tag
                           </Button>
@@ -338,7 +325,7 @@ function PersonalDetailEditForm({
                     </FormItem>
                   )}
                 />
-                
+
                 <Button
                   type="button"
                   variant="destructive"
@@ -354,7 +341,7 @@ function PersonalDetailEditForm({
           {/* Address */}
           <div className="border p-4 rounded-lg shadow-sm space-y-4">
             <h3 className="text-lg font-semibold">Address</h3>
-            
+
             <FormField
               control={control}
               name="personal_details.address.address_line"
@@ -408,7 +395,9 @@ function PersonalDetailEditForm({
                 type="button"
                 variant="outline"
                 size="sm"
-                onClick={() => appendSocialLink({ name: "", url: "", tags: [] })}
+                onClick={() =>
+                  appendSocialLink({ name: "", url: "", tags: [] })
+                }
               >
                 Add Social Link
               </Button>
@@ -444,7 +433,7 @@ function PersonalDetailEditForm({
                     )}
                   />
                 </div>
-                
+
                 <FormField
                   control={control}
                   name={`personal_details.social_links.${index}.tags`}
@@ -469,7 +458,10 @@ function PersonalDetailEditForm({
                                 variant="outline"
                                 size="sm"
                                 onClick={() => {
-                                  const newTags = field.value?.filter((_, i) => i !== tagIndex) || [];
+                                  const newTags =
+                                    field.value?.filter(
+                                      (_, i) => i !== tagIndex
+                                    ) || [];
                                   field.onChange(newTags);
                                 }}
                               >
@@ -481,7 +473,9 @@ function PersonalDetailEditForm({
                             type="button"
                             variant="outline"
                             size="sm"
-                            onClick={() => field.onChange([...(field.value || []), ""])}
+                            onClick={() =>
+                              field.onChange([...(field.value || []), ""])
+                            }
                           >
                             Add Tag
                           </Button>
@@ -491,7 +485,7 @@ function PersonalDetailEditForm({
                     </FormItem>
                   )}
                 />
-                
+
                 <Button
                   type="button"
                   variant="destructive"
