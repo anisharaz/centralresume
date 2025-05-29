@@ -69,7 +69,11 @@ export function SkillsCard({ data }: { data: Skills }) {
             <CardTitle className="text-4xl">
               <div>Skills</div>
               <div>
-                <SkillsEditForm />
+                <SkillsEditForm
+                  title="Add Skills"
+                  description="Add your first skills"
+                  isEdit={false}
+                />
               </div>
             </CardTitle>
           </CardHeader>
@@ -90,15 +94,28 @@ export function SkillsCard({ data }: { data: Skills }) {
           <CardTitle className="text-4xl flex gap-5">
             <div>Skills</div>
             <div>
-              <SkillsEditForm />
+              <SkillsEditForm
+                title="Add Skills"
+                description="Add new skills to your profile"
+                isEdit={false}
+              />
             </div>
           </CardTitle>
         </CardHeader>
 
         <CardContent className="space-y-6 p-2">
           {data.soft && data.soft.length > 0 && (
-            <div className="space-y-4 border border-neutral-600 p-3 rounded-md">
-              <div className="flex items-center gap-2">
+            <div className="space-y-4 border border-neutral-600 p-3 rounded-md relative">
+              {/* Edit button for soft skills */}
+              <div className="absolute top-4 right-4">
+                <SkillsEditForm
+                  title="Edit Skills"
+                  description="Edit your skills and expertise levels"
+                  isEdit={true}
+                />
+              </div>
+
+              <div className="flex items-center gap-2 pr-12">
                 <Brain className="h-5 w-5 text-muted-foreground" />
                 <h2 className="text-xl font-semibold">Soft Skills</h2>
               </div>
@@ -126,8 +143,17 @@ export function SkillsCard({ data }: { data: Skills }) {
           )}
 
           {data.technical && data.technical.length > 0 && (
-            <div className="space-y-4 border border-neutral-600 p-3 rounded-md">
-              <div className="flex items-center gap-2">
+            <div className="space-y-4 border border-neutral-600 p-3 rounded-md relative">
+              {/* Edit button for technical skills */}
+              <div className="absolute top-4 right-4">
+                <SkillsEditForm
+                  title="Edit Skills"
+                  description="Edit your skills and expertise levels"
+                  isEdit={true}
+                />
+              </div>
+
+              <div className="flex items-center gap-2 pr-12">
                 <Code className="h-5 w-5 text-muted-foreground" />
                 <h2 className="text-xl font-semibold">Technical Skills</h2>
               </div>

@@ -3,22 +3,18 @@ import { TAGS } from "./constants";
 
 export const PERSONAL_DETAILS_SCHEMA = z.object({
   name: z.string(),
-  tag_line: z
-    .array(
-      z.object({
-        text: z.string(),
-        tags: TAGS,
-      })
-    )
-    .optional(),
-  summary: z
-    .array(
-      z.object({
-        text: z.string(),
-        tags: TAGS,
-      })
-    )
-    .optional(),
+  tag_line: z.array(
+    z.object({
+      text: z.string(),
+      tags: TAGS,
+    })
+  ),
+  summary: z.array(
+    z.object({
+      text: z.string(),
+      tags: TAGS,
+    })
+  ),
   email: z.string(),
   phone: z.string().optional(),
   date_of_birth: z.string().optional(),
@@ -27,15 +23,15 @@ export const PERSONAL_DETAILS_SCHEMA = z.object({
     city: z.string().optional(),
     country: z.string().optional(),
   }),
-  social_links: z
-    .array(
-      z.object({
-        name: z.string(),
-        url: z.string(),
-        tags: TAGS,
-      })
-    )
-    .optional(),
+  social_links: z.array(
+    z.object({
+      name: z.string(),
+      url: z.string(),
+      tags: TAGS,
+    })
+  ),
 });
 
-export type PERSONAL_DETAILS_SCHEMA_TYPE = z.infer<typeof PERSONAL_DETAILS_SCHEMA>;
+export type PERSONAL_DETAILS_SCHEMA_TYPE = z.infer<
+  typeof PERSONAL_DETAILS_SCHEMA
+>;

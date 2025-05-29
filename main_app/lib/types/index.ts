@@ -13,11 +13,11 @@ interface RESUME_INTERFACE {
   version: string; // eg . "1" , "2"
   personal_details: {
     name: string;
-    tag_line?: {
+    tag_line: {
       text: string;
       tags: TAGS;
     }[];
-    summary?: {
+    summary: {
       text: string;
       tags: TAGS;
     }[];
@@ -29,14 +29,14 @@ interface RESUME_INTERFACE {
       city: string;
       country: string;
     };
-    social_links?: {
+    social_links: {
       name: string;
       url: string;
       tags: TAGS;
     }[];
   };
 
-  work_experience?: {
+  work_experience: {
     company: string;
     tags: TAGS;
     position: {
@@ -56,31 +56,31 @@ interface RESUME_INTERFACE {
     }[];
   }[];
 
-  skills?: {
-    soft?: {
+  skills: {
+    soft: {
       name: string;
       level?: string; // eg. "beginner", "intermediate", "advanced"
       tags: string[];
     }[];
-    technical?: {
+    technical: {
       name: string;
       level?: string;
       tags: string[];
     }[];
   };
 
-  achievements?: {
+  achievements: {
     title: string;
     tags: string[];
     date: Date;
     awarded_by?: string; // eg. "Google", "Microsoft", Dev.to
-    summary?: {
+    summary: {
       text: string;
       tags: string[];
     }[];
   }[];
 
-  education?: {
+  education: {
     institution: string;
     tags: string[];
     field: {
@@ -98,20 +98,20 @@ interface RESUME_INTERFACE {
     score: string; // eg. "3.5/4.0", "80%"
   }[];
 
-  publications?: {
+  publications: {
     //eg "Research Papers", "Books", "Articles"
     name: string;
     tags: string[];
     publisher: string;
     releaseDate: Date;
     url: string;
-    summary?: {
+    summary: {
       text: string;
       tags: string[];
     }[];
   }[];
 
-  otherLists?: {
+  otherLists: {
     // eg. "Projects", "Courses", "Certifications"
     tags: string[];
     heading: {
@@ -128,10 +128,10 @@ interface RESUME_INTERFACE {
 export type ResumeDataType = {
   personal_details: {
     name: string;
-    tag_line?: {
+    tag_line: {
       text: string;
     }[];
-    summary?: {
+    summary: {
       text: string;
     }[];
     email: string;
@@ -142,12 +142,12 @@ export type ResumeDataType = {
       city: string;
       country: string;
     };
-    social_links?: {
+    social_links: {
       name: string;
       url: string;
     }[];
   };
-  work_experience?: {
+  work_experience: {
     company: string;
     position: {
       text: string;
@@ -162,25 +162,25 @@ export type ResumeDataType = {
       text: string[];
     }[];
   }[];
-  skills?: {
-    soft?: {
+  skills: {
+    soft: {
       name: string;
       level?: string; // eg. "beginner", "intermediate", "advanced"
     }[];
-    technical?: {
+    technical: {
       name: string;
       level?: string;
     }[];
   };
-  achievements?: {
+  achievements: {
     title: string;
     date: Date;
     awarded_by?: string; // eg. "Google", "Microsoft", Dev.to
-    summary?: {
+    summary: {
       text: string;
     }[];
   }[];
-  education?: {
+  education: {
     institution: string;
     field: {
       // eg. "Computer Science", "Software Engineering"
@@ -194,17 +194,17 @@ export type ResumeDataType = {
     endDate: Date;
     score: string; // eg. "3.5/4.0", "80%"
   }[];
-  publications?: {
+  publications: {
     //eg "Research Papers", "Books", "Articles"
     name: string;
     publisher: string;
     releaseDate: Date;
     url: string;
-    summary?: {
+    summary: {
       text: string;
     }[];
   }[];
-  otherLists?: {
+  otherLists: {
     heading: {
       text: string;
     }[];
