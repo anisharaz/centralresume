@@ -59,7 +59,7 @@ export default async function ProfilePage({
       <div className="relative">
         <div className="h-48 w-full bg-slate-200 dark:bg-neutral-800 flex items-center justify-center">
           <div className="font-bold md:text-5xl text-3xl text-center text-slate-800 dark:text-slate-200 italic ">
-            Never Gonna Give Up
+            It's all about you.
           </div>
         </div>
         <div className="absolute -bottom-16 left-8">
@@ -101,13 +101,34 @@ export default async function ProfilePage({
           </Suspense>
         </div>
         <div className="space-y-6">
-          <PersonalDetailsCard data={resumeByTag.personal_details} dataWithTag={resume.getResume().personal_details} />
-          <WorkExperienceCard data={resumeByTag.work_experience} dataWithTag={resume.getResume().work_experience} />
-          <SkillsCard data={resumeByTag.skills} dataWithTag={resume.getResume().skills} />
-          <AchievementsCard data={resumeByTag.achievements} dataWithTag={resume.getResume().achievements} />
-          <EducationCard data={resumeByTag.education} dataWithTag={resume.getResume().education} />
-          <PublicationsCard data={resumeByTag.publications} dataWithTag={resume.getResume().publications} />
-          <OtherListsCard data={resumeByTag.otherLists} dataWithTag={resume.getResume().otherLists} />
+          <PersonalDetailsCard
+            data={resumeByTag.personal_details}
+            dataWithTag={resume.getResume().personal_details}
+          />
+          <WorkExperienceCard
+            data={resumeByTag.work_experience}
+            dataWithTag={resume.getResume().work_experience}
+          />
+          <SkillsCard
+            data={resumeByTag.skills}
+            dataWithTag={resume.getResume().skills}
+          />
+          <AchievementsCard
+            data={resumeByTag.achievements}
+            dataWithTag={resume.getResume().achievements}
+          />
+          <EducationCard
+            data={resumeByTag.education}
+            dataWithTag={resume.getResume().education}
+          />
+          <PublicationsCard
+            data={resumeByTag.publications}
+            dataWithTag={resume.getResume().publications}
+          />
+          <OtherListsCard
+            data={resumeByTag.otherLists}
+            dataWithTag={resume.getResume().otherLists}
+          />
         </div>
       </div>
     </div>

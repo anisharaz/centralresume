@@ -12,16 +12,19 @@ const router = Router();
 
 router.put('/internal/resume', async (_req, res) => {
   const userId = String(_req.query.userId);
-  const tag = String(_req.query.tag);
   const resume = _req.body;
   const schema = _req.query.schema;
-  if (!userId || !tag || !resume || !schema) {
+  if (!userId || !resume || !schema) {
     res.status(400).send('Missing required parameters');
     return;
   }
   if (schema == 'engineering') {
     const datastore = await Datastore.getInstance();
-    updateResume<ENGINEERING_RESUME, Datastore>(userId, tag, resume, datastore);
+    await updateResume<ENGINEERING_RESUME, Datastore>(
+      userId,
+      resume,
+      datastore,
+    );
     res.status(200).send('Resume updated successfully');
     return;
   }
