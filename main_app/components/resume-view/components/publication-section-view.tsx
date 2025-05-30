@@ -5,6 +5,7 @@ import { BookOpen, Calendar, ExternalLink, Building } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ResumeDataType } from "@/lib/types";
 import Link from "next/link";
+import { formatDate } from "@/lib/utils";
 
 type Publications = ResumeDataType["publications"];
 
@@ -15,18 +16,6 @@ export function PublicationsSectionView({
   data: Publications;
   children?: React.ReactNode;
 }) {
-  const formatDate = (dateString: Date) => {
-    try {
-      return new Date(dateString).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
-    } catch {
-      return dateString.toString();
-    }
-  };
-
   return (
     <div className="w-full mx-auto">
       <Card>

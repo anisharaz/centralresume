@@ -5,7 +5,7 @@ export const ACHIEVEMENT_SCHEMA = z.array(
   z.object({
     title: z.string(),
     tags: TAGS,
-    date: z.date(),
+    date: z.string(),
     awarded_by: z.string().optional(),
     summary: z.array(
       z.object({

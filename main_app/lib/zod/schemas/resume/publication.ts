@@ -6,7 +6,7 @@ export const PUBLICATION_SCHEMA = z.array(
     name: z.string(),
     tags: TAGS,
     publisher: z.string(),
-    releaseDate: z.date(),
+    releaseDate: z.string(),
     url: z.string(),
     summary: z.array(
       z.object({

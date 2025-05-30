@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Trophy, Calendar, Building } from "lucide-react";
 import { ResumeDataType } from "@/lib/types";
+import { formatDate } from "@/lib/utils";
 
 type Achievements = ResumeDataType["achievements"];
 
@@ -13,18 +14,6 @@ export function AchievementsSectionView({
   data: Achievements;
   children?: React.ReactNode;
 }) {
-  const formatDate = (dateString: Date) => {
-    try {
-      return new Date(dateString).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
-    } catch {
-      return dateString.toString();
-    }
-  };
-
   return (
     <div className="w-full mx-auto">
       <Card>

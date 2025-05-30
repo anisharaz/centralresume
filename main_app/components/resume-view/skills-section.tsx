@@ -24,7 +24,6 @@ export function SkillsCard({
         title="Edit Skills"
         description="Edit your skills and expertise levels"
         dataWithTag={dataWithTag}
-        isEdit={true}
       />
     </SkillsSectionView>
   );

@@ -22,35 +22,29 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { RESUME_TYPE } from "@/lib/zod/schemas";
+import { updateResume } from "@/app/actions/resume/update-resume";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 function SkillsEditForm({
-  title = "Edit Skills",
-  description = "Edit your skills and expertise levels",
-  isEdit = false,
+  title,
+  description,
   dataWithTag,
 }: {
-  title?: string;
-  description?: string;
-  isEdit?: boolean;
+  title: string;
+  description: string;
   dataWithTag: RESUME_TYPE["skills"];
 }) {
+  const router = useRouter();
   const FormSchema = z.object({
     skills: SKILLS_SCHEMA,
   });
   type FormValues = z.infer<typeof FormSchema>;
 
   const getDefaultValues = (): FormValues => {
-    if (isEdit) {
-      return {
-        skills: dataWithTag,
-      };
-    }
-
     return {
-      skills: {
-        soft: [],
-        technical: [],
-      },
+      skills: dataWithTag,
     };
   };
 
@@ -71,9 +65,17 @@ function SkillsEditForm({
     name: "skills.technical",
   });
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async (data: FormValues) => {
     console.log("Updated skills data:", data);
-    // TODO: Add actual save logic here
+    const res = await updateResume({
+      newResumeData: data,
+    });
+    if (res.success) {
+      toast.success("Resume updated successfully");
+      router.refresh();
+    } else {
+      alert("Failed to update resume");
+    }
   };
 
   const skillLevels = [
@@ -215,10 +217,7 @@ function SkillsEditForm({
   );
 
   return (
-    <BaseSheetComponentForEdit
-      title={"Soft & technical skills edit"}
-      description={description}
-    >
+    <BaseSheetComponentForEdit title={title} description={description}>
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           {renderSkillSection("Soft Skills", softSkillsArray, "skills.soft")}
@@ -228,7 +227,14 @@ function SkillsEditForm({
             "skills.technical"
           )}
 
-          <Button type="submit" className="w-full">
+          <Button
+            type="submit"
+            disabled={form.formState.isSubmitting}
+            className="w-full"
+          >
+            {form.formState.isSubmitting && (
+              <Loader2 className="animate-spin" />
+            )}
             Save Skills
           </Button>
         </form>

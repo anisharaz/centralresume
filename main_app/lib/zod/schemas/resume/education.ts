@@ -17,8 +17,8 @@ export const EDUCATION_SCHEMA = z.array(
         tags: TAGS,
       })
     ),
-    startDate: z.date(),
-    endDate: z.date(),
+    startDate: z.string(),
+    endDate: z.string(),
     score: z.string(),
   })
 );

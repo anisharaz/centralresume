@@ -5,7 +5,7 @@ import { Calendar, ExternalLink, Building2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ResumeDataType } from "@/lib/types";
 import Link from "next/link";
-import { calculateDuration } from "@/lib/utils";
+import { calculateDuration, formatDate } from "@/lib/utils";
 
 type WorkExperience = ResumeDataType["work_experience"];
 
@@ -16,18 +16,6 @@ export function WorkExperienceSectionView({
   data: WorkExperience;
   children?: React.ReactNode;
 }) {
-  const formatDate = (dateString: Date) => {
-    try {
-      return new Date(dateString).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
-    } catch {
-      return dateString.toString();
-    }
-  };
-
   return (
     <div className="w-full mx-auto">
       <Card>

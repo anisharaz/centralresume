@@ -15,6 +15,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { PUBLICATION_SCHEMA } from "@/lib/zod/schemas/resume/publication";
 import { z } from "zod";
 import { RESUME_TYPE } from "@/lib/zod/schemas";
+import { updateResume } from "@/app/actions/resume/update-resume";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 function PublicationsEditForm({
   title,
@@ -25,6 +29,7 @@ function PublicationsEditForm({
   description: string;
   dataWithTag: RESUME_TYPE["publications"];
 }) {
+  const router = useRouter();
   const FormSchema = z.object({
     publications: PUBLICATION_SCHEMA,
   });
@@ -52,8 +57,27 @@ function PublicationsEditForm({
     name: "publications",
   });
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async (data: FormValues) => {
     console.log("Updated publications data:", data);
+    const res = await updateResume({
+      newResumeData: data,
+    });
+    if (res.success) {
+      toast.success("Resume updated successfully");
+      router.refresh();
+    } else {
+      alert("Failed to update resume");
+    }
+  };
+
+  const formatDateForInput = (dateString: string | undefined): string => {
+    if (!dateString) return "";
+    try {
+      const date = new Date(dateString);
+      return date.toISOString().split("T")[0];
+    } catch {
+      return "";
+    }
   };
 
   return (
@@ -71,7 +95,7 @@ function PublicationsEditForm({
                   name: "",
                   tags: [],
                   publisher: "",
-                  releaseDate: new Date(),
+                  releaseDate: new Date().toISOString().split("T")[0],
                   url: "",
                   summary: [],
                 })
@@ -140,16 +164,8 @@ function PublicationsEditForm({
                       <FormControl>
                         <Input
                           type="date"
-                          value={
-                            field.value
-                              ? new Date(field.value)
-                                  .toISOString()
-                                  .split("T")[0]
-                              : ""
-                          }
-                          onChange={(e) =>
-                            field.onChange(new Date(e.target.value))
-                          }
+                          value={formatDateForInput(field.value)}
+                          onChange={(e) => field.onChange(e.target.value)}
                         />
                       </FormControl>
                       <FormMessage />
@@ -237,7 +253,10 @@ function PublicationsEditForm({
           ))}
 
           <div className="flex gap-4 pt-4">
-            <Button type="submit" className="flex-1">
+            <Button type="submit" disabled={form.formState.isSubmitting}>
+              {form.formState.isSubmitting && (
+                <Loader2 className="animate-spin" />
+              )}
               Save Publications
             </Button>
           </div>

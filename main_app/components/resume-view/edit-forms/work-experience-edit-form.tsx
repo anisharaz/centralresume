@@ -15,6 +15,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { WORK_EXPERIENCE_SCHEMA } from "@/lib/zod/schemas/resume/work-experience";
 import { z } from "zod";
 import { RESUME_TYPE } from "@/lib/zod/schemas";
+import { updateResume } from "@/app/actions/resume/update-resume";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 function WorkExperienceEditForm({
   title,
@@ -25,12 +29,14 @@ function WorkExperienceEditForm({
   description: string;
   dataWithTag: RESUME_TYPE["work_experience"];
 }) {
+  const router = useRouter();
   const FormSchema = z.object({
     work_experience: WORK_EXPERIENCE_SCHEMA,
   });
   type FormValues = z.infer<typeof FormSchema>;
 
   const getDefaultValues = (): FormValues => {
+    // Keep dates as strings since schema now expects strings
     return {
       work_experience: dataWithTag,
     };
@@ -48,8 +54,27 @@ function WorkExperienceEditForm({
     name: "work_experience",
   });
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async (data: FormValues) => {
     console.log("Updated work experience data:", data);
+    const res = await updateResume({
+      newResumeData: data,
+    });
+    if (res.success) {
+      toast.success("Resume updated successfully");
+      router.refresh();
+    } else {
+      alert("Failed to update resume");
+    }
+  };
+
+  const formatDateForInput = (dateString: string | undefined): string => {
+    if (!dateString) return "";
+    try {
+      const date = new Date(dateString);
+      return date.toISOString().split("T")[0];
+    } catch {
+      return "";
+    }
   };
 
   return (
@@ -99,20 +124,8 @@ function WorkExperienceEditForm({
                       <FormControl>
                         <Input
                           type="date"
-                          value={
-                            field.value
-                              ? new Date(field.value)
-                                  .toISOString()
-                                  .split("T")[0]
-                              : ""
-                          }
-                          onChange={(e) =>
-                            field.onChange(
-                              e.target.value
-                                ? new Date(e.target.value)
-                                : undefined
-                            )
-                          }
+                          value={formatDateForInput(field.value)}
+                          onChange={(e) => field.onChange(e.target.value)}
                         />
                       </FormControl>
                       <FormMessage />
@@ -129,19 +142,9 @@ function WorkExperienceEditForm({
                       <FormControl>
                         <Input
                           type="date"
-                          value={
-                            field.value
-                              ? new Date(field.value)
-                                  .toISOString()
-                                  .split("T")[0]
-                              : ""
-                          }
+                          value={formatDateForInput(field.value)}
                           onChange={(e) =>
-                            field.onChange(
-                              e.target.value
-                                ? new Date(e.target.value)
-                                : undefined
-                            )
+                            field.onChange(e.target.value || undefined)
                           }
                         />
                       </FormControl>
@@ -638,7 +641,7 @@ function WorkExperienceEditForm({
                   company: "",
                   tags: [],
                   website: "",
-                  start_date: new Date(),
+                  start_date: new Date().toISOString().split("T")[0],
                   end_date: undefined,
                   position: [{ text: "", tags: [] }],
                   summary: [{ text: "", tags: [] }],
@@ -648,7 +651,12 @@ function WorkExperienceEditForm({
             >
               Add Experience
             </Button>
-            <Button type="submit">Submit</Button>
+            <Button type="submit" disabled={form.formState.isSubmitting}>
+              {form.formState.isSubmitting && (
+                <Loader2 className="animate-spin" />
+              )}
+              Submit
+            </Button>
           </div>
         </form>
       </Form>

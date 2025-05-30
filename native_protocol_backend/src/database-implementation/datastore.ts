@@ -38,23 +38,26 @@ export class Datastore implements ResumeStore, Session {
     userId: string,
     resume: T,
   ): Promise<string> {
-    const resumeData = new ResumeModel({
-      userId,
-      resume,
-    });
-
     const fetchedResumeData = await ResumeModel.findOne({ userId });
+
     if (fetchedResumeData) {
-      resumeData._id = fetchedResumeData?._id;
-      const result = await resumeData.updateOne();
-      if (!result) throw new Error('Failed to save resume');
+      const result = await ResumeModel.updateOne(
+        { userId },
+        { $set: { resume: resume } },
+      );
+      if (!result.acknowledged) throw new Error('Failed to update resume');
+      return fetchedResumeData._id?.toString() || '';
     } else {
-      resumeData._id = new mongoose.Types.ObjectId();
+      // Create new document
+      const resumeData = new ResumeModel({
+        _id: new mongoose.Types.ObjectId(),
+        userId,
+        resume,
+      });
       const result = await resumeData.save();
       if (!result) throw new Error('Failed to save resume');
+      return result._id?.toString() || '';
     }
-
-    return resumeData._id?.toString() || '';
   }
 
   async getResume<T extends ResumeInterface>(

@@ -1,9 +1,9 @@
 "use server";
 
 import { auth } from "@/auth";
-import { resumeBackendAxiosClient } from "@/lib/axios-client";
 import prisma from "@/lib/db";
 import { Resume } from "@/lib/resume";
+import { saveResumeToResumeStore } from "@/lib/services/resume-store";
 import { RESUME_TYPE } from "@/lib/zod/schemas";
 import { $Enums } from "@prisma/client";
 import { headers } from "next/headers";
@@ -20,16 +20,12 @@ export async function HandleResumeCreation({
   try {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session?.user.id) throw new Error("User not authenticated");
-    const { data, status } = await resumeBackendAxiosClient.post(
-      "/v1/internal/resume",
-      resumeData,
-      {
-        params: {
-          schema: "engineering",
-          userId: session?.user.id,
-        },
-      }
-    );
+
+    const { data, status } = await saveResumeToResumeStore({
+      resumeData: resumeData,
+      userId: session.session.userId,
+    });
+
     if (status !== 200) throw new Error("Failed to create resume");
     const resume = new Resume(resumeData);
     const tags = resume.extractTags();

@@ -4,30 +4,30 @@ interface ENGINEERING_RESUME {
   version: string; // eg . "1" , "2"
   personal_details: {
     name: string;
-    tag_line?: {
+    tag_line: {
       text: string;
       tags: TAGS;
     }[];
-    summary?: {
+    summary: {
       text: string;
       tags: TAGS;
     }[];
     email: string;
     phone?: string;
     date_of_birth?: string;
-    address: {
-      address_line?: string;
-      city?: string;
-      country?: string;
+    address?: {
+      address_line: string;
+      city: string;
+      country: string;
     };
-    social_links?: {
+    social_links: {
       name: string;
       url: string;
       tags: TAGS;
     }[];
   };
 
-  work_experience?: {
+  work_experience: {
     company: string;
     tags: TAGS;
     position: {
@@ -47,38 +47,40 @@ interface ENGINEERING_RESUME {
     }[];
   }[];
 
-  skills?: {
-    soft?: {
+  skills: {
+    soft: {
       name: string;
       level?: string; // eg. "beginner", "intermediate", "advanced"
       tags: string[];
     }[];
-    technical?: {
+    technical: {
       name: string;
       level?: string;
       tags: string[];
     }[];
   };
 
-  achievements?: {
+  achievements: {
     title: string;
     tags: string[];
     date: Date;
-    awarded_by?: string;  // eg. "Google", "Microsoft", Dev.to
-    summary?: {
+    awarded_by?: string; // eg. "Google", "Microsoft", Dev.to
+    summary: {
       text: string;
       tags: string[];
     }[];
   }[];
 
-  education?: {
+  education: {
     institution: string;
     tags: string[];
-    field: {       // eg. "Computer Science", "Software Engineering"
+    field: {
+      // eg. "Computer Science", "Software Engineering"
       text: string;
       tags: string[];
     }[];
-    degree_level: {  // eg. "Bachelor", "Master", "PhD"
+    degree_level: {
+      // eg. "Bachelor", "Master", "PhD"
       text: string;
       tags: string[];
     }[];
@@ -87,19 +89,21 @@ interface ENGINEERING_RESUME {
     score: string; // eg. "3.5/4.0", "80%"
   }[];
 
-  publications?: {   //eg "Research Papers", "Books", "Articles"
+  publications: {
+    //eg "Research Papers", "Books", "Articles"
     name: string;
     tags: string[];
     publisher: string;
     releaseDate: Date;
     url: string;
-    summary?: {
+    summary: {
       text: string;
       tags: string[];
     }[];
   }[];
 
-  otherLists?: {  // eg. "Projects", "Courses", "Certifications"
+  otherLists: {
+    // eg. "Projects", "Courses", "Certifications"
     tags: string[];
     heading: {
       text: string;

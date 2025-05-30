@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { GraduationCap, Calendar, Award } from "lucide-react";
 import { ResumeDataType } from "@/lib/types";
+import { formatDate, calculateDuration } from "@/lib/utils";
 
 type Education = ResumeDataType["education"];
 
@@ -13,39 +14,6 @@ export function EducationSectionView({
   data: Education;
   children?: React.ReactNode;
 }) {
-  const formatDate = (dateString: Date) => {
-    try {
-      return new Date(dateString).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-      });
-    } catch {
-      return dateString.toString();
-    }
-  };
-
-  const calculateDuration = (startDate: Date, endDate: Date) => {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-
-    const diffTime = Math.abs(end.getTime() - start.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    const years = Math.floor(diffDays / 365);
-    const months = Math.floor((diffDays % 365) / 30);
-
-    if (years > 0 && months > 0) {
-      return `${years} yr${years > 1 ? "s" : ""} ${months} mo${
-        months > 1 ? "s" : ""
-      }`;
-    } else if (years > 0) {
-      return `${years} yr${years > 1 ? "s" : ""}`;
-    } else if (months > 0) {
-      return `${months} mo${months > 1 ? "s" : ""}`;
-    } else {
-      return "Less than 1 month";
-    }
-  };
-
   return (
     <div className="w-full mx-auto">
       <Card>

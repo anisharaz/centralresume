@@ -5,6 +5,18 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const formatDate = (dateString: string | Date) => {
+  try {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  } catch {
+    return dateString.toString();
+  }
+};
+
 export const calculateDuration = (startDate: Date, endDate?: Date) => {
   const start = new Date(startDate);
   const end = endDate ? new Date(endDate) : new Date();

@@ -12,8 +12,8 @@ export const WORK_EXPERIENCE_SCHEMA = z.array(
       })
     ),
     website: z.string().optional(),
-    start_date: z.date(),
-    end_date: z.date().optional(),
+    start_date: z.string(),
+    end_date: z.string().optional(),
     summary: z.array(
       z.object({
         text: z.string(),

@@ -15,6 +15,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { PERSONAL_DETAILS_SCHEMA } from "@/lib/zod/schemas/resume/personal-detail";
 import { z } from "zod";
 import { RESUME_TYPE } from "@/lib/zod/schemas";
+import { updateResume } from "@/app/actions/resume/update-resume";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 function PersonalDetailEditForm({
   title,
@@ -25,6 +29,7 @@ function PersonalDetailEditForm({
   description: string;
   dataWithTag: RESUME_TYPE["personal_details"];
 }) {
+  const router = useRouter();
   const FormSchema = z.object({
     personal_details: PERSONAL_DETAILS_SCHEMA,
   });
@@ -70,9 +75,17 @@ function PersonalDetailEditForm({
     name: "personal_details.social_links",
   });
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async (data: FormValues) => {
     console.log("Updated personal details data:", data);
-    // TODO: Add actual save logic here
+    const res = await updateResume({
+      newResumeData: data,
+    });
+    if (res.success) {
+      toast.success("Resume updated successfully");
+      router.refresh();
+    } else {
+      alert("Failed to update resume");
+    }
   };
 
   return (
@@ -499,7 +512,14 @@ function PersonalDetailEditForm({
           </div>
 
           <div className="flex gap-4 pt-4">
-            <Button type="submit" className="flex-1">
+            <Button
+              type="submit"
+              className="flex-1"
+              disabled={form.formState.isSubmitting}
+            >
+              {form.formState.isSubmitting && (
+                <Loader2 className="animate-spin" />
+              )}
               Save Changes
             </Button>
           </div>
