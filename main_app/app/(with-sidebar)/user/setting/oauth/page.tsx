@@ -6,7 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import CreateOauthClientForm from "./CreateOauthClientForm";
 import prisma from "@/lib/db";
@@ -14,7 +13,7 @@ import { auth } from "@/auth";
 import { headers } from "next/headers";
 import ShowCredentials from "./show-credentials";
 import { Separator } from "@/components/ui/separator";
-import { Settings, ExternalLink, Edit3, Plus } from "lucide-react";
+import { Settings, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import { formatDistanceToNow } from "date-fns";
 
@@ -50,12 +49,13 @@ async function OauthClientSettings() {
   });
 
   return (
-    <div className="container mx-auto max-w-6xl p-6 space-y-8">
+    <div className="container mx-auto max-w-6xl p-6 space-y-6">
       {/* Header Section */}
       <div className="space-y-2">
         <h1 className="text-3xl font-bold tracking-tight">My OAuth Clients</h1>
         <p className="text-muted-foreground">
-          OAuth applications you've created that can access other users' data
+          OAuth applications you&apos;ve created that can access other
+          users&apos; data
         </p>
       </div>
 
@@ -210,12 +210,11 @@ async function OauthClientSettings() {
                   No OAuth Clients Created
                 </h3>
                 <p className="text-sm text-muted-foreground max-w-md mx-auto">
-                  You haven't created any OAuth applications yet. Create one to
-                  allow other applications to access user resume data through
-                  your API.
+                  You haven&apos;t created any OAuth applications yet. Create
+                  one to allow other applications to access user resume data
+                  through your API.
                 </p>
               </div>
-              <CreateOauthClientForm />
             </div>
           </Card>
         )}

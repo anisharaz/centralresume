@@ -29,22 +29,20 @@ export async function HandleResumeCreation({
     if (status !== 200) throw new Error("Failed to create resume");
     const resume = new Resume(resumeData);
     const tags = resume.extractTags();
-    function resumeProfiles() {
-      const profiles = [];
+    function resumeTags() {
+      const tagsArray = [];
       for (const tag of tags) {
-        profiles.push({
+        tagsArray.push({
           userId: session?.session.userId as string,
           visibility: $Enums.VISIBILITY.PRIVATE,
-          resumeProfileTagName: tag,
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          resumeTagName: tag,
         });
       }
-      return profiles;
+      return tagsArray;
     }
     if (tags.length != 0) {
-      await prisma.resumeProfiles.createMany({
-        data: resumeProfiles(),
+      await prisma.resumeTags.createMany({
+        data: resumeTags(),
       });
     }
     await prisma.$transaction(async (tx) => {
@@ -52,8 +50,12 @@ export async function HandleResumeCreation({
         data: {
           userId: session?.session.userId as string,
           resumeId: data.id,
-          createdAt: new Date(),
-          updatedAt: new Date(),
+        },
+      });
+      await tx.userProfile.create({
+        data: {
+          userId: session.session.userId as string,
+          visibility: $Enums.VISIBILITY.PRIVATE,
         },
       });
       await tx.user.update({
