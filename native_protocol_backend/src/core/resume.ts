@@ -18,14 +18,17 @@ export async function updateResume<
 >(
   userId: string,
   tag: string,
-  resume: PartialDeep<DeepOmitTags<T>>,
+  // resume: PartialDeep<DeepOmitTags<T>>,
+  resume: T,
   datastore: Store,
 ) {
-  const storedResume = await datastore.getResume<T>(userId);
-  const resumeData = new Resume(
-    storedResume?.resume ? storedResume.resume : ({} as T),
-  );
-  resumeData.updateResume(tag, resume);
+  // const storedResume = await datastore.getResume<T>(userId);
+  // const resumeData = new Resume(
+  //   storedResume?.resume ? storedResume.resume : ({} as T),
+  // );
+  // resumeData.updateResume(tag, resume);
+
+  const resumeData = new Resume(resume);
   const newResume = resumeData.getAll();
   datastore.storeResume<T>(userId, newResume);
 }
