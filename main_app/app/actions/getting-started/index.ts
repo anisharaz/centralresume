@@ -31,7 +31,7 @@ export async function HandleResumeCreation({
       }
     );
     if (status !== 200) throw new Error("Failed to create resume");
-    const resume = new Resume(data);
+    const resume = new Resume(resumeData);
     const tags = resume.extractTags();
     function resumeProfiles() {
       const profiles = [];

@@ -2,7 +2,7 @@ import { z } from "zod";
 import { TAGS } from "./constants";
 
 export const PERSONAL_DETAILS_SCHEMA = z.object({
-  name: z.string(),
+  name: z.string().min(1, "Full name is required"),
   tag_line: z.array(
     z.object({
       text: z.string(),
@@ -15,7 +15,10 @@ export const PERSONAL_DETAILS_SCHEMA = z.object({
       tags: TAGS,
     })
   ),
-  email: z.string(),
+  email: z
+    .string()
+    .email("Please enter a valid email address")
+    .min(1, "Email is required"),
   phone: z.string().optional(),
   date_of_birth: z.string().optional(),
   address: z.object({

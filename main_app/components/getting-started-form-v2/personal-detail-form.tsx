@@ -11,8 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, X } from "lucide-react";
-import { useState } from "react";
+import { useFieldArray } from "react-hook-form";
 import { Separator } from "@/components/ui/separator";
 
 interface PersonalDetailsFormProps {
@@ -20,107 +19,46 @@ interface PersonalDetailsFormProps {
 }
 
 export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
-  const [tagLineText, setTagLineText] = useState("");
-  const [tagLineTags, setTagLineTags] = useState("");
-  const [summaryText, setSummaryText] = useState("");
-  const [summaryTags, setSummaryTags] = useState("");
-  const [socialName, setSocialName] = useState("");
-  const [socialUrl, setSocialUrl] = useState("");
-  const [socialTags, setSocialTags] = useState("");
+  const { control } = form;
 
-  const addTagLine = () => {
-    if (!tagLineText) return;
+  const {
+    fields: tagLineFields,
+    append: appendTagLine,
+    remove: removeTagLine,
+  } = useFieldArray({
+    control,
+    name: "personal_details.tag_line",
+  });
 
-    const currentTagLines = form.getValues("personal_details.tag_line") || [];
-    form.setValue("personal_details.tag_line", [
-      ...currentTagLines,
-      {
-        text: tagLineText,
-        tags: tagLineTags
-          .split(",")
-          .map((tag) => tag.trim())
-          .filter(Boolean),
-      },
-    ]);
+  const {
+    fields: summaryFields,
+    append: appendSummary,
+    remove: removeSummary,
+  } = useFieldArray({
+    control,
+    name: "personal_details.summary",
+  });
 
-    setTagLineText("");
-    setTagLineTags("");
-  };
-
-  const removeTagLine = (index: number) => {
-    const currentTagLines = form.getValues("personal_details.tag_line") || [];
-    form.setValue(
-      "personal_details.tag_line",
-      currentTagLines.filter((_, i) => i !== index)
-    );
-  };
-
-  const addSummary = () => {
-    if (!summaryText) return;
-
-    const currentSummaries = form.getValues("personal_details.summary") || [];
-    form.setValue("personal_details.summary", [
-      ...currentSummaries,
-      {
-        text: summaryText,
-        tags: summaryTags
-          .split(",")
-          .map((tag) => tag.trim())
-          .filter(Boolean),
-      },
-    ]);
-
-    setSummaryText("");
-    setSummaryTags("");
-  };
-
-  const removeSummary = (index: number) => {
-    const currentSummaries = form.getValues("personal_details.summary") || [];
-    form.setValue(
-      "personal_details.summary",
-      currentSummaries.filter((_, i) => i !== index)
-    );
-  };
-
-  const addSocialLink = () => {
-    if (!socialName || !socialUrl) return;
-
-    const currentLinks = form.getValues("personal_details.social_links") || [];
-    form.setValue("personal_details.social_links", [
-      ...currentLinks,
-      {
-        name: socialName,
-        url: socialUrl,
-        tags: socialTags
-          .split(",")
-          .map((tag) => tag.trim())
-          .filter(Boolean),
-      },
-    ]);
-
-    setSocialName("");
-    setSocialUrl("");
-    setSocialTags("");
-  };
-
-  const removeSocialLink = (index: number) => {
-    const currentLinks = form.getValues("personal_details.social_links") || [];
-    form.setValue(
-      "personal_details.social_links",
-      currentLinks.filter((_, i) => i !== index)
-    );
-  };
+  const {
+    fields: socialLinkFields,
+    append: appendSocialLink,
+    remove: removeSocialLink,
+  } = useFieldArray({
+    control,
+    name: "personal_details.social_links",
+  });
 
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold">Basic Details</h2>
-      <div className="space-y-4">
-        <h3 className="text-lg font-bold text-left underline underline-offset-4">
-          Profile
-        </h3>
+
+      {/* Basic Information */}
+      <div className="border p-4 rounded-lg shadow-sm space-y-4">
+        <h3 className="text-lg font-semibold">Profile Information</h3>
+
         <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
           <FormField
-            control={form.control}
+            control={control}
             name="personal_details.name"
             render={({ field }) => (
               <FormItem>
@@ -136,7 +74,7 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
           />
 
           <FormField
-            control={form.control}
+            control={control}
             name="personal_details.email"
             render={({ field }) => (
               <FormItem>
@@ -155,141 +93,250 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
             )}
           />
         </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <FormField
+            control={control}
+            name="personal_details.phone"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Phone Number</FormLabel>
+                <FormControl>
+                  <Input placeholder="+1 (555) 123-4567" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={control}
+            name="personal_details.date_of_birth"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Date of Birth</FormLabel>
+                <FormControl>
+                  <Input type="date" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
       </div>
 
-      <FormField
-        control={form.control}
-        name="personal_details.phone"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Phone Number</FormLabel>
-            <FormControl>
-              <Input placeholder="+1 (555) 123-4567" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <Separator className="my-4" />
-      <div className="space-y-4">
-        <h3 className="text-md font-bold text-left underline underline-offset-4">
-          Tag Lines
-        </h3>
-        <div className="flex gap-2">
-          <Input
-            placeholder="Tag line text"
-            value={tagLineText}
-            onChange={(e) => setTagLineText(e.target.value)}
-          />
-          <Input
-            placeholder="Tags (comma separated)"
-            value={tagLineTags}
-            onChange={(e) => setTagLineTags(e.target.value)}
-          />
-          <Button type="button" variant="outline" onClick={addTagLine}>
-            <PlusCircle className="h-4 w-4 mr-2" />
-            Add
+      {/* Tag Lines */}
+      <div className="border p-4 rounded-lg shadow-sm space-y-4">
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-semibold">Tag Lines of your profile</h3>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="cursor-pointer"
+            onClick={() => appendTagLine({ text: "", tags: [] })}
+          >
+            Add Tag Line
           </Button>
         </div>
 
-        <div className="space-y-2">
-          {form.watch("personal_details.tag_line")?.map((tagLine, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-between p-2 border rounded-md"
+        {tagLineFields.map((item, index) => (
+          <div key={item.id} className="border p-3 rounded space-y-2">
+            <FormField
+              control={control}
+              name={`personal_details.tag_line.${index}.text`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tag Line Text</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="e.g., Full Stack Developer"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={control}
+              name={`personal_details.tag_line.${index}.tags`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tags</FormLabel>
+                  <FormControl>
+                    <div className="space-y-2">
+                      {field.value?.map((tag: string, tagIndex: number) => (
+                        <div key={tagIndex} className="flex gap-2">
+                          <Input
+                            value={tag}
+                            onChange={(e) => {
+                              const newTags = [...(field.value || [])];
+                              newTags[tagIndex] = e.target.value;
+                              field.onChange(newTags);
+                            }}
+                            placeholder={`Tag ${tagIndex + 1}`}
+                          />
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              const newTags =
+                                field.value?.filter(
+                                  (_: string, i: number) => i !== tagIndex
+                                ) || [];
+                              field.onChange(newTags);
+                            }}
+                          >
+                            Remove
+                          </Button>
+                        </div>
+                      ))}
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() =>
+                          field.onChange([...(field.value || []), ""])
+                        }
+                      >
+                        Add Tag
+                      </Button>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button
+              type="button"
+              variant="destructive"
+              size="sm"
+              onClick={() => removeTagLine(index)}
+              className="cursor-pointer"
             >
-              <div>
-                <p>{tagLine.text}</p>
-                <div className="flex gap-1 mt-1">
-                  {tagLine.tags.map((tag, tagIndex) => (
-                    <span
-                      key={tagIndex}
-                      className="bg-muted text-xs px-2 py-1 rounded-full"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={() => removeTagLine(index)}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-          ))}
-        </div>
+              Remove Tag Line
+            </Button>
+          </div>
+        ))}
       </div>
 
-      <div className="space-y-4">
-        <h3 className="text-lg font-bold text-left underline underline-offset-4">
-          Summery
-        </h3>
+      {/* Summary */}
+      <div className="border p-4 rounded-lg shadow-sm space-y-4">
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-semibold">Summary of your profile</h3>
 
-        <div className="flex gap-2">
-          <Input
-            placeholder="Summary text"
-            value={summaryText}
-            onChange={(e) => setSummaryText(e.target.value)}
-          />
-          <Input
-            placeholder="Tags (comma separated)"
-            value={summaryTags}
-            onChange={(e) => setSummaryTags(e.target.value)}
-          />
-          <Button type="button" variant="outline" onClick={addSummary}>
-            <PlusCircle className="h-4 w-4 mr-2" />
-            Add
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => appendSummary({ text: "", tags: [] })}
+            className="cursor-pointer"
+          >
+            Add Summary
           </Button>
         </div>
 
-        <div className="space-y-2">
-          {form.watch("personal_details.summary")?.map((summary, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-between p-2 border rounded-md"
+        {summaryFields.map((item, index) => (
+          <div key={item.id} className="border p-3 rounded space-y-2">
+            <FormField
+              control={control}
+              name={`personal_details.summary.${index}.text`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Summary Text</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Describe yourself professionally"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={control}
+              name={`personal_details.summary.${index}.tags`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tags</FormLabel>
+                  <FormControl>
+                    <div className="space-y-2">
+                      {field.value?.map((tag: string, tagIndex: number) => (
+                        <div key={tagIndex} className="flex gap-2">
+                          <Input
+                            value={tag}
+                            onChange={(e) => {
+                              const newTags = [...(field.value || [])];
+                              newTags[tagIndex] = e.target.value;
+                              field.onChange(newTags);
+                            }}
+                            placeholder={`Tag ${tagIndex + 1}`}
+                          />
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              const newTags =
+                                field.value?.filter(
+                                  (_: string, i: number) => i !== tagIndex
+                                ) || [];
+                              field.onChange(newTags);
+                            }}
+                          >
+                            Remove
+                          </Button>
+                        </div>
+                      ))}
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() =>
+                          field.onChange([...(field.value || []), ""])
+                        }
+                      >
+                        Add Tag
+                      </Button>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button
+              type="button"
+              variant="destructive"
+              size="sm"
+              onClick={() => removeSummary(index)}
             >
-              <div>
-                <p>{summary.text}</p>
-                <div className="flex gap-1 mt-1">
-                  {summary.tags.map((tag, tagIndex) => (
-                    <span
-                      key={tagIndex}
-                      className="bg-muted text-xs px-2 py-1 rounded-full"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={() => removeSummary(index)}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-          ))}
-        </div>
+              Remove Summary
+            </Button>
+          </div>
+        ))}
       </div>
+
       <Separator className="my-4" />
-      <div className="space-y-4">
-        <h3 className="text-lg font-bold text-left underline underline-offset-4">
-          Address
-        </h3>
+
+      {/* Address */}
+      <div className="border p-4 rounded-lg shadow-sm space-y-4">
+        <h3 className="text-lg font-semibold">Address</h3>
+
         <FormField
-          control={form.control}
+          control={control}
           name="personal_details.address.address_line"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Address Line</FormLabel>
               <FormControl>
-                <Input placeholder="123 Main St" {...field} />
+                <Input placeholder="123 Main St, Apt 4B" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -298,7 +345,7 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
 
         <div className="grid grid-cols-2 gap-4">
           <FormField
-            control={form.control}
+            control={control}
             name="personal_details.address.city"
             render={({ field }) => (
               <FormItem>
@@ -312,7 +359,7 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
           />
 
           <FormField
-            control={form.control}
+            control={control}
             name="personal_details.address.country"
             render={({ field }) => (
               <FormItem>
@@ -327,64 +374,114 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
         </div>
       </div>
 
-      <div className="space-y-4">
-        <h3 className="text-lg font-bold text-left underline underline-offset-4">
-          Social Links
-        </h3>
-
-        <div className="flex gap-2">
-          <Input
-            placeholder="Platform (e.g., LinkedIn)"
-            value={socialName}
-            onChange={(e) => setSocialName(e.target.value)}
-          />
-          <Input
-            placeholder="URL"
-            value={socialUrl}
-            onChange={(e) => setSocialUrl(e.target.value)}
-          />
-          <Input
-            placeholder="Tags (comma separated)"
-            value={socialTags}
-            onChange={(e) => setSocialTags(e.target.value)}
-          />
-          <Button type="button" variant="outline" onClick={addSocialLink}>
-            <PlusCircle className="h-4 w-4 mr-2" />
-            Add
+      {/* Social Links */}
+      <div className="border p-4 rounded-lg shadow-sm space-y-4">
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-semibold">Social Links</h3>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => appendSocialLink({ name: "", url: "", tags: [] })}
+          >
+            Add Social Link
           </Button>
         </div>
 
-        <div className="space-y-2">
-          {form.watch("personal_details.social_links")?.map((link, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-between p-2 border rounded-md"
-            >
-              <div>
-                <p className="font-medium">{link.name}</p>
-                <p className="text-sm text-muted-foreground">{link.url}</p>
-                <div className="flex gap-1 mt-1">
-                  {link.tags.map((tag, tagIndex) => (
-                    <span
-                      key={tagIndex}
-                      className="bg-muted text-xs px-2 py-1 rounded-full"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={() => removeSocialLink(index)}
-              >
-                <X className="h-4 w-4" />
-              </Button>
+        {socialLinkFields.map((item, index) => (
+          <div key={item.id} className="border p-3 rounded space-y-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <FormField
+                control={control}
+                name={`personal_details.social_links.${index}.name`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Platform Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g., LinkedIn" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={control}
+                name={`personal_details.social_links.${index}.url`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>URL</FormLabel>
+                    <FormControl>
+                      <Input placeholder="https://example.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
-          ))}
-        </div>
+
+            <FormField
+              control={control}
+              name={`personal_details.social_links.${index}.tags`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tags</FormLabel>
+                  <FormControl>
+                    <div className="space-y-2">
+                      {field.value?.map((tag: string, tagIndex: number) => (
+                        <div key={tagIndex} className="flex gap-2">
+                          <Input
+                            value={tag}
+                            onChange={(e) => {
+                              const newTags = [...(field.value || [])];
+                              newTags[tagIndex] = e.target.value;
+                              field.onChange(newTags);
+                            }}
+                            placeholder={`Tag ${tagIndex + 1}`}
+                          />
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              const newTags =
+                                field.value?.filter(
+                                  (_: string, i: number) => i !== tagIndex
+                                ) || [];
+                              field.onChange(newTags);
+                            }}
+                          >
+                            Remove
+                          </Button>
+                        </div>
+                      ))}
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() =>
+                          field.onChange([...(field.value || []), ""])
+                        }
+                      >
+                        Add Tag
+                      </Button>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button
+              type="button"
+              variant="destructive"
+              size="sm"
+              onClick={() => removeSocialLink(index)}
+            >
+              Remove Social Link
+            </Button>
+          </div>
+        ))}
       </div>
     </div>
   );

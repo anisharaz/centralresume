@@ -6,7 +6,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  // CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -41,6 +40,16 @@ export default function GettingStartedFormV2({
       personal_details: {
         name: defaultData.firstName + " " + defaultData.lastName,
         email: defaultData.email,
+        tag_line: [],
+        summary: [],
+        phone: "",
+        date_of_birth: "",
+        address: {
+          address_line: "",
+          city: "",
+          country: "",
+        },
+        social_links: [],
       },
       work_experience: [],
       skills: {
@@ -52,10 +61,19 @@ export default function GettingStartedFormV2({
       publications: [],
       otherLists: [],
     },
-    mode: "onChange",
+    mode: "onBlur", // Change to onBlur for better UX
   });
 
   const onSubmit = async (data: RESUME_TYPE) => {
+    // Trigger validation before submission
+    const isValid = await form.trigger();
+
+    if (!isValid) {
+      // Show validation errors and prevent submission
+      console.log("Form validation failed:", form.formState.errors);
+      return;
+    }
+
     const res = await HandleResumeCreation({ resumeData: data });
     if (!res.success) {
       alert("Failed to submit resume data. Please try again.");
@@ -178,7 +196,12 @@ export default function GettingStartedFormV2({
                   <Button
                     type="submit"
                     className="w-full"
-                    disabled={form.formState.isSubmitting}
+                    disabled={
+                      form.formState.isSubmitting ||
+                      !form.formState.isValid ||
+                      !form.getValues("personal_details.name") ||
+                      !form.getValues("personal_details.email")
+                    }
                   >
                     {form.formState.isSubmitting
                       ? "Submitting..."

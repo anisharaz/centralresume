@@ -39,7 +39,7 @@ export function WorkExperienceSectionView({
         </CardHeader>
         <CardContent className="space-y-6 p-2">
           {!data || data.length === 0 ? (
-            <p className="text-muted-foreground text-sm">
+            <p className="text-muted-foreground text-sm pl-6">
               No work experience added yet.
             </p>
           ) : null}

@@ -58,7 +58,7 @@ export function EducationSectionView({
 
         <CardContent className="space-y-6 p-2">
           {!data || data.length === 0 ? (
-            <p className="text-muted-foreground text-sm">
+            <p className="text-muted-foreground text-sm pl-6">
               No education added yet.
             </p>
           ) : null}

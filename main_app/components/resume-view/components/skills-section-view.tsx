@@ -52,7 +52,7 @@ export function SkillsSectionView({
 
         <CardContent className="space-y-6 p-2">
           {!data || (data.soft.length == 0 && data.technical.length == 0) ? (
-            <p className="text-muted-foreground text-sm">
+            <p className="text-muted-foreground text-sm pl-6">
               No skills added yet.
             </p>
           ) : null}
