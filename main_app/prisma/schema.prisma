@@ -122,6 +122,7 @@ model resumeLink {
   user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   resumeTagName String // eg. "devops"
   visibility    VISIBILITY
+  linkId        String     @unique
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 

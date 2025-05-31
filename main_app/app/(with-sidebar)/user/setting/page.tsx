@@ -24,12 +24,16 @@ import {
   ExternalLink,
   Eye,
   Clock,
+  Link2,
 } from "lucide-react";
 import Image from "next/image";
 import { auth } from "@/auth";
 import { headers } from "next/headers";
 import prisma from "@/lib/db";
 import { formatDistanceToNow } from "date-fns";
+import CreateResumeLink from "./create-resume-link";
+import ResumeLinkCard from "./resume-link-card";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default async function UserSettings() {
   const session = await auth.api.getSession({
@@ -48,6 +52,29 @@ export default async function UserSettings() {
     },
   });
 
+  // Fetch resume links
+  const resumeLinks = await prisma.resumeLink.findMany({
+    where: {
+      userId: session?.session.userId,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  // Fetch available resume tags
+  const resumeTags = await prisma.resumeTags.findMany({
+    where: {
+      userId: session?.session.userId,
+    },
+    select: {
+      resumeTagName: true,
+    },
+    orderBy: {
+      resumeTagName: "asc",
+    },
+  });
+
   return (
     <div className="container mx-auto max-w-6xl p-6 space-y-6">
       {/* Header Section */}
@@ -60,6 +87,70 @@ export default async function UserSettings() {
         </p>
       </div>
       <Separator />
+
+      {/* Resume Links Section */}
+      <div>
+        <div className="space-y-4">
+          <div className="flex justify-between items-center">
+            <div>
+              <h2 className="text-xl font-semibold">Resume Links</h2>
+              <p className="text-sm text-muted-foreground">
+                Create and manage shareable links for your resume with specific
+                tags
+              </p>
+            </div>
+            <div className="flex items-center gap-4">
+              {resumeLinks.length > 0 && (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Link2 className="h-4 w-4" />
+                  {resumeLinks.length} active link
+                  {resumeLinks.length !== 1 ? "s" : ""}
+                </div>
+              )}
+              <CreateResumeLink resumeTags={resumeTags} />
+            </div>
+          </div>
+
+          {/* Resume Links List */}
+          <div className="grid gap-4">
+            <ScrollArea className="max-h-[70vh]">
+              <div className="flex flex-col gap-4">
+                {resumeLinks.map((link) => (
+                  <ResumeLinkCard key={link.id} link={link} />
+                ))}
+              </div>
+            </ScrollArea>
+
+            {/* Empty State for Resume Links */}
+            {resumeLinks.length === 0 && (
+              <Card className="p-8 text-center">
+                <div className="space-y-4">
+                  <div className="mx-auto w-16 h-16 rounded-full bg-muted flex items-center justify-center">
+                    <Link2 className="h-8 w-8 text-muted-foreground" />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="font-medium text-lg">No Resume Links</h3>
+                    <p className="text-sm text-muted-foreground max-w-md mx-auto">
+                      You haven&apos;t created any shareable resume links yet.
+                      Create links to share your resume with specific tag
+                      filters.
+                    </p>
+                  </div>
+                  <div className="pt-2">
+                    <p className="text-xs text-muted-foreground">
+                      Each link can target a specific resume tag for customized
+                      viewing
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <Separator />
+
       <div>
         <div className="space-y-4">
           <div className="flex justify-between items-center">
