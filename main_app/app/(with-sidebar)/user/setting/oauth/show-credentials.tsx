@@ -155,18 +155,18 @@ function ShowCredentials({
                   <span className="text-blue-400">const</span>{" "}
                   <span className="text-yellow-300">clientId</span> ={" "}
                   <span className="text-green-300">
-                    '{clientId.substring(0, 8)}...'
+                    &apos;{clientId.substring(0, 8)}...&apos;
                   </span>
                   ;
                 </div>
                 <div>
                   <span className="text-blue-400">const</span>{" "}
                   <span className="text-yellow-300">clientSecret</span> ={" "}
-                  <span className="text-green-300">'your_secret_here'</span>;
+                  <span className="text-green-300">
+                    &apos;your_secret_here&apos;
+                  </span>
                 </div>
-                <div className="mt-2 text-gray-400">
-                  // Use in your OAuth flow
-                </div>
+                <div className="mt-2 text-gray-400">Use in your OAuth flow</div>
               </div>
             </div>
           </div>

@@ -96,7 +96,7 @@ function CreateOauthClientForm() {
                       OAuth Client Setup
                     </p>
                     <p className="text-sm text-blue-700 dark:text-blue-300">
-                      After creation, you'll receive a Client ID and Client
+                      After creation, you&apos;ll receive a Client ID and Client
                       Secret. Keep the secret secure and never expose it in
                       client-side code.
                     </p>
@@ -152,7 +152,7 @@ function CreateOauthClientForm() {
                           />
                         </FormControl>
                         <FormDescription>
-                          Your application's homepage
+                          Your application&apos;s homepage
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
