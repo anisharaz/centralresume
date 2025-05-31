@@ -1,7 +1,8 @@
 "use client";
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import { Document, Page, Text, View } from "@react-pdf/renderer";
 import { ResumeDataType } from "@/lib/types";
 import dynamic from "next/dynamic";
+import { createTw } from "react-pdf-tailwind";
 
 const PDFViewerDynamic = dynamic(
   () => import("@react-pdf/renderer").then((mod) => mod.PDFViewer),
@@ -9,6 +10,24 @@ const PDFViewerDynamic = dynamic(
     ssr: false,
   }
 );
+
+// Create Tailwind instance for react-pdf
+const tw = createTw({
+  theme: {
+    fontFamily: {
+      sans: ["Helvetica"],
+    },
+    extend: {
+      colors: {
+        "gray-100": "#f5f5f5",
+        "gray-200": "#e5e5e5",
+        "gray-300": "#d0d0d0",
+        "gray-400": "#f0f0f0",
+        "gray-500": "#e8e8e8",
+      },
+    },
+  },
+});
 
 export function ResumePDFViewer({
   resumeData,
@@ -47,32 +66,45 @@ function ResumePDFDocument({ resumeData }: { resumeData: ResumeDataType }) {
 
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
+      <Page
+        size="A4"
+        style={tw("flex flex-col bg-white p-5 font-sans text-xs leading-tight")}
+      >
         {/* Header Section */}
-        <View style={styles.header}>
-          <Text style={styles.name}>{personal_details.name}</Text>
+        <View style={tw("mb-3 pb-2 border-b border-gray-200")}>
+          <Text style={tw("text-lg font-bold text-black")}>
+            {personal_details.name}
+          </Text>
           {personal_details.tag_line?.map((tagLine, index) => (
-            <Text key={index} style={styles.tagLine}>
+            <Text
+              key={index}
+              style={tw("text-sm font-bold text-gray-700 mb-0.5")}
+            >
               {tagLine.text}
             </Text>
           ))}
-          <View style={styles.contactInfo}>
-            <Text style={styles.contactItem}> {personal_details.email}</Text>
+          <View style={tw("flex flex-row flex-wrap mt-1 gap-2")}>
+            <Text style={tw("text-xs text-black")}>
+              {" "}
+              {personal_details.email}
+            </Text>
             {personal_details.phone && (
-              <Text style={styles.contactItem}>{personal_details.phone}</Text>
+              <Text style={tw("text-xs text-black")}>
+                {personal_details.phone}
+              </Text>
             )}
             {(personal_details.address?.city ||
               personal_details.address?.country) && (
-              <Text style={styles.contactItem}>
+              <Text style={tw("text-xs text-black")}>
                 {personal_details.address.city},{" "}
                 {personal_details.address.country}
               </Text>
             )}
           </View>
           {personal_details.social_links?.length > 0 && (
-            <View style={styles.socialLinks}>
+            <View style={tw("flex flex-row flex-wrap gap-1.5 mt-0.5")}>
               {personal_details.social_links.map((link, index) => (
-                <Text key={index} style={styles.socialLink}>
+                <Text key={index} style={tw("text-xs text-black")}>
                   {link.url}
                 </Text>
               ))}
@@ -82,10 +114,12 @@ function ResumePDFDocument({ resumeData }: { resumeData: ResumeDataType }) {
 
         {/* Summary Section */}
         {personal_details.summary?.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Summary</Text>
+          <View style={tw("mb-2.5 pb-2 border-b border-gray-300")}>
+            <Text style={tw("text-sm font-bold text-black mb-1 uppercase")}>
+              Summary
+            </Text>
             {personal_details.summary.map((item, index) => (
-              <Text key={index} style={styles.summaryText}>
+              <Text key={index} style={tw("text-xs text-black mb-0.75")}>
                 {item.text}
               </Text>
             ))}
@@ -94,38 +128,50 @@ function ResumePDFDocument({ resumeData }: { resumeData: ResumeDataType }) {
 
         {/* Work Experience Section */}
         {work_experience?.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Experience</Text>
+          <View style={tw("mb-2.5 pb-2 border-b border-gray-300")}>
+            <Text style={tw("text-sm font-bold text-black mb-1 uppercase")}>
+              Experience
+            </Text>
             {work_experience.map((exp, index) => (
-              <View key={index} style={styles.experienceItem}>
-                <View style={styles.experienceHeader}>
+              <View key={index} style={tw("mb-2")}>
+                <View
+                  style={tw("flex flex-row justify-between items-start mb-0.5")}
+                >
                   <View>
                     {exp.position?.map((pos, posIndex) => (
-                      <Text key={posIndex} style={styles.jobTitle}>
+                      <Text
+                        key={posIndex}
+                        style={tw("text-sm font-bold text-black")}
+                      >
                         {pos.text}
                       </Text>
                     ))}
-                    <Text style={styles.company}>{exp.company}</Text>
+                    <Text style={tw("text-xs text-black mb-0.25")}>
+                      {exp.company}
+                    </Text>
                   </View>
-                  <Text style={styles.dateRange}>
+                  <Text style={tw("text-xs text-black")}>
                     {formatDate(exp.start_date)} -{" "}
                     {exp.end_date ? formatDate(exp.end_date) : "Present"}
                   </Text>
                 </View>
 
                 {exp.summary?.map((summary, summaryIndex) => (
-                  <Text key={summaryIndex} style={styles.experienceSummary}>
+                  <Text
+                    key={summaryIndex}
+                    style={tw("text-xs text-black mb-0.5")}
+                  >
                     {summary.text}
                   </Text>
                 ))}
 
                 {exp.highlights?.length > 0 && (
-                  <View style={styles.highlights}>
+                  <View style={tw("mt-0.5")}>
                     {exp.highlights.map((highlight, highlightIndex) =>
                       highlight.text.map((text, textIndex) => (
                         <Text
                           key={`${highlightIndex}-${textIndex}`}
-                          style={styles.highlightItem}
+                          style={tw("text-xs text-black mb-0.25 pl-1")}
                         >
                           • {text}
                         </Text>
@@ -140,15 +186,24 @@ function ResumePDFDocument({ resumeData }: { resumeData: ResumeDataType }) {
 
         {/* Skills Section */}
         {(skills?.technical?.length > 0 || skills?.soft?.length > 0) && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Skills</Text>
+          <View style={tw("mb-2.5 pb-2 border-b border-gray-300")}>
+            <Text style={tw("text-sm font-bold text-black mb-1 uppercase")}>
+              Skills
+            </Text>
 
             {skills.technical?.length > 0 && (
-              <View style={styles.skillsContainer}>
-                <Text style={styles.skillsSubTitle}>Technical Skills</Text>
-                <View style={styles.skillsList}>
+              <View style={tw("mb-1.5")}>
+                <Text style={tw("text-xs font-bold text-black mb-0.75")}>
+                  Technical Skills
+                </Text>
+                <View style={tw("flex flex-row flex-wrap gap-0.75")}>
                   {skills.technical.map((skill, index) => (
-                    <Text key={index} style={styles.skillItem}>
+                    <Text
+                      key={index}
+                      style={tw(
+                        "text-xs text-black py-0.5 px-1 mr-1 mb-0.5 border border-gray-500 rounded"
+                      )}
+                    >
                       {skill.name}
                       {skill.level && ` (${skill.level})`}
                     </Text>
@@ -158,11 +213,18 @@ function ResumePDFDocument({ resumeData }: { resumeData: ResumeDataType }) {
             )}
 
             {skills.soft?.length > 0 && (
-              <View style={styles.skillsContainer}>
-                <Text style={styles.skillsSubTitle}>Soft Skills</Text>
-                <View style={styles.skillsList}>
+              <View style={tw("mb-1.5")}>
+                <Text style={tw("text-xs font-bold text-black mb-0.75")}>
+                  Soft Skills
+                </Text>
+                <View style={tw("flex flex-row flex-wrap gap-0.75")}>
                   {skills.soft.map((skill, index) => (
-                    <Text key={index} style={styles.skillItem}>
+                    <Text
+                      key={index}
+                      style={tw(
+                        "text-xs text-black py-0.5 px-1 mr-1 mb-0.5 border border-gray-500 rounded"
+                      )}
+                    >
                       {skill.name}
                       {skill.level && ` (${skill.level})`}
                     </Text>
@@ -175,19 +237,26 @@ function ResumePDFDocument({ resumeData }: { resumeData: ResumeDataType }) {
 
         {/* Education Section */}
         {education?.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Education</Text>
+          <View style={tw("mb-2.5 pb-2 border-b border-gray-300")}>
+            <Text style={tw("text-sm font-bold text-black mb-1 uppercase")}>
+              Education
+            </Text>
             {education.map((edu, index) => (
-              <View key={index} style={styles.educationItem}>
-                <Text style={styles.institution}>{edu.institution}</Text>
+              <View key={index} style={tw("mb-1.5")}>
+                <Text style={tw("text-xs font-bold text-black")}>
+                  {edu.institution}
+                </Text>
                 {edu.degree_level?.map((degree, degreeIndex) => (
-                  <Text key={degreeIndex} style={styles.degree}>
+                  <Text
+                    key={degreeIndex}
+                    style={tw("text-xs text-black mb-0.25")}
+                  >
                     {degree.text}
                     {edu.field?.length > 0 &&
                       ` in ${edu.field.map((f) => f.text).join(", ")}`}
                   </Text>
                 ))}
-                <Text style={styles.educationDate}>
+                <Text style={tw("text-xs text-black")}>
                   {formatDate(edu.startDate)} - {formatDate(edu.endDate)}
                   {edu.score && ` | ${edu.score}`}
                 </Text>
@@ -198,23 +267,34 @@ function ResumePDFDocument({ resumeData }: { resumeData: ResumeDataType }) {
 
         {/* Achievements Section */}
         {achievements?.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Achievements</Text>
+          <View style={tw("mb-2.5 pb-2 border-b border-gray-300")}>
+            <Text style={tw("text-sm font-bold text-black mb-1 uppercase")}>
+              Achievements
+            </Text>
             {achievements.map((achievement, index) => (
-              <View key={index} style={styles.achievementItem}>
-                <Text style={styles.achievementTitle}>{achievement.title}</Text>
-                <View style={styles.achievementDetails}>
+              <View key={index} style={tw("mb-1.5")}>
+                <Text style={tw("text-xs font-bold text-black mb-0.25")}>
+                  {achievement.title}
+                </Text>
+                <View
+                  style={tw(
+                    "flex flex-row justify-between items-center mb-0.5"
+                  )}
+                >
                   {achievement.awarded_by && (
-                    <Text style={styles.awardedBy}>
+                    <Text style={tw("text-xs text-black")}>
                       Awarded by: {achievement.awarded_by}
                     </Text>
                   )}
-                  <Text style={styles.achievementDate}>
+                  <Text style={tw("text-xs text-black")}>
                     {formatDate(achievement.date.toString())}
                   </Text>
                 </View>
                 {achievement.summary?.map((summary, summaryIndex) => (
-                  <Text key={summaryIndex} style={styles.summaryText}>
+                  <Text
+                    key={summaryIndex}
+                    style={tw("text-xs text-black mb-0.75")}
+                  >
                     {summary.text}
                   </Text>
                 ))}
@@ -225,17 +305,26 @@ function ResumePDFDocument({ resumeData }: { resumeData: ResumeDataType }) {
 
         {/* Publications Section */}
         {publications?.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Publications</Text>
+          <View style={tw("mb-2.5 pb-2 border-b border-gray-300")}>
+            <Text style={tw("text-sm font-bold text-black mb-1 uppercase")}>
+              Publications
+            </Text>
             {publications.map((pub, index) => (
-              <View key={index} style={styles.publicationItem}>
-                <Text style={styles.publicationTitle}>{pub.name}</Text>
-                <Text style={styles.publicationDetails}>
+              <View key={index} style={tw("mb-1.5")}>
+                <Text style={tw("text-xs font-bold text-black mb-0.25")}>
+                  {pub.name}
+                </Text>
+                <Text style={tw("text-xs text-black mb-0.5")}>
                   {pub.publisher} | {formatDate(pub.releaseDate.toString())}
                 </Text>
-                {pub.url && <Text style={styles.socialLink}>{pub.url}</Text>}
+                {pub.url && (
+                  <Text style={tw("text-xs text-black")}>{pub.url}</Text>
+                )}
                 {pub.summary?.map((summary, summaryIndex) => (
-                  <Text key={summaryIndex} style={styles.summaryText}>
+                  <Text
+                    key={summaryIndex}
+                    style={tw("text-xs text-black mb-0.75")}
+                  >
                     {summary.text}
                   </Text>
                 ))}
@@ -246,16 +335,22 @@ function ResumePDFDocument({ resumeData }: { resumeData: ResumeDataType }) {
 
         {/* Other Lists Section */}
         {otherLists?.length > 0 && (
-          <View style={styles.section}>
+          <View style={tw("mb-2.5 pb-2 border-b border-gray-300")}>
             {otherLists.map((list, index) => (
-              <View key={index} style={styles.otherListItem}>
+              <View key={index} style={tw("mb-1.5")}>
                 {list.heading?.map((heading, headingIndex) => (
-                  <Text key={headingIndex} style={styles.sectionTitle}>
+                  <Text
+                    key={headingIndex}
+                    style={tw("text-sm font-bold text-black mb-1 uppercase")}
+                  >
                     {heading.text}
                   </Text>
                 ))}
                 {list.summary?.map((summary, summaryIndex) => (
-                  <Text key={summaryIndex} style={styles.summaryText}>
+                  <Text
+                    key={summaryIndex}
+                    style={tw("text-xs text-black mb-0.75")}
+                  >
                     {summary.text}
                   </Text>
                 ))}
@@ -267,209 +362,3 @@ function ResumePDFDocument({ resumeData }: { resumeData: ResumeDataType }) {
     </Document>
   );
 }
-
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: "column",
-    backgroundColor: "#ffffff",
-    padding: 20,
-    fontFamily: "Helvetica",
-    fontSize: 10,
-    lineHeight: 1.2,
-  },
-  header: {
-    marginBottom: 12,
-    paddingBottom: 8,
-    borderBottom: "1pt solid #e5e5e5",
-  },
-  name: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#000000",
-    marginBottom: 4,
-  },
-  tagLine: {
-    fontSize: 11,
-    fontWeight: "bold",
-    color: "#333333",
-    marginBottom: 2,
-  },
-  contactInfo: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    marginTop: 4,
-    gap: 8,
-  },
-  contactItem: {
-    fontSize: 9,
-    color: "#000000",
-  },
-  section: {
-    marginBottom: 10,
-    paddingBottom: 8,
-    borderBottom: "0.5pt solid #f0f0f0",
-  },
-  sectionTitle: {
-    fontSize: 12,
-    fontWeight: "bold",
-    color: "#000000",
-    marginBottom: 4,
-    textTransform: "uppercase",
-    paddingBottom: 2,
-    borderBottom: "0.5pt solid #d0d0d0",
-  },
-  summaryText: {
-    fontSize: 9,
-    color: "#000000",
-    marginBottom: 3,
-    textAlign: "left",
-  },
-  experienceItem: {
-    marginBottom: 8,
-    paddingBottom: 6,
-    borderBottom: "0.25pt solid #f5f5f5",
-  },
-  experienceHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    marginBottom: 2,
-  },
-  jobTitle: {
-    fontSize: 11,
-    fontWeight: "bold",
-    color: "#000000",
-  },
-  company: {
-    fontSize: 10,
-    color: "#000000",
-    fontWeight: "normal",
-    marginBottom: 1,
-  },
-  dateRange: {
-    fontSize: 9,
-    color: "#000000",
-  },
-  experienceSummary: {
-    fontSize: 9,
-    color: "#000000",
-    marginBottom: 2,
-    lineHeight: 1.2,
-  },
-  highlights: {
-    marginTop: 2,
-  },
-  highlightItem: {
-    fontSize: 9,
-    color: "#000000",
-    marginBottom: 1,
-    paddingLeft: 4,
-  },
-  skillsContainer: {
-    marginBottom: 6,
-    paddingBottom: 4,
-    borderBottom: "0.25pt solid #f5f5f5",
-  },
-  skillsSubTitle: {
-    fontSize: 10,
-    fontWeight: "bold",
-    color: "#000000",
-    marginBottom: 3,
-  },
-  skillsList: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 3,
-  },
-  skillItem: {
-    fontSize: 8,
-    color: "#000000",
-    padding: "2 4",
-    marginRight: 4,
-    marginBottom: 2,
-    border: "0.25pt solid #e8e8e8",
-    borderRadius: 2,
-  },
-  educationItem: {
-    marginBottom: 6,
-    paddingBottom: 4,
-    borderBottom: "0.25pt solid #f5f5f5",
-  },
-  institution: {
-    fontSize: 10,
-    fontWeight: "bold",
-    color: "#000000",
-  },
-  degree: {
-    fontSize: 9,
-    color: "#000000",
-    marginBottom: 1,
-  },
-  educationDate: {
-    fontSize: 8,
-    color: "#000000",
-  },
-  achievementItem: {
-    marginBottom: 6,
-    paddingBottom: 4,
-    borderBottom: "0.25pt solid #f5f5f5",
-  },
-  achievementTitle: {
-    fontSize: 10,
-    fontWeight: "bold",
-    color: "#000000",
-    marginBottom: 1,
-  },
-  achievementDetails: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 2,
-  },
-  awardedBy: {
-    fontSize: 8,
-    color: "#000000",
-  },
-  achievementDate: {
-    fontSize: 8,
-    color: "#000000",
-  },
-  publicationItem: {
-    marginBottom: 6,
-    paddingBottom: 4,
-    borderBottom: "0.25pt solid #f5f5f5",
-  },
-  publicationTitle: {
-    fontSize: 10,
-    fontWeight: "bold",
-    color: "#000000",
-    marginBottom: 1,
-  },
-  publicationDetails: {
-    fontSize: 8,
-    color: "#000000",
-    marginBottom: 2,
-  },
-  otherListItem: {
-    marginBottom: 6,
-    paddingBottom: 4,
-    borderBottom: "0.25pt solid #f5f5f5",
-  },
-  otherListHeading: {
-    fontSize: 10,
-    fontWeight: "bold",
-    color: "#000000",
-    marginBottom: 2,
-  },
-  socialLinks: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 6,
-    marginTop: 3,
-  },
-  socialLink: {
-    fontSize: 8,
-    color: "#000000",
-    textDecoration: "none",
-  },
-});

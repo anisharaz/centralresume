@@ -67,12 +67,13 @@ async function syncResumeTagsWithDatabase(userId: string, resumeData: any) {
 
   // Find tags to add (present in resume but not in database)
   const tagsToAdd = currentTags.filter(
-    (tag) => !existingTagNames.includes(tag)
+    (tag) => !existingTagNames.includes(tag) && tag !== ""
   );
 
   // Find tags to remove (present in database but not in resume)
   const tagsToRemove = existingTagsFromDB.filter(
-    (tag) => !currentTags.includes(tag.resumeTagName)
+    (tag) =>
+      !currentTags.includes(tag.resumeTagName) && tag.resumeTagName !== ""
   );
 
   // Perform database operations
