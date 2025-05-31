@@ -241,7 +241,7 @@ export default function LandingPage() {
       {/* Benefits Section */}
       <section className="flex flex-col items-center justify-center w-full p-20">
         <div className="text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white pb-5">
             Our Solution:{" "}
             <span className="underline decoration-blue-300 decoration-4 underline-offset-8">
               Central
