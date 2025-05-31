@@ -58,7 +58,7 @@ export default function ResumeLinkCard({ link }: ResumeLinkCardProps) {
 
   const linkUrl = `${
     process.env.NEXT_PUBLIC_APP_URL || "https://app.centralresume.com"
-  }/view/resume?linkId=${link.linkId}&resumeTag=${link.resumeTagName}`;
+  }/view?linkId=${link.linkId}&resumeTag=${link.resumeTagName}`;
   const createdAgo = formatDistanceToNow(link.createdAt, { addSuffix: true });
 
   const handleCopy = async () => {

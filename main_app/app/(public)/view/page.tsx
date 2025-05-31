@@ -1,23 +1,9 @@
 import ErrorPage from "@/components/error-page";
 import prisma from "@/lib/db";
+import { getResumeFromResumeStore } from "@/lib/services/resume-store";
+import { Resume } from "@/lib/resume";
 
-// import prisma from "@/lib/db";
-import {
-  Page,
-  Text,
-  View,
-  Document,
-  StyleSheet,
-  PDFViewer,
-} from "@react-pdf/renderer";
-import dynamic from "next/dynamic";
-
-// const PDFViewerDynamic = dynamic(
-//   () => import("@react-pdf/renderer").then((mod) => mod.PDFViewer),
-//   {
-//     ssr: false,
-//   }
-// );
+import { ResumePDFViewer } from "@/components/resume-pdf-viewer";
 
 async function ViewResume({
   searchParams,
@@ -37,6 +23,7 @@ async function ViewResume({
       />
     );
   }
+
   const resumeLink = await prisma.resumeLink.findUnique({
     where: {
       linkId: linkId,
@@ -45,6 +32,7 @@ async function ViewResume({
     select: {
       visibility: true,
       resumeTagName: true,
+      userId: true,
     },
   });
 
@@ -61,35 +49,35 @@ async function ViewResume({
     );
   }
 
-  return (
-    <div>
-      {/* <PDFViewerDynamic className="w-full h-screen">
-        <MyDocument />
-      </PDFViewerDynamic> */}
-    </div>
-  );
+  try {
+    // Fetch the complete resume data from the resume store
+    const resumeData = await getResumeFromResumeStore({
+      userId: resumeLink.userId,
+      resumeProfile: "engineering",
+    });
+
+    // Use the Resume class to filter data by the specified tag
+    const resume = new Resume(resumeData);
+    const filteredResumeData = resume.getByTag(resumeTag);
+
+    return (
+      <div className="w-full h-screen">
+        <ResumePDFViewer resumeData={filteredResumeData} />
+      </div>
+    );
+  } catch (error) {
+    console.error("Error fetching resume data:", error);
+    return (
+      <ErrorPage
+        errorDefinition={{
+          error: "Failed to load resume",
+          errorDescription:
+            "There was an error loading the resume data. Please try again later.",
+          errorType: "ServerError",
+        }}
+      />
+    );
+  }
 }
-
-// const MyDocument = () => (
-//   <Document>
-//     <Page size="A4" style={styles.page}>
-//       <View style={styles.section} debug>
-//         <Text>Section </Text>
-//       </View>
-//     </Page>
-//   </Document>
-// );
-
-// const styles = StyleSheet.create({
-//   page: {
-//     flexDirection: "row",
-//     backgroundColor: "#E4E4E4",
-//   },
-//   section: {
-//     margin: 10,
-//     padding: 10,
-//     flexGrow: 1,
-//   },
-// });
 
 export default ViewResume;
