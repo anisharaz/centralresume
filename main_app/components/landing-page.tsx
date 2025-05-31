@@ -158,7 +158,7 @@ export default function LandingPage() {
     <div className="flex flex-col min-h-screen overflow-x-hidden">
       {/* Hero Section */}
       <section className="flex flex-col items-center justify-center w-full min-h-screen relative bg-[radial-gradient(circle_at_bottom,_#d97706,_transparent,_transparent)]">
-        <div className=" flex flex-col items-center text-center max-w-xl md:max-w-3xl">
+        <div className=" flex flex-col items-center text-center max-w-xl md:max-w-3xl z-10">
           <h1 className="text-4xl md:text-5xl font-bold  mb-4">
             #resume : create once use everywhere
           </h1>
@@ -170,9 +170,8 @@ export default function LandingPage() {
           </p>
           <WaitlistForm />
         </div>
-        <div className="pt-32" />
 
-        <div className="absolute bottom-0 max-lg:h-[18rem] lg:h-[23rem] max-sm:h-[15rem] pt-25 w-full flex flex-col items-center overflow-hidden">
+        <div className="absolute bottom-0 max-lg:h-[40vh] lg:h-[40vh] max-sm:h-[32vh] pt-25 w-full flex flex-col items-center overflow-hidden">
           <Image
             src="/resume.png"
             alt=""
