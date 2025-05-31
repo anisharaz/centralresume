@@ -107,7 +107,7 @@ function BenefitSection({
   return (
     <section
       className={
-        "flex flex-col  items-center justify-center w-full min-h-screen p-10 " +
+        "flex flex-col  items-center justify-center w-full xl:min-h-screen max-lg:min-h-[80vh] max-sm:min-h-screen p-10 " +
         (side === "left" ? "md:flex-row " : "md:flex-row-reverse ") +
         background
       }
@@ -126,7 +126,7 @@ function BenefitSection({
         </div>
       </div>
       <div className="w-full md:w-1/2">
-        <div className="p-10 px-20 max-sm:p-2 pt-4 flex flex-col items-center">
+        <div className="p-10  max-sm:p-2 pt-4 flex flex-col items-center">
           <h2 className="text-4xl font-semibold mb-2">{title}</h2>
           <p className="text-base py-5 text-gray-700 dark:text-gray-300">
             {description.caption}
