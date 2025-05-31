@@ -28,7 +28,7 @@ const WaitlistForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+      className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto"
     >
       <div className="relative flex-1">
         <Input
@@ -42,7 +42,7 @@ const WaitlistForm = () => {
       </div>
       <Button
         type="submit"
-        className="h-12 px-6 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center gap-2 transition-all duration-300 ease-in-out whitespace-nowrap"
+        className="h-12 px-8! text-white rounded-full flex items-center justify-center gap-2 transition-all duration-300 ease-in-out whitespace-nowrap"
       >
         {loading ? <Loader className="animate-spin" /> : "Subscribe"}
         <ArrowRight size={16} />
