@@ -32,12 +32,12 @@ export default async function ProfilePage({
       email: session?.user.email,
     },
     include: {
-      resumeProfiles: {
+      resumeTags: {
         select: {
-          resumeProfileTagName: true,
+          resumeTagName: true,
         },
         orderBy: {
-          resumeProfileTagName: "asc",
+          resumeTagName: "asc",
         },
       },
     },
@@ -51,7 +51,7 @@ export default async function ProfilePage({
   const resumeByTag = resume.getByTag(
     resumeProfile
       ? resumeProfile
-      : (user?.resumeProfiles[0]?.resumeProfileTagName as string)
+      : (user?.resumeTags[0]?.resumeTagName as string)
   );
 
   return (
@@ -59,7 +59,7 @@ export default async function ProfilePage({
       <div className="relative">
         <div className="h-48 w-full bg-slate-200 dark:bg-neutral-800 flex items-center justify-center">
           <div className="font-bold md:text-5xl text-3xl text-center text-slate-800 dark:text-slate-200 italic ">
-            It's all about you.
+            It&apos;s all about you.
           </div>
         </div>
         <div className="absolute -bottom-16 left-8">
@@ -88,13 +88,13 @@ export default async function ProfilePage({
       <div className="space-y-4">
         <div className="space-y-2">
           <Suspense>
-            {user?.resumeProfiles && (
+            {user?.resumeTags && (
               <SwitchCurrentResumeTag
-                resumeProfileTagName={user.resumeProfiles}
+                resumeProfileTagName={user.resumeTags}
                 tagSelected={
                   resumeProfile
                     ? resumeProfile
-                    : (user.resumeProfiles[0]?.resumeProfileTagName as string)
+                    : (user?.resumeTags[0]?.resumeTagName as string)
                 }
               />
             )}

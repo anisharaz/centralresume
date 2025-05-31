@@ -17,7 +17,7 @@ function SwitchCurrentResumeTag({
   resumeProfileTagName,
   tagSelected,
 }: {
-  resumeProfileTagName: { resumeProfileTagName: string }[];
+  resumeProfileTagName: { resumeTagName: string }[];
   tagSelected: string | undefined;
 }) {
   const router = useRouter();
@@ -45,10 +45,10 @@ function SwitchCurrentResumeTag({
               <SelectLabel>Select Resume Tag</SelectLabel>
               {resumeProfileTagName.map((profile) => (
                 <SelectItem
-                  key={profile.resumeProfileTagName}
-                  value={profile.resumeProfileTagName}
+                  key={profile.resumeTagName}
+                  value={profile.resumeTagName}
                 >
-                  {profile.resumeProfileTagName}
+                  {profile.resumeTagName}
                 </SelectItem>
               ))}
             </SelectGroup>

@@ -116,7 +116,9 @@ function ProfileDetailSectionView({
                   </Card>
                 )}
 
-                {data.address && (
+                {(data.address?.address_line ||
+                  data.address?.city ||
+                  data.address?.country) && (
                   <Card>
                     <CardContent className="">
                       <div className="flex items-start gap-3">

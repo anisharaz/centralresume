@@ -42,13 +42,6 @@ export default function GettingStartedFormV2({
         email: defaultData.email,
         tag_line: [],
         summary: [],
-        phone: "",
-        date_of_birth: "",
-        address: {
-          address_line: "",
-          city: "",
-          country: "",
-        },
         social_links: [],
       },
       work_experience: [],
@@ -106,8 +99,8 @@ export default function GettingStartedFormV2({
                 <span className="text-yellow-300">#resume</span>
               </h2>
               <p className="text-muted-foreground">
-                We're excited to have you here. Let's get you set up in just a
-                few simple steps.
+                We&apos;re excited to have you here. Let&apos;s get you set up
+                in just a few simple steps.
               </p>
             </div>
             <Button onClick={handleNext} size="lg" className="w-full sm:w-auto">
