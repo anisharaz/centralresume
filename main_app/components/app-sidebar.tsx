@@ -18,7 +18,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "./ui/collapsible";
-import LogoutButton from "./auth-buttons";
+import { LogoutButton } from "./auth-buttons";
 
 // Menu items.
 const items = [
