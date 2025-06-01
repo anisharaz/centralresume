@@ -26,25 +26,17 @@ export function LogoutButton() {
 export function LoginButton() {
   const { data, isPending } = authClient.useSession();
 
-  if (isPending) {
-    return (
-      <Button variant={"outline"} className="w-full cursor-pointer" disabled>
-        ...
-      </Button>
-    );
-  }
-
   return (
-    <>
-      {data ? (
-        <Button variant={"outline"} className="w-full cursor-pointer" asChild>
-          <Link href="/user/profile">Dashboard</Link>
-        </Button>
-      ) : (
-        <Button variant={"outline"} className="w-full cursor-pointer" asChild>
-          <Link href="/auth/login">Login</Link>
-        </Button>
-      )}
-    </>
+    <Button
+      variant={"outline"}
+      className="w-full cursor-pointer"
+      asChild
+      disabled={isPending}
+      suppressHydrationWarning
+    >
+      <Link href={!!data ? "/user/profile" : "/auth/login"}>
+        {!!data ? "Dashboard" : "Login"}
+      </Link>
+    </Button>
   );
 }

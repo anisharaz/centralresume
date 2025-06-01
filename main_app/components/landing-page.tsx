@@ -3,9 +3,8 @@
 import Image from "next/image";
 import Footer from "./footer";
 import { CheckCircle, Zap, Shield, Smartphone, Menu, X } from "lucide-react";
-import React, { Ref, RefObject, useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import WaitlistForm from "./waitlist-form";
-import { Button } from "./ui/button";
 import { LoginButton } from "./auth-buttons";
 const benefits = [
   {
@@ -171,7 +170,10 @@ function NavBar() {
   return (
     <div className="fixed z-[9999] w-full flex justify-center items-center">
       <nav
-        className={`m-1 p-2 w-full max-w-[1400px] flex items-center justify-start max-md:flex-col max-md:items-start max-md:gap-2 transition-all duration-300 ease-in-out  rounded-lg ${(!blend || (isOpen && blend)) && "bg-[color-mix(in_oklab,_var(--input)_30%,_transparent)] backdrop-blur-2xl border"}`}
+        className={`m-1 p-2 w-full max-w-[1400px] flex items-center justify-start max-md:flex-col max-md:items-start max-md:gap-2 transition-all duration-300 ease-in-out  rounded-lg ${
+          (!blend || (isOpen && blend)) &&
+          "bg-[color-mix(in_oklab,_var(--input)_30%,_transparent)] backdrop-blur-2xl border"
+        }`}
       >
         {/* Logo and Hamburger Menu */}
         <div className="flex justify-between w-fit max-md:w-full px-2 max-md:py-2">
@@ -190,7 +192,9 @@ function NavBar() {
 
         {/* Navigation Links */}
         <div
-          className={`flex items-center justify-between px-2 w-full  ${isOpen ? "flex-col" : "max-md:hidden"}`}
+          className={`flex items-center justify-between px-2 w-full  ${
+            isOpen ? "flex-col" : "max-md:hidden"
+          }`}
         >
           <div className="flex items-center justify-between gap-4 max-md:flex-col max-md:w-full max-md:pb-4 max-md:items-stretch">
             {/*<div className="bg-pink-500">Home</div>
@@ -217,7 +221,9 @@ export default function LandingPage() {
 
   return (
     <div
-      className={`flex flex-col min-h-screen overflow-x-hidden transition-all duration-200 ease-in-out ${loaded ? "blur-none" : "blur-sm"}`}
+      className={`flex flex-col min-h-screen overflow-x-hidden transition-all duration-200 ease-in-out ${
+        loaded ? "blur-none" : "blur-sm"
+      }`}
     >
       {/* Navigation Bar */}
       <NavBar />
