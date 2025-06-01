@@ -3,7 +3,7 @@ import prisma from "@/lib/db";
 import { getResumeFromResumeStore } from "@/lib/services/resume-store";
 import { Resume } from "@/lib/resume";
 
-import { ResumePDFViewer } from "@/components/resume-pdf-viewer";
+import ResumePDFViewer from "@/components/resume-pdf-view";
 
 async function ViewResume({
   searchParams,

@@ -2,9 +2,10 @@
 
 import Image from "next/image";
 import Footer from "./footer";
-import { CheckCircle, Zap, Shield, Smartphone } from "lucide-react";
-import React from "react";
+import { CheckCircle, Zap, Shield, Smartphone, Menu, X } from "lucide-react";
+import React, { useEffect } from "react";
 import WaitlistForm from "./waitlist-form";
+import { LoginButton } from "./auth-buttons";
 const benefits = [
   {
     title: "Smart Tagging System",
@@ -144,20 +145,110 @@ function BenefitSection({
   );
 }
 
-export default function LandingPage() {
+function NavBar() {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [blend, setBlend] = React.useState(true);
+
+  useEffect(() => {
+    if (window) {
+      const handleScroll = () => {
+        if (window.scrollY > 50) {
+          setBlend(false);
+        } else {
+          setBlend(true);
+        }
+      };
+      window.addEventListener("scroll", handleScroll);
+      handleScroll();
+
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
+  });
+
   return (
-    <div className="flex flex-col min-h-screen overflow-x-hidden">
+    <div className="fixed z-[9999] w-full flex justify-center items-center">
+      <nav
+        className={`m-1 p-2 w-full max-w-[1400px] flex items-center justify-start max-md:flex-col max-md:items-start max-md:gap-2 transition-all duration-300 ease-in-out  rounded-lg ${
+          (!blend || (isOpen && blend)) &&
+          "bg-[color-mix(in_oklab,_var(--input)_30%,_transparent)] backdrop-blur-2xl border"
+        }`}
+      >
+        {/* Logo and Hamburger Menu */}
+        <div className="flex justify-between w-fit max-md:w-full px-2 max-md:py-2">
+          <div className="font-bold flex justify-center items-center">
+            Central#Resume
+          </div>
+          <div className="hidden max-md:flex justify-center items-center">
+            <button
+              className="focus:outline-none"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {!isOpen ? <Menu /> : <X />}
+            </button>
+          </div>
+        </div>
+
+        {/* Navigation Links */}
+        <div
+          className={`flex items-center justify-between px-2 w-full  ${
+            isOpen ? "flex-col" : "max-md:hidden"
+          }`}
+        >
+          <div className="flex items-center justify-between gap-4 max-md:flex-col max-md:w-full max-md:pb-4 max-md:items-stretch">
+            {/*<div className="bg-pink-500">Home</div>
+          <div>Features</div>*/}
+          </div>
+          <div className="flex items-center justify-between max-md:w-full max-md:items-start gap-4">
+            <LoginButton />
+          </div>
+        </div>
+      </nav>
+    </div>
+  );
+}
+
+export default function LandingPage() {
+  const [loaded, setLoaded] = React.useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoaded(true);
+    }, 50); // Adjust the delay as needed
+
+    return () => clearTimeout(timer);
+  });
+
+  return (
+    <div
+      className={`flex flex-col min-h-screen overflow-x-hidden transition-all duration-200 ease-in-out ${
+        loaded ? "blur-none" : "blur-sm"
+      }`}
+    >
+      {/* Navigation Bar */}
+      <NavBar />
+
       {/* Hero Section */}
       <section className="flex flex-col items-center justify-center w-full min-h-screen relative bg-[radial-gradient(circle_at_bottom,_#d97706,_transparent,_transparent)]">
-        <div className=" flex flex-col items-center text-center max-w-xl md:max-w-3xl z-10">
-          <h1 className="text-4xl md:text-5xl font-bold  mb-4">
-            #resume : create once use everywhere
+        <div className="flex flex-col items-center text-center max-w-xl md:max-w-4xl z-10 gap-4">
+          <h1 className="text-4xl md:text-5xl font-bold tracking-wider mb-4">
+            #resume :{" "}
+            <span className="underline decoration-blue-300 decoration-4 underline-offset-8">
+              {" "}
+              Sharing{" "}
+            </span>
+            and{" "}
+            <span className="underline decoration-blue-300 decoration-4 underline-offset-8">
+              {" "}
+              management
+            </span>{" "}
+            made easy
           </h1>
-          <p className="text-sm md:text-md mb-8">
-            Central resume is a platform for resume where you can create, manage
-            and share your resume with people, recruiter or job platforms from
-            one place. Read exiting features below or Get started with button
-            below.
+          <p className="text-sm md:text-xl mb-8">
+            Create, manage and share your resume with people, recruiter or job
+            platforms from one place with amazing features like{" "}
+            <span className="text-amber-300"> &quot;LoginWithResume&quot;</span>{" "}
+            and more listed below.
           </p>
           <WaitlistForm />
         </div>
@@ -247,7 +338,6 @@ export default function LandingPage() {
               Central
               <span className="text-amber-300">#resume </span>
             </span>{" "}
-            Management
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             CentralResume solves these challenges with innovative features

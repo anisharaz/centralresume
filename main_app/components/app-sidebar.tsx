@@ -3,6 +3,7 @@ import { ChevronDown, Settings, User, Lock } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -17,6 +18,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "./ui/collapsible";
+import { LogoutButton } from "./auth-buttons";
 
 // Menu items.
 const items = [
@@ -31,8 +33,10 @@ export function AppSidebar() {
   return (
     <Sidebar variant="sidebar">
       <SidebarHeader>
-        <Link href={"/"}>
-          <div className="font-bold text-xl p-2">Central<span className="text-yellow-300">#resume</span></div>
+        <Link href={"/home"}>
+          <div className="font-bold text-xl p-2">
+            Central<span className="text-yellow-300">#resume</span>
+          </div>
         </Link>
       </SidebarHeader>
       <SidebarContent>
@@ -78,6 +82,13 @@ export function AppSidebar() {
           </SidebarGroup>
         </Collapsible>
       </SidebarContent>
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <LogoutButton />
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   );
 }
