@@ -2,8 +2,9 @@
 import { authClient } from "@/auth";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-function LogoutButton() {
+export function LogoutButton() {
   const router = useRouter();
   const handleLogout = async () => {
     await authClient.signOut({
@@ -22,4 +23,28 @@ function LogoutButton() {
   );
 }
 
-export default LogoutButton;
+export function LoginButton() {
+  const { data, isPending } = authClient.useSession();
+
+  if (isPending) {
+    return (
+      <Button variant={"outline"} className="w-full cursor-pointer" disabled>
+        ...
+      </Button>
+    );
+  }
+
+  return (
+    <>
+      {data ? (
+        <Button className="w-full cursor-pointer" asChild>
+          <Link href="/user/profile">Dashboard</Link>
+        </Button>
+      ) : (
+        <Button className="w-full cursor-pointer" asChild>
+          <Link href="/auth/login">Login</Link>
+        </Button>
+      )}
+    </>
+  );
+}
