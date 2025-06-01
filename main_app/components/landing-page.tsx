@@ -6,6 +6,7 @@ import { CheckCircle, Zap, Shield, Smartphone, Menu, X } from "lucide-react";
 import React, { Ref, RefObject, useEffect, useRef } from "react";
 import WaitlistForm from "./waitlist-form";
 import { Button } from "./ui/button";
+import { LoginButton } from "./auth-buttons";
 const benefits = [
   {
     title: "Smart Tagging System",
@@ -168,42 +169,39 @@ function NavBar() {
   });
 
   return (
-    <nav
-      className={`fixed p-3 z-[9999] flex items-center justify-start max-md:flex-col max-md:items-start max-md:gap-2 transition-all duration-300 ease-in-out ${blend ? "w-full" : "bg-[color-mix(in_oklab,_var(--input)_30%,_transparent)] backdrop-blur-2xl border rounded-lg top-2 left-2 w-[calc(100%-1rem)]"}`}
-    >
-      {/* Logo and Hamburger Menu */}
-      <div className="flex justify-between w-fit max-md:w-full px-2 max-md:py-2">
-        <div className="font-bold flex justify-center items-center">
-          Central#Resume
-        </div>
-        <div className="hidden max-md:flex justify-center items-center">
-          <button
-            className="focus:outline-none"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {!isOpen ? <Menu /> : <X />}
-          </button>
-        </div>
-      </div>
-
-      {/* Navigation Links */}
-      <div
-        className={`flex items-center justify-between px-2 w-full  ${isOpen ? "flex-col" : "max-md:hidden"}`}
+    <div className="fixed z-[9999] w-full flex justify-center items-center">
+      <nav
+        className={`m-1 p-2 w-full max-w-[1400px] flex items-center justify-start max-md:flex-col max-md:items-start max-md:gap-2 transition-all duration-300 ease-in-out  rounded-lg ${(!blend || (isOpen && blend)) && "bg-[color-mix(in_oklab,_var(--input)_30%,_transparent)] backdrop-blur-2xl border"}`}
       >
-        <div className="flex items-center justify-between gap-4 max-md:flex-col max-md:w-full max-md:pb-4 max-md:items-stretch">
-          {/*<div className="bg-pink-500">Home</div>
+        {/* Logo and Hamburger Menu */}
+        <div className="flex justify-between w-fit max-md:w-full px-2 max-md:py-2">
+          <div className="font-bold flex justify-center items-center">
+            Central#Resume
+          </div>
+          <div className="hidden max-md:flex justify-center items-center">
+            <button
+              className="focus:outline-none"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {!isOpen ? <Menu /> : <X />}
+            </button>
+          </div>
+        </div>
+
+        {/* Navigation Links */}
+        <div
+          className={`flex items-center justify-between px-2 w-full  ${isOpen ? "flex-col" : "max-md:hidden"}`}
+        >
+          <div className="flex items-center justify-between gap-4 max-md:flex-col max-md:w-full max-md:pb-4 max-md:items-stretch">
+            {/*<div className="bg-pink-500">Home</div>
           <div>Features</div>*/}
+          </div>
+          <div className="flex items-center justify-between max-md:w-full max-md:items-start gap-4">
+            <LoginButton />
+          </div>
         </div>
-        <div className="flex items-center justify-between max-md:w-full max-md:items-start gap-4">
-          <Button
-            variant="outline"
-            className=" px-4 py-2 rounded-fulltransition-colors"
-          >
-            Login
-          </Button>
-        </div>
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 }
 
