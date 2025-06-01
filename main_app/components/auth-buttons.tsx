@@ -37,11 +37,11 @@ export function LoginButton() {
   return (
     <>
       {data ? (
-        <Button className="w-full cursor-pointer" asChild>
+        <Button variant={"outline"} className="w-full cursor-pointer" asChild>
           <Link href="/user/profile">Dashboard</Link>
         </Button>
       ) : (
-        <Button className="w-full cursor-pointer" asChild>
+        <Button variant={"outline"} className="w-full cursor-pointer" asChild>
           <Link href="/auth/login">Login</Link>
         </Button>
       )}

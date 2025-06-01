@@ -6,6 +6,7 @@ import { CheckCircle, Zap, Shield, Smartphone, Menu, X } from "lucide-react";
 import React, { Ref, RefObject, useEffect, useRef } from "react";
 import WaitlistForm from "./waitlist-form";
 import { Button } from "./ui/button";
+import { LoginButton } from "./auth-buttons";
 const benefits = [
   {
     title: "Smart Tagging System",
@@ -196,12 +197,7 @@ function NavBar() {
           <div>Features</div>*/}
           </div>
           <div className="flex items-center justify-between max-md:w-full max-md:items-start gap-4">
-            <Button
-              variant="outline"
-              className=" px-4 py-2 rounded-fulltransition-colors"
-            >
-              Login
-            </Button>
+            <LoginButton />
           </div>
         </div>
       </nav>
