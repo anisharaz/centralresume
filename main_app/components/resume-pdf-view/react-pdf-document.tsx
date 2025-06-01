@@ -1,47 +1,28 @@
-"use client";
-import { Document, Page, Text, View } from "@react-pdf/renderer";
 import { ResumeDataType } from "@/lib/types";
-import dynamic from "next/dynamic";
+import { Document, Page, Text, View } from "@react-pdf/renderer";
 import { createTw } from "react-pdf-tailwind";
 
-const PDFViewerDynamic = dynamic(
-  () => import("@react-pdf/renderer").then((mod) => mod.PDFViewer),
-  {
-    ssr: false,
-  }
-);
-
-// Create Tailwind instance for react-pdf
-const tw = createTw({
-  theme: {
-    fontFamily: {
-      sans: ["Helvetica"],
-    },
-    extend: {
-      colors: {
-        "gray-100": "#f5f5f5",
-        "gray-200": "#e5e5e5",
-        "gray-300": "#d0d0d0",
-        "gray-400": "#f0f0f0",
-        "gray-500": "#e8e8e8",
-      },
-    },
-  },
-});
-
-export function ResumePDFViewer({
+export function ResumePDFDocument({
   resumeData,
 }: {
   resumeData: ResumeDataType;
 }) {
-  return (
-    <PDFViewerDynamic className="w-full h-screen">
-      <ResumePDFDocument resumeData={resumeData} />
-    </PDFViewerDynamic>
-  );
-}
-
-function ResumePDFDocument({ resumeData }: { resumeData: ResumeDataType }) {
+  const tw = createTw({
+    theme: {
+      fontFamily: {
+        sans: ["Helvetica"],
+      },
+      extend: {
+        colors: {
+          "gray-100": "#f5f5f5",
+          "gray-200": "#e5e5e5",
+          "gray-300": "#d0d0d0",
+          "gray-400": "#f0f0f0",
+          "gray-500": "#e8e8e8",
+        },
+      },
+    },
+  });
   const {
     personal_details,
     work_experience,
