@@ -28,7 +28,7 @@ async function ViewResume({
     where: {
       linkId: linkId,
       resumeTagName: resumeTag,
-    },
+    } as any,
     select: {
       visibility: true,
       resumeTagName: true,
