@@ -69,6 +69,15 @@ interface RESUME_INTERFACE {
     }[];
   };
 
+  projects: {
+    title: string;
+    tags: string[];
+    startDate?: Date;
+    endDate?: Date;
+    summary: string;
+    url?: string;
+  }[];
+
   achievements: {
     title: string;
     tags: string[];
@@ -172,6 +181,13 @@ export type ResumeDataType = {
       level?: string;
     }[];
   };
+  projects: {
+    title: string;
+    startDate?: Date;
+    endDate?: Date;
+    summary: string;
+    url?: string;
+  }[];
   achievements: {
     title: string;
     date: Date;

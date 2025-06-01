@@ -16,6 +16,7 @@ import {
   SkillsCard,
   WorkExperienceCard,
 } from "@/components/resume-view";
+import { ProjectsCard } from "@/components/resume-view/project-section";
 export default async function ProfilePage({
   searchParams,
 }: {
@@ -112,6 +113,10 @@ export default async function ProfilePage({
           <SkillsCard
             data={resumeByTag.skills}
             dataWithTag={resume.getResume().skills}
+          />
+          <ProjectsCard
+            data={resumeByTag.projects}
+            dataWithTag={resume.getResume().projects}
           />
           <AchievementsCard
             data={resumeByTag.achievements}

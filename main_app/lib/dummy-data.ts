@@ -275,3 +275,45 @@ export const OTHER_LISTS_DUMMY_DATA = [
     ],
   },
 ];
+
+export const PROJECTS_DUMMY_DATA = [
+  {
+    title: "E-commerce Platform",
+    startDate: new Date("2023-01-15"),
+    endDate: new Date("2023-08-30"),
+    summary:
+      "Built a full-stack e-commerce solution serving 10,000+ users with real-time inventory management, secure payment processing, and advanced analytics dashboard.",
+    url: "https://github.com/johndoe/ecommerce-platform",
+  },
+  {
+    title: "AI Content Generator",
+    startDate: new Date("2022-09-01"),
+    endDate: new Date("2023-02-28"),
+    summary:
+      "Developed a machine learning-powered content creation tool using OpenAI GPT and custom NLP models that increased team productivity by 60%.",
+    url: "https://ai-content-gen.johndoe.dev",
+  },
+  {
+    title: "Real-time Chat Application",
+    startDate: new Date("2022-06-01"),
+    endDate: new Date("2022-11-15"),
+    summary:
+      "Created a scalable real-time messaging platform with WebSocket connections, file sharing, and group chat features supporting 1000+ concurrent users.",
+    url: "https://github.com/johndoe/realtime-chat",
+  },
+  {
+    title: "Task Management Dashboard",
+    startDate: new Date("2021-03-10"),
+    endDate: new Date("2021-09-20"),
+    summary:
+      "Designed and developed a comprehensive project management tool with Kanban boards, team collaboration features, and automated reporting.",
+    url: "https://taskmanager.johndoe.dev",
+  },
+  {
+    title: "Open Source TypeScript Library",
+    startDate: new Date("2020-11-01"),
+    summary:
+      "Maintainer of a popular TypeScript utility library with over 2,000 stars on GitHub and 50K+ weekly downloads.",
+    url: "https://github.com/johndoe/ts-utils",
+  },
+];

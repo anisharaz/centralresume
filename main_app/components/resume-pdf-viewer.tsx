@@ -49,6 +49,7 @@ function ResumePDFDocument({ resumeData }: { resumeData: ResumeDataType }) {
     skills,
     achievements,
     publications,
+    projects,
     otherLists,
   } = resumeData;
 
@@ -232,6 +233,50 @@ function ResumePDFDocument({ resumeData }: { resumeData: ResumeDataType }) {
                 </View>
               </View>
             )}
+          </View>
+        )}
+
+        {/* Projects Section */}
+        {projects?.length > 0 && (
+          <View style={tw("mb-2.5 pb-2 border-b border-gray-300")}>
+            <Text style={tw("text-sm font-bold text-black mb-1 uppercase")}>
+              Projects
+            </Text>
+            {projects.map((project, index) => (
+              <View key={index} style={tw("mb-2")}>
+                <View
+                  style={tw("flex flex-row justify-between items-start mb-0.5")}
+                >
+                  <View>
+                    <Text style={tw("text-sm font-bold text-black")}>
+                      {project.title}
+                    </Text>
+                    {project.url && (
+                      <Text style={tw("text-xs text-black mb-0.25")}>
+                        {project.url}
+                      </Text>
+                    )}
+                  </View>
+                  {(project.startDate || project.endDate) && (
+                    <Text style={tw("text-xs text-black")}>
+                      {project.startDate
+                        ? formatDate(project.startDate)
+                        : "N/A"}{" "}
+                      -{" "}
+                      {project.endDate
+                        ? formatDate(project.endDate)
+                        : "Present"}
+                    </Text>
+                  )}
+                </View>
+
+                {project.summary && (
+                  <Text style={tw("text-xs text-black mb-0.75")}>
+                    {project.summary}
+                  </Text>
+                )}
+              </View>
+            ))}
           </View>
         )}
 

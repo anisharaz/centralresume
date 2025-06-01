@@ -49,6 +49,7 @@ export default function GettingStartedFormV2({
         soft: [],
         technical: [],
       },
+      projects: [],
       achievements: [],
       education: [],
       publications: [],

@@ -86,23 +86,6 @@ function PublicationsEditForm({
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold">Publications</h3>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() =>
-                appendPublication({
-                  name: "",
-                  tags: [],
-                  publisher: "",
-                  releaseDate: new Date().toISOString().split("T")[0],
-                  url: "",
-                  summary: [],
-                })
-              }
-            >
-              Add Publication
-            </Button>
           </div>
 
           {publicationFields.map((item, index) => (
@@ -252,12 +235,28 @@ function PublicationsEditForm({
             </div>
           ))}
 
-          <div className="flex gap-4 pt-4">
+          <div className="flex gap-5 items-center">
             <Button type="submit" disabled={form.formState.isSubmitting}>
               {form.formState.isSubmitting && (
                 <Loader2 className="animate-spin" />
               )}
-              Save Publications
+              Submit
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() =>
+                appendPublication({
+                  name: "",
+                  tags: [],
+                  publisher: "",
+                  releaseDate: new Date().toISOString().split("T")[0],
+                  url: "",
+                  summary: [],
+                })
+              }
+            >
+              Add New
             </Button>
           </div>
         </form>

@@ -321,8 +321,15 @@ function AchievementEditForm({
             </div>
           ))}
           <div className="flex gap-4">
+            <Button type="submit" disabled={form.formState.isSubmitting}>
+              {form.formState.isSubmitting && (
+                <Loader2 className="animate-spin" />
+              )}
+              Submit
+            </Button>
             <Button
               type="button"
+              variant="outline"
               onClick={() =>
                 append({
                   title: "",
@@ -333,13 +340,7 @@ function AchievementEditForm({
                 })
               }
             >
-              Add Achievement
-            </Button>
-            <Button type="submit" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting && (
-                <Loader2 className="animate-spin" />
-              )}
-              Submit
+              Add New
             </Button>
           </div>
         </form>

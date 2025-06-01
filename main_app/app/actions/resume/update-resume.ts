@@ -14,6 +14,7 @@ import {
   OTHER_LIST_SCHEMA_TYPE,
   PERSONAL_DETAILS_SCHEMA_TYPE,
   PUBLICATION_SCHEMA_TYPE,
+  PROJECTS_SCHEMA_TYPE,
 } from "@/lib/zod/schemas/resume";
 import { revalidatePath } from "next/cache";
 import { Resume } from "@/lib/resume";
@@ -35,6 +36,9 @@ type newResumeData =
     }
   | {
       achievements: ACHIEVEMENT_SCHEMA_TYPE;
+    }
+  | {
+      projects: PROJECTS_SCHEMA_TYPE;
     }
   | {
       otherLists: OTHER_LIST_SCHEMA_TYPE;

@@ -466,8 +466,15 @@ function EducationEditForm({
           ))}
 
           <div className="flex gap-4">
+            <Button type="submit" disabled={form.formState.isSubmitting}>
+              {form.formState.isSubmitting && (
+                <Loader2 className="animate-spin" />
+              )}
+              Submit
+            </Button>
             <Button
               type="button"
+              variant="outline"
               onClick={() =>
                 append({
                   institution: "",
@@ -480,14 +487,7 @@ function EducationEditForm({
                 })
               }
             >
-              Add Education
-            </Button>
-
-            <Button type="submit" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting && (
-                <Loader2 className="animate-spin" />
-              )}
-              Submit
+              Add New
             </Button>
           </div>
         </form>
