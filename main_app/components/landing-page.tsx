@@ -226,15 +226,25 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <section className="flex flex-col items-center justify-center w-full min-h-screen relative bg-[radial-gradient(circle_at_bottom,_#d97706,_transparent,_transparent)]">
-        <div className=" flex flex-col items-center text-center max-w-xl md:max-w-3xl z-10">
-          <h1 className="text-4xl md:text-5xl font-bold  mb-4">
-            #resume : create once use everywhere
+        <div className="flex flex-col items-center text-center max-w-xl md:max-w-4xl z-10 gap-4">
+          <h1 className="text-4xl md:text-5xl font-bold tracking-wider mb-4">
+            #resume :{" "}
+            <span className="underline decoration-blue-300 decoration-4 underline-offset-8">
+              {" "}
+              Sharing{" "}
+            </span>
+            and{" "}
+            <span className="underline decoration-blue-300 decoration-4 underline-offset-8">
+              {" "}
+              management
+            </span>{" "}
+            made easy
           </h1>
-          <p className="text-sm md:text-md mb-8 max-md:px-4">
-            Central resume is a platform for resume where you can create, manage
-            and share your resume with people, recruiter or job platforms from
-            one place. Read exiting features below or Get started with button
-            below.
+          <p className="text-sm md:text-xl mb-8">
+            Create, manage and share your resume with people, recruiter or job
+            platforms from one place with amazing features like{" "}
+            <span className="text-amber-300"> &quot;LoginWithResume&quot;</span>{" "}
+            and more listed below.
           </p>
           <WaitlistForm />
         </div>
@@ -324,7 +334,6 @@ export default function LandingPage() {
               Central
               <span className="text-amber-300">#resume </span>
             </span>{" "}
-            Management
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             CentralResume solves these challenges with innovative features
