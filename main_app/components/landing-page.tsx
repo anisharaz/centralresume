@@ -169,7 +169,7 @@ function NavBar() {
 
   return (
     <nav
-      className={`fixed p-3 z-[9999] flex items-center justify-start max-md:flex-col max-md:items-start max-md:gap-2 transition-all duration-300 ease-in-out ${blend ? "w-full" : "bg-[color-mix(in_oklab,_var(--input)_30%,_transparent)] backdrop-blur-2xl border rounded-lg top-2 left-2 w-[calc(100%-1rem)]"}`}
+      className={`fixed p-3 z-[9999] flex items-center justify-start max-md:flex-col max-md:items-start max-md:gap-2 transition-all duration-300 ease-in-out ${blend ? "w-full" : "bg-[color-mix(in_oklab,_var(--input)_30%,_transparent)] backdrop-blur-2xl border rounded-lg top-2 left-2 w-[calc(100%-1rem)]"} ${isOpen && blend && "bg-[color-mix(in_oklab,_var(--input)_30%,_transparent)] backdrop-blur-2xl border"}`}
     >
       {/* Logo and Hamburger Menu */}
       <div className="flex justify-between w-fit max-md:w-full px-2 max-md:py-2">
