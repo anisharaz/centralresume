@@ -2,9 +2,10 @@
 
 import Image from "next/image";
 import Footer from "./footer";
-import { CheckCircle, Zap, Shield, Smartphone } from "lucide-react";
-import React from "react";
+import { CheckCircle, Zap, Shield, Smartphone, Menu, X } from "lucide-react";
+import React, { Ref, RefObject, useEffect, useRef } from "react";
 import WaitlistForm from "./waitlist-form";
+import { Button } from "./ui/button";
 const benefits = [
   {
     title: "Smart Tagging System",
@@ -144,9 +145,85 @@ function BenefitSection({
   );
 }
 
-export default function LandingPage() {
+function NavBar() {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [blend, setBlend] = React.useState(true);
+
+  useEffect(() => {
+    if (window) {
+      const handleScroll = () => {
+        if (window.scrollY > 50) {
+          setBlend(false);
+        } else {
+          setBlend(true);
+        }
+      };
+      window.addEventListener("scroll", handleScroll);
+      handleScroll();
+
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
+  });
+
   return (
-    <div className="flex flex-col min-h-screen overflow-x-hidden">
+    <nav
+      className={`fixed p-3 z-[9999] flex items-center justify-start max-md:flex-col max-md:items-start max-md:gap-2 transition-all duration-300 ease-in-out ${blend ? "w-full" : "bg-[color-mix(in_oklab,_var(--input)_30%,_transparent)] backdrop-blur-2xl border rounded-lg top-2 left-2 w-[calc(100%-1rem)]"}`}
+    >
+      {/* Logo and Hamburger Menu */}
+      <div className="flex justify-between w-fit max-md:w-full px-2 max-md:py-2">
+        <div className="font-bold flex justify-center items-center">
+          Central#Resume
+        </div>
+        <div className="hidden max-md:flex justify-center items-center">
+          <button
+            className="focus:outline-none"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {!isOpen ? <Menu /> : <X />}
+          </button>
+        </div>
+      </div>
+
+      {/* Navigation Links */}
+      <div
+        className={`flex items-center justify-between px-2 w-full  ${isOpen ? "flex-col" : "max-md:hidden"}`}
+      >
+        <div className="flex items-center justify-between gap-4 max-md:flex-col max-md:w-full max-md:pb-4 max-md:items-stretch">
+          {/*<div className="bg-pink-500">Home</div>
+          <div>Features</div>*/}
+        </div>
+        <div className="flex items-center justify-between max-md:w-full max-md:items-start gap-4">
+          <Button
+            variant="outline"
+            className=" px-4 py-2 rounded-fulltransition-colors"
+          >
+            Login
+          </Button>
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+export default function LandingPage() {
+  const [loaded, setLoaded] = React.useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoaded(true);
+    }, 50); // Adjust the delay as needed
+
+    return () => clearTimeout(timer);
+  });
+
+  return (
+    <div
+      className={`flex flex-col min-h-screen overflow-x-hidden transition-all duration-200 ease-in-out ${loaded ? "blur-none" : "blur-sm"}`}
+    >
+      {/* Navigation Bar */}
+      <NavBar />
+
       {/* Hero Section */}
       <section className="flex flex-col items-center justify-center w-full min-h-screen relative bg-[radial-gradient(circle_at_bottom,_#d97706,_transparent,_transparent)]">
         <div className="flex flex-col items-center text-center max-w-xl md:max-w-4xl z-10 gap-4">
