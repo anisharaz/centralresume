@@ -1,362 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import Footer from "./footer";
-import {
-  CheckCircle,
-  Zap,
-  Shield,
-  Smartphone,
-  Menu,
-  X,
-  Send,
-  Mail,
-  User,
-  MessageSquare,
-} from "lucide-react";
-import React, { useEffect, useState } from "react";
+import Footer from "../footer";
+import { CheckCircle, Zap, Shield, Smartphone, Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import WaitlistForm from "./waitlist-form";
-import { LoginButton } from "./auth-buttons";
-import Link from "next/link";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
 import { cn } from "@/lib/utils";
-import { contactUs } from "@/app/actions/general";
-
-const benefits = [
-  {
-    title: "Smart Tagging System",
-    description: {
-      caption:
-        'Tag every detail on your resume with job - specific labels like "frontend_dev", "backend_dev", or "marketing".Our intelligent system automatically generates tailored resume versions based on your tags, saving you hours of manual work.',
-      points: [
-        "Create unlimited resume variations",
-        "Automatic content filtering by tags",
-        "Job-specific skill highlighting",
-      ],
-    },
-    image: {
-      url: "/1.svg",
-      scale: "scale-[1]",
-      background:
-        "bg-[radial-gradient(ellipse_at_bottom,_#ef4444,_transparent,_#fed7aa)]",
-    },
-    background:
-      "bg-[radial-gradient(circle_at_left,_#4c0d2e,_transparent,_transparent)]",
-  },
-  {
-    title: "Persistent Resume Links",
-    description: {
-      caption:
-        "Share one permanent link that automatically updates whenever you modify your resume. No more sending new links or uploading files repeatedly. Your shared resume stays current automatically.",
-      points: [
-        "One link, always up-to-date",
-        "Instant PDF downloads",
-        "Share across all platforms",
-      ],
-    },
-    image: {
-      url: "/2.svg",
-      scale: "scale-[1.05]",
-      background:
-        "bg-[radial-gradient(ellipse_at_top_left,_#14b8a6,_transparent,_#84cc16))]",
-    },
-    background:
-      "bg-[radial-gradient(circle_at_bottom_right,_#082f49,_transparent,_transparent)]",
-  },
-  {
-    title: "Universal Job Platform Integration",
-    description: {
-      caption:
-        'Our "Login with CentralResume" API allows job platforms to integrate one-click resume sharing. Apply to jobs as easily as signing in with Google, eliminating the need to recreate profiles everywhere.',
-      points: [
-        "Create unlimited resume variations",
-        "Automatic content filtering by tags",
-        "Job-specific skill highlighting",
-      ],
-    },
-    image: {
-      url: "/3.svg",
-      scale: "scale-[0.9]",
-      background:
-        "bg-[radial-gradient(ellipse_at_bottom_left,_#fcd34d,_transparent,_#f43f5e)]",
-    },
-    background:
-      "bg-[radial-gradient(circle_at_top_right,_#3b82f6,_transparent,_#db2777)]",
-  },
-  {
-    title: "AI-Optimized Standard Format",
-    description: {
-      caption:
-        "Our standardized resume structure enables superior AI parsing and matching. Generate professional PDFs in multiple styles while maintaining data consistency and improving your visibility to automated systems.",
-      points: [
-        "Enhanced AI compatibility",
-        "Multiple PDF templates",
-        "Better job matching",
-      ],
-    },
-    image: {
-      url: "/4.svg",
-      scale: "scale-[1]",
-      background:
-        "bg-[radial-gradient(ellipse_at_bottom_right,_#b45309,_transparent,_#831843)]",
-    },
-    background:
-      "bg-[radial-gradient(circle_at_bottom,_#0e7490,_transparent,_transparent)]",
-  },
-];
-
-function BenefitSection({
-  title,
-  description,
-  image,
-  background,
-  side,
-}: {
-  title: string | React.ReactNode;
-  description: {
-    caption: string | React.ReactNode;
-    points?: string[] | React.ReactNode[];
-  };
-  image: { url: string; scale: string; background: string };
-  background: string;
-  side: "left" | "right";
-}) {
-  return (
-    <section
-      className={
-        "flex flex-col  items-center justify-center w-full xl:min-h-screen max-lg:min-h-[80vh] max-sm:min-h-screen p-10 " +
-        (side === "left" ? "md:flex-row " : "md:flex-row-reverse ") +
-        background
-      }
-    >
-      <div className="w-full max-w-2xl md:w-1/2 flex flex-col items-center justify-center">
-        <div className={cn([" p-1 rounded-full", image.background])}>
-          <Image
-            src={image.url}
-            alt=""
-            width={1000}
-            height={1000}
-            className={cn([
-              "h-auto w-full rounded-2xl transition-shadow duration-300",
-              image.scale,
-            ])}
-          />
-        </div>
-      </div>
-      <div className="w-full md:w-1/2">
-        <div className="p-10 max-sm:p-2 pt-4 flex flex-col items-center">
-          <h2 className="text-4xl font-semibold mb-2">{title}</h2>
-          <p className="text-base py-5 text-gray-700 dark:text-gray-300">
-            {description.caption}
-          </p>
-          {description.points &&
-            description.points.map((point, index) => (
-              <div key={index} className="mb-2 flex justify-start w-full">
-                <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
-                {point}
-              </div>
-            ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function NavBar() {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [blend, setBlend] = React.useState(true);
-
-  useEffect(() => {
-    if (window) {
-      const handleScroll = () => {
-        if (window.scrollY > 50) {
-          setBlend(false);
-        } else {
-          setBlend(true);
-        }
-      };
-      window.addEventListener("scroll", handleScroll);
-      handleScroll();
-
-      return () => {
-        window.removeEventListener("scroll", handleScroll);
-      };
-    }
-  });
-
-  return (
-    <div className="fixed z-[9999] w-full flex justify-center items-center">
-      <nav
-        className={`m-1 p-2 w-full max-w-[1400px] flex items-center justify-start max-md:flex-col max-md:items-start max-md:gap-2 transition-all duration-300 ease-in-out  rounded-lg ${
-          (!blend || (isOpen && blend)) &&
-          "bg-[color-mix(in_oklab,_var(--input)_30%,_transparent)] backdrop-blur-2xl border"
-        }`}
-      >
-        {/* Logo and Hamburger Menu */}
-        <div className="flex justify-between w-fit max-md:w-full px-2 max-md:py-2">
-          <div className="font-bold flex justify-center items-center">
-            Central <span className="text-amber-300"> #Resume </span>
-          </div>
-          <div className="hidden max-md:flex justify-center items-center">
-            <button
-              className="focus:outline-none"
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              {!isOpen ? <Menu /> : <X />}
-            </button>
-          </div>
-        </div>
-
-        {/* Navigation Links */}
-        <div
-          className={`flex items-center justify-between px-2 w-full  ${
-            isOpen ? "flex-col" : "max-md:hidden"
-          }`}
-        >
-          <div className="flex items-center justify-between gap-4 max-md:flex-col max-md:w-full max-md:pb-4 max-md:items-stretch">
-            {/*<div className="bg-pink-500">Home</div>
-          <div>Features</div>*/}
-          </div>
-          <div className="flex items-center justify-between max-md:w-full max-md:items-start gap-4">
-            <Link href={"#contact"}>
-              <Button variant={"link"} className="text-white">
-                Contact Us
-              </Button>
-            </Link>
-            <LoginButton />
-          </div>
-        </div>
-      </nav>
-    </div>
-  );
-}
-
-function ContactForm() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [responseMessage, setResponseMessage] = useState("");
-  const [isSuccess, setIsSuccess] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!name.trim() || !email.trim() || !message.trim()) {
-      setResponseMessage("Please fill in all fields.");
-      setIsSuccess(false);
-      return;
-    }
-
-    setIsLoading(true);
-    setResponseMessage("");
-
-    try {
-      const result = await contactUs(name.trim(), email.trim(), message.trim());
-      setResponseMessage(result.message);
-      setIsSuccess(result.success);
-
-      if (result.success) {
-        setName("");
-        setEmail("");
-        setMessage("");
-      }
-    } catch (error) {
-      setResponseMessage("Something went wrong. Please try again later.");
-      setIsSuccess(false);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="space-y-2">
-        <Label htmlFor="name" className="text-white flex items-center gap-2">
-          <User className="w-4 h-4" />
-          Name
-        </Label>
-        <Input
-          id="name"
-          type="text"
-          placeholder="Your full name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
-          disabled={isLoading}
-        />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="email" className="text-white flex items-center gap-2">
-          <Mail className="w-4 h-4" />
-          Email
-        </Label>
-        <Input
-          id="email"
-          type="email"
-          placeholder="your.email@example.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
-          disabled={isLoading}
-        />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="message" className="text-white flex items-center gap-2">
-          <MessageSquare className="w-4 h-4" />
-          Message
-        </Label>
-        <textarea
-          id="message"
-          placeholder="Tell us how we can help you..."
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          rows={4}
-          className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-          disabled={isLoading}
-        />
-      </div>
-
-      <Button
-        type="submit"
-        disabled={isLoading}
-        className="w-full bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50"
-      >
-        {isLoading ? (
-          <>
-            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
-            Sending...
-          </>
-        ) : (
-          <>
-            <Send className="w-4 h-4 mr-2" />
-            Send Message
-          </>
-        )}
-      </Button>
-
-      {responseMessage && (
-        <div
-          className={cn(
-            "p-3 rounded-md text-sm",
-            isSuccess
-              ? "bg-green-500/20 text-green-100 border border-green-500/30"
-              : "bg-red-500/20 text-red-100 border border-red-500/30"
-          )}
-        >
-          {responseMessage}
-        </div>
-      )}
-    </form>
-  );
-}
+import { ContactForm } from "./contactus-form";
+import { benefitsData } from "./benefits-section-data";
+import { NavBar } from "../navbar";
 
 export default function LandingPage() {
-  const [loaded, setLoaded] = React.useState(false);
+  const [loaded, setLoaded] = useState(false);
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoaded(true);
@@ -495,7 +150,7 @@ export default function LandingPage() {
           </p>
         </div>
       </section>
-      {benefits.map((benefit, index) => (
+      {benefitsData.map((benefit, index) => (
         <BenefitSection
           key={index}
           title={benefit.title}
@@ -610,5 +265,62 @@ export default function LandingPage() {
       {/* Footer Section */}
       <Footer />
     </div>
+  );
+}
+
+function BenefitSection({
+  title,
+  description,
+  image,
+  background,
+  side,
+}: {
+  title: string | React.ReactNode;
+  description: {
+    caption: string | React.ReactNode;
+    points?: string[] | React.ReactNode[];
+  };
+  image: { url: string; scale: string; background: string };
+  background: string;
+  side: "left" | "right";
+}) {
+  return (
+    <section
+      className={
+        "flex flex-col  items-center justify-center w-full xl:min-h-screen max-lg:min-h-[80vh] max-sm:min-h-screen p-10 " +
+        (side === "left" ? "md:flex-row " : "md:flex-row-reverse ") +
+        background
+      }
+    >
+      <div className="w-full max-w-2xl md:w-1/2 flex flex-col items-center justify-center">
+        <div className={cn([" p-1 rounded-full", image.background])}>
+          <Image
+            src={image.url}
+            alt=""
+            width={1000}
+            height={1000}
+            className={cn([
+              "h-auto w-full rounded-2xl transition-shadow duration-300",
+              image.scale,
+            ])}
+          />
+        </div>
+      </div>
+      <div className="w-full md:w-1/2">
+        <div className="p-10 max-sm:p-2 pt-4 flex flex-col items-center">
+          <h2 className="text-4xl font-semibold mb-2">{title}</h2>
+          <p className="text-base py-5 text-gray-700 dark:text-gray-300">
+            {description.caption}
+          </p>
+          {description.points &&
+            description.points.map((point, index) => (
+              <div key={index} className="mb-2 flex justify-start w-full">
+                <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
+                {point}
+              </div>
+            ))}
+        </div>
+      </div>
+    </section>
   );
 }
