@@ -34,24 +34,29 @@ export default function LandingPage() {
         <div className="flex flex-col items-center text-center max-w-xl md:max-w-4xl z-10 gap-4">
           <h1 className="text-4xl md:text-5xl font-bold tracking-wider mb-4 leading-16">
             #resume :{" "}
-            <span className="underline decoration-blue-300 decoration-4 underline-offset-8">
+            <span className="underline decoration-blue-300 decoration-2 underline-offset-8">
               {" "}
               Sharing{" "}
             </span>
             and{" "}
-            <span className="underline decoration-blue-300 decoration-4 underline-offset-8">
+            <span className="underline decoration-blue-300 decoration-2 underline-offset-8">
               {" "}
               management
             </span>{" "}
             made effortless
           </h1>
-          <p className="text-sm md:text-xl mb-8 text-white/80 text-center">
+          <p className="text-sm md:text-xl mb-8 text-white/70 text-center">
             Create and share your resume effortlessly from a single platform —
             whether it&apos;s with recruiters, individuals, or job portals.
             Enjoy features like a
-            <span className="font-bold"> live-updating resume link </span> and{" "}
-            <span className="font-bold">
-              one-click resume sharing with job platforms
+            <span className="font-bold underline decoration-2 underline-offset-4 decoration-amber-600">
+              {" "}
+              live-updating resume link{" "}
+            </span>{" "}
+            and{" "}
+            <span className="font-bold underline decoration-2 underline-offset-4 decoration-amber-600">
+              {" "}
+              one-click resume sharing with job platforms{" "}
             </span>{" "}
             and much more outlined below.
           </p>
@@ -234,8 +239,11 @@ export default function LandingPage() {
               <div className="bg-white/5 p-6 rounded-lg border border-white/10">
                 <h4 className="font-medium text-white mb-2">Quick Response</h4>
                 <p className="text-gray-300 text-sm">
-                  We typically respond to all inquiries within 24 hours. For
-                  urgent matters, we&apos;ll get back to you even sooner.
+                  We typically respond to all inquiries. For urgent matters,
+                  mail us at{" "}
+                  <span className="text-amber-300">
+                    contact@centralresume.me
+                  </span>
                 </p>
               </div>
             </div>
@@ -286,11 +294,11 @@ function BenefitSection({
 }) {
   return (
     <section
-      className={
-        "flex flex-col  items-center justify-center w-full xl:min-h-screen max-lg:min-h-[80vh] max-sm:min-h-screen p-10 " +
-        (side === "left" ? "md:flex-row " : "md:flex-row-reverse ") +
-        background
-      }
+      className={cn([
+        "flex flex-col  items-center justify-center w-full xl:min-h-screen max-lg:min-h-[80vh] max-sm:min-h-screen gap-4 p-10 ",
+        side === "left" ? "md:flex-row" : "md:flex-row-reverse",
+        background,
+      ])}
     >
       <div className="w-full max-w-2xl md:w-1/2 flex flex-col items-center justify-center">
         <div className={cn([" p-1 rounded-full", image.background])}>
