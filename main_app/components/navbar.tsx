@@ -1,100 +1,74 @@
-"use client";
-
-import { useState } from "react";
-import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Button } from "./ui/button";
+import { LoginButton } from "./auth-buttons";
+import Link from "next/link";
 
-interface NavbarProps {
-  show: boolean;
-}
+export function NavBar() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [blend, setBlend] = useState(true);
 
-export default function Navbar({ show }: NavbarProps) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  useEffect(() => {
+    if (window) {
+      const handleScroll = () => {
+        if (window.scrollY > 50) {
+          setBlend(false);
+        } else {
+          setBlend(true);
+        }
+      };
+      window.addEventListener("scroll", handleScroll);
+      handleScroll();
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const navItems = [
-    { name: "Home", href: "/" },
-    // { name: "Profile", href: "/user/profile" },
-    // { name: "Pricing", href: "#pricing" },
-    // { name: "About", href: "#about" },
-    // { name: "Contact", href: "#contact" },
-  ];
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
+  });
 
   return (
-    <>
-      <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: show ? 0 : -100 }}
-        transition={{ duration: 0.3 }}
-        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-3xl shadow-lg"
+    <div className="fixed z-[9999] w-full flex justify-center items-center">
+      <nav
+        className={`m-1 p-2 w-full max-w-[1400px] flex items-center justify-start max-md:flex-col max-md:items-start max-md:gap-2 transition-all duration-300 ease-in-out  rounded-lg ${
+          (!blend || (isOpen && blend)) &&
+          "bg-[color-mix(in_oklab,_var(--input)_30%,_transparent)] backdrop-blur-2xl border"
+        }`}
       >
-        <div className="container mx-auto px-4 md:px-6 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center space-x-2">
-              <span className="text-2xl font-bold bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent">
-                Central<span className="text-amber-400">#resume</span>
-              </span>
-            </Link>
-            <nav className="hidden md:flex items-center space-x-8">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="text-white hover:text-black font-bold tracking-widest"
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </nav>
-            {/* <div className="hidden md:flex items-center space-x-4">
-              <Button variant="default">Sign In</Button>
-              <Button className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white">
-                Sign Up
-              </Button>
-            </div> */}
+        {/* Logo and Hamburger Menu */}
+        <div className="flex justify-between w-fit max-md:w-full px-2 max-md:py-2">
+          <div className="font-bold flex justify-center items-center">
+            Central <span className="text-amber-300"> #Resume </span>
+          </div>
+          <div className="hidden max-md:flex justify-center items-center">
             <button
-              onClick={toggleMenu}
-              className="md:hidden text-gray-700 focus:outline-none"
+              className="focus:outline-none"
+              onClick={() => setIsOpen(!isOpen)}
             >
-              {isMenuOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
+              {!isOpen ? <Menu /> : <X />}
             </button>
           </div>
         </div>
-      </motion.header>
 
-      {/* Mobile menu */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed top-16 left-0 right-0 z-40 backdrop-blur-3xl shadow-lg md:hidden"
-          >
-            <div className="container mx-auto px-4 py-6 flex flex-col space-y-4">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="text-white hover:text-black font-bold tracking-widest py-2"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+        {/* Navigation Links */}
+        <div
+          className={`flex items-center justify-between px-2 w-full  ${
+            isOpen ? "flex-col" : "max-md:hidden"
+          }`}
+        >
+          <div className="flex items-center justify-between gap-4 max-md:flex-col max-md:w-full max-md:pb-4 max-md:items-stretch">
+            {/*<div className="bg-pink-500">Home</div>
+          <div>Features</div>*/}
+          </div>
+          <div className="flex items-center justify-between max-md:w-full max-md:items-start gap-4">
+            <Link href={"#contact"}>
+              <Button variant={"link"} className="text-white">
+                Contact Us
+              </Button>
+            </Link>
+            <LoginButton />
+          </div>
+        </div>
+      </nav>
+    </div>
   );
 }

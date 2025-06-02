@@ -29,7 +29,7 @@ export function LoginButton() {
   return (
     <Button
       variant={"outline"}
-      className="w-full cursor-pointer"
+      className="cursor-pointer"
       asChild
       disabled={isPending}
       suppressHydrationWarning

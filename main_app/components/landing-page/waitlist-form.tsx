@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ArrowRight, Loader } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { joinWaitlist } from "@/app/actions/join-waitlist";
+import { joinWaitlist } from "@/app/actions/general";
 import { toast } from "sonner";
 
 const WaitlistForm = () => {
