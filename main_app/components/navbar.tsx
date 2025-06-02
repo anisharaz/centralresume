@@ -1,7 +1,8 @@
-import { Link, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { LoginButton } from "./auth-buttons";
+import Link from "next/link";
 
 export function NavBar() {
   const [isOpen, setIsOpen] = useState(false);

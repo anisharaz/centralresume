@@ -161,7 +161,10 @@ export default function LandingPage() {
         />
       ))}
       {/* contact and feedback section */}
-      <section className="py-20 px-4 bg-[radial-gradient(ellipse_at_top,_#1e293b,_transparent,_#0f172a)]">
+      <section
+        className="py-20 px-4 bg-[radial-gradient(ellipse_at_top,_#1e293b,_transparent,_#0f172a)]"
+        id="contact"
+      >
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
@@ -244,10 +247,7 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-      <section
-        className="py-20 px-4 text-white bg-[radial-gradient(ellipse_at_bottom_right,_#082f49,_transparent,_transparent)]"
-        id="contact"
-      >
+      <section className="py-20 px-4 text-white bg-[radial-gradient(ellipse_at_bottom_right,_#082f49,_transparent,_transparent)]">
         <div className="max-w-5xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Stay up to date with CentralResume.
