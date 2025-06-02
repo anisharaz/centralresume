@@ -14,36 +14,40 @@ export function OtherListsSectionView({
 }) {
   return (
     <div className="w-full mx-auto">
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-4xl flex gap-5">
-            <div>Additional Information</div>
-            <div>{children}</div>
+      <Card className="border-0 shadow-md bg-gradient-to-br from-background to-muted/10">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-3xl lg:text-4xl font-bold tracking-tight flex flex-col lg:flex-row lg:items-center gap-3">
+            <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+              Additional Information
+            </span>
+            <div className="flex items-center">{children}</div>
           </CardTitle>
         </CardHeader>
 
-        <CardContent className="space-y-6 p-2">
+        <CardContent className="pt-0 space-y-4">
           {!data || data.length === 0 ? (
-            <p className="text-muted-foreground text-sm pl-6">
+            <p className="text-muted-foreground text-sm">
               No additional information added yet.
             </p>
           ) : null}
           {data.map((list, index) => (
             <div
               key={index}
-              className="border border-neutral-600 p-3 rounded-md"
+              className="border border-muted/40 bg-background/40 backdrop-blur-sm rounded-lg p-4 hover:shadow-md transition-shadow"
             >
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {/* Section Header */}
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {list.heading && list.heading.length > 0 && (
-                    <div className="flex items-center gap-3">
-                      <Folder className="h-5 w-5 text-muted-foreground" />
+                    <div className="flex items-center gap-2">
+                      <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10">
+                        <Folder className="h-3 w-3 text-primary" />
+                      </div>
                       <div className="flex flex-wrap gap-2">
                         {list.heading.map((heading, headingIndex) => (
                           <h2
                             key={headingIndex}
-                            className="text-2xl font-semibold"
+                            className="text-xl font-semibold"
                           >
                             {heading.text}
                           </h2>
@@ -55,15 +59,17 @@ export function OtherListsSectionView({
 
                 {/* Content List */}
                 {list.summary && list.summary.length > 0 && (
-                  <div className="ml-8 space-y-3">
-                    <div className="space-y-3">
+                  <div className="ml-8 space-y-2">
+                    <div className="space-y-2">
                       {list.summary.map((item, summaryIndex) => (
                         <div
                           key={summaryIndex}
-                          className="flex items-start gap-3"
+                          className="flex items-start gap-2"
                         >
-                          <List className="h-4 w-4 text-muted-foreground mt-1 flex-shrink-0" />
-                          <p className="text-muted-foreground leading-relaxed">
+                          <div className="flex items-center justify-center w-5 h-5 rounded-full bg-primary/10 mt-0.5">
+                            <List className="h-2.5 w-2.5 text-primary" />
+                          </div>
+                          <p className="text-muted-foreground leading-relaxed text-sm">
                             {item.text}
                           </p>
                         </div>

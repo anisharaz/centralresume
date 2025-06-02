@@ -33,8 +33,6 @@ const items = [
 
 export function AppSidebar() {
   const pathName = usePathname();
-  const onSettingsPage = pathName.endsWith("/user/setting");
-  const onOauthPage = pathName.endsWith("/user/setting/oauth");
   return (
     <Sidebar variant="sidebar">
       <SidebarHeader>

@@ -112,6 +112,7 @@ export default async function ProfilePage({
             data={resumeByTag.personal_details}
             dataWithTag={resume.getResume().personal_details}
           />
+          <Separator className="my-4" />
           <WorkExperienceCard
             data={resumeByTag.work_experience}
             dataWithTag={resume.getResume().work_experience}

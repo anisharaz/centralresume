@@ -27,7 +27,7 @@ export function SkillsSectionView({
   };
 
   const getLevelIcon = (level?: string) => {
-    const iconClass = "h-3 w-3";
+    const iconClass = "h-2.5 w-2.5";
     switch (level?.toLowerCase()) {
       case "advanced":
         return <Star className={`${iconClass} fill-current`} />;
@@ -42,74 +42,91 @@ export function SkillsSectionView({
 
   return (
     <div className="w-full mx-auto">
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-4xl flex gap-5">
-            <div>Skills</div>
-            <div>{children}</div>
+      <Card className="border-0 shadow-md bg-gradient-to-br from-background to-muted/10">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-3xl lg:text-4xl font-bold tracking-tight flex flex-col lg:flex-row lg:items-center gap-3">
+            <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+              Skills
+            </span>
+            <div className="flex items-center">{children}</div>
           </CardTitle>
         </CardHeader>
 
-        <CardContent className="space-y-6 p-2">
+        <CardContent className="pt-0 space-y-4">
           {!data || (data.soft.length == 0 && data.technical.length == 0) ? (
-            <p className="text-muted-foreground text-sm pl-6">
+            <p className="text-muted-foreground text-sm">
               No skills added yet.
             </p>
           ) : null}
+
           {data.soft && data.soft.length > 0 && (
-            <div className="space-y-4 border border-neutral-600 p-3 rounded-md relative">
-              <div className="flex items-center gap-2 pr-12">
-                <Brain className="h-5 w-5 text-muted-foreground" />
-                <h2 className="text-xl font-semibold">Soft Skills</h2>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                {data.soft.map((skill, index) => (
-                  <Card key={index} className="p-3">
-                    <div className="space-y-2">
-                      <h3 className="font-medium text-sm">{skill.name}</h3>
-                      {skill.level && (
-                        <div className="flex items-center gap-2">
-                          {getLevelIcon(skill.level)}
-                          <Badge
-                            variant={getLevelColor(skill.level)}
-                            className="text-xs"
-                          >
-                            {skill.level}
-                          </Badge>
-                        </div>
-                      )}
+            <div className="border border-muted/40 bg-background/40 backdrop-blur-sm rounded-lg p-4 hover:shadow-md transition-shadow">
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10">
+                    <Brain className="h-3 w-3 text-primary" />
+                  </div>
+                  <h2 className="text-xl font-semibold">Soft Skills</h2>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
+                  {data.soft.map((skill, index) => (
+                    <div
+                      key={index}
+                      className="border border-muted/40 bg-background/60 rounded-lg p-2.5"
+                    >
+                      <div className="space-y-1.5">
+                        <h3 className="font-medium text-sm">{skill.name}</h3>
+                        {skill.level && (
+                          <div className="flex items-center gap-1.5">
+                            {getLevelIcon(skill.level)}
+                            <Badge
+                              variant={getLevelColor(skill.level)}
+                              className="px-1.5 py-0.5 text-xs"
+                            >
+                              {skill.level}
+                            </Badge>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </Card>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           )}
 
           {data.technical && data.technical.length > 0 && (
-            <div className="space-y-4 border border-neutral-600 p-3 rounded-md relative">
-              <div className="flex items-center gap-2 pr-12">
-                <Code className="h-5 w-5 text-muted-foreground" />
-                <h2 className="text-xl font-semibold">Technical Skills</h2>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                {data.technical.map((skill, index) => (
-                  <Card key={index} className="p-3 ">
-                    <div className="space-y-2">
-                      <h3 className="font-medium text-sm">{skill.name}</h3>
-                      {skill.level && (
-                        <div className="flex items-center gap-2">
-                          {getLevelIcon(skill.level)}
-                          <Badge
-                            variant={getLevelColor(skill.level)}
-                            className="text-xs"
-                          >
-                            {skill.level}
-                          </Badge>
-                        </div>
-                      )}
+            <div className="border border-muted/40 bg-background/40 backdrop-blur-sm rounded-lg p-4 hover:shadow-md transition-shadow">
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10">
+                    <Code className="h-3 w-3 text-primary" />
+                  </div>
+                  <h2 className="text-xl font-semibold">Technical Skills</h2>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
+                  {data.technical.map((skill, index) => (
+                    <div
+                      key={index}
+                      className="border border-muted/40 bg-background/60 rounded-lg p-2.5"
+                    >
+                      <div className="space-y-1.5">
+                        <h3 className="font-medium text-sm">{skill.name}</h3>
+                        {skill.level && (
+                          <div className="flex items-center gap-1.5">
+                            {getLevelIcon(skill.level)}
+                            <Badge
+                              variant={getLevelColor(skill.level)}
+                              className="px-1.5 py-0.5 text-xs"
+                            >
+                              {skill.level}
+                            </Badge>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </Card>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           )}
