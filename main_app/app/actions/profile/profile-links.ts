@@ -91,3 +91,36 @@ export async function toggleProfileLinkVisibility(
     };
   }
 }
+
+export async function updateBannerText(bannerText: string) {
+  try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    if (!session?.user.id) throw new Error("User not authenticated");
+
+    // Update or create user profile with new banner text
+    await prisma.userProfile.upsert({
+      where: {
+        userId: session.session.userId,
+      },
+      update: {
+        bannerText: bannerText,
+      },
+      create: {
+        userId: session.session.userId,
+        bannerText: bannerText,
+        visibility: $Enums.VISIBILITY.PRIVATE,
+      },
+    });
+
+    return {
+      success: true,
+      error: null,
+    };
+  } catch (error: any) {
+    console.error("Error updating banner text:", error);
+    return {
+      success: false,
+      error: error.message || "Failed to update banner text",
+    };
+  }
+}
