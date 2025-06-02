@@ -27,3 +27,26 @@ export async function joinWaitlist(email: string) {
     };
   }
 }
+
+export async function contactUs(name: string, email: string, message: string) {
+  try {
+    await prisma.contactUs.create({
+      data: {
+        name: name,
+        email: email,
+        message: message,
+      },
+    });
+    return {
+      success: true,
+      message:
+        "Your message has been sent successfully. We'll get back to you soon!",
+    };
+  } catch (error: any) {
+    console.log(error);
+    return {
+      success: false,
+      message: "Something went wrong. Please try again later.",
+    };
+  }
+}

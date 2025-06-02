@@ -2,13 +2,28 @@
 
 import Image from "next/image";
 import Footer from "./footer";
-import { CheckCircle, Zap, Shield, Smartphone, Menu, X } from "lucide-react";
-import React, { useEffect } from "react";
+import {
+  CheckCircle,
+  Zap,
+  Shield,
+  Smartphone,
+  Menu,
+  X,
+  Send,
+  Mail,
+  User,
+  MessageSquare,
+} from "lucide-react";
+import React, { useEffect, useState } from "react";
 import WaitlistForm from "./waitlist-form";
 import { LoginButton } from "./auth-buttons";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
 import { cn } from "@/lib/utils";
+import { contactUs } from "@/app/actions/general";
+
 const benefits = [
   {
     title: "Smart Tagging System",
@@ -218,6 +233,128 @@ function NavBar() {
   );
 }
 
+function ContactForm() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [responseMessage, setResponseMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!name.trim() || !email.trim() || !message.trim()) {
+      setResponseMessage("Please fill in all fields.");
+      setIsSuccess(false);
+      return;
+    }
+
+    setIsLoading(true);
+    setResponseMessage("");
+
+    try {
+      const result = await contactUs(name.trim(), email.trim(), message.trim());
+      setResponseMessage(result.message);
+      setIsSuccess(result.success);
+
+      if (result.success) {
+        setName("");
+        setEmail("");
+        setMessage("");
+      }
+    } catch (error) {
+      setResponseMessage("Something went wrong. Please try again later.");
+      setIsSuccess(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="space-y-2">
+        <Label htmlFor="name" className="text-white flex items-center gap-2">
+          <User className="w-4 h-4" />
+          Name
+        </Label>
+        <Input
+          id="name"
+          type="text"
+          placeholder="Your full name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+          disabled={isLoading}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="email" className="text-white flex items-center gap-2">
+          <Mail className="w-4 h-4" />
+          Email
+        </Label>
+        <Input
+          id="email"
+          type="email"
+          placeholder="your.email@example.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+          disabled={isLoading}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="message" className="text-white flex items-center gap-2">
+          <MessageSquare className="w-4 h-4" />
+          Message
+        </Label>
+        <textarea
+          id="message"
+          placeholder="Tell us how we can help you..."
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          rows={4}
+          className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+          disabled={isLoading}
+        />
+      </div>
+
+      <Button
+        type="submit"
+        disabled={isLoading}
+        className="w-full bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50"
+      >
+        {isLoading ? (
+          <>
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+            Sending...
+          </>
+        ) : (
+          <>
+            <Send className="w-4 h-4 mr-2" />
+            Send Message
+          </>
+        )}
+      </Button>
+
+      {responseMessage && (
+        <div
+          className={cn(
+            "p-3 rounded-md text-sm",
+            isSuccess
+              ? "bg-green-500/20 text-green-100 border border-green-500/30"
+              : "bg-red-500/20 text-red-100 border border-red-500/30"
+          )}
+        >
+          {responseMessage}
+        </div>
+      )}
+    </form>
+  );
+}
+
 export default function LandingPage() {
   const [loaded, setLoaded] = React.useState(false);
   useEffect(() => {
@@ -253,20 +390,17 @@ export default function LandingPage() {
             </span>{" "}
             made effortless
           </h1>
-          <p className="text-sm md:text-xl mb-8">
-            Create and share your resume with people, recruiter or job platforms
-            all from one place. All with features like{" "}
+          <p className="text-sm md:text-xl mb-8 text-white/80 text-center">
+            Create and share your resume effortlessly from a single platform —
+            whether it&apos;s with recruiters, individuals, or job portals.
+            Enjoy features like a
+            <span className="font-bold"> live-updating resume link </span> and{" "}
             <span className="font-bold">
-              {" "}
-              &quot;Live updating resume link&quot;,
+              one-click resume sharing with job platforms
             </span>{" "}
-            <span className="font-bold">
-              {" "}
-              &quot;One click resume share with job platform&quot;,
-            </span>{" "}
-            and more listed below.
+            and much more outlined below.
           </p>
-          <WaitlistForm />
+          {/* <WaitlistForm /> */}
         </div>
 
         <div className="absolute bottom-0 max-lg:h-[40vh] lg:h-[40vh] max-sm:h-[32vh] pt-25 w-full flex flex-col items-center overflow-hidden">
@@ -346,7 +480,7 @@ export default function LandingPage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="flex flex-col items-center justify-center w-full p-20">
+      <section className="flex flex-col items-center justify-center w-full p-20 bg-[radial-gradient(circle_at_right,_#0e7490,_transparent,_transparent)]">
         <div className="text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white pb-5">
             Our Solution:{" "}
@@ -371,26 +505,104 @@ export default function LandingPage() {
           side={index % 2 === 0 ? "left" : "right"}
         />
       ))}
+      {/* contact and feedback section */}
+      <section className="py-20 px-4 bg-[radial-gradient(ellipse_at_top,_#1e293b,_transparent,_#0f172a)]">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+              Get in Touch
+            </h2>
+            <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+              Have questions about CentralResume? Want to share feedback or
+              discuss a partnership? We&apos;d love to hear from you.
+            </p>
+          </div>
 
-      {/* Call to Action Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Contact Information */}
+            <div className="space-y-8">
+              <div>
+                <h3 className="text-2xl font-semibold text-white mb-6">
+                  Why Contact Us?
+                </h3>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-400 mt-1 flex-shrink-0" />
+                    <div>
+                      <h4 className="font-medium text-white">
+                        Product Feedback
+                      </h4>
+                      <p className="text-gray-300 text-sm">
+                        Share your thoughts on features and improvements
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-400 mt-1 flex-shrink-0" />
+                    <div>
+                      <h4 className="font-medium text-white">
+                        Partnership Opportunities
+                      </h4>
+                      <p className="text-gray-300 text-sm">
+                        Explore integration possibilities for job platforms
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-400 mt-1 flex-shrink-0" />
+                    <div>
+                      <h4 className="font-medium text-white">
+                        General Support
+                      </h4>
+                      <p className="text-gray-300 text-sm">
+                        Get help with any questions or issues
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-400 mt-1 flex-shrink-0" />
+                    <div>
+                      <h4 className="font-medium text-white">
+                        Feature Requests
+                      </h4>
+                      <p className="text-gray-300 text-sm">
+                        Suggest new features for future releases
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white/5 p-6 rounded-lg border border-white/10">
+                <h4 className="font-medium text-white mb-2">Quick Response</h4>
+                <p className="text-gray-300 text-sm">
+                  We typically respond to all inquiries within 24 hours. For
+                  urgent matters, we&apos;ll get back to you even sooner.
+                </p>
+              </div>
+            </div>
+
+            {/* Contact Form */}
+            <div className="bg-white/5 p-8 rounded-lg border border-white/10">
+              <ContactForm />
+            </div>
+          </div>
+        </div>
+      </section>
       <section
         className="py-20 px-4 text-white bg-[radial-gradient(ellipse_at_bottom_right,_#082f49,_transparent,_transparent)]"
         id="contact"
       >
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            Ready to Transform Your Job Search?
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            Stay up to date with CentralResume.
           </h2>
-          <p className="text-lg md:text-xl mb-10 text-blue-100 max-w-2xl mx-auto">
-            Join thousands of professionals who have streamlined their resume
-            management with CentralResume. Start your journey to more efficient
-            job applications today.
+          <p className="text-base md:text-xl mb-6 text-blue-100 max-w-2xl mx-auto">
+            Be the first to know new updates.{" "}
+            <span className="text-sm"> (no spam, promise) </span>
           </p>
-          <div className="p-8 max-w-lg mx-auto">
+          <div className="p-4 max-w-lg mx-auto">
             <WaitlistForm />
-            <p className="text-sm text-blue-100 mt-4">
-              Get notified when we launch. No spam, unsubscribe anytime.
-            </p>
           </div>
         </div>
       </section>

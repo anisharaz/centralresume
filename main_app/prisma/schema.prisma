@@ -201,3 +201,13 @@ model waitlist {
 
   @@map("waitlist")
 }
+
+model contactUs {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
+
+  @@map("contact_us")
+}
