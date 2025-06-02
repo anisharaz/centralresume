@@ -6,6 +6,9 @@ import { CheckCircle, Zap, Shield, Smartphone, Menu, X } from "lucide-react";
 import React, { useEffect } from "react";
 import WaitlistForm from "./waitlist-form";
 import { LoginButton } from "./auth-buttons";
+import Link from "next/link";
+import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
 const benefits = [
   {
     title: "Smart Tagging System",
@@ -113,21 +116,22 @@ function BenefitSection({
         background
       }
     >
-      <div className=" w-full md:w-1/2 flex flex-col items-center justify-center">
-        <div className={"p-1 rounded-full " + image.background}>
+      <div className="w-full max-w-2xl md:w-1/2 flex flex-col items-center justify-center">
+        <div className={cn([" p-1 rounded-full", image.background])}>
           <Image
             src={image.url}
             alt=""
             width={1000}
             height={1000}
-            className={
-              "h-auto rounded-2xl transition-shadow duration-300 " + image.scale
-            }
+            className={cn([
+              "h-auto w-full rounded-2xl transition-shadow duration-300",
+              image.scale,
+            ])}
           />
         </div>
       </div>
       <div className="w-full md:w-1/2">
-        <div className="p-10  max-sm:p-2 pt-4 flex flex-col items-center">
+        <div className="p-10 max-sm:p-2 pt-4 flex flex-col items-center">
           <h2 className="text-4xl font-semibold mb-2">{title}</h2>
           <p className="text-base py-5 text-gray-700 dark:text-gray-300">
             {description.caption}
@@ -178,7 +182,7 @@ function NavBar() {
         {/* Logo and Hamburger Menu */}
         <div className="flex justify-between w-fit max-md:w-full px-2 max-md:py-2">
           <div className="font-bold flex justify-center items-center">
-            Central#Resume
+            Central <span className="text-amber-300"> #Resume </span>
           </div>
           <div className="hidden max-md:flex justify-center items-center">
             <button
@@ -201,6 +205,11 @@ function NavBar() {
           <div>Features</div>*/}
           </div>
           <div className="flex items-center justify-between max-md:w-full max-md:items-start gap-4">
+            <Link href={"#contact"}>
+              <Button variant={"link"} className="text-white">
+                Contact Us
+              </Button>
+            </Link>
             <LoginButton />
           </div>
         </div>
@@ -231,7 +240,7 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="flex flex-col items-center justify-center w-full min-h-screen relative bg-[radial-gradient(circle_at_bottom,_#d97706,_transparent,_transparent)]">
         <div className="flex flex-col items-center text-center max-w-xl md:max-w-4xl z-10 gap-4">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-wider mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold tracking-wider mb-4 leading-16">
             #resume :{" "}
             <span className="underline decoration-blue-300 decoration-4 underline-offset-8">
               {" "}
@@ -242,12 +251,19 @@ export default function LandingPage() {
               {" "}
               management
             </span>{" "}
-            made easy
+            made effortless
           </h1>
           <p className="text-sm md:text-xl mb-8">
-            Create, manage and share your resume with people, recruiter or job
-            platforms from one place with amazing features like{" "}
-            <span className="text-amber-300"> &quot;LoginWithResume&quot;</span>{" "}
+            Create and share your resume with people, recruiter or job platforms
+            all from one place. All with features like{" "}
+            <span className="font-bold">
+              {" "}
+              &quot;Live updating resume link&quot;,
+            </span>{" "}
+            <span className="font-bold">
+              {" "}
+              &quot;One click resume share with job platform&quot;,
+            </span>{" "}
             and more listed below.
           </p>
           <WaitlistForm />
@@ -357,7 +373,10 @@ export default function LandingPage() {
       ))}
 
       {/* Call to Action Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+      <section
+        className="py-20 px-4 text-white bg-[radial-gradient(ellipse_at_bottom_right,_#082f49,_transparent,_transparent)]"
+        id="contact"
+      >
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
             Ready to Transform Your Job Search?
