@@ -60,7 +60,7 @@ export default async function ProfilePage({
       <div className="relative">
         <div className="h-48 w-full bg-slate-200 dark:bg-neutral-800 flex items-center justify-center">
           <div className="font-bold md:text-5xl text-3xl text-center text-slate-800 dark:text-slate-200 italic ">
-            It&apos;s all about you.
+            Welcome to my profile (edit it)
           </div>
         </div>
         <div className="absolute -bottom-16 left-8">

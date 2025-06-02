@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ResumeDataType } from "@/lib/types";
 type PersonalDetails = ResumeDataType["personal_details"];
 
-function ProfileDetailSectionView({
+export function ProfileDetailSectionView({
   children,
   data,
 }: {
@@ -176,5 +176,3 @@ function ProfileDetailSectionView({
     </div>
   );
 }
-
-export default ProfileDetailSectionView;
