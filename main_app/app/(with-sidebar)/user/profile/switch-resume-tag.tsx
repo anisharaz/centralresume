@@ -17,13 +17,13 @@ function SwitchCurrentResumeTag({
   resumeProfileTagName,
   tagSelected,
 }: {
-  resumeProfileTagName: { resumeTagName: string }[];
+  resumeProfileTagName?: { resumeTagName: string }[];
   tagSelected: string | undefined;
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   return (
-    <>
+    <div className="space-y-2 px-2">
       <Label htmlFor="profile" className="text-md font-bold">
         Select Tag to view
       </Label>
@@ -43,7 +43,7 @@ function SwitchCurrentResumeTag({
           <SelectContent id="profile">
             <SelectGroup>
               <SelectLabel>Select Resume Tag</SelectLabel>
-              {resumeProfileTagName.map((profile) => (
+              {resumeProfileTagName?.map((profile) => (
                 <SelectItem
                   key={profile.resumeTagName}
                   value={profile.resumeTagName}
@@ -60,7 +60,7 @@ function SwitchCurrentResumeTag({
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
 

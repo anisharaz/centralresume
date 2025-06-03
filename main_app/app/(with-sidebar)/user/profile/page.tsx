@@ -92,21 +92,17 @@ export default async function ProfilePage({
       </div>
       <Separator className="my-4" />
 
-      <div className="space-y-4">
-        <div className="space-y-2">
-          <Suspense>
-            {user?.resumeTags && (
-              <SwitchCurrentResumeTag
-                resumeProfileTagName={user.resumeTags}
-                tagSelected={
-                  resumeProfile
-                    ? resumeProfile
-                    : (user?.resumeTags[0]?.resumeTagName as string)
-                }
-              />
-            )}
-          </Suspense>
-        </div>
+      <div>
+        <Suspense>
+          <SwitchCurrentResumeTag
+            resumeProfileTagName={user?.resumeTags}
+            tagSelected={
+              resumeProfile
+                ? resumeProfile
+                : (user?.resumeTags[0]?.resumeTagName as string)
+            }
+          />
+        </Suspense>
         <div className="space-y-6">
           <PersonalDetailsCard
             data={resumeByTag.personal_details}
