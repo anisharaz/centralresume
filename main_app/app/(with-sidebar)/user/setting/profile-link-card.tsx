@@ -23,7 +23,7 @@ import {
   Trash2,
   ExternalLink,
   Clock,
-  Link2,
+  User,
   Copy,
   CheckCircle,
   Globe,
@@ -32,13 +32,13 @@ import {
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import {
-  deleteResumeLink,
-  toggleResumeLinkVisibility,
-} from "@/app/actions/resume/resume-links";
+  deleteProfileLink,
+  toggleProfileLinkVisibility,
+} from "@/app/actions/profile/profile-links";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-interface ResumeLinkCardProps {
+interface ProfileLinkCardProps {
   link: {
     id: string;
     linkId: string;
@@ -48,7 +48,7 @@ interface ResumeLinkCardProps {
   };
 }
 
-export default function ResumeLinkCard({ link }: ResumeLinkCardProps) {
+export default function ProfileLinkCard({ link }: ProfileLinkCardProps) {
   const [copied, setCopied] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isTogglingVisibility, setIsTogglingVisibility] = useState(false);
@@ -58,7 +58,7 @@ export default function ResumeLinkCard({ link }: ResumeLinkCardProps) {
 
   const linkUrl = `${
     process.env.NEXT_PUBLIC_APP_URL || "https://app.centralresume.com"
-  }/resume?linkId=${link.linkId}&resumeTag=${link.resumeTagName}`;
+  }/profile?linkId=${link.linkId}&resumeTag=${link.resumeTagName}`;
   const createdAgo = formatDistanceToNow(link.createdAt, { addSuffix: true });
 
   const handleCopy = async () => {
@@ -75,13 +75,13 @@ export default function ResumeLinkCard({ link }: ResumeLinkCardProps) {
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
-      const result = await deleteResumeLink(link.id);
+      const result = await deleteProfileLink(link.id);
       if (result.success) {
-        toast.success("Resume link deleted successfully!");
+        toast.success("Profile link deleted successfully!");
         setDeleteDialogOpen(false);
         router.refresh();
       } else {
-        toast.error(result.error || "Failed to delete resume link");
+        toast.error(result.error || "Failed to delete profile link");
       }
     } catch (error) {
       toast.error("An unexpected error occurred");
@@ -95,10 +95,10 @@ export default function ResumeLinkCard({ link }: ResumeLinkCardProps) {
     setIsTogglingVisibility(true);
 
     try {
-      const result = await toggleResumeLinkVisibility(link.id, newVisibility);
+      const result = await toggleProfileLinkVisibility(link.id, newVisibility);
       if (result.success) {
         setCurrentVisibility(newVisibility);
-        toast.success(`Resume link is now ${newVisibility.toLowerCase()}`);
+        toast.success(`Profile link is now ${newVisibility.toLowerCase()}`);
         router.refresh();
       } else {
         toast.error(result.error || "Failed to update visibility");
@@ -111,16 +111,16 @@ export default function ResumeLinkCard({ link }: ResumeLinkCardProps) {
   };
 
   return (
-    <Card className="transition-all hover:shadow-md border-l-4 border-l-secondary/20">
+    <Card className="transition-all hover:shadow-md border-l-4 border-l-primary/20">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="relative h-10 w-10 rounded-lg border bg-muted p-2 flex items-center justify-center">
-              <Link2 className="h-5 w-5 text-muted-foreground" />
+              <User className="h-5 w-5 text-muted-foreground" />
             </div>
             <div className="space-y-1">
               <CardTitle className="text-base flex items-center gap-2">
-                Resume Link - {link.resumeTagName}
+                Profile Link - {link.resumeTagName}
                 <Badge
                   variant={
                     currentVisibility === "PUBLIC" ? "default" : "secondary"
@@ -189,7 +189,7 @@ export default function ResumeLinkCard({ link }: ResumeLinkCardProps) {
               <Button variant="outline" size="sm" className="h-8" asChild>
                 <a href={linkUrl} target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="h-3 w-3 mr-1" />
-                  View
+                  View Profile
                 </a>
               </Button>
             </div>
@@ -212,11 +212,11 @@ export default function ResumeLinkCard({ link }: ResumeLinkCardProps) {
                   <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">
                       <AlertTriangle className="h-5 w-5 text-destructive" />
-                      Delete Resume Link
+                      Delete Profile Link
                     </DialogTitle>
                     <DialogDescription className="space-y-2">
                       <p>
-                        Are you sure you want to delete this resume link for{" "}
+                        Are you sure you want to delete this profile link for{" "}
                         <strong>{link.resumeTagName}</strong>?
                       </p>
                       <p className="text-sm">

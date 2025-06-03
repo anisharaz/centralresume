@@ -3,7 +3,7 @@ import { ResumeDataType } from "@/lib/types";
 import { DUMMY_MODE } from "@/lib/vars";
 import PersonalDetailEditForm from "./edit-forms/personal-detail-edit-form";
 import { RESUME_TYPE } from "@/lib/zod/schemas/";
-import ProfileDetailSectionView from "./components/profile-detail--section-view";
+import { ProfileDetailSectionView } from "./components/profile-detail-section-view";
 import { PROFILE_DETAIL_DUMMY_DATA } from "@/lib/dummy-data";
 type PersonalDetails = ResumeDataType["personal_details"];
 

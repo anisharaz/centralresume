@@ -17,7 +17,10 @@ export function LogoutButton() {
   };
 
   return (
-    <Button className="w-full cursor-pointer" onClick={handleLogout}>
+    <Button
+      className="w-full cursor-pointer bg-rose-500/80 text-white"
+      onClick={handleLogout}
+    >
       Logout
     </Button>
   );

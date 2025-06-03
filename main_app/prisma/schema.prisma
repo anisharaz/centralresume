@@ -26,6 +26,7 @@ model User {
   resumeTags       resumeTags[]
   userResume       userResume[]
   resumeLink       resumeLink[]
+  profileLink      profileLink[]
 
   @@unique([email])
   @@map("user")
@@ -83,15 +84,28 @@ enum VISIBILITY {
 
 // used for user profile page. user can sets a public profile which is searchable
 model userProfile {
-  id          String     @id @default(cuid())
-  userId      String     @unique
-  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  bannerImage String?
-  visibility  VISIBILITY
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  id         String     @id @default(cuid())
+  userId     String     @unique
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bannerText String     @default("Welcome to my profile (edit it)")
+  visibility VISIBILITY
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
 
   @@map("user_profile")
+}
+
+model profileLink {
+  id            String     @id @default(cuid())
+  userId        String
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  visibility    VISIBILITY
+  resumeTagName String // eg. "devops"
+  linkId        String     @unique
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  @@map("profile_link")
 }
 
 model userResume {

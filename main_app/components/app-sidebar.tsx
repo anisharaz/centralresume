@@ -1,3 +1,4 @@
+"use client";
 import { ChevronDown, Settings, User, Lock } from "lucide-react";
 
 import {
@@ -19,6 +20,7 @@ import {
   CollapsibleTrigger,
 } from "./ui/collapsible";
 import { LogoutButton } from "./auth-buttons";
+import { usePathname } from "next/navigation";
 
 // Menu items.
 const items = [
@@ -30,6 +32,7 @@ const items = [
 ];
 
 export function AppSidebar() {
+  const pathName = usePathname();
   return (
     <Sidebar variant="sidebar">
       <SidebarHeader>
@@ -46,7 +49,10 @@ export function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathName.endsWith("/user/profile")}
+                  >
                     <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
@@ -66,13 +72,19 @@ export function AppSidebar() {
               </CollapsibleTrigger>
             </SidebarGroupLabel>
             <CollapsibleContent>
-              <SidebarMenuButton asChild>
+              <SidebarMenuButton
+                asChild
+                isActive={pathName.endsWith("/user/setting")}
+              >
                 <Link href={"/user/setting"}>
                   <Settings />
                   <span>Settings</span>
                 </Link>
               </SidebarMenuButton>
-              <SidebarMenuButton asChild>
+              <SidebarMenuButton
+                asChild
+                isActive={pathName.endsWith("/user/setting/oauth")}
+              >
                 <Link href={"/user/setting/oauth"}>
                   <Lock />
                   <span>oauth client</span>

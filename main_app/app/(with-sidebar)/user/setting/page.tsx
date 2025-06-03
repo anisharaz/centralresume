@@ -25,6 +25,7 @@ import {
   Eye,
   Clock,
   Link2,
+  User,
 } from "lucide-react";
 import Image from "next/image";
 import { auth } from "@/auth";
@@ -33,6 +34,8 @@ import prisma from "@/lib/db";
 import { formatDistanceToNow } from "date-fns";
 import CreateResumeLink from "./create-resume-link";
 import ResumeLinkCard from "./resume-link-card";
+import CreateProfileLink from "./create-profile-link";
+import ProfileLinkCard from "./profile-link-card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default async function UserSettings() {
@@ -54,6 +57,16 @@ export default async function UserSettings() {
 
   // Fetch resume links
   const resumeLinks = await prisma.resumeLink.findMany({
+    where: {
+      userId: session?.session.userId,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  // Fetch profile links
+  const profileLinks = await prisma.profileLink.findMany({
     where: {
       userId: session?.session.userId,
     },
@@ -87,7 +100,67 @@ export default async function UserSettings() {
         </p>
       </div>
       <Separator />
+      {/* Profile Links Section */}
+      <div>
+        <div className="space-y-4">
+          <div className="flex justify-between items-center">
+            <div>
+              <h2 className="text-xl font-semibold">Profile Links</h2>
+              <p className="text-sm text-muted-foreground">
+                Create and manage shareable links for your profile with specific
+                tags
+              </p>
+            </div>
+            <div className="flex items-center gap-4">
+              {profileLinks.length > 0 && (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <User className="h-4 w-4" />
+                  {profileLinks.length} active link
+                  {profileLinks.length !== 1 ? "s" : ""}
+                </div>
+              )}
+              <CreateProfileLink resumeTags={resumeTags} />
+            </div>
+          </div>
 
+          {/* Profile Links List */}
+          <div className="grid gap-4">
+            <ScrollArea className="max-h-[70vh]">
+              <div className="flex flex-col gap-4">
+                {profileLinks.map((link) => (
+                  <ProfileLinkCard key={link.id} link={link} />
+                ))}
+              </div>
+            </ScrollArea>
+
+            {/* Empty State for Profile Links */}
+            {profileLinks.length === 0 && (
+              <Card className="p-8 text-center">
+                <div className="space-y-4">
+                  <div className="mx-auto w-16 h-16 rounded-full bg-muted flex items-center justify-center">
+                    <User className="h-8 w-8 text-muted-foreground" />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="font-medium text-lg">No Profile Links</h3>
+                    <p className="text-sm text-muted-foreground max-w-md mx-auto">
+                      You haven&apos;t created any shareable profile links yet.
+                      Create links to share your profile with specific tag
+                      filters.
+                    </p>
+                  </div>
+                  <div className="pt-2">
+                    <p className="text-xs text-muted-foreground">
+                      Each link can target a specific resume tag for customized
+                      profile viewing
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            )}
+          </div>
+        </div>
+      </div>
+      <Separator />
       {/* Resume Links Section */}
       <div>
         <div className="space-y-4">
@@ -148,9 +221,8 @@ export default async function UserSettings() {
           </div>
         </div>
       </div>
-
       <Separator />
-
+      {/* Applications with Access Section */}
       <div>
         <div className="space-y-4">
           <div className="flex justify-between items-center">
