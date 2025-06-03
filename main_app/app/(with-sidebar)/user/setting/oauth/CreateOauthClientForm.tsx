@@ -143,7 +143,10 @@ function CreateOauthClientForm() {
                     name="website"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Website URL</FormLabel>
+                        <FormLabel>
+                          Website URL
+                          <span className="text-destructive">*</span>
+                        </FormLabel>
                         <FormControl>
                           <Input
                             placeholder="https://myapp.com"

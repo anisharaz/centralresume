@@ -19,8 +19,27 @@ const mono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CentralResume",
-  description: "Resume made easy",
+  title: "central#resume - Effortless Resume Sharing & Management",
+  description:
+    "Create, manage, and share your resume seamlessly from one platform; With awesome features like resume versioning, single sign-on, and more.",
+  openGraph: {
+    images: [
+      {
+        url: "#",
+        alt: "central#resume",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@_centralresume",
+    images: [
+      {
+        url: "#",
+        alt: "central#resume",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
