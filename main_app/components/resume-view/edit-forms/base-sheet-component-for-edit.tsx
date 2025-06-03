@@ -24,7 +24,7 @@ function BaseSheetComponentForEdit({
       <SheetTrigger>
         <Edit className="text-amber-500 cursor-pointer hover:scale-125" />
       </SheetTrigger>
-      <SheetContent className="sm:max-w-screen h-screen overflow-scroll">
+      <SheetContent className="sm:max-w-screen max-sm:w-[100vw] h-screen overflow-scroll">
         <SheetHeader>
           <SheetTitle>{title}</SheetTitle>
           <SheetDescription>{description}</SheetDescription>
