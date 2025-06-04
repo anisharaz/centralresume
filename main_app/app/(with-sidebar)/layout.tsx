@@ -6,7 +6,9 @@ function WithSideBarLayout({ children }: { children: React.ReactNode }) {
     <SidebarProvider>
       <AppSidebar />
       <div className="w-full">
-        <SidebarTrigger />
+        <div className="container mx-auto flex items-center justify-between">
+          <SidebarTrigger className="w-fit h-6 box-content p-2" />
+        </div>
         {children}
       </div>
     </SidebarProvider>

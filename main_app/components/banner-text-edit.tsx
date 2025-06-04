@@ -64,7 +64,7 @@ export default function BannerTextEdit({
         <Button
           variant="ghost"
           size="sm"
-          className="absolute top-4 right-4 text-slate-600 dark:text-slate-300 hover:text-slate-800 border border-white bg-neutral-600 dark:hover:text-slate-100"
+          className="absolute top-4 right-4 text-slate-600 dark:text-slate-300 hover:text-slate-800 border border-white/80 bg-neutral-600 dark:hover:text-slate-100"
         >
           <Edit3 className="h-4 w-4" />
         </Button>

@@ -66,12 +66,12 @@ export function AppSidebar() {
         <Collapsible defaultOpen className="group/collapsible">
           <SidebarGroup>
             <SidebarGroupLabel asChild>
-              <CollapsibleTrigger>
+              <CollapsibleTrigger className="cursor-pointer hover:bg-neutral-500">
                 Settings Section
                 <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
               </CollapsibleTrigger>
             </SidebarGroupLabel>
-            <CollapsibleContent>
+            <CollapsibleContent className="space-y-2">
               <SidebarMenuButton
                 asChild
                 isActive={pathName.endsWith("/user/setting")}
