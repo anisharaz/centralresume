@@ -11,7 +11,7 @@ FROM node:22.16.0-alpine3.22 AS runner
 WORKDIR /app
 COPY --from=builder /app/build/. .
 COPY --from=builder /app/package.json ./
-RUN npm ci --production
+RUN npm i --production
 COPY --from=builder /app/prisma/. /app/prisma/
 RUN npx prisma generate
 ENV NODE_ENV=production
