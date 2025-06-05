@@ -39,7 +39,7 @@ jobs:
       - name: Replace Native Protocol Prisma Schema with Main App Schema
         if: inputs.publish == 'be'
         run: |
-          rm -rf ./native_protocol_backend/prisma && cp ./main_app/prisma ./native_protocol_backend/
+          rm -rf ./native_protocol_backend/prisma && cp -r ./main_app/prisma ./native_protocol_backend/
       - name: Build and push Native Protocol Backend Docker image
         if: inputs.publish == 'be'
         uses: docker/build-push-action@v6
