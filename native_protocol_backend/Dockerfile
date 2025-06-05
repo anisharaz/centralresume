@@ -7,10 +7,10 @@ COPY . .
 RUN pnpm prisma generate && pnpm build 
 
 
-FROM node:22.16.0-alpine3.22 AS runner
+FROM node:node:22.16.0-alpine3.22 AS runner
 WORKDIR /app
 COPY --from=builder /app/build/. .
-COPY --from=builder /app/pnpm-lock.yaml* /app/package.json ./
+COPY --from=builder /app/package.json ./
 RUN npm ci --production
 COPY --from=builder /app/prisma/. /app/prisma/
 RUN npx prisma generate
