@@ -7,7 +7,7 @@ COPY . .
 RUN pnpm prisma generate && pnpm build 
 
 
-FROM node:node:22.16.0-alpine3.22 AS runner
+FROM node:22.16.0-alpine3.22 AS runner
 WORKDIR /app
 COPY --from=builder /app/build/. .
 COPY --from=builder /app/pnpm-lock.yaml* /app/package.json ./
