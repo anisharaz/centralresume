@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { LoginButton } from "./auth-buttons";
 import Link from "next/link";
+import Image from "next/image";
 
 export function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,8 +37,17 @@ export function NavBar() {
       >
         {/* Logo and Hamburger Menu */}
         <div className="flex justify-between w-fit max-md:w-full px-2 max-md:py-2">
-          <div className="font-bold flex justify-center items-center">
-            Central <span className="text-amber-300"> #Resume </span>
+          <div className="flex items-center gap-2 max-md:gap-4">
+            <div className="relative w-10 h-10 max-md:w-12 max-md:h-12">
+              <Image
+                src={"https://static.centralresume.me/logo.svg"}
+                fill
+                alt="Logo"
+              />
+            </div>
+            <div className="font-bold text-xl flex justify-center items-center">
+              Central <span className="text-amber-300"> #Resume </span>
+            </div>
           </div>
           <div className="hidden max-md:flex justify-center items-center">
             <button
