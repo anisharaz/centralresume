@@ -29,4 +29,5 @@ COPY --from=builder --chown=app:app /app/public ./public
 USER app
 EXPOSE 3000
 ENV PORT=3000
-ENTRYPOINT [ "HOSTNAME=0.0.0.0", "node", "server.js" ]
+ENV HOSTNAME=0.0.0.0
+ENTRYPOINT [ "node", "server.js" ]
