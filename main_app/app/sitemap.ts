@@ -9,7 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: "https://centralresume.me",
+      url: "https://centralresume.me/auth/login",
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
