@@ -25,8 +25,10 @@ export const metadata: Metadata = {
   openGraph: {
     images: [
       {
-        url: "https://static.centralresume.me/opengraph.svg",
+        url: "https://static.centralresume.me/opengraph.png",
         alt: "central#resume",
+        width: 1280,
+        height: 720,
       },
     ],
   },
@@ -35,8 +37,10 @@ export const metadata: Metadata = {
     site: "@_centralresume",
     images: [
       {
-        url: "https://static.centralresume.me/opengraph.svg",
+        url: "https://static.centralresume.me/opengraph.png",
         alt: "central#resume",
+        width: 1280,
+        height: 720,
       },
     ],
   },
