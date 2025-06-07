@@ -2,7 +2,17 @@
 
 import Image from "next/image";
 import Footer from "../footer";
-import { CheckCircle, Zap, Shield, Smartphone, Menu, X } from "lucide-react";
+import {
+  CheckCircle,
+  Zap,
+  Shield,
+  Smartphone,
+  Menu,
+  X,
+  FileStack,
+  BadgePlus,
+  ScanFace,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import WaitlistForm from "./waitlist-form";
 import { cn } from "@/lib/utils";
@@ -22,9 +32,8 @@ export default function LandingPage() {
 
   return (
     <div
-      className={`flex flex-col min-h-screen overflow-x-hidden transition-all duration-200 ease-in-out ${
-        loaded ? "blur-none" : "blur-sm"
-      }`}
+      className={`flex flex-col min-h-screen overflow-x-hidden transition-all duration-200 ease-in-out ${loaded ? "blur-none" : "blur-sm"
+        }`}
     >
       {/* Navigation Bar */}
       <NavBar />
@@ -75,59 +84,64 @@ export default function LandingPage() {
       </section>
 
       {/* Problem Statement Section */}
-      <section className="py-28 px-4 bg-gray-50 dark:bg-gray-900">
+      <section className="py-28 px-4 bg-[radial-gradient(circle_at_bottom,_#9443c1,_transparent,_transparent)]">
         <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900 dark:text-white">
-            The Resume Management Challenge
+          <h2 className="text-3xl md:text-4xl font-bold mb-13">
+            <span className="underline decoration-emerald-400 underline-offset-8">
+              Our Unique Selling points
+            </span>
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-              <div className="w-12 h-12 bg-red-100 dark:bg-red-900 rounded-lg flex items-center justify-center mb-4 mx-auto">
-                <Zap className="w-6 h-6 text-red-600 dark:text-red-400" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="bg-[color-mix(in_oklab,_var(--input)_30%,_transparent)] backdrop-blur-2xl border p-6 max-md:mx-2 rounded-lg shadow-md">
+              <div className="w-12 h-12 bg-green-700 rounded-full flex items-center justify-center mb-4 mx-auto">
+                <FileStack className="w-6 h-6" />
               </div>
               <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">
-                Multiple Versions
+                No More Maintaining Multiple Resumes
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-300">
                 Creating different resume versions for each job application is
-                time-consuming
+                time-consuming. CentralResume does it all for you.
               </p>
             </div>
 
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mb-4 mx-auto">
-                <Shield className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+            <div className="bg-[color-mix(in_oklab,_var(--input)_30%,_transparent)] backdrop-blur-2xl border p-6 max-md:mx-2 rounded-lg shadow-md">
+              <div className="w-12 h-12 bg-blue-900 rounded-full flex items-center justify-center mb-4 mx-auto">
+                <BadgePlus className="w-6 h-6" />
               </div>
               <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">
-                Broken Links
+                No More Outdated Resumes
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-300">
-                Resume links become outdated every time you make updates
+                Keep your resume up-to-date with real-time updates. No more
+                sending outdated versions to recruiters.
               </p>
             </div>
 
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-              <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mb-4 mx-auto">
-                <Smartphone className="w-6 h-6 text-green-600 dark:text-green-400" />
+            <div className="bg-[color-mix(in_oklab,_var(--input)_30%,_transparent)] backdrop-blur-2xl border p-6 max-md:mx-2 rounded-lg shadow-md">
+              <div className="w-12 h-12 bg-green-900 rounded-lg flex items-center justify-center mb-4 mx-auto">
+                <ScanFace className="w-6 h-6" />
               </div>
               <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">
-                Platform Silos
+                Login with CentralResume on Third Party Job Portals
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-300">
-                Recreating profiles on every job platform wastes valuable time
+                No need to manually fill out job applications. Just log in with
+                CentralResume and share your resume with a single click.
               </p>
             </div>
 
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-              <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mb-4 mx-auto">
-                <CheckCircle className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <div className="bg-[color-mix(in_oklab,_var(--input)_30%,_transparent)] backdrop-blur-2xl border p-6 max-md:mx-2 rounded-lg shadow-md">
+              <div className="w-12 h-12 bg-purple-900 rounded-lg flex items-center justify-center mb-4 mx-auto">
+                <CheckCircle className="w-6 h-6" />
               </div>
               <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">
-                Format Issues
+                No More Inconsistent Formatting
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-300">
                 Inconsistent formatting makes it hard for AI to parse resumes
-                effectively
+                effectively. CentralResume ensures your resume is always
+                formatted.
               </p>
             </div>
           </div>
