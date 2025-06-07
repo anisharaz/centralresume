@@ -1,10 +1,10 @@
 import { sampleResume, developerTagFilterdResume } from './sample_resume';
 import { Resume } from '../resume';
-import { ENGINEERING_RESUME } from '@/meta/ResumeInterface';
+import { RESUME } from '@/meta/ResumeInterface';
 import isEqual from 'lodash.isequal';
 
 test('make resume', async () => {
-  const resume = new Resume<ENGINEERING_RESUME>(sampleResume);
+  const resume = new Resume<RESUME>(sampleResume);
   const developerResume = resume.makeResume('developer');
   expect(JSON.stringify(developerResume)).toEqual(
     JSON.stringify(developerTagFilterdResume),
@@ -12,7 +12,7 @@ test('make resume', async () => {
 });
 
 test('update resume', async () => {
-  const resume = new Resume<ENGINEERING_RESUME>(sampleResume);
+  const resume = new Resume<RESUME>(sampleResume);
 
   const updatedResume = resume.updateResume('jadoo', {
     otherLists: [
@@ -38,7 +38,7 @@ test('update resume', async () => {
 });
 
 test('get all resume', async () => {
-  const resume = new Resume<ENGINEERING_RESUME>(sampleResume);
+  const resume = new Resume<RESUME>(sampleResume);
   const allResume = resume.getAll();
   expect(allResume).toBeDefined();
 });

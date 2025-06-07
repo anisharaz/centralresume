@@ -1,6 +1,6 @@
-import { ENGINEERING_RESUME } from '@/meta/ResumeInterface';
+import { RESUME } from '@/meta/ResumeInterface';
 
-export const sampleResume: ENGINEERING_RESUME = {
+export const sampleResume: RESUME = {
   version: '1',
   personal_details: {
     name: 'Alice Johnson',
@@ -193,7 +193,7 @@ export const sampleResume: ENGINEERING_RESUME = {
   ],
 };
 
-export const developerTagFilterdResume: ENGINEERING_RESUME = {
+export const developerTagFilterdResume: RESUME = {
   version: '1',
   personal_details: {
     name: 'Alice Johnson',

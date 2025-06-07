@@ -1,6 +1,6 @@
 type TAGS = string[];
 
-interface ENGINEERING_RESUME {
+interface RESUME {
   version: string; // eg . "1" , "2"
   personal_details: {
     name: string;
@@ -116,4 +116,4 @@ interface ENGINEERING_RESUME {
   }[];
 }
 
-export type { ENGINEERING_RESUME, TAGS };
+export type { RESUME, TAGS };

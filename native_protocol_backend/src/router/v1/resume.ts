@@ -5,7 +5,7 @@ import {
   getResume,
   getCompleteResume,
 } from '@/core/resume';
-import { ENGINEERING_RESUME } from '@/meta/ResumeInterface';
+import { RESUME } from '@/meta/ResumeInterface';
 import { Datastore } from '@/database-implementation/datastore';
 
 const router = Router();
@@ -13,85 +13,56 @@ const router = Router();
 router.put('/internal/resume', async (_req, res) => {
   const userId = String(_req.query.userId);
   const resume = _req.body;
-  const schema = _req.query.schema;
-  if (!userId || !resume || !schema) {
+  if (!userId || !resume) {
     res.status(400).send('Missing required parameters');
     return;
   }
-  if (schema == 'engineering') {
-    const datastore = await Datastore.getInstance();
-    await updateResume<ENGINEERING_RESUME, Datastore>(
-      userId,
-      resume,
-      datastore,
-    );
-    res.status(200).send('Resume updated successfully');
-    return;
-  }
-  res.status(400).send('Invalid schema');
+  const datastore = await Datastore.getInstance();
+  await updateResume<RESUME, Datastore>(userId, resume, datastore);
+  res.status(200).send('Resume updated successfully');
+  return;
 });
 
 router.post('/internal/resume', async (_req, res) => {
   const userId = String(_req.query.userId);
   const resume = _req.body;
-  const schema = _req.query.schema;
-  if (!userId || !resume || !schema) {
+  if (!userId || !resume) {
     res.status(400).send('Missing required parameters');
     return;
   }
-  if (schema == 'engineering') {
-    const datastore = await Datastore.getInstance();
-    const resumeId = await createResume<ENGINEERING_RESUME, Datastore>(
-      userId,
-      resume,
-      datastore,
-    );
-    res
-      .status(200)
-      .send({ message: 'Resume created successfully', id: resumeId });
-    return;
-  }
-  res.status(400).send('Invalid schema');
+  const datastore = await Datastore.getInstance();
+  const resumeId = await createResume<RESUME, Datastore>(
+    userId,
+    resume,
+    datastore,
+  );
+  res
+    .status(200)
+    .send({ message: 'Resume created successfully', id: resumeId });
+  return;
 });
 
 router.get('/internal/resume', async (_req, res) => {
   const userId = String(_req.query.userId);
-  const schema = _req.query.schema;
-  if (!userId || !schema) {
+  if (!userId) {
     res.status(400).send('Missing required parameters');
     return;
   }
-  if (schema == 'engineering') {
-    const datastore = await Datastore.getInstance();
-    const resume = await getCompleteResume<ENGINEERING_RESUME, Datastore>(
-      userId,
-      datastore,
-    );
-    res.status(200).send(resume);
-  } else {
-    res.status(400).send('Invalid schema');
-  }
+  const datastore = await Datastore.getInstance();
+  const resume = await getCompleteResume<RESUME, Datastore>(userId, datastore);
+  res.status(200).send(resume);
 });
 
 router.get('/resume', async (_req, res) => {
   const userId = String(_req.query.userId);
   const tag = String(_req.query.tag);
-  const schema = _req.query.schema; //TODO: Not sure what to do with this yet
-  if (!userId || !tag || !schema) {
+  if (!userId || !tag) {
     res.status(400).send('Missing required parameters');
     return;
   }
-  if (schema == 'engineering') {
-    const datastore = await Datastore.getInstance();
-    const resume = await getResume<ENGINEERING_RESUME, Datastore>(
-      userId,
-      tag,
-      datastore,
-    );
-    res.status(200).send(resume);
-  } else {
-    res.status(400).send('Invalid schema');
-  }
+  const datastore = await Datastore.getInstance();
+  const resume = await getResume<RESUME, Datastore>(userId, tag, datastore);
+  res.status(200).send(resume);
 });
 
 export default router;
