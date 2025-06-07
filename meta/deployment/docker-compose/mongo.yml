@@ -16,5 +16,3 @@ services:
       - default
     volumes:
       - ./mongodb/:/data/db:Z
-    ports:
-      - "127.0.0.1:27017:27017"
