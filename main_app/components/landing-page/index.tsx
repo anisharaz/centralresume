@@ -14,6 +14,7 @@ import {
   ScanFace,
   Key,
   Star,
+  Brain,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import WaitlistForm from "./waitlist-form";
@@ -86,64 +87,65 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Features Section */}
       <section className="py-28 px-4 bg-[radial-gradient(circle_at_bottom,_#9443c1,_transparent,_transparent)]">
         <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-13">
+          <h2 className="text-3xl md:text-4xl font-bold mb-16">
             <span className="underline decoration-emerald-400 underline-offset-8">
               A big leap in resume
             </span>
           </h2>
-          <div className="grid grid-cols-1 text-left md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-[color-mix(in_oklab,_var(--input)_30%,_transparent)] backdrop-blur-2xl border p-6 max-md:mx-2 rounded-lg shadow-md">
-              <div className="w-12 h-12 bg-green-700 rounded-full flex items-center justify-center mb-4 mx-auto">
-                <FileStack className="w-6 h-6" />
+          <div className="grid grid-cols-1 text-left md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="group bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-3xl border border-white/20 p-8 max-md:mx-2 rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-green-500/20 transition-all duration-300 hover:-translate-y-2 hover:scale-105">
+              <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-green-800 rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-lg group-hover:shadow-green-500/50 transition-all duration-300 group-hover:scale-110">
+                <FileStack className="w-8 h-8 text-white" />
               </div>
-              <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">
+              <h3 className="font-bold text-lg mb-3 text-gray-900 dark:text-white text-center">
                 Effortless Resume version
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
+              <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                 We help you create different resume versions for each job
                 application super easily and quick.
               </p>
             </div>
 
-            <div className="bg-[color-mix(in_oklab,_var(--input)_30%,_transparent)] backdrop-blur-2xl border p-6 max-md:mx-2 rounded-lg shadow-md">
-              <div className="w-12 h-12 bg-blue-900 rounded-full flex items-center justify-center mb-4 mx-auto">
-                <Star className="w-6 h-6" />
+            <div className="group bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-3xl border border-white/20 p-8 max-md:mx-2 rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 hover:-translate-y-2 hover:scale-105">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-700 to-blue-900 rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-lg group-hover:shadow-blue-500/50 transition-all duration-300 group-hover:scale-110">
+                <Star className="w-8 h-8 text-white" />
               </div>
-              <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">
+              <h3 className="font-bold text-lg mb-3 text-gray-900 dark:text-white text-center">
                 We all hate re sharing resume link when we update our resume.
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
+              <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                 Keep your resume up-to-date with real-time updates. No more
                 sending outdated versions to recruiters.
               </p>
             </div>
 
-            <div className="bg-[color-mix(in_oklab,_var(--input)_30%,_transparent)] backdrop-blur-2xl border p-6 max-md:mx-2 rounded-lg shadow-md">
-              <div className="w-12 h-12 bg-green-900 rounded-lg flex items-center justify-center mb-4 mx-auto">
-                <Key className="w-6 h-6" />
+            <div className="group bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-3xl border border-white/20 p-8 max-md:mx-2 rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-emerald-500/20 transition-all duration-300 hover:-translate-y-2 hover:scale-105">
+              <div className="w-16 h-16 bg-gradient-to-br from-emerald-700 to-emerald-900 rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-lg group-hover:shadow-emerald-500/50 transition-all duration-300 group-hover:scale-110">
+                <Key className="w-8 h-8 text-white" />
               </div>
-              <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">
+              <h3 className="font-bold text-lg mb-3 text-gray-900 dark:text-white text-center">
                 You can save your time from repetitive profile creation on every
                 job website.
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
+              <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                 No need to manually fill out job applications. Just log in with
                 CentralResume and share your resume with a single click.
               </p>
             </div>
 
-            <div className="bg-[color-mix(in_oklab,_var(--input)_30%,_transparent)] backdrop-blur-2xl border p-6 max-md:mx-2 rounded-lg shadow-md">
-              <div className="w-12 h-12 bg-purple-900 rounded-lg flex items-center justify-center mb-4 mx-auto">
-                <CheckCircle className="w-6 h-6" />
+            <div className="group bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-3xl border border-white/20 p-8 max-md:mx-2 rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-300 hover:-translate-y-2 hover:scale-105">
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-700 to-purple-900 rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-lg group-hover:shadow-purple-500/50 transition-all duration-300 group-hover:scale-110">
+                <Brain className="w-8 h-8 text-white" />
               </div>
-              <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">
-                AI resume parsing and filtering.
+              <h3 className="font-bold text-lg mb-3 text-gray-900 dark:text-white text-center">
+                AI friendly resume.
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                Poorly formatted resumes often confuse AI systems. Our platform
-                guarantees a clean, structured layout that&apos;s easy for AI to
+              <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                Parsing resume text often confuse AI systems. Our platform uses
+                a clean & structured data object that&apos;s easy for AI to
                 read, analyze, and rank effectively.
               </p>
             </div>
