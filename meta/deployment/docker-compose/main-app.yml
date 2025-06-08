@@ -2,8 +2,8 @@ version: "3.8"
 
 networks:
   default:
+    external: true
     name: cr-app
-    external: false
   postgres:
     external: true
     name: cr-postgres
@@ -14,8 +14,9 @@ networks:
 services:
   main_app:
     image: "ghcr.io/anisharaz/centralresume:main_app_1_0"
+    container_name: cr-main-app
     ports:
-      - "127.0.0.1:3007:3000"
+      - "127.0.0.1:3010:3000"
     restart: always
     networks:
       default:
@@ -24,18 +25,3 @@ services:
       mongodb:
     volumes:
       - ./data/main_app/.env:/app/.env:ro
-    depends_on:
-      - backend
-
-  backend:
-    image: "ghcr.io/anisharaz/centralresume:be_1_0"
-    ports:
-      - "127.0.0.1:3008:4000"
-    restart: always
-    networks:
-      default:
-        gw_priority: 1
-      postgres:
-      mongodb:
-    volumes:
-      - ./data/be/.env:/app/.env:ro

@@ -1,0 +1,80 @@
+name: Publish Docker image
+on:
+  workflow_dispatch:
+    inputs:
+      build_main_app:
+        description: "Build main nextjs app"
+        type: boolean
+        default: false
+      deploy_main_app:
+        description: "Deploy main nextjs app"
+        required: true
+        type: boolean
+        default: false
+      build_be:
+        description: "Build backend application"
+        required: true
+        type: boolean
+        default: false
+      deploy_be:
+        description: "Deploy backend application"
+        required: true
+        type: boolean
+        default: false
+jobs:
+  build_and_publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Main App Docker image
+        if: inputs.build_main_app
+        uses: docker/build-push-action@v6
+        with:
+          context: ./main_app
+          push: true
+          platforms: linux/arm64
+          tags: ghcr.io/anisharaz/centralresume:main_app_1_0
+      - name: Replace be Prisma Schema with Main App Schema
+        if: inputs.build_be
+        run: |
+          rm -rf ./native_protocol_backend/prisma && cp -r ./main_app/prisma ./native_protocol_backend/ && rm -rf ./native_protocol_backend/src/meta && cp -r ./meta ./native_protocol_backend/src/
+      - name: Build and push Backend Docker image
+        if: inputs.build_be
+        uses: docker/build-push-action@v6
+        with:
+          context: ./native_protocol_backend
+          push: true
+          platforms: linux/arm64
+          tags: ghcr.io/anisharaz/centralresume:be_1_0
+      - name: Deploy Main App
+        if: inputs.deploy_main_app
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_KEY }}
+          script: |
+            docker-compose pull -f /srv/apps/centralresume/main-app.yml && docker-compose up -d --force-recreate -f /srv/apps/centralresume/main-app.yml
+      - name: Deploy Backend
+        if: inputs.deploy_be
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_KEY }}
+          script: |
+            docker-compose pull -f /srv/apps/centralresume/be.yml && docker-compose up -d --force-recreate -f /srv/apps/centralresume/be.yml

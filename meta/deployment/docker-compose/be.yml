@@ -1,0 +1,27 @@
+version: "3.8"
+
+networks:
+  default:
+    external: true
+    name: cr-app
+  postgres:
+    external: true
+    name: cr-postgres
+  mongodb:
+    external: true
+    name: cr-mongo
+
+services:
+  backend:
+    image: "ghcr.io/anisharaz/centralresume:be_1_0"
+    container_name: cr-backend
+    ports:
+      - "127.0.0.1:3011:4000"
+    restart: always
+    networks:
+      default:
+        gw_priority: 1
+      postgres:
+      mongodb:
+    volumes:
+      - ./data/be/.env:/app/.env:ro

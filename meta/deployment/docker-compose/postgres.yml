@@ -8,6 +8,7 @@ networks:
 services:
   postgres:
     image: "postgres:17"
+    container_name: cr-postgres
     restart: always
     environment:
       - PGDATA=/var/lib/postgresql/data/pgdata
@@ -15,4 +16,4 @@ services:
     networks:
       - default
     volumes:
-      - ./postgres/:/var/lib/postgresql/data:Z
+      - ./data/postgres/:/var/lib/postgresql/data:Z

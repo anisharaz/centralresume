@@ -1,0 +1,6 @@
+version: "3.8"
+
+networks:
+  default:
+    name: cr-app
+    external: false
