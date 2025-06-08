@@ -12,6 +12,8 @@ import {
   FileStack,
   BadgePlus,
   ScanFace,
+  Key,
+  Star,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import WaitlistForm from "./waitlist-form";
@@ -32,8 +34,9 @@ export default function LandingPage() {
 
   return (
     <div
-      className={`flex flex-col min-h-screen overflow-x-hidden transition-all duration-200 ease-in-out ${loaded ? "blur-none" : "blur-sm"
-        }`}
+      className={`flex flex-col min-h-screen overflow-x-hidden transition-all duration-200 ease-in-out ${
+        loaded ? "blur-none" : "blur-sm"
+      }`}
     >
       {/* Navigation Bar */}
       <NavBar />
@@ -83,34 +86,33 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Problem Statement Section */}
       <section className="py-28 px-4 bg-[radial-gradient(circle_at_bottom,_#9443c1,_transparent,_transparent)]">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-13">
             <span className="underline decoration-emerald-400 underline-offset-8">
-              Our Unique Selling points
+              A big leap in resume
             </span>
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 text-left md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-[color-mix(in_oklab,_var(--input)_30%,_transparent)] backdrop-blur-2xl border p-6 max-md:mx-2 rounded-lg shadow-md">
               <div className="w-12 h-12 bg-green-700 rounded-full flex items-center justify-center mb-4 mx-auto">
                 <FileStack className="w-6 h-6" />
               </div>
               <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">
-                No More Maintaining Multiple Resumes
+                Effortless Resume version
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-300">
-                Creating different resume versions for each job application is
-                time-consuming. CentralResume does it all for you.
+                We help you create different resume versions for each job
+                application super easily and quick.
               </p>
             </div>
 
             <div className="bg-[color-mix(in_oklab,_var(--input)_30%,_transparent)] backdrop-blur-2xl border p-6 max-md:mx-2 rounded-lg shadow-md">
               <div className="w-12 h-12 bg-blue-900 rounded-full flex items-center justify-center mb-4 mx-auto">
-                <BadgePlus className="w-6 h-6" />
+                <Star className="w-6 h-6" />
               </div>
               <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">
-                No More Outdated Resumes
+                We all hate re sharing resume link when we update our resume.
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-300">
                 Keep your resume up-to-date with real-time updates. No more
@@ -120,10 +122,11 @@ export default function LandingPage() {
 
             <div className="bg-[color-mix(in_oklab,_var(--input)_30%,_transparent)] backdrop-blur-2xl border p-6 max-md:mx-2 rounded-lg shadow-md">
               <div className="w-12 h-12 bg-green-900 rounded-lg flex items-center justify-center mb-4 mx-auto">
-                <ScanFace className="w-6 h-6" />
+                <Key className="w-6 h-6" />
               </div>
               <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">
-                Login with CentralResume on Third Party Job Portals
+                You can save your time from repetitive profile creation on every
+                job website.
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-300">
                 No need to manually fill out job applications. Just log in with
@@ -136,34 +139,18 @@ export default function LandingPage() {
                 <CheckCircle className="w-6 h-6" />
               </div>
               <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">
-                No More Inconsistent Formatting
+                AI resume parsing and filtering.
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-300">
-                Inconsistent formatting makes it hard for AI to parse resumes
-                effectively. CentralResume ensures your resume is always
-                formatted.
+                Poorly formatted resumes often confuse AI systems. Our platform
+                guarantees a clean, structured layout that&apos;s easy for AI to
+                read, analyze, and rank effectively.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Benefits Section */}
-      <section className="flex flex-col items-center justify-center w-full p-20 bg-[radial-gradient(circle_at_right,_#0e7490,_transparent,_transparent)]">
-        <div className="text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white pb-5">
-            Our Solution:{" "}
-            <span className="underline decoration-blue-300 decoration-4 underline-offset-8">
-              Central
-              <span className="text-amber-300">#resume </span>
-            </span>{" "}
-          </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            CentralResume solves these challenges with innovative features
-            designed for modern job seekers.
-          </p>
-        </div>
-      </section>
       {benefitsData.map((benefit, index) => (
         <BenefitSection
           key={index}
