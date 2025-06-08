@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Shield } from "lucide-react";
-import { auth } from "@/auth";
+import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import ActionButtons from "./ActionButtons";
 export default async function OAuthConsentScreen({

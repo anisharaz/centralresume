@@ -9,5 +9,36 @@ export const createOauthClientSchema = z.object({
   website: z.string().url("Please enter a valid URL").optional(),
 });
 
+export const loginSchema = z.object({
+  email: z.string().email({ message: "Invalid email address" }),
+  password: z.string().min(1, { message: "Password is required" }),
+});
+
+export const forgotPasswordSchema = z.object({
+  email: z.string().email({ message: "Invalid email address" }),
+});
+
+export const resetPasswordSchema = z
+  .object({
+    newPassword: z.string().min(8, { message: "Minimum 8 character" }),
+  })
+  .refine((data) => data.newPassword !== "", {
+    message: "New password is required",
+    path: ["newPassword"],
+  });
+
+export const signupSchema = z
+  .object({
+    firstName: z.string().min(1, { message: "First name is required" }),
+    lastName: z.string().min(1, { message: "Last name is required" }),
+    email: z.string().email({ message: "Invalid email address" }),
+    password: z.string().min(8, { message: "Minimum 8 character" }),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
 export { RESUME_ZOD_SCHEMA };
 export type RESUME_TYPE = z.infer<typeof RESUME_ZOD_SCHEMA>;

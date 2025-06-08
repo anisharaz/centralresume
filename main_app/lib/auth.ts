@@ -1,13 +1,22 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { createAuthClient } from "better-auth/react";
 import { createAuthMiddleware } from "better-auth/api";
-import prisma from "./lib/db";
+import prisma from "@/lib/db";
+import { sendPasswordResetEmail, sendVerificationEmail } from "@/lib/email";
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
+  emailAndPassword: {
+    enabled: true,
+    requireEmailVerification: true,
+    sendResetPassword: sendPasswordResetEmail,
+  },
+  emailVerification: {
+    sendVerificationEmail: sendVerificationEmail,
+    autoSignInAfterVerification: true,
+  },
   secret: process.env.AUTH_SECRET || "xyz",
   user: {
     additionalFields: {
@@ -41,5 +50,3 @@ export const auth = betterAuth({
     }),
   },
 });
-
-export const authClient = createAuthClient();

@@ -1,5 +1,5 @@
-import { auth } from "@/auth";
-import LoginForm from "@/components/auth/login-form";
+import { auth } from "@/lib/auth";
+import LoginForm from "@/app/auth/login/login-form";
 import { headers } from "next/headers";
 import { permanentRedirect } from "next/navigation";
 

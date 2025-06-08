@@ -9,7 +9,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import CreateOauthClientForm from "./CreateOauthClientForm";
 import prisma from "@/lib/db";
-import { auth } from "@/auth";
+import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import ShowCredentials from "./show-credentials";
 import { Separator } from "@/components/ui/separator";

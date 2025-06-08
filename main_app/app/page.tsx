@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth } from "@/lib/auth";
 import LandingPage from "@/components/landing-page";
 import { headers } from "next/headers";
 import { permanentRedirect } from "next/navigation";

@@ -28,7 +28,7 @@ import {
   User,
 } from "lucide-react";
 import Image from "next/image";
-import { auth } from "@/auth";
+import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import prisma from "@/lib/db";
 import { formatDistanceToNow } from "date-fns";

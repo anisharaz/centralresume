@@ -1,7 +1,7 @@
 "use client";
 
 import { AllowOauthAccessToGeneralTag } from "@/app/actions/oauth";
-import { authClient } from "@/auth";
+import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";

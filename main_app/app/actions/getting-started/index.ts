@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@/auth";
+import { auth } from "@//lib/auth";
 import prisma from "@/lib/db";
 import { Resume } from "@/lib/resume";
 import { saveResumeToResumeStore } from "@/lib/services/resume-store";

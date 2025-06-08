@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
-import { auth } from "@/auth";
+import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import SwitchCurrentResumeTag from "./switch-resume-tag";
 import prisma from "@/lib/db";
