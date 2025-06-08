@@ -68,7 +68,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_KEY }}
           script: |
-            docker-compose -p cr-main-app -f /srv/apps/centralresume/main-app.yml pull && docker-compose -p cr-main-app -f /srv/apps/centralresume/main-app.yml up -d --force-recreate
+            cd /srv/apps/centralresume/main-app && docker compose pull && docker compose up -d --force-recreate
       - name: Deploy Backend
         if: inputs.deploy_be
         uses: appleboy/ssh-action@master
@@ -77,4 +77,4 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_KEY }}
           script: |
-            docker-compose -p cr-backend -f /srv/apps/centralresume/backend.yml pull && docker-compose -p cr-backend -f /srv/apps/centralresume/backend.yml up -d --force-recreate
+            cd /srv/apps/centralresume/backend && docker compose pull && docker compose up -d --force-recreate
