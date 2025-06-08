@@ -88,65 +88,78 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-28 px-4 bg-[radial-gradient(circle_at_bottom,_#9443c1,_transparent,_transparent)]">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-16">
-            <span className="underline decoration-emerald-400 underline-offset-8">
-              A big leap in resume
+      <section className="py-10 md:py-20 px-4 bg-gradient-to-br from-gray-900/50 via-slate-900 to-black relative overflow-hidden">
+        {/* Subtle Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 left-20 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl"></div>
+          <div className="absolute bottom-10 right-20 w-40 h-40 bg-purple-500/20 rounded-full blur-2xl"></div>
+          <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-emerald-500/20 rounded-full blur-2xl"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto text-center relative z-10">
+          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-white relative">
+            <span className="bg-gradient-to-r from-emerald-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+              A big leap in{" "}
+            </span>{" "}
+            <span className="relative">
+              Resume
+              <div className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-emerald-400 to-blue-400 rounded-full animate-pulse"></div>
             </span>
           </h2>
-          <div className="grid grid-cols-1 text-left md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="group bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-3xl border border-white/20 p-8 max-md:mx-2 rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-green-500/20 transition-all duration-300 hover:-translate-y-2 hover:scale-105">
-              <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-green-800 rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-lg group-hover:shadow-green-500/50 transition-all duration-300 group-hover:scale-110">
-                <FileStack className="w-8 h-8 text-white" />
+
+          {/* Horizontal Grid Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 text-center">
+            <div className="group bg-gradient-to-br from-slate-800/60 to-slate-900/80 backdrop-blur-sm border border-slate-700/50 p-6 rounded-xl shadow-lg hover:shadow-xl hover:shadow-green-500/10 transition-all duration-300 hover:-translate-y-1 hover:border-green-500/30">
+              <div className="w-14 h-14 bg-gradient-to-br from-green-600 to-green-700 rounded-xl flex items-center justify-center mb-4 mx-auto shadow-lg group-hover:shadow-green-500/30 transition-all duration-300 group-hover:scale-105">
+                <FileStack className="w-7 h-7 text-white" />
               </div>
-              <h3 className="font-bold text-lg mb-3 text-gray-900 dark:text-white text-center">
+              <h3 className="font-bold text-lg mb-3 text-white leading-tight">
                 Effortless Resume version
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+              <p className="text-sm text-gray-300 leading-relaxed">
                 We help you create different resume versions for each job
                 application super easily and quick.
               </p>
             </div>
 
-            <div className="group bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-3xl border border-white/20 p-8 max-md:mx-2 rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 hover:-translate-y-2 hover:scale-105">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-700 to-blue-900 rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-lg group-hover:shadow-blue-500/50 transition-all duration-300 group-hover:scale-110">
-                <Star className="w-8 h-8 text-white" />
+            <div className="group bg-gradient-to-br from-slate-800/60 to-slate-900/80 backdrop-blur-sm border border-slate-700/50 p-6 rounded-xl shadow-lg hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/30">
+              <div className="w-14 h-14 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center mb-4 mx-auto shadow-lg group-hover:shadow-blue-500/30 transition-all duration-300 group-hover:scale-105">
+                <Star className="w-7 h-7 text-white" />
               </div>
-              <h3 className="font-bold text-lg mb-3 text-gray-900 dark:text-white text-center">
+              <h3 className="font-bold text-lg mb-3 text-white leading-tight">
                 We all hate re sharing resume link when we update our resume.
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+              <p className="text-sm text-gray-300 leading-relaxed">
                 Keep your resume up-to-date with real-time updates. No more
                 sending outdated versions to recruiters.
               </p>
             </div>
 
-            <div className="group bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-3xl border border-white/20 p-8 max-md:mx-2 rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-emerald-500/20 transition-all duration-300 hover:-translate-y-2 hover:scale-105">
-              <div className="w-16 h-16 bg-gradient-to-br from-emerald-700 to-emerald-900 rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-lg group-hover:shadow-emerald-500/50 transition-all duration-300 group-hover:scale-110">
-                <Key className="w-8 h-8 text-white" />
+            <div className="group bg-gradient-to-br from-slate-800/60 to-slate-900/80 backdrop-blur-sm border border-slate-700/50 p-6 rounded-xl shadow-lg hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/30">
+              <div className="w-14 h-14 bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-xl flex items-center justify-center mb-4 mx-auto shadow-lg group-hover:shadow-emerald-500/30 transition-all duration-300 group-hover:scale-105">
+                <Key className="w-7 h-7 text-white" />
               </div>
-              <h3 className="font-bold text-lg mb-3 text-gray-900 dark:text-white text-center">
+              <h3 className="font-bold text-lg mb-3 text-white leading-tight">
                 You can save your time from repetitive profile creation on every
                 job website.
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+              <p className="text-sm text-gray-300 leading-relaxed">
                 No need to manually fill out job applications. Just log in with
                 CentralResume and share your resume with a single click.
               </p>
             </div>
 
-            <div className="group bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-3xl border border-white/20 p-8 max-md:mx-2 rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-300 hover:-translate-y-2 hover:scale-105">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-700 to-purple-900 rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-lg group-hover:shadow-purple-500/50 transition-all duration-300 group-hover:scale-110">
-                <Brain className="w-8 h-8 text-white" />
+            <div className="group bg-gradient-to-br from-slate-800/60 to-slate-900/80 backdrop-blur-sm border border-slate-700/50 p-6 rounded-xl shadow-lg hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300 hover:-translate-y-1 hover:border-purple-500/30">
+              <div className="w-14 h-14 bg-gradient-to-br from-purple-600 to-purple-700 rounded-xl flex items-center justify-center mb-4 mx-auto shadow-lg group-hover:shadow-purple-500/30 transition-all duration-300 group-hover:scale-105">
+                <Brain className="w-7 h-7 text-white" />
               </div>
-              <h3 className="font-bold text-lg mb-3 text-gray-900 dark:text-white text-center">
+              <h3 className="font-bold text-lg mb-3 text-white leading-tight">
                 AI friendly resume.
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-                Parsing resume text often confuse AI systems. Our platform uses
-                a clean & structured data object that&apos;s easy for AI to
-                read, analyze, and rank effectively.
+              <p className="text-sm text-gray-300 leading-relaxed">
+                Pdf resume and text parsing often confuse AI systems and it
+                makes mistakes. Our platform uses well structured data layout
+                that&apos;s easy for AI to read, analyze, and rank effectively.
               </p>
             </div>
           </div>
