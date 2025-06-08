@@ -1,5 +1,3 @@
-version: "3.8"
-
 networks:
   default:
     name: cr-mongo
@@ -8,10 +6,10 @@ networks:
 services:
   mongodb:
     image: "mongo:8.0.10"
-    container_name: cr-mongo
+    container_name: cr-mongo-db
     restart: always
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=password
     networks:
       - default

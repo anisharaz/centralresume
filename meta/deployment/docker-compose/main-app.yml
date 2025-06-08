@@ -1,5 +1,3 @@
-version: "3.8"
-
 networks:
   default:
     external: true
@@ -12,7 +10,7 @@ networks:
     name: cr-mongo
 
 services:
-  main_app:
+  main-app:
     image: "ghcr.io/anisharaz/centralresume:main_app_1_0"
     container_name: cr-main-app
     ports:
