@@ -61,7 +61,12 @@ export default async function ProfilePage({
       ? resumeProfile
       : (user?.resumeTags[0]?.resumeTagName as string)
   );
-
+  const nameInitials = user?.name
+    ? user.name
+        .split(" ")
+        .map((n) => n.charAt(0).toUpperCase())
+        .join("")
+    : "U";
   return (
     <div className="container mx-auto w-full pb-10">
       <div className="relative">
@@ -77,12 +82,17 @@ export default async function ProfilePage({
         </div>
         <div className="absolute -bottom-16 left-8">
           <div className="h-32 w-32 rounded-full bg-neutral-600 border-4 border-white dark:border-neutral-800 shadow-lg">
-            <Image
-              src={session?.user.image ? session.user.image : "./global.svg"}
-              fill
-              alt=""
-              className="p-2 rounded-full"
-            />
+            {session?.user.image && (
+              <Image
+                src={session?.user.image ? session.user.image : "./global.svg"}
+                fill
+                alt=""
+                className="p-2 rounded-full"
+              />
+            )}
+            <div className="flex justify-center items-center h-full text-2xl font-bold">
+              {nameInitials}
+            </div>
           </div>
         </div>
       </div>

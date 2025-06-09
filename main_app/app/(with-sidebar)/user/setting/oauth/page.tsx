@@ -12,6 +12,7 @@ import prisma from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import ShowCredentials from "./show-credentials";
+import DeleteOauthClientButton from "./delete-oauth-client-button";
 import { Separator } from "@/components/ui/separator";
 import { Settings, ExternalLink } from "lucide-react";
 import Image from "next/image";
@@ -192,6 +193,10 @@ async function OauthClientSettings() {
                 <ShowCredentials
                   clientId={client.clientId}
                   clientSecret={client.clientSecret}
+                />
+                <DeleteOauthClientButton
+                  clientId={client.clientId}
+                  clientName={client.name}
                 />
               </CardFooter>
             </Card>

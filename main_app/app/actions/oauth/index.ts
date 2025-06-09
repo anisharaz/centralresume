@@ -108,3 +108,46 @@ export async function CreateOauthClient(
     };
   }
 }
+
+export async function DeleteOauthClient(clientId: string) {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+    if (!session) throw new Error("Session not found");
+
+    // Verify the client belongs to the current user
+    const oauthClient = await prisma.oauthClient.findUnique({
+      where: {
+        clientId: clientId,
+      },
+    });
+
+    if (!oauthClient) throw new Error("OAuth client not found");
+    if (oauthClient.userId !== session.user.id) {
+      throw new Error(
+        "Unauthorized: You can only delete your own OAuth clients"
+      );
+    }
+
+    // Delete the OAuth client (cascade will handle related records)
+    await prisma.oauthClient.delete({
+      where: {
+        clientId: clientId,
+      },
+    });
+
+    revalidatePath("/user/setting/oauth");
+    return {
+      success: true,
+      message: "OAuth client deleted successfully",
+      data: null,
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message,
+      data: null,
+    };
+  }
+}
