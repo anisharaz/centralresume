@@ -140,7 +140,7 @@ export default function ResumeLinkCard({ link }: ResumeLinkCardProps) {
           {/* Visibility Toggle */}
           <div className="flex items-center gap-2">
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
               onClick={handleToggleVisibility}
               disabled={isTogglingVisibility}
