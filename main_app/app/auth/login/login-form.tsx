@@ -134,6 +134,11 @@ export default function LoginForm() {
                   <ArrowRight className="ml-2 h-4 w-4" />
                 )}
               </Button>
+              {form.formState.errors.root && (
+                <p className="text-red-500 text-sm mt-2 text-center">
+                  {form.formState.errors.root.message}
+                </p>
+              )}
             </form>
           </Form>
 

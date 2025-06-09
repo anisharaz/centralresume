@@ -57,7 +57,7 @@ export default function ResumeLinkCard({ link }: ResumeLinkCardProps) {
   const router = useRouter();
 
   const linkUrl = `${
-    process.env.NEXT_PUBLIC_APP_URL || "https://app.centralresume.com"
+    process.env.NEXT_PUBLIC_APP_URL || "https://centralresume.me"
   }/resume?linkId=${link.linkId}&resumeTag=${link.resumeTagName}`;
   const createdAgo = formatDistanceToNow(link.createdAt, { addSuffix: true });
 
