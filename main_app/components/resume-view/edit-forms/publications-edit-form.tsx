@@ -83,53 +83,45 @@ function PublicationsEditForm({
   return (
     <BaseSheetComponentForEdit title={title} description={description}>
       <Form {...form}>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold">Publications</h3>
-          </div>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="h-full flex flex-col px-2"
+        >
+          {/* Scrollable content area */}
+          <div className="flex-1 overflow-y-auto space-y-6 pr-2">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold">Publications</h3>
+            </div>
 
-          {publicationFields.map((item, index) => (
-            <div
-              key={item.id}
-              className="border p-4 rounded-lg shadow-sm space-y-4"
-            >
-              <div className="flex items-center justify-between">
-                <h4 className="text-md font-medium">Publication {index + 1}</h4>
-                <Button
-                  type="button"
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => removePublication(index)}
-                >
-                  Remove Publication
-                </Button>
-              </div>
+            {publicationFields.map((item, index) => (
+              <div
+                key={item.id}
+                className="border p-4 rounded-lg shadow-sm space-y-4"
+              >
+                <div className="flex items-center justify-between">
+                  <h4 className="text-md font-medium">
+                    Publication {index + 1}
+                  </h4>
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => removePublication(index)}
+                  >
+                    Remove Publication
+                  </Button>
+                </div>
 
-              {/* Basic Publication Information */}
-              <FormField
-                control={control}
-                name={`publications.${index}.name`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Publication Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter publication title" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Basic Publication Information */}
                 <FormField
                   control={control}
-                  name={`publications.${index}.publisher`}
+                  name={`publications.${index}.name`}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Publisher</FormLabel>
+                      <FormLabel>Publication Name</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="e.g., IEEE, ACM, Journal Name"
+                          placeholder="Enter publication title"
                           {...field}
                         />
                       </FormControl>
@@ -138,126 +130,152 @@ function PublicationsEditForm({
                   )}
                 />
 
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={control}
+                    name={`publications.${index}.publisher`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Publisher</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="e.g., IEEE, ACM, Journal Name"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={control}
+                    name={`publications.${index}.releaseDate`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Release Date</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="date"
+                            value={formatDateForInput(field.value)}
+                            onChange={(e) => field.onChange(e.target.value)}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
                 <FormField
                   control={control}
-                  name={`publications.${index}.releaseDate`}
+                  name={`publications.${index}.url`}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Release Date</FormLabel>
+                      <FormLabel>URL</FormLabel>
                       <FormControl>
                         <Input
-                          type="date"
-                          value={formatDateForInput(field.value)}
-                          onChange={(e) => field.onChange(e.target.value)}
+                          placeholder="https://doi.org/... or publication URL"
+                          {...field}
                         />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+
+                {/* Publication Tags */}
+                <FormField
+                  control={control}
+                  name={`publications.${index}.tags`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Publication Tags</FormLabel>
+                      <FormControl>
+                        <div className="space-y-2">
+                          {field.value?.map((tag: string, tagIndex: number) => (
+                            <div key={tagIndex} className="flex gap-2">
+                              <Input
+                                value={tag}
+                                onChange={(e) => {
+                                  const newTags = [...(field.value || [])];
+                                  newTags[tagIndex] = e.target.value;
+                                  field.onChange(newTags);
+                                }}
+                                placeholder={`Tag ${tagIndex + 1}`}
+                              />
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  const newTags =
+                                    field.value?.filter(
+                                      (_: string, i: number) => i !== tagIndex
+                                    ) || [];
+                                  field.onChange(newTags);
+                                }}
+                              >
+                                Remove
+                              </Button>
+                            </div>
+                          ))}
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() =>
+                              field.onChange([...(field.value || []), ""])
+                            }
+                          >
+                            Add Tag
+                          </Button>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Publication Summary */}
+                <PublicationSummarySection
+                  control={control}
+                  publicationIndex={index}
+                />
               </div>
+            ))}
+          </div>
 
-              <FormField
-                control={control}
-                name={`publications.${index}.url`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>URL</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="https://doi.org/... or publication URL"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+          {/* Fixed submit button at bottom */}
+          <div className="flex-shrink-0 border-t bg-background p-4">
+            <div className="flex gap-5 items-center">
+              <Button
+                type="submit"
+                disabled={form.formState.isSubmitting}
+                className="flex-1"
+              >
+                {form.formState.isSubmitting && (
+                  <Loader2 className="animate-spin mr-2" />
                 )}
-              />
-
-              {/* Publication Tags */}
-              <FormField
-                control={control}
-                name={`publications.${index}.tags`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Publication Tags</FormLabel>
-                    <FormControl>
-                      <div className="space-y-2">
-                        {field.value?.map((tag: string, tagIndex: number) => (
-                          <div key={tagIndex} className="flex gap-2">
-                            <Input
-                              value={tag}
-                              onChange={(e) => {
-                                const newTags = [...(field.value || [])];
-                                newTags[tagIndex] = e.target.value;
-                                field.onChange(newTags);
-                              }}
-                              placeholder={`Tag ${tagIndex + 1}`}
-                            />
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="sm"
-                              onClick={() => {
-                                const newTags =
-                                  field.value?.filter(
-                                    (_: string, i: number) => i !== tagIndex
-                                  ) || [];
-                                field.onChange(newTags);
-                              }}
-                            >
-                              Remove
-                            </Button>
-                          </div>
-                        ))}
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={() =>
-                            field.onChange([...(field.value || []), ""])
-                          }
-                        >
-                          Add Tag
-                        </Button>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Publication Summary */}
-              <PublicationSummarySection
-                control={control}
-                publicationIndex={index}
-              />
+                Submit
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() =>
+                  appendPublication({
+                    name: "",
+                    tags: [],
+                    publisher: "",
+                    releaseDate: new Date().toISOString().split("T")[0],
+                    url: "",
+                    summary: [],
+                  })
+                }
+              >
+                Add New
+              </Button>
             </div>
-          ))}
-
-          <div className="flex gap-5 items-center">
-            <Button type="submit" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting && (
-                <Loader2 className="animate-spin" />
-              )}
-              Submit
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() =>
-                appendPublication({
-                  name: "",
-                  tags: [],
-                  publisher: "",
-                  releaseDate: new Date().toISOString().split("T")[0],
-                  url: "",
-                  summary: [],
-                })
-              }
-            >
-              Add New
-            </Button>
           </div>
         </form>
       </Form>

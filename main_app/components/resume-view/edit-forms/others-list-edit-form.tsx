@@ -73,109 +73,122 @@ function OthersListEditForm({
   return (
     <BaseSheetComponentForEdit title={title} description={description}>
       <Form {...form}>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold">Other Lists</h3>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="h-full flex flex-col px-2"
+        >
+          {/* Scrollable content area */}
+          <div className="flex-1 overflow-y-auto space-y-6 pr-2">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold">Other Lists</h3>
+            </div>
+
+            {otherListFields.map((item, index) => (
+              <div
+                key={item.id}
+                className="border p-4 rounded-lg shadow-sm space-y-4"
+              >
+                <div className="flex items-center justify-between">
+                  <h4 className="text-md font-medium">List {index + 1}</h4>
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => removeOtherList(index)}
+                  >
+                    Remove List
+                  </Button>
+                </div>
+
+                {/* List Tags */}
+                <FormField
+                  control={control}
+                  name={`otherLists.${index}.tags`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>List Tags</FormLabel>
+                      <FormControl>
+                        <div className="space-y-2">
+                          {field.value?.map((tag: string, tagIndex: number) => (
+                            <div key={tagIndex} className="flex gap-2">
+                              <Input
+                                value={tag}
+                                onChange={(e) => {
+                                  const newTags = [...(field.value || [])];
+                                  newTags[tagIndex] = e.target.value;
+                                  field.onChange(newTags);
+                                }}
+                                placeholder={`Tag ${tagIndex + 1}`}
+                              />
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  const newTags =
+                                    field.value?.filter(
+                                      (_: string, i: number) => i !== tagIndex
+                                    ) || [];
+                                  field.onChange(newTags);
+                                }}
+                              >
+                                Remove
+                              </Button>
+                            </div>
+                          ))}
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() =>
+                              field.onChange([...(field.value || []), ""])
+                            }
+                          >
+                            Add Tag
+                          </Button>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Headings Section */}
+                <OtherListHeadingSection control={control} listIndex={index} />
+
+                {/* Summary Section */}
+                <OtherListSummarySection control={control} listIndex={index} />
+              </div>
+            ))}
           </div>
 
-          {otherListFields.map((item, index) => (
-            <div
-              key={item.id}
-              className="border p-4 rounded-lg shadow-sm space-y-4"
-            >
-              <div className="flex items-center justify-between">
-                <h4 className="text-md font-medium">List {index + 1}</h4>
-                <Button
-                  type="button"
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => removeOtherList(index)}
-                >
-                  Remove List
-                </Button>
-              </div>
-
-              {/* List Tags */}
-              <FormField
-                control={control}
-                name={`otherLists.${index}.tags`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>List Tags</FormLabel>
-                    <FormControl>
-                      <div className="space-y-2">
-                        {field.value?.map((tag: string, tagIndex: number) => (
-                          <div key={tagIndex} className="flex gap-2">
-                            <Input
-                              value={tag}
-                              onChange={(e) => {
-                                const newTags = [...(field.value || [])];
-                                newTags[tagIndex] = e.target.value;
-                                field.onChange(newTags);
-                              }}
-                              placeholder={`Tag ${tagIndex + 1}`}
-                            />
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="sm"
-                              onClick={() => {
-                                const newTags =
-                                  field.value?.filter(
-                                    (_: string, i: number) => i !== tagIndex
-                                  ) || [];
-                                field.onChange(newTags);
-                              }}
-                            >
-                              Remove
-                            </Button>
-                          </div>
-                        ))}
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={() =>
-                            field.onChange([...(field.value || []), ""])
-                          }
-                        >
-                          Add Tag
-                        </Button>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+          {/* Fixed submit button at bottom */}
+          <div className="flex-shrink-0 border-t bg-background p-4">
+            <div className="flex gap-5">
+              <Button
+                type="submit"
+                disabled={form.formState.isSubmitting}
+                className="flex-1"
+              >
+                {form.formState.isSubmitting && (
+                  <Loader2 className="animate-spin mr-2" />
                 )}
-              />
-
-              {/* Headings Section */}
-              <OtherListHeadingSection control={control} listIndex={index} />
-
-              {/* Summary Section */}
-              <OtherListSummarySection control={control} listIndex={index} />
+                Submit
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() =>
+                  appendOtherList({
+                    tags: [],
+                    heading: [],
+                    summary: [],
+                  })
+                }
+              >
+                Add New
+              </Button>
             </div>
-          ))}
-
-          <div className="flex gap-5">
-            <Button type="submit" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting && (
-                <Loader2 className="animate-spin" />
-              )}
-              Submit
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() =>
-                appendOtherList({
-                  tags: [],
-                  heading: [],
-                  summary: [],
-                })
-              }
-            >
-              Add New
-            </Button>
           </div>
         </form>
       </Form>

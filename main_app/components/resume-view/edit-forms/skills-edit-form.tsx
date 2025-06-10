@@ -102,10 +102,7 @@ function SkillsEditForm({
                 <FormItem className="flex-1">
                   <FormLabel>Skill Name</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="e.g., JavaScript, Communication"
-                      {...field}
-                    />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -219,24 +216,33 @@ function SkillsEditForm({
   return (
     <BaseSheetComponentForEdit title={title} description={description}>
       <Form {...form}>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-          {renderSkillSection("Soft Skills", softSkillsArray, "skills.soft")}
-          {renderSkillSection(
-            "Technical Skills",
-            technicalSkillsArray,
-            "skills.technical"
-          )}
-
-          <Button
-            type="submit"
-            disabled={form.formState.isSubmitting}
-            className="w-full"
-          >
-            {form.formState.isSubmitting && (
-              <Loader2 className="animate-spin" />
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="h-full flex flex-col px-2"
+        >
+          {/* Scrollable content area */}
+          <div className="flex-1 overflow-y-auto space-y-8 pr-2">
+            {renderSkillSection("Soft Skills", softSkillsArray, "skills.soft")}
+            {renderSkillSection(
+              "Technical Skills",
+              technicalSkillsArray,
+              "skills.technical"
             )}
-            Save Skills
-          </Button>
+          </div>
+
+          {/* Fixed submit button at bottom */}
+          <div className="flex-shrink-0 border-t bg-background p-4">
+            <Button
+              type="submit"
+              disabled={form.formState.isSubmitting}
+              className="w-full"
+            >
+              {form.formState.isSubmitting && (
+                <Loader2 className="animate-spin mr-2" />
+              )}
+              Save Skills
+            </Button>
+          </div>
         </form>
       </Form>
     </BaseSheetComponentForEdit>
