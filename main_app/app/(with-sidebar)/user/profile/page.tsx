@@ -109,7 +109,6 @@ export default async function ProfilePage({
         </Link>
       </div>
       <Separator className="my-4" />
-
       <div>
         <Suspense>
           <SwitchCurrentResumeTag
@@ -121,7 +120,7 @@ export default async function ProfilePage({
             }
           />
         </Suspense>
-        <div className="space-y-6">
+        <div className="space-y-6 border m-2 mt-6">
           <PersonalDetailsCard
             data={resumeByTag.personal_details}
             dataWithTag={resume.getResume().personal_details}
@@ -141,6 +140,7 @@ export default async function ProfilePage({
             data={resumeByTag.projects}
             dataWithTag={resume.getResume().projects}
           />
+          <Separator className="my-4" />
           <AchievementsCard
             data={resumeByTag.achievements}
             dataWithTag={resume.getResume().achievements}

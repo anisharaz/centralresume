@@ -192,7 +192,6 @@ export default function GettingStartedFormV2({
                     className="w-full"
                     disabled={
                       form.formState.isSubmitting ||
-                      !form.formState.isValid ||
                       !form.getValues("personal_details.name") ||
                       !form.getValues("personal_details.email")
                     }
