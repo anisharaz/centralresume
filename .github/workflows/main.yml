@@ -49,8 +49,8 @@ jobs:
           platforms: linux/arm64
           build-args: APP_URL=${{ secrets.APP_URL }}
           tags: ghcr.io/anisharaz/centralresume:main_app_1_0
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=registry,ref=centralresume/main-app:buildcache
+          cache-to: type=registry,ref=centralresume/main-app:buildcache,mode=ma
       - name: Replace be Prisma Schema with Main App Schema
         if: inputs.build_be
         run: |
@@ -63,8 +63,8 @@ jobs:
           push: true
           platforms: linux/arm64
           tags: ghcr.io/anisharaz/centralresume:be_1_0
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=registry,ref=centralresume/backend:buildcache
+          cache-to: type=registry,ref=centralresume/backend:buildcache,mode=max
       - name: Deploy Main App
         if: inputs.deploy_main_app
         uses: appleboy/ssh-action@master
