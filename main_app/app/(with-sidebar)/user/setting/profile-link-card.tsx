@@ -112,39 +112,41 @@ export default function ProfileLinkCard({ link }: ProfileLinkCardProps) {
 
   return (
     <Card className="transition-all hover:shadow-md border-l-4 border-l-primary/20">
-      <CardHeader className="pb-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="relative h-10 w-10 rounded-lg border bg-muted p-2 flex items-center justify-center">
-              <User className="h-5 w-5 text-muted-foreground" />
+      <CardHeader className="pb-2 sm:pb-4 px-3 sm:px-6 pt-3 sm:pt-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
+          <div className="flex items-center space-x-2 sm:space-x-4">
+            <div className="relative h-6 w-6 sm:h-10 sm:w-10 rounded-lg border bg-muted p-1 sm:p-2 flex items-center justify-center flex-shrink-0">
+              <User className="h-3 w-3 sm:h-5 sm:w-5 text-muted-foreground" />
             </div>
-            <div className="space-y-1">
-              <CardTitle className="text-base flex items-center gap-2">
-                Profile Link - {link.resumeTagName}
+            <div className="space-y-0.5 sm:space-y-1 min-w-0 flex-1">
+              <CardTitle className="text-sm sm:text-base flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                <span className="truncate text-sm sm:text-base">
+                  Profile - {link.resumeTagName}
+                </span>
                 <Badge
                   variant={
                     currentVisibility === "PUBLIC" ? "default" : "secondary"
                   }
-                  className="text-xs"
+                  className="text-xs self-start sm:self-auto py-0 px-1.5 sm:px-2"
                 >
                   {currentVisibility}
                 </Badge>
               </CardTitle>
-              <CardDescription className="flex items-center gap-2">
-                <Clock className="h-3 w-3" />
-                Created {createdAgo}
+              <CardDescription className="flex items-center gap-1 sm:gap-2 text-xs">
+                <Clock className="h-3 w-3 flex-shrink-0" />
+                <span className="truncate">Created {createdAgo}</span>
               </CardDescription>
             </div>
           </div>
 
           {/* Visibility Toggle */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-shrink-0">
             <Button
               variant="outline"
               size="sm"
               onClick={handleToggleVisibility}
               disabled={isTogglingVisibility}
-              className="h-8 px-3 text-muted-foreground hover:text-foreground"
+              className="h-7 sm:h-8 px-2 sm:px-3 text-xs text-muted-foreground hover:text-foreground"
             >
               {isTogglingVisibility ? (
                 <Loader2 className="h-3 w-3 animate-spin mr-1" />
@@ -153,26 +155,37 @@ export default function ProfileLinkCard({ link }: ProfileLinkCardProps) {
               ) : (
                 <Lock className="h-3 w-3 mr-1" />
               )}
-              {isTogglingVisibility
-                ? "Updating..."
-                : currentVisibility === "PUBLIC"
-                ? "Make Private"
-                : "Make Public"}
+              <span className="hidden sm:inline">
+                {isTogglingVisibility
+                  ? "Updating..."
+                  : currentVisibility === "PUBLIC"
+                  ? "Make Private"
+                  : "Make Public"}
+              </span>
+              <span className="sm:hidden">
+                {isTogglingVisibility
+                  ? "..."
+                  : currentVisibility === "PUBLIC"
+                  ? "Private"
+                  : "Public"}
+              </span>
             </Button>
           </div>
         </div>
       </CardHeader>
 
-      <CardContent className="pt-0">
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <p className="text-sm font-medium">Shareable URL</p>
+      <CardContent className="pt-0 px-3 sm:px-6 pb-3 sm:pb-6">
+        <div className="space-y-3 sm:space-y-4">
+          <div className="space-y-1.5 sm:space-y-2">
+            <p className="text-xs font-medium">Shareable URL</p>
             <div className="flex items-center gap-2 p-2 bg-muted rounded-md">
-              <code className="text-xs flex-1 truncate">{linkUrl}</code>
+              <code className="text-xs flex-1 break-all overflow-wrap-anywhere min-w-0">
+                {linkUrl}
+              </code>
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-6 w-6 p-0"
+                className="h-6 w-6 p-0 flex-shrink-0"
                 onClick={handleCopy}
               >
                 {copied ? (
@@ -184,12 +197,17 @@ export default function ProfileLinkCard({ link }: ProfileLinkCardProps) {
             </div>
           </div>
 
-          <div className="flex justify-between items-center pt-2 border-t">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center pt-2 border-t gap-2 sm:gap-4">
             <div className="flex gap-2">
-              <Button variant="outline" size="sm" className="h-8" asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-7 sm:h-8 text-xs px-2 sm:px-3"
+                asChild
+              >
                 <a href={linkUrl} target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="h-3 w-3 mr-1" />
-                  View Profile
+                  View
                 </a>
               </Button>
             </div>
@@ -202,33 +220,34 @@ export default function ProfileLinkCard({ link }: ProfileLinkCardProps) {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="h-8 px-3 text-destructive hover:text-destructive"
+                    className="h-7 sm:h-8 px-2 sm:px-3 text-destructive hover:text-destructive text-xs"
                   >
                     <Trash2 className="h-3 w-3 mr-1" />
                     Delete
                   </Button>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className="max-w-[95vw] sm:max-w-lg mx-4">
                   <DialogHeader>
-                    <DialogTitle className="flex items-center gap-2">
-                      <AlertTriangle className="h-5 w-5 text-destructive" />
-                      Delete Profile Link
+                    <DialogTitle className="flex items-start gap-2 text-sm sm:text-base">
+                      <AlertTriangle className="h-4 w-4 sm:h-5 sm:w-5 text-destructive flex-shrink-0 mt-0.5" />
+                      <span className="break-words">Delete Profile Link</span>
                     </DialogTitle>
-                    <DialogDescription className="space-y-2">
+                    <DialogDescription className="space-y-2 text-xs sm:text-sm">
                       <p>
                         Are you sure you want to delete this profile link for{" "}
                         <strong>{link.resumeTagName}</strong>?
                       </p>
-                      <p className="text-sm">
+                      <p>
                         This action cannot be undone. The link will no longer be
                         accessible.
                       </p>
                     </DialogDescription>
                   </DialogHeader>
-                  <div className="flex justify-end gap-2 pt-4">
+                  <div className="flex flex-col sm:flex-row justify-end gap-2 pt-4">
                     <Button
                       variant="outline"
                       onClick={() => setDeleteDialogOpen(false)}
+                      className="text-xs sm:text-sm"
                     >
                       Cancel
                     </Button>
@@ -236,6 +255,7 @@ export default function ProfileLinkCard({ link }: ProfileLinkCardProps) {
                       variant="destructive"
                       onClick={handleDelete}
                       disabled={isDeleting}
+                      className="text-xs sm:text-sm"
                     >
                       {isDeleting ? "Deleting..." : "Delete Link"}
                     </Button>

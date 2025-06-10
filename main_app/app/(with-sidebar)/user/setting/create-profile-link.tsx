@@ -68,15 +68,18 @@ export default function CreateProfileLink({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="sm" className="h-8">
+        <Button size="sm" className="h-8 text-xs sm:text-sm">
           <Plus className="h-3 w-3 mr-1" />
-          Create Profile Link
+          <span className="hidden sm:inline">Create Profile Link</span>
+          <span className="sm:hidden">Create</span>
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-w-[95vw] sm:max-w-md mx-4">
         <DialogHeader>
-          <DialogTitle>Create Profile Link</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-base sm:text-lg">
+            Create Profile Link
+          </DialogTitle>
+          <DialogDescription className="text-sm">
             Create a shareable link for your profile with a specific tag filter.
           </DialogDescription>
         </DialogHeader>
@@ -84,7 +87,7 @@ export default function CreateProfileLink({
           <div className="space-y-2">
             <label className="text-sm font-medium">Select Resume Tag</label>
             <Select value={selectedTag} onValueChange={setSelectedTag}>
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Choose a tag..." />
               </SelectTrigger>
               <SelectContent>
@@ -102,7 +105,7 @@ export default function CreateProfileLink({
               value={visibility}
               onValueChange={(value: $Enums.VISIBILITY) => setVisibility(value)}
             >
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -116,13 +119,18 @@ export default function CreateProfileLink({
             </p>
           </div>
         </div>
-        <div className="flex justify-end gap-2 pt-4">
-          <Button variant="outline" onClick={() => setOpen(false)}>
+        <div className="flex flex-col sm:flex-row justify-end gap-2 pt-4">
+          <Button
+            variant="outline"
+            onClick={() => setOpen(false)}
+            className="text-sm"
+          >
             Cancel
           </Button>
           <Button
             onClick={handleCreateLink}
             disabled={isCreating || !selectedTag}
+            className="text-sm"
           >
             {isCreating ? "Creating..." : "Create Profile Link"}
           </Button>

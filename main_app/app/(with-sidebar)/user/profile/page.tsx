@@ -18,6 +18,8 @@ import {
 } from "@/components/resume-view";
 import { ProjectsCard } from "@/components/resume-view/project-section";
 import BannerTextEdit from "@/components/banner-text-edit";
+import Link from "next/link";
+import { Share2 } from "lucide-react";
 
 export default async function ProfilePage({
   searchParams,
@@ -97,8 +99,14 @@ export default async function ProfilePage({
         </div>
       </div>
 
-      <div className="mt-20 mb-8 px-8">
+      <div className="mt-20 mb-8 px-8 flex items-center gap-3">
         <h1 className="text-2xl font-bold">{user?.name}</h1>
+        <Link
+          href={`/user/setting`}
+          className="text-base text-blue-500 hover:underline flex gap-1"
+        >
+          <Share2 /> <div>Share</div>
+        </Link>
       </div>
       <Separator className="my-4" />
 

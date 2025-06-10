@@ -2,20 +2,7 @@
 
 import Image from "next/image";
 import Footer from "../footer";
-import {
-  CheckCircle,
-  Zap,
-  Shield,
-  Smartphone,
-  Menu,
-  X,
-  FileStack,
-  BadgePlus,
-  ScanFace,
-  Key,
-  Star,
-  Brain,
-} from "lucide-react";
+import { CheckCircle, FileStack, Key, Star, Brain } from "lucide-react";
 import { useEffect, useState } from "react";
 import WaitlistForm from "./waitlist-form";
 import { cn } from "@/lib/utils";
@@ -37,7 +24,7 @@ export default function LandingPage() {
     }, 50); // Adjust the delay as needed
 
     return () => clearTimeout(timer);
-  });
+  }, []);
 
   return (
     <div
@@ -360,7 +347,15 @@ export default function LandingPage() {
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="px-6 pb-4">
-                  <p className="text-gray-300 text-sm leading-relaxed"></p>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    LoginWithCentralResume is a feature that allows you to log
+                    in to job platforms using your CentralResume profile. This
+                    means you can skip the tedious process of filling out your
+                    profile information on each job site. Instead, you can
+                    simply log in with your CentralResume account, and it will
+                    automatically populate your profile with the relevant
+                    information from your CentralResume profile data.
+                  </p>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>

@@ -89,13 +89,13 @@ export default async function UserSettings() {
   });
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className="container mx-auto p-4 md:p-6 space-y-4 md:space-y-6">
       {/* Header Section */}
       <div className="space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
           User & Profile Settings
         </h1>
-        <p className="text-muted-foreground">
+        <p className="text-sm md:text-base text-muted-foreground">
           Manage your account, profile, and essential settings
         </p>
       </div>
@@ -103,18 +103,20 @@ export default async function UserSettings() {
       {/* Profile Links Section */}
       <div>
         <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <div>
-              <h2 className="text-xl font-semibold">Profile Links</h2>
-              <p className="text-sm text-muted-foreground">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+            <div className="flex-1">
+              <h2 className="text-lg md:text-xl font-semibold">
+                Profile Links
+              </h2>
+              <p className="text-xs md:text-sm text-muted-foreground">
                 Create and manage shareable links for your profile with specific
                 tags
               </p>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
               {profileLinks.length > 0 && (
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <User className="h-4 w-4" />
+                <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
+                  <User className="h-3 w-3 md:h-4 md:w-4" />
                   {profileLinks.length} active link
                   {profileLinks.length !== 1 ? "s" : ""}
                 </div>
@@ -125,7 +127,7 @@ export default async function UserSettings() {
 
           {/* Profile Links List */}
           <div className="grid gap-4">
-            <ScrollArea className="max-h-[70vh]">
+            <ScrollArea className="max-h-[50vh] md:max-h-[70vh]">
               <div className="flex flex-col gap-4">
                 {profileLinks.map((link) => (
                   <ProfileLinkCard key={link.id} link={link} />
@@ -135,14 +137,16 @@ export default async function UserSettings() {
 
             {/* Empty State for Profile Links */}
             {profileLinks.length === 0 && (
-              <Card className="p-8 text-center">
+              <Card className="p-6 md:p-8 text-center">
                 <div className="space-y-4">
-                  <div className="mx-auto w-16 h-16 rounded-full bg-muted flex items-center justify-center">
-                    <User className="h-8 w-8 text-muted-foreground" />
+                  <div className="mx-auto w-12 h-12 md:w-16 md:h-16 rounded-full bg-muted flex items-center justify-center">
+                    <User className="h-6 w-6 md:h-8 md:w-8 text-muted-foreground" />
                   </div>
                   <div className="space-y-2">
-                    <h3 className="font-medium text-lg">No Profile Links</h3>
-                    <p className="text-sm text-muted-foreground max-w-md mx-auto">
+                    <h3 className="font-medium text-base md:text-lg">
+                      No Profile Links
+                    </h3>
+                    <p className="text-xs md:text-sm text-muted-foreground max-w-md mx-auto">
                       You haven&apos;t created any shareable profile links yet.
                       Create links to share your profile with specific tag
                       filters.
@@ -164,18 +168,18 @@ export default async function UserSettings() {
       {/* Resume Links Section */}
       <div>
         <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <div>
-              <h2 className="text-xl font-semibold">Resume Links</h2>
-              <p className="text-sm text-muted-foreground">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+            <div className="flex-1">
+              <h2 className="text-lg md:text-xl font-semibold">Resume Links</h2>
+              <p className="text-xs md:text-sm text-muted-foreground">
                 Create and manage shareable links for your resume with specific
                 tags
               </p>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
               {resumeLinks.length > 0 && (
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Link2 className="h-4 w-4" />
+                <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
+                  <Link2 className="h-3 w-3 md:h-4 md:w-4" />
                   {resumeLinks.length} active link
                   {resumeLinks.length !== 1 ? "s" : ""}
                 </div>
@@ -186,7 +190,7 @@ export default async function UserSettings() {
 
           {/* Resume Links List */}
           <div className="grid gap-4">
-            <ScrollArea className="max-h-[70vh]">
+            <ScrollArea className="max-h-[50vh] md:max-h-[70vh]">
               <div className="flex flex-col gap-4">
                 {resumeLinks.map((link) => (
                   <ResumeLinkCard key={link.id} link={link} />
@@ -196,14 +200,16 @@ export default async function UserSettings() {
 
             {/* Empty State for Resume Links */}
             {resumeLinks.length === 0 && (
-              <Card className="p-8 text-center">
+              <Card className="p-6 md:p-8 text-center">
                 <div className="space-y-4">
-                  <div className="mx-auto w-16 h-16 rounded-full bg-muted flex items-center justify-center">
-                    <Link2 className="h-8 w-8 text-muted-foreground" />
+                  <div className="mx-auto w-12 h-12 md:w-16 md:h-16 rounded-full bg-muted flex items-center justify-center">
+                    <Link2 className="h-6 w-6 md:h-8 md:w-8 text-muted-foreground" />
                   </div>
                   <div className="space-y-2">
-                    <h3 className="font-medium text-lg">No Resume Links</h3>
-                    <p className="text-sm text-muted-foreground max-w-md mx-auto">
+                    <h3 className="font-medium text-base md:text-lg">
+                      No Resume Links
+                    </h3>
+                    <p className="text-xs md:text-sm text-muted-foreground max-w-md mx-auto">
                       You haven&apos;t created any shareable resume links yet.
                       Create links to share your resume with specific tag
                       filters.
@@ -225,18 +231,18 @@ export default async function UserSettings() {
       {/* Applications with Access Section */}
       <div>
         <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <div>
-              <h2 className="text-xl font-semibold">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+            <div className="flex-1">
+              <h2 className="text-lg md:text-xl font-semibold">
                 Applications with Access
               </h2>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs md:text-sm text-muted-foreground">
                 These applications currently have access to your resume data
               </p>
             </div>
             {activeTokens.length > 0 && (
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Eye className="h-4 w-4" />
+              <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
+                <Eye className="h-3 w-3 md:h-4 md:w-4" />
                 {activeTokens.length} active connection
                 {activeTokens.length !== 1 ? "s" : ""}
               </div>
@@ -258,9 +264,9 @@ export default async function UserSettings() {
                   className="transition-all hover:shadow-md border-l-4 border-l-primary/20"
                 >
                   <CardHeader className="pb-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        <div className="relative h-12 w-12 rounded-lg border bg-muted p-2 flex items-center justify-center">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                      <div className="flex items-start sm:items-center space-x-4">
+                        <div className="relative h-10 w-10 md:h-12 md:w-12 rounded-lg border bg-muted p-2 flex items-center justify-center flex-shrink-0">
                           {client.image ? (
                             <Image
                               src={client.image}
@@ -269,36 +275,38 @@ export default async function UserSettings() {
                               className="rounded-md object-cover"
                             />
                           ) : (
-                            <Globe className="h-6 w-6 text-muted-foreground" />
+                            <Globe className="h-4 w-4 md:h-6 md:w-6 text-muted-foreground" />
                           )}
                         </div>
-                        <div className="space-y-1">
-                          <CardTitle className="text-lg flex items-center gap-2">
-                            {client.name}
+                        <div className="space-y-1 min-w-0 flex-1">
+                          <CardTitle className="text-base md:text-lg flex flex-col sm:flex-row sm:items-center gap-2">
+                            <span className="truncate">{client.name}</span>
                             {client.website && (
                               <a
                                 href={client.website}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-muted-foreground hover:text-primary"
+                                className="text-muted-foreground hover:text-primary flex-shrink-0"
                               >
-                                <ExternalLink className="h-4 w-4" />
+                                <ExternalLink className="h-3 w-3 md:h-4 md:w-4" />
                               </a>
                             )}
                           </CardTitle>
-                          <CardDescription className="flex items-center gap-2">
-                            <Clock className="h-3 w-3" />
-                            Last accessed {lastAccessed}
+                          <CardDescription className="flex items-center gap-2 text-xs md:text-sm">
+                            <Clock className="h-3 w-3 flex-shrink-0" />
+                            <span className="truncate">
+                              Last accessed {lastAccessed}
+                            </span>
                           </CardDescription>
                           {client.description && (
-                            <p className="text-sm text-muted-foreground">
+                            <p className="text-xs md:text-sm text-muted-foreground line-clamp-2">
                               {client.description}
                             </p>
                           )}
                         </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Badge variant="default" className="capitalize">
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        <Badge variant="default" className="capitalize text-xs">
                           Active
                         </Badge>
                       </div>
@@ -308,10 +316,10 @@ export default async function UserSettings() {
                   <CardContent className="pt-0">
                     <div className="space-y-4">
                       <div>
-                        <p className="text-sm font-medium mb-2">
+                        <p className="text-xs md:text-sm font-medium mb-2">
                           Access Permissions
                         </p>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-1.5">
                           {scopes.map((scope, index) => (
                             <Badge
                               key={index}
@@ -324,7 +332,7 @@ export default async function UserSettings() {
                         </div>
                       </div>
 
-                      <div className="flex justify-between items-center pt-2 border-t">
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center pt-2 border-t gap-4">
                         <div className="text-xs text-muted-foreground space-y-1">
                           <p>
                             Connected:{" "}
@@ -332,37 +340,39 @@ export default async function UserSettings() {
                               addSuffix: true,
                             })}
                           </p>
-                          <p>
+                          <p className="break-all">
                             Client ID:{" "}
-                            <code className="bg-muted px-1 rounded">
+                            <code className="bg-muted px-1 rounded text-xs">
                               {client.clientId}
                             </code>
                           </p>
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 flex-shrink-0">
                           <Dialog>
                             <DialogTrigger asChild>
                               <Button
                                 variant="outline"
                                 size="sm"
-                                className="h-8 px-3 text-destructive hover:text-destructive"
+                                className="h-8 px-3 text-destructive hover:text-destructive text-xs"
                               >
                                 <Trash2 className="h-3 w-3 mr-1" />
                                 Revoke
                               </Button>
                             </DialogTrigger>
-                            <DialogContent>
+                            <DialogContent className="max-w-md mx-4 sm:max-w-lg">
                               <DialogHeader>
-                                <DialogTitle className="flex items-center gap-2">
-                                  <AlertTriangle className="h-5 w-5 text-destructive" />
-                                  Revoke Access for {client.name}
+                                <DialogTitle className="flex items-start gap-2 text-sm md:text-base">
+                                  <AlertTriangle className="h-4 w-4 md:h-5 md:w-5 text-destructive flex-shrink-0 mt-0.5" />
+                                  <span className="break-words">
+                                    Revoke Access for {client.name}
+                                  </span>
                                 </DialogTitle>
-                                <DialogDescription className="space-y-2">
+                                <DialogDescription className="space-y-2 text-xs md:text-sm">
                                   <p>
                                     Are you sure you want to revoke access for{" "}
                                     <strong>{client.name}</strong>?
                                   </p>
-                                  <p className="text-sm">
+                                  <p>
                                     This will immediately stop the application
                                     from accessing your resume data. The
                                     application will need to request
@@ -386,12 +396,15 @@ export default async function UserSettings() {
                                   </div>
                                 </DialogDescription>
                               </DialogHeader>
-                              <div className="flex justify-end gap-2 pt-4">
-                                <Button variant="outline">Cancel</Button>
+                              <div className="flex flex-col sm:flex-row justify-end gap-2 pt-4">
+                                <Button variant="outline" className="text-xs">
+                                  Cancel
+                                </Button>
                                 <Button
                                   type="button"
                                   variant="destructive"
                                   disabled
+                                  className="text-xs"
                                 >
                                   Revoke Access (Coming Soon)
                                 </Button>
@@ -408,16 +421,16 @@ export default async function UserSettings() {
 
             {/* Empty State for Connected Apps */}
             {activeTokens.length === 0 && (
-              <Card className="p-8 text-center">
+              <Card className="p-6 md:p-8 text-center">
                 <div className="space-y-4">
-                  <div className="mx-auto w-16 h-16 rounded-full bg-muted flex items-center justify-center">
-                    <Shield className="h-8 w-8 text-muted-foreground" />
+                  <div className="mx-auto w-12 h-12 md:w-16 md:h-16 rounded-full bg-muted flex items-center justify-center">
+                    <Shield className="h-6 w-6 md:h-8 md:w-8 text-muted-foreground" />
                   </div>
                   <div className="space-y-2">
-                    <h3 className="font-medium text-lg">
+                    <h3 className="font-medium text-base md:text-lg">
                       No Connected Applications
                     </h3>
-                    <p className="text-sm text-muted-foreground max-w-md mx-auto">
+                    <p className="text-xs md:text-sm text-muted-foreground max-w-md mx-auto">
                       You haven&apos;t authorized any applications to access
                       your resume data yet. When you do, they&apos;ll appear
                       here and you can manage their permissions.

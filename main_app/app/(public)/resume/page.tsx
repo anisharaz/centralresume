@@ -40,7 +40,7 @@ async function ViewResume({
     return (
       <ErrorPage
         errorDefinition={{
-          error: "Resume not found",
+          error: "Private Resume Link",
           errorDescription:
             "The requested resume link does not exist or is private.",
           errorType: "NotFound",
