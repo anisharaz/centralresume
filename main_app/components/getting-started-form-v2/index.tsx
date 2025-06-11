@@ -40,7 +40,12 @@ export default function GettingStartedFormV2({
       personal_details: {
         name: defaultData.firstName + " " + defaultData.lastName,
         email: defaultData.email,
-        tag_line: [],
+        tag_line: [
+          {
+            text: "I am a passionate .... (edit me)",
+            tags: ["#general"],
+          },
+        ],
         summary: [],
         social_links: [],
       },
@@ -59,15 +64,12 @@ export default function GettingStartedFormV2({
   });
 
   const onSubmit = async (data: RESUME_TYPE) => {
-    // Trigger validation before submission
     const isValid = await form.trigger();
-
     if (!isValid) {
       // Show validation errors and prevent submission
       console.log("Form validation failed:", form.formState.errors);
       return;
     }
-
     const res = await HandleResumeCreation({ resumeData: data });
     if (!res.success) {
       alert("Failed to submit resume data. Please try again.");

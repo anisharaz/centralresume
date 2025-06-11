@@ -72,6 +72,11 @@ export class Resume {
         }
       }
       extractTags(resume);
+      collectedTags.forEach((tag) => {
+        if (tag === null) {
+          collectedTags.delete(tag);
+        }
+      });
       return Array.from(collectedTags);
     }
     return extractAllTags(this.data);

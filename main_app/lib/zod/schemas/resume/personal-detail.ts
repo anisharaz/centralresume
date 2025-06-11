@@ -3,12 +3,14 @@ import { TAGS } from "./constants";
 
 export const PERSONAL_DETAILS_SCHEMA = z.object({
   name: z.string().min(1, "Full name is required"),
-  tag_line: z.array(
-    z.object({
-      text: z.string(),
-      tags: TAGS,
-    })
-  ),
+  tag_line: z
+    .array(
+      z.object({
+        text: z.string(),
+        tags: TAGS,
+      })
+    )
+    .min(1, "Tag line is required"),
   summary: z.array(
     z.object({
       text: z.string(),
