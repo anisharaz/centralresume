@@ -519,17 +519,18 @@ function PersonalDetailEditForm({
               </div>
             ))}
           </div>
-
-          <Button
-            type="submit"
-            className="w-full sticky bottom-0"
-            disabled={form.formState.isSubmitting || !form.formState.isValid}
-          >
-            {form.formState.isSubmitting && (
-              <Loader2 className="animate-spin mr-2" />
-            )}
-            Save Changes
-          </Button>
+          <div className="sticky bottom-0 bg-background p-4 border-t">
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={form.formState.isSubmitting || !form.formState.isValid}
+            >
+              {form.formState.isSubmitting && (
+                <Loader2 className="animate-spin mr-2" />
+              )}
+              Save Changes
+            </Button>
+          </div>
         </form>
       </Form>
     </BaseSheetComponentForEdit>
