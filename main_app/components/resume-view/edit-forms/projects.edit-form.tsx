@@ -82,15 +82,33 @@ function ProjectsEditForm({
       <Form {...form}>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="h-full flex flex-col px-2"
+          className="relative h-full overflow-y-scroll space-y-4 px-2"
         >
-          {/* Scrollable content area */}
-          <div className="flex-1 overflow-y-auto space-y-6 pr-2">
-            {fields.map((item, index) => (
-              <div
-                key={item.id}
-                className="border p-4 rounded-lg shadow-sm space-y-4"
+          {/* Projects Section */}
+          <div className="border p-4 rounded-lg shadow-sm space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold">Projects</h3>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  append({
+                    title: "",
+                    tags: [],
+                    startDate: new Date().toISOString().split("T")[0],
+                    endDate: undefined,
+                    summary: "",
+                    url: "",
+                  })
+                }
               >
+                Add Project
+              </Button>
+            </div>
+
+            {fields.map((item, index) => (
+              <div key={item.id} className="border p-3 rounded space-y-2">
                 <FormField
                   control={control}
                   name={`projects.${index}.title`}
@@ -178,66 +196,62 @@ function ProjectsEditForm({
                   )}
                 />
 
-                {/* Tags Section */}
-                <div>
-                  <FormLabel>Tags</FormLabel>
-                  <div className="space-y-2 mt-2">
-                    {form
-                      .watch(`projects.${index}.tags`)
-                      ?.map((_, tagIndex) => (
-                        <div key={tagIndex} className="flex gap-2 items-center">
-                          <FormField
-                            control={control}
-                            name={`projects.${index}.tags.${tagIndex}`}
-                            render={({ field }) => (
-                              <FormItem className="flex-1">
-                                <FormControl>
-                                  <Input placeholder="Enter tag" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
+                <FormField
+                  control={control}
+                  name={`projects.${index}.tags`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Tags</FormLabel>
+                      <FormControl>
+                        <div className="space-y-2">
+                          {field.value?.map((tag, tagIndex) => (
+                            <div key={tagIndex} className="flex gap-2">
+                              <Input
+                                value={tag}
+                                onChange={(e) => {
+                                  const newTags = [...(field.value || [])];
+                                  newTags[tagIndex] = e.target.value;
+                                  field.onChange(newTags);
+                                }}
+                                placeholder={`Tag ${tagIndex + 1}`}
+                              />
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  const newTags =
+                                    field.value?.filter(
+                                      (_, i) => i !== tagIndex
+                                    ) || [];
+                                  field.onChange(newTags);
+                                }}
+                              >
+                                Remove
+                              </Button>
+                            </div>
+                          ))}
                           <Button
                             type="button"
-                            variant="destructive"
+                            variant="outline"
                             size="sm"
-                            onClick={() => {
-                              const currentTags = form.getValues(
-                                `projects.${index}.tags`
-                              );
-                              const newTags = currentTags.filter(
-                                (_, i) => i !== tagIndex
-                              );
-                              form.setValue(`projects.${index}.tags`, newTags);
-                            }}
+                            onClick={() =>
+                              field.onChange([...(field.value || []), ""])
+                            }
                           >
-                            Remove
+                            Add Tag
                           </Button>
                         </div>
-                      ))}
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const currentTags = form.getValues(
-                          `projects.${index}.tags`
-                        );
-                        form.setValue(`projects.${index}.tags`, [
-                          ...currentTags,
-                          "",
-                        ]);
-                      }}
-                    >
-                      Add Tag
-                    </Button>
-                  </div>
-                </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
                 <Button
-                  variant="destructive"
                   type="button"
+                  variant="destructive"
+                  size="sm"
                   onClick={() => remove(index)}
                 >
                   Remove Project
@@ -246,36 +260,17 @@ function ProjectsEditForm({
             ))}
           </div>
 
-          {/* Fixed submit button at bottom */}
-          <div className="flex-shrink-0 border-t bg-background p-4">
-            <div className="flex gap-5">
-              <Button
-                type="submit"
-                disabled={form.formState.isSubmitting}
-                className="flex-1"
-              >
-                {form.formState.isSubmitting && (
-                  <Loader2 className="animate-spin mr-2" />
-                )}
-                Submit
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() =>
-                  append({
-                    title: "",
-                    tags: [],
-                    startDate: new Date().toISOString().split("T")[0],
-                    endDate: undefined,
-                    summary: "",
-                    url: "",
-                  })
-                }
-              >
-                Add New
-              </Button>
-            </div>
+          <div className="sticky bottom-0 bg-background p-4 border-t">
+            <Button
+              type="submit"
+              disabled={form.formState.isSubmitting}
+              className="w-full"
+            >
+              {form.formState.isSubmitting && (
+                <Loader2 className="animate-spin mr-2" />
+              )}
+              Save Projects
+            </Button>
           </div>
         </form>
       </Form>

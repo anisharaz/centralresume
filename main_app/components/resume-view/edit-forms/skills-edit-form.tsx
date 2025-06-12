@@ -89,17 +89,33 @@ function SkillsEditForm({
     fieldArray: typeof softSkillsArray | typeof technicalSkillsArray,
     fieldName: "skills.soft" | "skills.technical"
   ) => (
-    <div className="space-y-4">
-      <h3 className="text-lg font-semibold">{title}</h3>
+    <div className="border p-4 rounded-lg shadow-sm space-y-4">
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg font-semibold">{title}</h3>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() =>
+            fieldArray.append({
+              name: "",
+              level: "",
+              tags: [],
+            })
+          }
+        >
+          Add {title.split(" ")[0]} Skill
+        </Button>
+      </div>
 
       {fieldArray.fields.map((item, index) => (
-        <div key={item.id} className="border p-4 rounded-lg space-y-4">
-          <div className="flex gap-4">
+        <div key={item.id} className="border p-3 rounded space-y-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
               control={control}
               name={`${fieldName}.${index}.name`}
               render={({ field }) => (
-                <FormItem className="flex-1">
+                <FormItem>
                   <FormLabel>Skill Name</FormLabel>
                   <FormControl>
                     <Input {...field} />
@@ -113,7 +129,7 @@ function SkillsEditForm({
               control={control}
               name={`${fieldName}.${index}.level`}
               render={({ field }) => (
-                <FormItem className="w-40">
+                <FormItem>
                   <FormLabel>Level</FormLabel>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
@@ -196,20 +212,6 @@ function SkillsEditForm({
           </Button>
         </div>
       ))}
-
-      <Button
-        type="button"
-        variant="outline"
-        onClick={() =>
-          fieldArray.append({
-            name: "",
-            level: "",
-            tags: [],
-          })
-        }
-      >
-        Add {title.split(" ")[0]} Skill
-      </Button>
     </div>
   );
 
@@ -218,20 +220,16 @@ function SkillsEditForm({
       <Form {...form}>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="h-full flex flex-col px-2"
+          className="relative h-full overflow-y-scroll space-y-4 px-2"
         >
-          {/* Scrollable content area */}
-          <div className="flex-1 overflow-y-auto space-y-8 pr-2">
-            {renderSkillSection("Soft Skills", softSkillsArray, "skills.soft")}
-            {renderSkillSection(
-              "Technical Skills",
-              technicalSkillsArray,
-              "skills.technical"
-            )}
-          </div>
+          {renderSkillSection("Soft Skills", softSkillsArray, "skills.soft")}
+          {renderSkillSection(
+            "Technical Skills",
+            technicalSkillsArray,
+            "skills.technical"
+          )}
 
-          {/* Fixed submit button at bottom */}
-          <div className="flex-shrink-0 border-t bg-background p-4">
+          <div className="sticky bottom-0 bg-background p-4 border-t">
             <Button
               type="submit"
               disabled={form.formState.isSubmitting}

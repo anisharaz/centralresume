@@ -639,8 +639,7 @@ function WorkExperienceEditForm({
           <div className="flex gap-4 sticky bottom-0 bg-background p-4 border-t">
             <Button
               type="submit"
-              disabled={form.formState.isSubmitting}
-              className=""
+              disabled={form.formState.isSubmitting || !form.formState.isValid}
             >
               {form.formState.isSubmitting && (
                 <Loader2 className="animate-spin mr-2" />

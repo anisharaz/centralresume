@@ -75,19 +75,30 @@ function OthersListEditForm({
       <Form {...form}>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="h-full flex flex-col px-2"
+          className="relative h-full overflow-y-scroll space-y-4 px-2"
         >
-          {/* Scrollable content area */}
-          <div className="flex-1 overflow-y-auto space-y-6 pr-2">
+          {/* Other Lists Section */}
+          <div className="border p-4 rounded-lg shadow-sm space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold">Other Lists</h3>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  appendOtherList({
+                    tags: [],
+                    heading: [],
+                    summary: [],
+                  })
+                }
+              >
+                Add Other List
+              </Button>
             </div>
 
             {otherListFields.map((item, index) => (
-              <div
-                key={item.id}
-                className="border p-4 rounded-lg shadow-sm space-y-4"
-              >
+              <div key={item.id} className="border p-3 rounded space-y-2">
                 <div className="flex items-center justify-between">
                   <h4 className="text-md font-medium">List {index + 1}</h4>
                   <Button
@@ -162,33 +173,17 @@ function OthersListEditForm({
             ))}
           </div>
 
-          {/* Fixed submit button at bottom */}
-          <div className="flex-shrink-0 border-t bg-background p-4">
-            <div className="flex gap-5">
-              <Button
-                type="submit"
-                disabled={form.formState.isSubmitting}
-                className="flex-1"
-              >
-                {form.formState.isSubmitting && (
-                  <Loader2 className="animate-spin mr-2" />
-                )}
-                Submit
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() =>
-                  appendOtherList({
-                    tags: [],
-                    heading: [],
-                    summary: [],
-                  })
-                }
-              >
-                Add New
-              </Button>
-            </div>
+          <div className="sticky bottom-0 bg-background p-4 border-t">
+            <Button
+              type="submit"
+              disabled={form.formState.isSubmitting}
+              className="w-full"
+            >
+              {form.formState.isSubmitting && (
+                <Loader2 className="animate-spin mr-2" />
+              )}
+              Save Other Lists
+            </Button>
           </div>
         </form>
       </Form>

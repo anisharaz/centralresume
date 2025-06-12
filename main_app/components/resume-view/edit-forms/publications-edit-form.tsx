@@ -85,34 +85,33 @@ function PublicationsEditForm({
       <Form {...form}>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="h-full flex flex-col px-2"
+          className="relative h-full overflow-y-scroll space-y-4 px-2"
         >
-          {/* Scrollable content area */}
-          <div className="flex-1 overflow-y-auto space-y-6 pr-2">
+          {/* Publications Section */}
+          <div className="border p-4 rounded-lg shadow-sm space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold">Publications</h3>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  appendPublication({
+                    name: "",
+                    tags: [],
+                    publisher: "",
+                    releaseDate: new Date().toISOString().split("T")[0],
+                    url: "",
+                    summary: [],
+                  })
+                }
+              >
+                Add Publication
+              </Button>
             </div>
 
             {publicationFields.map((item, index) => (
-              <div
-                key={item.id}
-                className="border p-4 rounded-lg shadow-sm space-y-4"
-              >
-                <div className="flex items-center justify-between">
-                  <h4 className="text-md font-medium">
-                    Publication {index + 1}
-                  </h4>
-                  <Button
-                    type="button"
-                    variant="destructive"
-                    size="sm"
-                    onClick={() => removePublication(index)}
-                  >
-                    Remove Publication
-                  </Button>
-                </div>
-
-                {/* Basic Publication Information */}
+              <div key={item.id} className="border p-3 rounded space-y-2">
                 <FormField
                   control={control}
                   name={`publications.${index}.name`}
@@ -242,40 +241,30 @@ function PublicationsEditForm({
                   control={control}
                   publicationIndex={index}
                 />
+
+                <Button
+                  type="button"
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => removePublication(index)}
+                >
+                  Remove Publication
+                </Button>
               </div>
             ))}
           </div>
 
-          {/* Fixed submit button at bottom */}
-          <div className="flex-shrink-0 border-t bg-background p-4">
-            <div className="flex gap-5 items-center">
-              <Button
-                type="submit"
-                disabled={form.formState.isSubmitting}
-                className="flex-1"
-              >
-                {form.formState.isSubmitting && (
-                  <Loader2 className="animate-spin mr-2" />
-                )}
-                Submit
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() =>
-                  appendPublication({
-                    name: "",
-                    tags: [],
-                    publisher: "",
-                    releaseDate: new Date().toISOString().split("T")[0],
-                    url: "",
-                    summary: [],
-                  })
-                }
-              >
-                Add New
-              </Button>
-            </div>
+          <div className="sticky bottom-0 bg-background p-4 border-t">
+            <Button
+              type="submit"
+              disabled={form.formState.isSubmitting}
+              className="w-full"
+            >
+              {form.formState.isSubmitting && (
+                <Loader2 className="animate-spin mr-2" />
+              )}
+              Save Publications
+            </Button>
           </div>
         </form>
       </Form>

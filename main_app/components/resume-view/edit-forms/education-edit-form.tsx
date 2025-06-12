@@ -81,15 +81,34 @@ function EducationEditForm({
       <Form {...form}>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="h-full flex flex-col px-2"
+          className="relative h-full overflow-y-scroll space-y-4 px-2"
         >
-          {/* Scrollable content area */}
-          <div className="flex-1 overflow-y-auto space-y-6 pr-2">
-            {fields.map((item, index) => (
-              <div
-                key={item.id}
-                className="border p-4 rounded-lg shadow-sm space-y-4"
+          {/* Education Section */}
+          <div className="border p-4 rounded-lg shadow-sm space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold">Education</h3>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  append({
+                    institution: "",
+                    tags: [],
+                    field: [{ text: "", tags: [] }],
+                    degree_level: [{ text: "", tags: [] }],
+                    startDate: new Date().toISOString().split("T")[0],
+                    endDate: new Date().toISOString().split("T")[0],
+                    score: "",
+                  })
+                }
               >
+                Add Education
+              </Button>
+            </div>
+
+            {fields.map((item, index) => (
+              <div key={item.id} className="border p-3 rounded space-y-2">
                 <FormField
                   control={control}
                   name={`education.${index}.institution`}
@@ -107,21 +126,7 @@ function EducationEditForm({
                   )}
                 />
 
-                <FormField
-                  control={control}
-                  name={`education.${index}.score`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Score/GPA</FormLabel>
-                      <FormControl>
-                        <Input placeholder="e.g., 3.8/4.0 or 85%" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <div className="flex gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     control={control}
                     name={`education.${index}.startDate`}
@@ -158,6 +163,20 @@ function EducationEditForm({
                     )}
                   />
                 </div>
+
+                <FormField
+                  control={control}
+                  name={`education.${index}.score`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Score/GPA</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g., 3.8/4.0 or 85%" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
                 {/* Institution Tags */}
                 <FormField
@@ -213,117 +232,13 @@ function EducationEditForm({
                 />
 
                 {/* Field of Study */}
-                <div>
-                  <FormLabel>Field of Study</FormLabel>
-                  <div className="space-y-4 mt-2">
-                    {form
-                      .watch(`education.${index}.field`)
-                      ?.map((_, fieldIndex) => (
-                        <div
-                          key={fieldIndex}
-                          className="border p-3 rounded space-y-2"
-                        >
-                          <FormField
-                            control={control}
-                            name={`education.${index}.field.${fieldIndex}.text`}
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Field Name</FormLabel>
-                                <FormControl>
-                                  <Input
-                                    placeholder="e.g., Computer Science"
-                                    {...field}
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-
-                          <FormField
-                            control={control}
-                            name={`education.${index}.field.${fieldIndex}.tags`}
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Field Tags</FormLabel>
-                                <FormControl>
-                                  <div className="space-y-2">
-                                    {field.value?.map((tag, tagIndex) => (
-                                      <div
-                                        key={tagIndex}
-                                        className="flex gap-2"
-                                      >
-                                        <Input
-                                          value={tag}
-                                          onChange={(e) => {
-                                            const newTags = [
-                                              ...(field.value || []),
-                                            ];
-                                            newTags[tagIndex] = e.target.value;
-                                            field.onChange(newTags);
-                                          }}
-                                          placeholder={`Tag ${tagIndex + 1}`}
-                                        />
-                                        <Button
-                                          type="button"
-                                          variant="outline"
-                                          size="sm"
-                                          onClick={() => {
-                                            const newTags =
-                                              field.value?.filter(
-                                                (_, i) => i !== tagIndex
-                                              ) || [];
-                                            field.onChange(newTags);
-                                          }}
-                                        >
-                                          Remove
-                                        </Button>
-                                      </div>
-                                    ))}
-                                    <Button
-                                      type="button"
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={() =>
-                                        field.onChange([
-                                          ...(field.value || []),
-                                          "",
-                                        ])
-                                      }
-                                    >
-                                      Add Field Tag
-                                    </Button>
-                                  </div>
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-
-                          <Button
-                            type="button"
-                            variant="destructive"
-                            size="sm"
-                            onClick={() => {
-                              const currentFields = form.getValues(
-                                `education.${index}.field`
-                              );
-                              const newFields = currentFields.filter(
-                                (_, i) => i !== fieldIndex
-                              );
-                              form.setValue(
-                                `education.${index}.field`,
-                                newFields
-                              );
-                            }}
-                          >
-                            Remove Field
-                          </Button>
-                        </div>
-                      ))}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <FormLabel>Field of Study</FormLabel>
                     <Button
                       type="button"
                       variant="outline"
+                      size="sm"
                       onClick={() => {
                         const currentFields = form.getValues(
                           `education.${index}.field`
@@ -337,120 +252,119 @@ function EducationEditForm({
                       Add Field
                     </Button>
                   </div>
+
+                  {form
+                    .watch(`education.${index}.field`)
+                    ?.map((_, fieldIndex) => (
+                      <div
+                        key={fieldIndex}
+                        className="border p-2 rounded space-y-2"
+                      >
+                        <FormField
+                          control={control}
+                          name={`education.${index}.field.${fieldIndex}.text`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Field Name</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="e.g., Computer Science"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={control}
+                          name={`education.${index}.field.${fieldIndex}.tags`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Field Tags</FormLabel>
+                              <FormControl>
+                                <div className="space-y-2">
+                                  {field.value?.map((tag, tagIndex) => (
+                                    <div key={tagIndex} className="flex gap-2">
+                                      <Input
+                                        value={tag}
+                                        onChange={(e) => {
+                                          const newTags = [
+                                            ...(field.value || []),
+                                          ];
+                                          newTags[tagIndex] = e.target.value;
+                                          field.onChange(newTags);
+                                        }}
+                                        placeholder={`Tag ${tagIndex + 1}`}
+                                      />
+                                      <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => {
+                                          const newTags =
+                                            field.value?.filter(
+                                              (_, i) => i !== tagIndex
+                                            ) || [];
+                                          field.onChange(newTags);
+                                        }}
+                                      >
+                                        Remove
+                                      </Button>
+                                    </div>
+                                  ))}
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() =>
+                                      field.onChange([
+                                        ...(field.value || []),
+                                        "",
+                                      ])
+                                    }
+                                  >
+                                    Add Field Tag
+                                  </Button>
+                                </div>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => {
+                            const currentFields = form.getValues(
+                              `education.${index}.field`
+                            );
+                            const newFields = currentFields.filter(
+                              (_, i) => i !== fieldIndex
+                            );
+                            form.setValue(
+                              `education.${index}.field`,
+                              newFields
+                            );
+                          }}
+                        >
+                          Remove Field
+                        </Button>
+                      </div>
+                    ))}
                 </div>
 
                 {/* Degree Level */}
-                <div>
-                  <FormLabel>Degree Level</FormLabel>
-                  <div className="space-y-4 mt-2">
-                    {form
-                      .watch(`education.${index}.degree_level`)
-                      ?.map((_, degreeIndex) => (
-                        <div
-                          key={degreeIndex}
-                          className="border p-3 rounded space-y-2"
-                        >
-                          <FormField
-                            control={control}
-                            name={`education.${index}.degree_level.${degreeIndex}.text`}
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Degree Name</FormLabel>
-                                <FormControl>
-                                  <Input
-                                    placeholder="e.g., Bachelor of Science"
-                                    {...field}
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-
-                          <FormField
-                            control={control}
-                            name={`education.${index}.degree_level.${degreeIndex}.tags`}
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Degree Tags</FormLabel>
-                                <FormControl>
-                                  <div className="space-y-2">
-                                    {field.value?.map((tag, tagIndex) => (
-                                      <div
-                                        key={tagIndex}
-                                        className="flex gap-2"
-                                      >
-                                        <Input
-                                          value={tag}
-                                          onChange={(e) => {
-                                            const newTags = [
-                                              ...(field.value || []),
-                                            ];
-                                            newTags[tagIndex] = e.target.value;
-                                            field.onChange(newTags);
-                                          }}
-                                          placeholder={`Tag ${tagIndex + 1}`}
-                                        />
-                                        <Button
-                                          type="button"
-                                          variant="outline"
-                                          size="sm"
-                                          onClick={() => {
-                                            const newTags =
-                                              field.value?.filter(
-                                                (_, i) => i !== tagIndex
-                                              ) || [];
-                                            field.onChange(newTags);
-                                          }}
-                                        >
-                                          Remove
-                                        </Button>
-                                      </div>
-                                    ))}
-                                    <Button
-                                      type="button"
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={() =>
-                                        field.onChange([
-                                          ...(field.value || []),
-                                          "",
-                                        ])
-                                      }
-                                    >
-                                      Add Degree Tag
-                                    </Button>
-                                  </div>
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-
-                          <Button
-                            type="button"
-                            variant="destructive"
-                            size="sm"
-                            onClick={() => {
-                              const currentDegrees = form.getValues(
-                                `education.${index}.degree_level`
-                              );
-                              const newDegrees = currentDegrees.filter(
-                                (_, i) => i !== degreeIndex
-                              );
-                              form.setValue(
-                                `education.${index}.degree_level`,
-                                newDegrees
-                              );
-                            }}
-                          >
-                            Remove Degree
-                          </Button>
-                        </div>
-                      ))}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <FormLabel>Degree Level</FormLabel>
                     <Button
                       type="button"
                       variant="outline"
+                      size="sm"
                       onClick={() => {
                         const currentDegrees = form.getValues(
                           `education.${index}.degree_level`
@@ -464,11 +378,115 @@ function EducationEditForm({
                       Add Degree
                     </Button>
                   </div>
+
+                  {form
+                    .watch(`education.${index}.degree_level`)
+                    ?.map((_, degreeIndex) => (
+                      <div
+                        key={degreeIndex}
+                        className="border p-2 rounded space-y-2"
+                      >
+                        <FormField
+                          control={control}
+                          name={`education.${index}.degree_level.${degreeIndex}.text`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Degree Name</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="e.g., Bachelor of Science"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={control}
+                          name={`education.${index}.degree_level.${degreeIndex}.tags`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Degree Tags</FormLabel>
+                              <FormControl>
+                                <div className="space-y-2">
+                                  {field.value?.map((tag, tagIndex) => (
+                                    <div key={tagIndex} className="flex gap-2">
+                                      <Input
+                                        value={tag}
+                                        onChange={(e) => {
+                                          const newTags = [
+                                            ...(field.value || []),
+                                          ];
+                                          newTags[tagIndex] = e.target.value;
+                                          field.onChange(newTags);
+                                        }}
+                                        placeholder={`Tag ${tagIndex + 1}`}
+                                      />
+                                      <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => {
+                                          const newTags =
+                                            field.value?.filter(
+                                              (_, i) => i !== tagIndex
+                                            ) || [];
+                                          field.onChange(newTags);
+                                        }}
+                                      >
+                                        Remove
+                                      </Button>
+                                    </div>
+                                  ))}
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() =>
+                                      field.onChange([
+                                        ...(field.value || []),
+                                        "",
+                                      ])
+                                    }
+                                  >
+                                    Add Degree Tag
+                                  </Button>
+                                </div>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => {
+                            const currentDegrees = form.getValues(
+                              `education.${index}.degree_level`
+                            );
+                            const newDegrees = currentDegrees.filter(
+                              (_, i) => i !== degreeIndex
+                            );
+                            form.setValue(
+                              `education.${index}.degree_level`,
+                              newDegrees
+                            );
+                          }}
+                        >
+                          Remove Degree
+                        </Button>
+                      </div>
+                    ))}
                 </div>
 
                 <Button
-                  variant="destructive"
                   type="button"
+                  variant="destructive"
+                  size="sm"
                   onClick={() => remove(index)}
                 >
                   Remove Education
@@ -477,37 +495,17 @@ function EducationEditForm({
             ))}
           </div>
 
-          {/* Fixed submit button at bottom */}
-          <div className="flex-shrink-0 border-t bg-background p-4">
-            <div className="flex gap-4">
-              <Button
-                type="submit"
-                disabled={form.formState.isSubmitting}
-                className="flex-1"
-              >
-                {form.formState.isSubmitting && (
-                  <Loader2 className="animate-spin mr-2" />
-                )}
-                Submit
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() =>
-                  append({
-                    institution: "",
-                    tags: [],
-                    field: [{ text: "", tags: [] }],
-                    degree_level: [{ text: "", tags: [] }],
-                    startDate: new Date().toISOString().split("T")[0],
-                    endDate: new Date().toISOString().split("T")[0],
-                    score: "",
-                  })
-                }
-              >
-                Add New
-              </Button>
-            </div>
+          <div className="sticky bottom-0 bg-background p-4 border-t">
+            <Button
+              type="submit"
+              disabled={form.formState.isSubmitting}
+              className="w-full"
+            >
+              {form.formState.isSubmitting && (
+                <Loader2 className="animate-spin mr-2" />
+              )}
+              Save Education
+            </Button>
           </div>
         </form>
       </Form>
