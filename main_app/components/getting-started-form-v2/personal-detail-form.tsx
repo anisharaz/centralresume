@@ -222,6 +222,17 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
             </Button>
           </div>
         ))}
+        {form.formState.errors.personal_details?.tag_line && (
+          <FormField
+            control={control}
+            name={`personal_details.tag_line`}
+            render={({ field }) => (
+              <FormItem>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
       </div>
 
       {/* Summary */}

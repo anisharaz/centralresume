@@ -41,10 +41,10 @@ export default function GettingStartedFormV2({
         name: defaultData.firstName + " " + defaultData.lastName,
         email: defaultData.email,
         tag_line: [
-          {
-            text: "I am a passionate .... (edit me)",
-            tags: ["#general"],
-          },
+          // {
+          //   text: "I am a passionate .... (edit me)",
+          //   tags: ["#general"],
+          // },
         ],
         summary: [],
         social_links: [],
@@ -114,43 +114,23 @@ export default function GettingStartedFormV2({
 
       case 1:
         return (
-          <div className="space-y-4 ">
-            <div className="text-center space-y-4">
-              <div className="mx-auto w-16 h-16 rounded-full flex items-center justify-center">
-                <Info className="w-8 h-8 text-amber-300" />
+          <div className="space-y-4">
+            <div className="md:p-10 p-2 rounded-4xl border max-w-4xl space-y-6 mx-auto">
+              <div className="text-center">
+                <div className="mx-auto rounded-full flex items-center justify-center">
+                  <Info className="w-8 h-8 text-red-600" />
+                </div>
+                <h2 className="text-2xl font-bold">
+                  You need to understand about tags!
+                </h2>
               </div>
-              <h2 className="text-2xl font-bold">What are Tags?</h2>
+              <div className="text-center max-w-4xl mx-auto">
+                Tags are label given to details on your resume. Different
+                version of resume is prepared based on the tags by only showing
+                the details containing the tag while sharing or downloading.
+                This is how different version of resume work using tag.
+              </div>
             </div>
-
-            <div className="text-justify flex gap-2">
-              <p className="font-bold text-green-600">1.</p>
-              <p className="text-muted-foreground flex-1">
-                Tags are given to detail on your resume. For example, you can
-                add multiple resume summaries and give each summaries a tag.
-              </p>
-            </div>
-            <div className="text-justify flex gap-2">
-              <p className="font-bold text-green-600">2.</p>
-              <p className="text-muted-foreground flex-1">
-                Tags can be named after job profiles. E.g. full_stack_engineer,
-                marketing, sales.
-              </p>
-            </div>
-            <div className="text-justify flex gap-2">
-              <p className="font-bold text-green-600">3.</p>
-              <p className="text-muted-foreground flex-1">
-                When resume is shared you can specify which tag you want to
-                share and only the details with that tag will be shared.
-              </p>
-            </div>
-            <div className="text-justify flex gap-2">
-              <p className="font-bold text-green-600">3.</p>
-              <p className="text-muted-foreground flex-1">
-                using tag you can create multiple versions of your resume for
-                different job profiles without re-creating the entire resume.
-              </p>
-            </div>
-            <Separator className="my-4" />
             <div className="flex items-center space-x-2">
               <Checkbox
                 id="terms"

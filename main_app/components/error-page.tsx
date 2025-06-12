@@ -45,13 +45,6 @@ export default function ErrorPage({
           {errorDefinition.errorDescription}
         </p>
         </div>
-
-        <div className="text-sm text-gray-600 dark:text-gray-400">
-        <p>
-          This error occurred during the authentication process. You can try
-          again or contact support if the issue persists.
-        </p>
-        </div>
       </CardContent>
 
       <CardFooter className="flex justify-between p-4"></CardFooter>

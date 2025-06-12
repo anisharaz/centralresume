@@ -6,14 +6,14 @@ export const PERSONAL_DETAILS_SCHEMA = z.object({
   tag_line: z
     .array(
       z.object({
-        text: z.string(),
+        text: z.string().min(1, "Tag line is required"),
         tags: TAGS,
       })
     )
-    .min(1, "Tag line is required"),
+    .min(1, { message: "At least one tag line is required" }),
   summary: z.array(
     z.object({
-      text: z.string(),
+      text: z.string().min(1, "Summary is required"),
       tags: TAGS,
     })
   ),
@@ -30,8 +30,8 @@ export const PERSONAL_DETAILS_SCHEMA = z.object({
   }),
   social_links: z.array(
     z.object({
-      name: z.string(),
-      url: z.string(),
+      name: z.string().min(1, "Social link name is required"),
+      url: z.string().url("Please enter a valid URL"),
       tags: TAGS,
     })
   ),
