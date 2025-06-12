@@ -23,7 +23,7 @@ import {
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import login_bg from "@/public/login_bg.jpg";
+import login_bg from "@/public/jonatan-pie-FOcMXBbe5rU-unsplash.jpg";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -57,7 +57,7 @@ export default function LoginForm() {
               message: error.error.message || "Sign in failed",
             });
           },
-        }
+        },
       );
     } catch (error) {
       console.error("Login error:", error);
@@ -69,7 +69,9 @@ export default function LoginForm() {
       <Image
         src={login_bg}
         alt="Login Background"
-        className="absolute -z-10 inset-0 object-cover w-full h-full"
+        layout="fill"
+        objectFit="cover"
+        className="-z-10"
       />
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-1">
