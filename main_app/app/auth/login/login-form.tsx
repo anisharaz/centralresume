@@ -73,7 +73,7 @@ export default function LoginForm() {
         objectFit="cover"
         className="-z-10"
       />
-      <Card className="w-full max-w-md shadow-lg">
+      <Card className="w-full max-w-md shadow-lg bg-black/60 backdrop-blur-md rounded-xl py-8">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">
             Welcome back
