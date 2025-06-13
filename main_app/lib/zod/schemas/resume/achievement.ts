@@ -3,13 +3,13 @@ import { TAGS } from "./constants";
 
 export const ACHIEVEMENT_SCHEMA = z.array(
   z.object({
-    title: z.string(),
+    title: z.string().min(1, "Title is required"),
     tags: TAGS,
     date: z.string(),
     awarded_by: z.string().optional(),
     summary: z.array(
       z.object({
-        text: z.string(),
+        text: z.string().min(1, "Summary text is required"),
         tags: TAGS,
       })
     ),

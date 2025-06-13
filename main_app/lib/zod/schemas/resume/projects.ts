@@ -3,7 +3,7 @@ import { TAGS } from "./constants";
 
 export const PROJECTS_SCHEMA = z.array(
   z.object({
-    title: z.string(),
+    title: z.string().min(1, "Title is required"),
     tags: TAGS,
     startDate: z.string().optional(),
     endDate: z.string().optional(),

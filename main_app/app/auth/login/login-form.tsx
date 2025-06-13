@@ -57,7 +57,7 @@ export default function LoginForm() {
               message: error.error.message || "Sign in failed",
             });
           },
-        },
+        }
       );
     } catch (error) {
       console.error("Login error:", error);
@@ -75,6 +75,13 @@ export default function LoginForm() {
       />
       <Card className="w-full max-w-md shadow-lg bg-black/60 backdrop-blur-md rounded-xl py-8">
         <CardHeader className="space-y-1">
+          <Image
+            src="https://static.centralresume.me/logo.svg"
+            alt="Logo"
+            width={100}
+            height={100}
+            className="h-16 w-16 mx-auto mb-1"
+          />
           <CardTitle className="text-2xl font-bold text-center">
             Welcome back
           </CardTitle>
@@ -82,7 +89,7 @@ export default function LoginForm() {
             Sign in to your account to continue
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-6">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleSubmit)}
@@ -114,7 +121,7 @@ export default function LoginForm() {
                       <FormLabel>Password</FormLabel>
                       <Link
                         href="/auth/forgot-password"
-                        className="text-sm text-slate-500 hover:text-slate-700"
+                        className="text-sm text-blue-500 hover:underline"
                       >
                         Forgot password?
                       </Link>
@@ -144,16 +151,7 @@ export default function LoginForm() {
             </form>
           </Form>
 
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <Separator className="w-full" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white px-2 text-slate-500 dark:bg-slate-900 dark:text-slate-400">
-                Or continue with
-              </span>
-            </div>
-          </div>
+          <Separator className="w-full" />
 
           <Button
             variant="outline"

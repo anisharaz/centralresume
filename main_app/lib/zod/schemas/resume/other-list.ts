@@ -6,13 +6,13 @@ export const OTHER_LIST_SCHEMA = z.array(
     tags: TAGS,
     heading: z.array(
       z.object({
-        text: z.string(),
+        text: z.string().min(1, "Heading text is required"),
         tags: TAGS,
       })
     ),
     summary: z.array(
       z.object({
-        text: z.string(),
+        text: z.string().min(1, "Summary text is required"),
         tags: TAGS,
       })
     ),

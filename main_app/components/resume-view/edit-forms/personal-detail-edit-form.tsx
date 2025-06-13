@@ -181,10 +181,7 @@ function PersonalDetailEditForm({
                     <FormItem>
                       <FormLabel>Tag Line Text</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="e.g., Full Stack Developer"
-                          {...field}
-                        />
+                        <Input placeholder="e.g., Product manager" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

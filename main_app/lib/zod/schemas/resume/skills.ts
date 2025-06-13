@@ -4,14 +4,14 @@ import { TAGS } from "./constants";
 export const SKILLS_SCHEMA = z.object({
   soft: z.array(
     z.object({
-      name: z.string(),
+      name: z.string().min(1, "Name is required"),
       level: z.string().optional(),
       tags: TAGS,
     })
   ),
   technical: z.array(
     z.object({
-      name: z.string(),
+      name: z.string().min(1, "Name is required"),
       level: z.string().optional(),
       tags: TAGS,
     })
