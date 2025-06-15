@@ -19,6 +19,7 @@ import { updateResume } from "@/app/actions/resume/update-resume";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Separator } from "@/components/ui/separator";
 
 function OthersListEditForm({
   title,
@@ -44,6 +45,7 @@ function OthersListEditForm({
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
     defaultValues: getDefaultValues(),
+    mode: "all",
   });
 
   const { control, handleSubmit } = form;
@@ -83,11 +85,11 @@ function OthersListEditForm({
               <h3 className="text-lg font-semibold">Other Lists</h3>
               <Button
                 type="button"
-                variant="outline"
                 size="sm"
+                className="cursor-pointer"
                 onClick={() =>
                   appendOtherList({
-                    tags: [],
+                    tags: ["#common"],
                     heading: [],
                     summary: [],
                   })
@@ -100,12 +102,13 @@ function OthersListEditForm({
             {otherListFields.map((item, index) => (
               <div key={item.id} className="border p-3 rounded space-y-2">
                 <div className="flex items-center justify-between">
-                  <h4 className="text-md font-medium">List {index + 1}</h4>
+                  <h4 className="text-lg font-bold">Item {index + 1}</h4>
                   <Button
                     type="button"
                     variant="destructive"
                     size="sm"
                     onClick={() => removeOtherList(index)}
+                    disabled={otherListFields.length <= 1}
                   >
                     Remove List
                   </Button>
@@ -117,11 +120,16 @@ function OthersListEditForm({
                   name={`otherLists.${index}.tags`}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>List Tags</FormLabel>
+                      <FormLabel className="text-lg font-bold">
+                        Item Tags
+                      </FormLabel>
                       <FormControl>
                         <div className="space-y-2">
                           {field.value?.map((tag: string, tagIndex: number) => (
-                            <div key={tagIndex} className="flex gap-2">
+                            <div
+                              key={tagIndex}
+                              className="flex gap-2 flex-row-reverse items-center"
+                            >
                               <Input
                                 value={tag}
                                 onChange={(e) => {
@@ -133,7 +141,7 @@ function OthersListEditForm({
                               />
                               <Button
                                 type="button"
-                                variant="outline"
+                                variant="destructive"
                                 size="sm"
                                 onClick={() => {
                                   const newTags =
@@ -142,17 +150,22 @@ function OthersListEditForm({
                                     ) || [];
                                   field.onChange(newTags);
                                 }}
+                                disabled={field.value?.length <= 1}
                               >
-                                Remove
+                                Remove tag
                               </Button>
                             </div>
                           ))}
+                          <Separator className="my-4" />
                           <Button
                             type="button"
                             variant="outline"
                             size="sm"
                             onClick={() =>
-                              field.onChange([...(field.value || []), ""])
+                              field.onChange([
+                                ...(field.value || []),
+                                "#common",
+                              ])
                             }
                           >
                             Add Tag
@@ -182,7 +195,7 @@ function OthersListEditForm({
               {form.formState.isSubmitting && (
                 <Loader2 className="animate-spin mr-2" />
               )}
-              Save Other Lists
+              Save Changes
             </Button>
           </div>
         </form>
@@ -211,12 +224,12 @@ function OtherListHeadingSection({
   return (
     <div className="border p-3 rounded space-y-4">
       <div className="flex items-center justify-between">
-        <h5 className="text-sm font-medium">Headings</h5>
+        <h5 className="text-lg font-bold">Headings</h5>
         <Button
           type="button"
-          variant="outline"
           size="sm"
-          onClick={() => appendHeading({ text: "", tags: [] })}
+          className="cursor-pointer"
+          onClick={() => appendHeading({ text: "", tags: ["#common"] })}
         >
           Add Heading
         </Button>
@@ -229,7 +242,9 @@ function OtherListHeadingSection({
             name={`otherLists.${listIndex}.heading.${headingIndex}.text`}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Heading Text</FormLabel>
+                <FormLabel className="text-lg font-bold">
+                  Heading Text
+                </FormLabel>
                 <FormControl>
                   <Input
                     placeholder="e.g., Volunteer Work, Awards, Projects"
@@ -246,11 +261,16 @@ function OtherListHeadingSection({
             name={`otherLists.${listIndex}.heading.${headingIndex}.tags`}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Heading Tags</FormLabel>
+                <FormLabel className="text-lg font-bold">
+                  Heading Tags
+                </FormLabel>
                 <FormControl>
                   <div className="space-y-2">
                     {field.value?.map((tag: string, tagIndex: number) => (
-                      <div key={tagIndex} className="flex gap-2">
+                      <div
+                        key={tagIndex}
+                        className="flex gap-2 flex-row-reverse items-center"
+                      >
                         <Input
                           value={tag}
                           onChange={(e) => {
@@ -262,7 +282,7 @@ function OtherListHeadingSection({
                         />
                         <Button
                           type="button"
-                          variant="outline"
+                          variant="destructive"
                           size="sm"
                           onClick={() => {
                             const newTags =
@@ -271,36 +291,40 @@ function OtherListHeadingSection({
                               ) || [];
                             field.onChange(newTags);
                           }}
+                          disabled={field.value?.length <= 1}
                         >
-                          Remove
+                          Remove tag
                         </Button>
                       </div>
                     ))}
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() =>
-                        field.onChange([...(field.value || []), ""])
-                      }
-                    >
-                      Add Tag
-                    </Button>
+                    <Separator className="my-4" />
+                    <div className="flex gap-2">
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => removeHeading(headingIndex)}
+                        disabled={headingFields.length <= 1}
+                      >
+                        Remove Heading
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() =>
+                          field.onChange([...(field.value || []), "#common"])
+                        }
+                      >
+                        Add Tag
+                      </Button>
+                    </div>
                   </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
-          <Button
-            type="button"
-            variant="destructive"
-            size="sm"
-            onClick={() => removeHeading(headingIndex)}
-          >
-            Remove Heading
-          </Button>
         </div>
       ))}
     </div>
@@ -327,12 +351,12 @@ function OtherListSummarySection({
   return (
     <div className="border p-3 rounded space-y-4">
       <div className="flex items-center justify-between">
-        <h5 className="text-sm font-medium">Summary</h5>
+        <h5 className="text-lg font-bold">Summary</h5>
         <Button
           type="button"
-          variant="outline"
           size="sm"
-          onClick={() => appendSummary({ text: "", tags: [] })}
+          className="cursor-pointer"
+          onClick={() => appendSummary({ text: "", tags: ["#common"] })}
         >
           Add Summary
         </Button>
@@ -345,7 +369,9 @@ function OtherListSummarySection({
             name={`otherLists.${listIndex}.summary.${summaryIndex}.text`}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Summary Text</FormLabel>
+                <FormLabel className="text-lg font-bold">
+                  Summary Text
+                </FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Describe the activities, achievements, or details"
@@ -362,11 +388,16 @@ function OtherListSummarySection({
             name={`otherLists.${listIndex}.summary.${summaryIndex}.tags`}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Summary Tags</FormLabel>
+                <FormLabel className="text-lg font-bold">
+                  Summary Tags
+                </FormLabel>
                 <FormControl>
                   <div className="space-y-2">
                     {field.value?.map((tag: string, tagIndex: number) => (
-                      <div key={tagIndex} className="flex gap-2">
+                      <div
+                        key={tagIndex}
+                        className="flex gap-2 flex-row-reverse items-center"
+                      >
                         <Input
                           value={tag}
                           onChange={(e) => {
@@ -378,7 +409,7 @@ function OtherListSummarySection({
                         />
                         <Button
                           type="button"
-                          variant="outline"
+                          variant="destructive"
                           size="sm"
                           onClick={() => {
                             const newTags =
@@ -387,36 +418,40 @@ function OtherListSummarySection({
                               ) || [];
                             field.onChange(newTags);
                           }}
+                          disabled={field.value?.length <= 1}
                         >
-                          Remove
+                          Remove tag
                         </Button>
                       </div>
                     ))}
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() =>
-                        field.onChange([...(field.value || []), ""])
-                      }
-                    >
-                      Add Tag
-                    </Button>
+                    <Separator className="my-4" />
+                    <div className="flex gap-2">
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => removeSummary(summaryIndex)}
+                        disabled={summaryFields.length <= 1}
+                      >
+                        Remove Summary
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() =>
+                          field.onChange([...(field.value || []), "#common"])
+                        }
+                      >
+                        Add Tag
+                      </Button>
+                    </div>
                   </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
-          <Button
-            type="button"
-            variant="destructive"
-            size="sm"
-            onClick={() => removeSummary(summaryIndex)}
-          >
-            Remove Summary
-          </Button>
         </div>
       ))}
     </div>

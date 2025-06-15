@@ -19,6 +19,7 @@ import { updateResume } from "@/app/actions/resume/update-resume";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Separator } from "@/components/ui/separator";
 
 function EducationEditForm({
   title,
@@ -44,6 +45,7 @@ function EducationEditForm({
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
     defaultValues: getDefaultValues(),
+    mode: "all",
   });
 
   const { control, handleSubmit } = form;
@@ -89,14 +91,14 @@ function EducationEditForm({
               <h3 className="text-lg font-semibold">Education</h3>
               <Button
                 type="button"
-                variant="outline"
                 size="sm"
+                className="cursor-pointer"
                 onClick={() =>
                   append({
                     institution: "",
-                    tags: [],
-                    field: [{ text: "", tags: [] }],
-                    degree_level: [{ text: "", tags: [] }],
+                    tags: ["#common"],
+                    field: [{ text: "", tags: ["#common"] }],
+                    degree_level: [{ text: "", tags: ["#common"] }],
                     startDate: new Date().toISOString().split("T")[0],
                     endDate: new Date().toISOString().split("T")[0],
                     score: "",
@@ -114,7 +116,9 @@ function EducationEditForm({
                   name={`education.${index}.institution`}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Institution</FormLabel>
+                      <FormLabel className="text-lg font-bold">
+                        Institution
+                      </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="University or institution name"
@@ -132,7 +136,9 @@ function EducationEditForm({
                     name={`education.${index}.startDate`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Start Date</FormLabel>
+                        <FormLabel className="text-lg font-bold">
+                          Start Date
+                        </FormLabel>
                         <FormControl>
                           <Input
                             type="date"
@@ -150,7 +156,9 @@ function EducationEditForm({
                     name={`education.${index}.endDate`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>End Date</FormLabel>
+                        <FormLabel className="text-lg font-bold">
+                          End Date
+                        </FormLabel>
                         <FormControl>
                           <Input
                             type="date"
@@ -169,7 +177,9 @@ function EducationEditForm({
                   name={`education.${index}.score`}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Score/GPA</FormLabel>
+                      <FormLabel className="text-lg font-bold">
+                        Score/GPA
+                      </FormLabel>
                       <FormControl>
                         <Input placeholder="e.g., 3.8/4.0 or 85%" {...field} />
                       </FormControl>
@@ -184,11 +194,16 @@ function EducationEditForm({
                   name={`education.${index}.tags`}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Institution Tags</FormLabel>
+                      <FormLabel className="text-lg font-bold">
+                        Institution Tags
+                      </FormLabel>
                       <FormControl>
                         <div className="space-y-2">
                           {field.value?.map((tag, tagIndex) => (
-                            <div key={tagIndex} className="flex gap-2">
+                            <div
+                              key={tagIndex}
+                              className="flex gap-2 flex-row-reverse items-center"
+                            >
                               <Input
                                 value={tag}
                                 onChange={(e) => {
@@ -200,7 +215,7 @@ function EducationEditForm({
                               />
                               <Button
                                 type="button"
-                                variant="outline"
+                                variant="destructive"
                                 size="sm"
                                 onClick={() => {
                                   const newTags =
@@ -209,17 +224,22 @@ function EducationEditForm({
                                     ) || [];
                                   field.onChange(newTags);
                                 }}
+                                disabled={field.value?.length <= 1}
                               >
-                                Remove
+                                Remove tag
                               </Button>
                             </div>
                           ))}
+                          <Separator className="my-4" />
                           <Button
                             type="button"
                             variant="outline"
                             size="sm"
                             onClick={() =>
-                              field.onChange([...(field.value || []), ""])
+                              field.onChange([
+                                ...(field.value || []),
+                                "#common",
+                              ])
                             }
                           >
                             Add Tag
@@ -234,18 +254,20 @@ function EducationEditForm({
                 {/* Field of Study */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <FormLabel>Field of Study</FormLabel>
+                    <FormLabel className="text-lg font-bold">
+                      Field of Study
+                    </FormLabel>
                     <Button
                       type="button"
-                      variant="outline"
                       size="sm"
+                      className="cursor-pointer"
                       onClick={() => {
                         const currentFields = form.getValues(
                           `education.${index}.field`
                         );
                         form.setValue(`education.${index}.field`, [
                           ...currentFields,
-                          { text: "", tags: [] },
+                          { text: "", tags: ["#common"] },
                         ]);
                       }}
                     >
@@ -265,7 +287,9 @@ function EducationEditForm({
                           name={`education.${index}.field.${fieldIndex}.text`}
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Field Name</FormLabel>
+                              <FormLabel className="text-lg font-bold">
+                                Field Name
+                              </FormLabel>
                               <FormControl>
                                 <Input
                                   placeholder="e.g., Computer Science"
@@ -282,11 +306,16 @@ function EducationEditForm({
                           name={`education.${index}.field.${fieldIndex}.tags`}
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Field Tags</FormLabel>
+                              <FormLabel className="text-lg font-bold">
+                                Field Tags
+                              </FormLabel>
                               <FormControl>
                                 <div className="space-y-2">
                                   {field.value?.map((tag, tagIndex) => (
-                                    <div key={tagIndex} className="flex gap-2">
+                                    <div
+                                      key={tagIndex}
+                                      className="flex gap-2 flex-row-reverse items-center"
+                                    >
                                       <Input
                                         value={tag}
                                         onChange={(e) => {
@@ -300,7 +329,7 @@ function EducationEditForm({
                                       />
                                       <Button
                                         type="button"
-                                        variant="outline"
+                                        variant="destructive"
                                         size="sm"
                                         onClick={() => {
                                           const newTags =
@@ -309,50 +338,57 @@ function EducationEditForm({
                                             ) || [];
                                           field.onChange(newTags);
                                         }}
+                                        disabled={field.value?.length <= 1}
                                       >
-                                        Remove
+                                        Remove tag
                                       </Button>
                                     </div>
                                   ))}
-                                  <Button
-                                    type="button"
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() =>
-                                      field.onChange([
-                                        ...(field.value || []),
-                                        "",
-                                      ])
-                                    }
-                                  >
-                                    Add Field Tag
-                                  </Button>
+                                  <Separator className="my-4" />
+                                  <div className="flex gap-2">
+                                    <Button
+                                      type="button"
+                                      variant="destructive"
+                                      size="sm"
+                                      onClick={() => {
+                                        const currentFields = form.getValues(
+                                          `education.${index}.field`
+                                        );
+                                        const newFields = currentFields.filter(
+                                          (_, i) => i !== fieldIndex
+                                        );
+                                        form.setValue(
+                                          `education.${index}.field`,
+                                          newFields
+                                        );
+                                      }}
+                                      disabled={
+                                        form.watch(`education.${index}.field`)
+                                          ?.length <= 1
+                                      }
+                                    >
+                                      Remove Field
+                                    </Button>
+                                    <Button
+                                      type="button"
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() =>
+                                        field.onChange([
+                                          ...(field.value || []),
+                                          "#common",
+                                        ])
+                                      }
+                                    >
+                                      Add Field Tag
+                                    </Button>
+                                  </div>
                                 </div>
                               </FormControl>
                               <FormMessage />
                             </FormItem>
                           )}
                         />
-
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          size="sm"
-                          onClick={() => {
-                            const currentFields = form.getValues(
-                              `education.${index}.field`
-                            );
-                            const newFields = currentFields.filter(
-                              (_, i) => i !== fieldIndex
-                            );
-                            form.setValue(
-                              `education.${index}.field`,
-                              newFields
-                            );
-                          }}
-                        >
-                          Remove Field
-                        </Button>
                       </div>
                     ))}
                 </div>
@@ -360,18 +396,20 @@ function EducationEditForm({
                 {/* Degree Level */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <FormLabel>Degree Level</FormLabel>
+                    <FormLabel className="text-lg font-bold">
+                      Degree Level
+                    </FormLabel>
                     <Button
                       type="button"
-                      variant="outline"
                       size="sm"
+                      className="cursor-pointer"
                       onClick={() => {
                         const currentDegrees = form.getValues(
                           `education.${index}.degree_level`
                         );
                         form.setValue(`education.${index}.degree_level`, [
                           ...currentDegrees,
-                          { text: "", tags: [] },
+                          { text: "", tags: ["#common"] },
                         ]);
                       }}
                     >
@@ -391,7 +429,9 @@ function EducationEditForm({
                           name={`education.${index}.degree_level.${degreeIndex}.text`}
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Degree Name</FormLabel>
+                              <FormLabel className="text-lg font-bold">
+                                Degree Name
+                              </FormLabel>
                               <FormControl>
                                 <Input
                                   placeholder="e.g., Bachelor of Science"
@@ -408,11 +448,16 @@ function EducationEditForm({
                           name={`education.${index}.degree_level.${degreeIndex}.tags`}
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Degree Tags</FormLabel>
+                              <FormLabel className="text-lg font-bold">
+                                Degree Tags
+                              </FormLabel>
                               <FormControl>
                                 <div className="space-y-2">
                                   {field.value?.map((tag, tagIndex) => (
-                                    <div key={tagIndex} className="flex gap-2">
+                                    <div
+                                      key={tagIndex}
+                                      className="flex gap-2 flex-row-reverse items-center"
+                                    >
                                       <Input
                                         value={tag}
                                         onChange={(e) => {
@@ -426,7 +471,7 @@ function EducationEditForm({
                                       />
                                       <Button
                                         type="button"
-                                        variant="outline"
+                                        variant="destructive"
                                         size="sm"
                                         onClick={() => {
                                           const newTags =
@@ -435,50 +480,59 @@ function EducationEditForm({
                                             ) || [];
                                           field.onChange(newTags);
                                         }}
+                                        disabled={field.value?.length <= 1}
                                       >
-                                        Remove
+                                        Remove tag
                                       </Button>
                                     </div>
                                   ))}
-                                  <Button
-                                    type="button"
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() =>
-                                      field.onChange([
-                                        ...(field.value || []),
-                                        "",
-                                      ])
-                                    }
-                                  >
-                                    Add Degree Tag
-                                  </Button>
+                                  <Separator className="my-4" />
+                                  <div className="flex gap-2">
+                                    <Button
+                                      type="button"
+                                      variant="destructive"
+                                      size="sm"
+                                      onClick={() => {
+                                        const currentDegrees = form.getValues(
+                                          `education.${index}.degree_level`
+                                        );
+                                        const newDegrees =
+                                          currentDegrees.filter(
+                                            (_, i) => i !== degreeIndex
+                                          );
+                                        form.setValue(
+                                          `education.${index}.degree_level`,
+                                          newDegrees
+                                        );
+                                      }}
+                                      disabled={
+                                        form.watch(
+                                          `education.${index}.degree_level`
+                                        )?.length <= 1
+                                      }
+                                    >
+                                      Remove Degree
+                                    </Button>
+                                    <Button
+                                      type="button"
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() =>
+                                        field.onChange([
+                                          ...(field.value || []),
+                                          "#common",
+                                        ])
+                                      }
+                                    >
+                                      Add Degree Tag
+                                    </Button>
+                                  </div>
                                 </div>
                               </FormControl>
                               <FormMessage />
                             </FormItem>
                           )}
                         />
-
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          size="sm"
-                          onClick={() => {
-                            const currentDegrees = form.getValues(
-                              `education.${index}.degree_level`
-                            );
-                            const newDegrees = currentDegrees.filter(
-                              (_, i) => i !== degreeIndex
-                            );
-                            form.setValue(
-                              `education.${index}.degree_level`,
-                              newDegrees
-                            );
-                          }}
-                        >
-                          Remove Degree
-                        </Button>
                       </div>
                     ))}
                 </div>
@@ -488,6 +542,7 @@ function EducationEditForm({
                   variant="destructive"
                   size="sm"
                   onClick={() => remove(index)}
+                  disabled={fields.length <= 1}
                 >
                   Remove Education
                 </Button>
@@ -504,7 +559,7 @@ function EducationEditForm({
               {form.formState.isSubmitting && (
                 <Loader2 className="animate-spin mr-2" />
               )}
-              Save Education
+              Save Changes
             </Button>
           </div>
         </form>

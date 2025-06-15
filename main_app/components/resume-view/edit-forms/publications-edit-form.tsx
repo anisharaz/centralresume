@@ -19,6 +19,7 @@ import { updateResume } from "@/app/actions/resume/update-resume";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Separator } from "@/components/ui/separator";
 
 function PublicationsEditForm({
   title,
@@ -44,6 +45,7 @@ function PublicationsEditForm({
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
     defaultValues: getDefaultValues(),
+    mode: "all",
   });
 
   const { control, handleSubmit } = form;
@@ -93,12 +95,12 @@ function PublicationsEditForm({
               <h3 className="text-lg font-semibold">Publications</h3>
               <Button
                 type="button"
-                variant="outline"
                 size="sm"
+                className="cursor-pointer"
                 onClick={() =>
                   appendPublication({
                     name: "",
-                    tags: [],
+                    tags: ["#common"],
                     publisher: "",
                     releaseDate: new Date().toISOString().split("T")[0],
                     url: "",
@@ -117,7 +119,9 @@ function PublicationsEditForm({
                   name={`publications.${index}.name`}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Publication Name</FormLabel>
+                      <FormLabel className="text-lg font-bold">
+                        Publication Name
+                      </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter publication title"
@@ -135,7 +139,9 @@ function PublicationsEditForm({
                     name={`publications.${index}.publisher`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Publisher</FormLabel>
+                        <FormLabel className="text-lg font-bold">
+                          Publisher
+                        </FormLabel>
                         <FormControl>
                           <Input
                             placeholder="e.g., IEEE, ACM, Journal Name"
@@ -152,7 +158,9 @@ function PublicationsEditForm({
                     name={`publications.${index}.releaseDate`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Release Date</FormLabel>
+                        <FormLabel className="text-lg font-bold">
+                          Release Date
+                        </FormLabel>
                         <FormControl>
                           <Input
                             type="date"
@@ -171,7 +179,7 @@ function PublicationsEditForm({
                   name={`publications.${index}.url`}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>URL</FormLabel>
+                      <FormLabel className="text-lg font-bold">URL</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="https://doi.org/... or publication URL"
@@ -189,11 +197,16 @@ function PublicationsEditForm({
                   name={`publications.${index}.tags`}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Publication Tags</FormLabel>
+                      <FormLabel className="text-lg font-bold">
+                        Publication Tags
+                      </FormLabel>
                       <FormControl>
                         <div className="space-y-2">
                           {field.value?.map((tag: string, tagIndex: number) => (
-                            <div key={tagIndex} className="flex gap-2">
+                            <div
+                              key={tagIndex}
+                              className="flex gap-2 flex-row-reverse items-center"
+                            >
                               <Input
                                 value={tag}
                                 onChange={(e) => {
@@ -205,7 +218,7 @@ function PublicationsEditForm({
                               />
                               <Button
                                 type="button"
-                                variant="outline"
+                                variant="destructive"
                                 size="sm"
                                 onClick={() => {
                                   const newTags =
@@ -214,17 +227,22 @@ function PublicationsEditForm({
                                     ) || [];
                                   field.onChange(newTags);
                                 }}
+                                disabled={field.value?.length <= 1}
                               >
-                                Remove
+                                Remove tag
                               </Button>
                             </div>
                           ))}
+                          <Separator className="my-4" />
                           <Button
                             type="button"
                             variant="outline"
                             size="sm"
                             onClick={() =>
-                              field.onChange([...(field.value || []), ""])
+                              field.onChange([
+                                ...(field.value || []),
+                                "#common",
+                              ])
                             }
                           >
                             Add Tag
@@ -247,6 +265,7 @@ function PublicationsEditForm({
                   variant="destructive"
                   size="sm"
                   onClick={() => removePublication(index)}
+                  disabled={publicationFields.length <= 1}
                 >
                   Remove Publication
                 </Button>
@@ -263,7 +282,7 @@ function PublicationsEditForm({
               {form.formState.isSubmitting && (
                 <Loader2 className="animate-spin mr-2" />
               )}
-              Save Publications
+              Save Changes
             </Button>
           </div>
         </form>
@@ -292,12 +311,12 @@ function PublicationSummarySection({
   return (
     <div className="border p-3 rounded space-y-4">
       <div className="flex items-center justify-between">
-        <h5 className="text-sm font-medium">Summary</h5>
+        <h5 className="text-lg font-bold">Summary</h5>
         <Button
           type="button"
-          variant="outline"
           size="sm"
-          onClick={() => appendSummary({ text: "", tags: [] })}
+          className="cursor-pointer"
+          onClick={() => appendSummary({ text: "", tags: ["#common"] })}
         >
           Add Summary
         </Button>
@@ -310,7 +329,9 @@ function PublicationSummarySection({
             name={`publications.${publicationIndex}.summary.${summaryIndex}.text`}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Summary Text</FormLabel>
+                <FormLabel className="text-lg font-bold">
+                  Summary Text
+                </FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Describe the publication's key findings or contributions"
@@ -327,11 +348,16 @@ function PublicationSummarySection({
             name={`publications.${publicationIndex}.summary.${summaryIndex}.tags`}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Summary Tags</FormLabel>
+                <FormLabel className="text-lg font-bold">
+                  Summary Tags
+                </FormLabel>
                 <FormControl>
                   <div className="space-y-2">
                     {field.value?.map((tag: string, tagIndex: number) => (
-                      <div key={tagIndex} className="flex gap-2">
+                      <div
+                        key={tagIndex}
+                        className="flex gap-2 flex-row-reverse items-center"
+                      >
                         <Input
                           value={tag}
                           onChange={(e) => {
@@ -343,7 +369,7 @@ function PublicationSummarySection({
                         />
                         <Button
                           type="button"
-                          variant="outline"
+                          variant="destructive"
                           size="sm"
                           onClick={() => {
                             const newTags =
@@ -352,36 +378,40 @@ function PublicationSummarySection({
                               ) || [];
                             field.onChange(newTags);
                           }}
+                          disabled={field.value?.length <= 1}
                         >
-                          Remove
+                          Remove tag
                         </Button>
                       </div>
                     ))}
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() =>
-                        field.onChange([...(field.value || []), ""])
-                      }
-                    >
-                      Add Tag
-                    </Button>
+                    <Separator className="my-4" />
+                    <div className="flex gap-2">
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => removeSummary(summaryIndex)}
+                        disabled={summaryFields.length <= 1}
+                      >
+                        Remove Summary
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() =>
+                          field.onChange([...(field.value || []), "#common"])
+                        }
+                      >
+                        Add Tag
+                      </Button>
+                    </div>
                   </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
-          <Button
-            type="button"
-            variant="destructive"
-            size="sm"
-            onClick={() => removeSummary(summaryIndex)}
-          >
-            Remove Summary
-          </Button>
         </div>
       ))}
     </div>
