@@ -39,6 +39,13 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Cache Main App Nextjs
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./main_app/node_modules 
+            ./main_app/.next
+          key: ${{ runner.os }}-main-app
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -49,13 +56,6 @@ jobs:
           version: 10
       - name: Build Main App Nextjs
         run: cd ./main_app && pnpm install && pnpx prisma generate && pnpm build
-      - name: Cache Main App Nextjs
-        uses: actions/cache@v4
-        with:
-          path: |
-            ./main_app/node_modules 
-            ./main_app/.next
-          key: ${{ runner.os }}-main-app
       - name: Build and push Main App Docker image
         if: inputs.build_main_app
         uses: docker/build-push-action@v6
