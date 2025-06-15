@@ -19,6 +19,7 @@ import { updateResume } from "@/app/actions/resume/update-resume";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Separator } from "@/components/ui/separator";
 
 function PersonalDetailEditForm({
   title,
@@ -40,7 +41,7 @@ function PersonalDetailEditForm({
     defaultValues: {
       personal_details: dataWithTag,
     },
-    mode: "onChange",
+    mode: "all",
   });
 
   const { control, handleSubmit } = form;
@@ -94,29 +95,33 @@ function PersonalDetailEditForm({
         >
           {/* Basic Information */}
           <div className="border p-4 rounded-lg shadow-sm space-y-4">
-            <h3 className="text-lg font-semibold">Basic Information</h3>
+            <div className="text-lg font-semibold">Profile Information</div>
 
-            <FormField
-              control={control}
-              name="personal_details.name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Full Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="John Doe" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+              <FormField
+                control={control}
+                name="personal_details.name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Full Name <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input placeholder="John Doe" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
                 control={control}
                 name="personal_details.email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>
+                      Email <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="john.doe@example.com"
@@ -128,13 +133,15 @@ function PersonalDetailEditForm({
                   </FormItem>
                 )}
               />
+            </div>
 
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
                 control={control}
                 name="personal_details.phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone</FormLabel>
+                    <FormLabel>Phone Number</FormLabel>
                     <FormControl>
                       <Input placeholder="+1 (555) 123-4567" {...field} />
                     </FormControl>
@@ -142,34 +149,36 @@ function PersonalDetailEditForm({
                   </FormItem>
                 )}
               />
-            </div>
 
-            <FormField
-              control={control}
-              name="personal_details.date_of_birth"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Date of Birth</FormLabel>
-                  <FormControl>
-                    <Input type="date" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={control}
+                name="personal_details.date_of_birth"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Date of Birth</FormLabel>
+                    <FormControl>
+                      <Input type="date" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
 
           {/* Tag Lines */}
-          <div className="border p-4 rounded-lg shadow-sm space-y-4">
+          <div className="border border-green-400 p-4 rounded-lg space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">Tag Lines</h3>
+              <h3 className="text-lg font-semibold">Title of your profile</h3>
               <Button
                 type="button"
-                variant="outline"
                 size="sm"
-                onClick={() => appendTagLine({ text: "", tags: [] })}
+                className="cursor-pointer"
+                onClick={() =>
+                  appendTagLine({ text: "edit me", tags: ["#common"] })
+                }
               >
-                Add Tag Line
+                Add another title
               </Button>
             </div>
             {tagLineFields.map((item, index) => (
@@ -179,9 +188,12 @@ function PersonalDetailEditForm({
                   name={`personal_details.tag_line.${index}.text`}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Tag Line Text</FormLabel>
+                      <FormLabel>Title Text</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Product manager" {...field} />
+                        <Input
+                          placeholder="e.g., Full Stack Developer"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -197,7 +209,10 @@ function PersonalDetailEditForm({
                       <FormControl>
                         <div className="space-y-2">
                           {field.value?.map((tag, tagIndex) => (
-                            <div key={tagIndex} className="flex gap-2">
+                            <div
+                              key={tagIndex}
+                              className="flex items-center gap-2 flex-row-reverse"
+                            >
                               <Input
                                 value={tag}
                                 onChange={(e) => {
@@ -209,8 +224,8 @@ function PersonalDetailEditForm({
                               />
                               <Button
                                 type="button"
-                                variant="outline"
                                 size="sm"
+                                variant="destructive"
                                 onClick={() => {
                                   const newTags =
                                     field.value?.filter(
@@ -218,36 +233,42 @@ function PersonalDetailEditForm({
                                     ) || [];
                                   field.onChange(newTags);
                                 }}
+                                disabled={field.value?.length <= 1}
                               >
-                                Remove
+                                Remove tag
                               </Button>
                             </div>
                           ))}
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="sm"
-                            onClick={() =>
-                              field.onChange([...(field.value || []), ""])
-                            }
-                          >
-                            Add Tag
-                          </Button>
+                          <Separator className="my-4" />
+                          <div className="flex gap-2">
+                            <Button
+                              type="button"
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => removeTagLine(index)}
+                              className="cursor-pointer"
+                              disabled={tagLineFields.length <= 1}
+                            >
+                              Remove Title
+                            </Button>
+                            <Button
+                              type="button"
+                              className=""
+                              variant="outline"
+                              size="sm"
+                              onClick={() =>
+                                field.onChange([...field.value, "#common"])
+                              }
+                            >
+                              Add more TAGs
+                            </Button>
+                          </div>
                         </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-
-                <Button
-                  type="button"
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => removeTagLine(index)}
-                >
-                  Remove Tag Line
-                </Button>
               </div>
             ))}
             <FormField
@@ -264,12 +285,17 @@ function PersonalDetailEditForm({
           {/* Summary */}
           <div className="border p-4 rounded-lg shadow-sm space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">Summary</h3>
+              <h3 className="text-lg font-semibold">Summary of your profile</h3>
               <Button
                 type="button"
-                variant="outline"
                 size="sm"
-                onClick={() => appendSummary({ text: "", tags: [] })}
+                onClick={() =>
+                  appendSummary({
+                    text: "I thrive in working better.",
+                    tags: ["#common"],
+                  })
+                }
+                className="cursor-pointer"
               >
                 Add Summary
               </Button>
@@ -302,7 +328,10 @@ function PersonalDetailEditForm({
                       <FormControl>
                         <div className="space-y-2">
                           {field.value?.map((tag, tagIndex) => (
-                            <div key={tagIndex} className="flex gap-2">
+                            <div
+                              key={tagIndex}
+                              className="flex gap-2 flex-row-reverse"
+                            >
                               <Input
                                 value={tag}
                                 onChange={(e) => {
@@ -314,7 +343,7 @@ function PersonalDetailEditForm({
                               />
                               <Button
                                 type="button"
-                                variant="outline"
+                                variant="destructive"
                                 size="sm"
                                 onClick={() => {
                                   const newTags =
@@ -323,36 +352,40 @@ function PersonalDetailEditForm({
                                     ) || [];
                                   field.onChange(newTags);
                                 }}
+                                disabled={field.value?.length <= 1}
                               >
-                                Remove
+                                Remove tag
                               </Button>
                             </div>
                           ))}
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="sm"
-                            onClick={() =>
-                              field.onChange([...(field.value || []), ""])
-                            }
-                          >
-                            Add Tag
-                          </Button>
+                          <Separator className="my-4" />
+                          <div className="flex gap-2">
+                            <Button
+                              type="button"
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => removeSummary(index)}
+                              disabled={summaryFields.length <= 1}
+                            >
+                              Remove Summary
+                            </Button>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="sm"
+                              onClick={() =>
+                                field.onChange([...field.value, "#common"])
+                              }
+                            >
+                              Add another Tag
+                            </Button>
+                          </div>
                         </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-
-                <Button
-                  type="button"
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => removeSummary(index)}
-                >
-                  Remove Summary
-                </Button>
               </div>
             ))}
           </div>
@@ -360,7 +393,6 @@ function PersonalDetailEditForm({
           {/* Address */}
           <div className="border p-4 rounded-lg shadow-sm space-y-4">
             <h3 className="text-lg font-semibold">Address</h3>
-
             <FormField
               control={control}
               name="personal_details.address.address_line"
@@ -373,9 +405,8 @@ function PersonalDetailEditForm({
                   <FormMessage />
                 </FormItem>
               )}
-            />
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            />{" "}
+            <div className="grid grid-cols-2 gap-4">
               <FormField
                 control={control}
                 name="personal_details.address.city"
@@ -412,10 +443,9 @@ function PersonalDetailEditForm({
               <h3 className="text-lg font-semibold">Social Links</h3>
               <Button
                 type="button"
-                variant="outline"
                 size="sm"
                 onClick={() =>
-                  appendSocialLink({ name: "", url: "", tags: [] })
+                  appendSocialLink({ name: "", url: "", tags: ["#common"] })
                 }
               >
                 Add Social Link
@@ -462,7 +492,10 @@ function PersonalDetailEditForm({
                       <FormControl>
                         <div className="space-y-2">
                           {field.value?.map((tag, tagIndex) => (
-                            <div key={tagIndex} className="flex gap-2">
+                            <div
+                              key={tagIndex}
+                              className="flex gap-2 flex-row-reverse items-center"
+                            >
                               <Input
                                 value={tag}
                                 onChange={(e) => {
@@ -474,7 +507,7 @@ function PersonalDetailEditForm({
                               />
                               <Button
                                 type="button"
-                                variant="outline"
+                                variant="destructive"
                                 size="sm"
                                 onClick={() => {
                                   const newTags =
@@ -483,36 +516,40 @@ function PersonalDetailEditForm({
                                     ) || [];
                                   field.onChange(newTags);
                                 }}
+                                disabled={field.value?.length <= 1}
                               >
-                                Remove
+                                Remove tag
                               </Button>
                             </div>
                           ))}
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="sm"
-                            onClick={() =>
-                              field.onChange([...(field.value || []), ""])
-                            }
-                          >
-                            Add Tag
-                          </Button>
+                          <Separator className="my-4" />
+                          <div className="flex gap-2">
+                            <Button
+                              type="button"
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => removeSocialLink(index)}
+                              disabled={socialLinkFields.length <= 1}
+                            >
+                              Remove Social Link
+                            </Button>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="sm"
+                              onClick={() =>
+                                field.onChange([...field.value, "#common"])
+                              }
+                            >
+                              Add Tag
+                            </Button>
+                          </div>
                         </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-
-                <Button
-                  type="button"
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => removeSocialLink(index)}
-                >
-                  Remove Social Link
-                </Button>
               </div>
             ))}
           </div>
@@ -520,7 +557,7 @@ function PersonalDetailEditForm({
             <Button
               type="submit"
               className="w-full"
-              disabled={form.formState.isSubmitting || !form.formState.isValid}
+              disabled={form.formState.isSubmitting}
             >
               {form.formState.isSubmitting && (
                 <Loader2 className="animate-spin mr-2" />
