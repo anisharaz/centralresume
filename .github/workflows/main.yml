@@ -40,11 +40,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Cache Main App Nextjs
+        id: cache-main-app
         uses: actions/cache@v4
         with:
           path: |
-            ./main_app/node_modules 
-            ./main_app/.next
+            main_app/node_modules 
+            main_app/.next
           key: ${{ runner.os }}-main-app
       - name: Setup Node
         uses: actions/setup-node@v4
