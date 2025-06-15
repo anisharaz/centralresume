@@ -20,6 +20,7 @@ import { ProjectsCard } from "@/components/resume-view/project-section";
 import BannerTextEdit from "@/components/banner-text-edit";
 import Link from "next/link";
 import { Share2 } from "lucide-react";
+import { DEFAULT_TAG_NAME } from "@/lib/vars";
 
 export default async function ProfilePage({
   searchParams,
@@ -59,9 +60,7 @@ export default async function ProfilePage({
   });
   const resume = new Resume(data);
   const resumeByTag = resume.getByTag(
-    resumeProfile
-      ? resumeProfile
-      : (user?.resumeTags[0]?.resumeTagName as string)
+    resumeProfile ? resumeProfile : DEFAULT_TAG_NAME
   );
   const nameInitials = user?.name
     ? user.name

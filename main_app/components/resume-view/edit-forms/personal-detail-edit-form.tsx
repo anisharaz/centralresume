@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
+import { DEFAULT_TAG_NAME } from "@/lib/vars";
 
 function PersonalDetailEditForm({
   title,
@@ -175,7 +176,7 @@ function PersonalDetailEditForm({
                 size="sm"
                 className="cursor-pointer"
                 onClick={() =>
-                  appendTagLine({ text: "edit me", tags: ["#common"] })
+                  appendTagLine({ text: "edit me", tags: ["#for_job1"] })
                 }
               >
                 Add another title
@@ -221,6 +222,7 @@ function PersonalDetailEditForm({
                                   field.onChange(newTags);
                                 }}
                                 placeholder={`Tag ${tagIndex + 1}`}
+                                disabled={tag.startsWith(DEFAULT_TAG_NAME)}
                               />
                               <Button
                                 type="button"
@@ -233,7 +235,10 @@ function PersonalDetailEditForm({
                                     ) || [];
                                   field.onChange(newTags);
                                 }}
-                                disabled={field.value?.length <= 1}
+                                disabled={
+                                  field.value?.length <= 1 ||
+                                  tag.startsWith(DEFAULT_TAG_NAME)
+                                }
                               >
                                 Remove tag
                               </Button>
@@ -247,7 +252,12 @@ function PersonalDetailEditForm({
                               size="sm"
                               onClick={() => removeTagLine(index)}
                               className="cursor-pointer"
-                              disabled={tagLineFields.length <= 1}
+                              disabled={
+                                tagLineFields.length <= 1 ||
+                                field.value.filter((tag) =>
+                                  tag.startsWith(DEFAULT_TAG_NAME)
+                                ).length >= 1
+                              }
                             >
                               Remove Title
                             </Button>
@@ -257,7 +267,7 @@ function PersonalDetailEditForm({
                               variant="outline"
                               size="sm"
                               onClick={() =>
-                                field.onChange([...field.value, "#common"])
+                                field.onChange([...field.value, "#for_job1"])
                               }
                             >
                               Add more TAGs
@@ -292,7 +302,10 @@ function PersonalDetailEditForm({
                 onClick={() =>
                   appendSummary({
                     text: "I thrive in working better.",
-                    tags: ["#common"],
+                    tags:
+                      summaryFields.length > 0
+                        ? ["#for_job1"]
+                        : [DEFAULT_TAG_NAME, "#for_job1"],
                   })
                 }
                 className="cursor-pointer"
@@ -340,6 +353,7 @@ function PersonalDetailEditForm({
                                   field.onChange(newTags);
                                 }}
                                 placeholder={`Tag ${tagIndex + 1}`}
+                                disabled={tag.startsWith(DEFAULT_TAG_NAME)}
                               />
                               <Button
                                 type="button"
@@ -352,7 +366,10 @@ function PersonalDetailEditForm({
                                     ) || [];
                                   field.onChange(newTags);
                                 }}
-                                disabled={field.value?.length <= 1}
+                                disabled={
+                                  field.value?.length <= 1 ||
+                                  tag.startsWith(DEFAULT_TAG_NAME)
+                                }
                               >
                                 Remove tag
                               </Button>
@@ -365,7 +382,12 @@ function PersonalDetailEditForm({
                               variant="destructive"
                               size="sm"
                               onClick={() => removeSummary(index)}
-                              disabled={summaryFields.length <= 1}
+                              disabled={
+                                summaryFields.length <= 1 ||
+                                field.value.filter((tag) =>
+                                  tag.startsWith(DEFAULT_TAG_NAME)
+                                ).length >= 1
+                              }
                             >
                               Remove Summary
                             </Button>
@@ -374,7 +396,7 @@ function PersonalDetailEditForm({
                               variant="outline"
                               size="sm"
                               onClick={() =>
-                                field.onChange([...field.value, "#common"])
+                                field.onChange([...field.value, "#for_job1"])
                               }
                             >
                               Add another Tag
@@ -445,7 +467,14 @@ function PersonalDetailEditForm({
                 type="button"
                 size="sm"
                 onClick={() =>
-                  appendSocialLink({ name: "", url: "", tags: ["#common"] })
+                  appendSocialLink({
+                    name: "",
+                    url: "",
+                    tags:
+                      socialLinkFields.length > 0
+                        ? ["#for_job1"]
+                        : [DEFAULT_TAG_NAME, "#for_job1"],
+                  })
                 }
               >
                 Add Social Link
@@ -504,6 +533,7 @@ function PersonalDetailEditForm({
                                   field.onChange(newTags);
                                 }}
                                 placeholder={`Tag ${tagIndex + 1}`}
+                                disabled={tag.startsWith(DEFAULT_TAG_NAME)}
                               />
                               <Button
                                 type="button"
@@ -516,7 +546,10 @@ function PersonalDetailEditForm({
                                     ) || [];
                                   field.onChange(newTags);
                                 }}
-                                disabled={field.value?.length <= 1}
+                                disabled={
+                                  field.value?.length <= 1 ||
+                                  tag.startsWith(DEFAULT_TAG_NAME)
+                                }
                               >
                                 Remove tag
                               </Button>
@@ -529,7 +562,12 @@ function PersonalDetailEditForm({
                               variant="destructive"
                               size="sm"
                               onClick={() => removeSocialLink(index)}
-                              disabled={socialLinkFields.length <= 1}
+                              disabled={
+                                socialLinkFields.length <= 1 ||
+                                field.value.filter((tag) =>
+                                  tag.startsWith(DEFAULT_TAG_NAME)
+                                ).length >= 1
+                              }
                             >
                               Remove Social Link
                             </Button>
@@ -538,7 +576,7 @@ function PersonalDetailEditForm({
                               variant="outline"
                               size="sm"
                               onClick={() =>
-                                field.onChange([...field.value, "#common"])
+                                field.onChange([...field.value, "#for_job1"])
                               }
                             >
                               Add Tag
