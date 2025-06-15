@@ -96,7 +96,7 @@ function WorkExperienceEditForm({
                 name={`work_experience.${index}.company`}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Company</FormLabel>
+                    <FormLabel className="text-lg font-bold">Company</FormLabel>
                     <FormControl>
                       <Input placeholder="Company name" {...field} />
                     </FormControl>
@@ -199,7 +199,6 @@ function WorkExperienceEditForm({
                             </Button>
                           </div>
                         ))}
-                        <Separator className="my-4" />
                         <Button
                           type="button"
                           variant="outline"
@@ -219,7 +218,7 @@ function WorkExperienceEditForm({
 
               {/* Positions */}
               <div>
-                <FormLabel>Positions</FormLabel>
+                <FormLabel className="text-lg font-bold">Positions</FormLabel>
                 <div className="space-y-4 mt-2">
                   {form
                     .watch(`work_experience.${index}.position`)
@@ -355,7 +354,7 @@ function WorkExperienceEditForm({
 
               {/* Summary */}
               <div>
-                <FormLabel>Summary</FormLabel>
+                <FormLabel className="text-lg font-bold">Summary</FormLabel>
                 <div className="space-y-4 mt-2">
                   {form
                     .watch(`work_experience.${index}.summary`)
@@ -441,11 +440,6 @@ function WorkExperienceEditForm({
                                           newSummary
                                         );
                                       }}
-                                      disabled={
-                                        form.watch(
-                                          `work_experience.${index}.summary`
-                                        )?.length <= 1
-                                      }
                                     >
                                       Remove Summary
                                     </Button>
@@ -491,7 +485,7 @@ function WorkExperienceEditForm({
 
               {/* Highlights */}
               <div>
-                <FormLabel>Highlights</FormLabel>
+                <FormLabel className="text-lg font-bold">Highlights</FormLabel>
                 <div className="space-y-4 mt-2">
                   {form
                     .watch(`work_experience.${index}.highlights`)
@@ -623,11 +617,6 @@ function WorkExperienceEditForm({
                                           newHighlights
                                         );
                                       }}
-                                      disabled={
-                                        form.watch(
-                                          `work_experience.${index}.highlights`
-                                        )?.length <= 1
-                                      }
                                     >
                                       Remove Highlight
                                     </Button>
@@ -675,7 +664,6 @@ function WorkExperienceEditForm({
                 variant="destructive"
                 type="button"
                 onClick={() => remove(index)}
-                disabled={fields.length <= 1}
               >
                 Remove Experience
               </Button>

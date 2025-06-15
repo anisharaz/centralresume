@@ -265,7 +265,6 @@ function PublicationsEditForm({
                   variant="destructive"
                   size="sm"
                   onClick={() => removePublication(index)}
-                  disabled={publicationFields.length <= 1}
                 >
                   Remove Publication
                 </Button>
@@ -391,7 +390,6 @@ function PublicationSummarySection({
                         variant="destructive"
                         size="sm"
                         onClick={() => removeSummary(summaryIndex)}
-                        disabled={summaryFields.length <= 1}
                       >
                         Remove Summary
                       </Button>

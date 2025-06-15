@@ -122,7 +122,6 @@ export async function updateResume({
 
     const data_key = Object.keys(newResumeData)[0];
     const resumeData = await getResumeFromResumeStore({
-      resumeProfile: "engineering",
       userId: session.session.userId,
     });
 

@@ -167,7 +167,7 @@ function PersonalDetailEditForm({
           </div>
 
           {/* Tag Lines */}
-          <div className="border border-green-400 p-4 rounded-lg space-y-4">
+          <div className="border p-4 rounded-lg space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold">Title of your profile</h3>
               <Button
@@ -365,7 +365,6 @@ function PersonalDetailEditForm({
                               variant="destructive"
                               size="sm"
                               onClick={() => removeSummary(index)}
-                              disabled={summaryFields.length <= 1}
                             >
                               Remove Summary
                             </Button>
@@ -529,7 +528,6 @@ function PersonalDetailEditForm({
                               variant="destructive"
                               size="sm"
                               onClick={() => removeSocialLink(index)}
-                              disabled={socialLinkFields.length <= 1}
                             >
                               Remove Social Link
                             </Button>

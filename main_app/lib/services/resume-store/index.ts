@@ -1,16 +1,9 @@
 import { resumeBackendAxiosClient } from "@/lib/axios-client";
 import { RESUME_TYPE } from "@/lib/zod/schemas";
 
-export async function getResumeFromResumeStore({
-  resumeProfile,
-  userId,
-}: {
-  resumeProfile: string;
-  userId: string;
-}) {
+export async function getResumeFromResumeStore({ userId }: { userId: string }) {
   const { data } = await resumeBackendAxiosClient.get("/v1/internal/resume", {
     params: {
-      schema: resumeProfile,
       userId: userId,
     },
   });
@@ -29,7 +22,6 @@ export async function saveResumeToResumeStore({
     resumeData,
     {
       params: {
-        schema: "engineering",
         userId: userId,
       },
     }
@@ -53,7 +45,6 @@ export async function updateResumeInResumeStore({
     {
       params: {
         userId: userId,
-        schema: "engineering",
       },
     }
   );

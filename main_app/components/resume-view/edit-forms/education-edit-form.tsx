@@ -230,7 +230,6 @@ function EducationEditForm({
                               </Button>
                             </div>
                           ))}
-                          <Separator className="my-4" />
                           <Button
                             type="button"
                             variant="outline"
@@ -542,7 +541,6 @@ function EducationEditForm({
                   variant="destructive"
                   size="sm"
                   onClick={() => remove(index)}
-                  disabled={fields.length <= 1}
                 >
                   Remove Education
                 </Button>

@@ -125,7 +125,7 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
       </div>
 
       {/* Tag Lines */}
-      <div className="border  p-4 rounded-lg space-y-4">
+      <div className="border p-4 rounded-lg space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold">Your title</h3>
           <Button
@@ -328,7 +328,6 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
                           variant="destructive"
                           size="sm"
                           onClick={() => removeSummary(index)}
-                          disabled={summaryFields.length <= 1}
                         >
                           Remove Summary
                         </Button>
@@ -446,7 +445,6 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
                           variant="destructive"
                           size="sm"
                           onClick={() => removeSocialLink(index)}
-                          disabled={socialLinkFields.length <= 1}
                         >
                           Remove Social Link
                         </Button>

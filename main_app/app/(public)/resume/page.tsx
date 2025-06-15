@@ -53,7 +53,6 @@ async function ViewResume({
     // Fetch the complete resume data from the resume store
     const resumeData = await getResumeFromResumeStore({
       userId: resumeLink.userId,
-      resumeProfile: "engineering",
     });
 
     // Use the Resume class to filter data by the specified tag

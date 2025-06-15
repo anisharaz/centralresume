@@ -254,7 +254,6 @@ function ProjectsEditForm({
                               variant="destructive"
                               size="sm"
                               onClick={() => remove(index)}
-                              disabled={fields.length <= 1}
                             >
                               Remove Project
                             </Button>

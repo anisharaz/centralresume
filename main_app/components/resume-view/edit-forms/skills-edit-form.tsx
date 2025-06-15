@@ -187,7 +187,6 @@ function SkillsEditForm({
                               [];
                             field.onChange(newTags);
                           }}
-                          disabled={field.value?.length <= 1}
                         >
                           Remove tag
                         </Button>
@@ -200,7 +199,6 @@ function SkillsEditForm({
                         variant="destructive"
                         size="sm"
                         onClick={() => fieldArray.remove(index)}
-                        disabled={fieldArray.fields.length <= 1}
                       >
                         Remove Skill
                       </Button>

@@ -338,11 +338,6 @@ function AchievementEditForm({
                                           newSummary
                                         );
                                       }}
-                                      disabled={
-                                        form.watch(
-                                          `achievements.${index}.summary`
-                                        )?.length <= 1
-                                      }
                                     >
                                       Remove Summary
                                     </Button>
@@ -375,7 +370,6 @@ function AchievementEditForm({
                   variant="destructive"
                   size="sm"
                   onClick={() => remove(index)}
-                  disabled={fields.length <= 1}
                 >
                   Remove Achievement
                 </Button>

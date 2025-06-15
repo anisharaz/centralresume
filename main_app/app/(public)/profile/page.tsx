@@ -73,7 +73,6 @@ async function PublicProfilePage({
 
   const data = await getResumeFromResumeStore({
     userId: profileLink.userId,
-    resumeProfile: "engineering",
   });
   const resume = new Resume(data);
   const resumeByTag = resume.getByTag(resumeTag);

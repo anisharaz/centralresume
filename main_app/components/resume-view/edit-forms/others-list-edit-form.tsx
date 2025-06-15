@@ -108,7 +108,6 @@ function OthersListEditForm({
                     variant="destructive"
                     size="sm"
                     onClick={() => removeOtherList(index)}
-                    disabled={otherListFields.length <= 1}
                   >
                     Remove List
                   </Button>
@@ -304,7 +303,6 @@ function OtherListHeadingSection({
                         variant="destructive"
                         size="sm"
                         onClick={() => removeHeading(headingIndex)}
-                        disabled={headingFields.length <= 1}
                       >
                         Remove Heading
                       </Button>
@@ -431,7 +429,6 @@ function OtherListSummarySection({
                         variant="destructive"
                         size="sm"
                         onClick={() => removeSummary(summaryIndex)}
-                        disabled={summaryFields.length <= 1}
                       >
                         Remove Summary
                       </Button>
