@@ -11,9 +11,11 @@ type OtherLists = ResumeDataType["otherLists"];
 export function OtherListsCard({
   data,
   dataWithTag,
+  resumeTags,
 }: {
   data: OtherLists;
   dataWithTag: RESUME_TYPE["otherLists"];
+  resumeTags: string[];
 }) {
   if (DUMMY_MODE) {
     data = OTHER_LISTS_DUMMY_DATA;
@@ -25,6 +27,7 @@ export function OtherListsCard({
         dataWithTag={dataWithTag}
         title="Additional Information"
         description="Provide a brief overview of your Additional info here."
+        resumeTags={resumeTags}
       />
     </OtherListsSectionView>
   );

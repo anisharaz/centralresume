@@ -11,9 +11,11 @@ type Education = ResumeDataType["education"];
 export function EducationCard({
   data,
   dataWithTag,
+  resumeTags,
 }: {
   data: Education;
   dataWithTag: RESUME_TYPE["education"];
+  resumeTags: string[];
 }) {
   if (DUMMY_MODE) {
     data = EDUCATION_DUMMY_DATA;
@@ -25,6 +27,7 @@ export function EducationCard({
         dataWithTag={dataWithTag}
         title="Education Details"
         description="Provide details about your education."
+        resumeTags={resumeTags}
       />
     </EducationSectionView>
   );

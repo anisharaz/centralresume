@@ -32,10 +32,12 @@ function SkillsEditForm({
   title,
   description,
   dataWithTag,
+  resumeTags,
 }: {
   title: string;
   description: string;
   dataWithTag: RESUME_TYPE["skills"];
+  resumeTags: string[];
 }) {
   const router = useRouter();
   const FormSchema = z.object({
@@ -176,6 +178,7 @@ function SkillsEditForm({
                             field.onChange(newTags);
                           }}
                           placeholder={`Tag ${tagIndex + 1}`}
+                          list="tags"
                         />
                         <Button
                           type="button"
@@ -231,6 +234,11 @@ function SkillsEditForm({
           onSubmit={handleSubmit(onSubmit)}
           className="relative h-full overflow-y-scroll space-y-4 px-2"
         >
+          <datalist id="tags">
+            {resumeTags.map((item, index) => (
+              <option value={item} key={index} />
+            ))}
+          </datalist>
           {renderSkillSection("Soft Skills", softSkillsArray, "skills.soft")}
           {renderSkillSection(
             "Technical Skills",

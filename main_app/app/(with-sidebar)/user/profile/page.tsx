@@ -135,31 +135,37 @@ export default async function ProfilePage({
           <SkillsCard
             data={resumeByTag.skills}
             dataWithTag={resume.getResume().skills}
+            resumeTags={tags}
           />
           <Separator className="my-4" />
           <ProjectsCard
             data={resumeByTag.projects}
             dataWithTag={resume.getResume().projects}
+            resumeTags={tags}
           />
           <Separator className="my-4" />
           <AchievementsCard
             data={resumeByTag.achievements}
             dataWithTag={resume.getResume().achievements}
+            resumeTags={tags}
           />
           <Separator className="my-4" />
           <EducationCard
             data={resumeByTag.education}
             dataWithTag={resume.getResume().education}
+            resumeTags={tags}
           />
           <Separator className="my-4" />
           <PublicationsCard
             data={resumeByTag.publications}
             dataWithTag={resume.getResume().publications}
+            resumeTags={tags}
           />
           <Separator className="my-4" />
           <OtherListsCard
             data={resumeByTag.otherLists}
             dataWithTag={resume.getResume().otherLists}
+            resumeTags={tags}
           />
         </div>
       </div>

@@ -26,10 +26,12 @@ function ProjectsEditForm({
   title,
   description,
   dataWithTag,
+  resumeTags,
 }: {
   title: string;
   description: string;
   dataWithTag: RESUME_TYPE["projects"];
+  resumeTags: string[];
 }) {
   const router = useRouter();
   const FormSchema = z.object({
@@ -86,6 +88,11 @@ function ProjectsEditForm({
           onSubmit={handleSubmit(onSubmit)}
           className="relative h-full overflow-y-scroll space-y-4 px-2"
         >
+          <datalist id="tags">
+            {resumeTags.map((item, index) => (
+              <option value={item} key={index} />
+            ))}
+          </datalist>
           {/* Projects Section */}
           <div className="border p-4 rounded-lg shadow-sm space-y-4">
             <div className="flex items-center justify-between">
@@ -229,6 +236,7 @@ function ProjectsEditForm({
                                   field.onChange(newTags);
                                 }}
                                 placeholder={`Tag ${tagIndex + 1}`}
+                                list="tags"
                               />
                               <Button
                                 type="button"

@@ -11,9 +11,11 @@ type Publications = ResumeDataType["publications"];
 export function PublicationsCard({
   data,
   dataWithTag,
+  resumeTags,
 }: {
   data: Publications;
   dataWithTag: RESUME_TYPE["publications"];
+  resumeTags: string[];
 }) {
   if (DUMMY_MODE) {
     data = PUBLICATIONS_DUMMY_DATA;
@@ -25,6 +27,7 @@ export function PublicationsCard({
         dataWithTag={dataWithTag}
         title="Publications"
         description="Manage your publications here."
+        resumeTags={resumeTags}
       />
     </PublicationsSectionView>
   );

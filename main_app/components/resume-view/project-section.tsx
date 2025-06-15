@@ -11,9 +11,11 @@ type Projects = ResumeDataType["projects"];
 export function ProjectsCard({
   data,
   dataWithTag,
+  resumeTags,
 }: {
   data: Projects;
   dataWithTag: RESUME_TYPE["projects"];
+  resumeTags: string[];
 }) {
   if (DUMMY_MODE) {
     data = PROJECTS_DUMMY_DATA;
@@ -25,6 +27,7 @@ export function ProjectsCard({
         title="Add Project"
         description="Add a new project to showcase your work."
         dataWithTag={dataWithTag}
+        resumeTags={resumeTags}
       />
     </ProjectsSectionView>
   );

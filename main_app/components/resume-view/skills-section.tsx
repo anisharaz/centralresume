@@ -10,9 +10,11 @@ type Skills = ResumeDataType["skills"];
 export function SkillsCard({
   data,
   dataWithTag,
+  resumeTags,
 }: {
   data: Skills;
   dataWithTag: RESUME_TYPE["skills"];
+  resumeTags: string[];
 }) {
   if (DUMMY_MODE) {
     data = SKILLS_DUMMY_DATA;
@@ -24,6 +26,7 @@ export function SkillsCard({
         title="Edit Skills"
         description="Edit your skills and expertise levels"
         dataWithTag={dataWithTag}
+        resumeTags={resumeTags}
       />
     </SkillsSectionView>
   );

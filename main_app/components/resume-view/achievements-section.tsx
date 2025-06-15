@@ -11,9 +11,11 @@ type Achievements = ResumeDataType["achievements"];
 export function AchievementsCard({
   data,
   dataWithTag,
+  resumeTags,
 }: {
   data: Achievements;
   dataWithTag: RESUME_TYPE["achievements"];
+  resumeTags: string[];
 }) {
   if (DUMMY_MODE) {
     data = ACHIEVEMENTS_DUMMY_DATA;
@@ -25,6 +27,7 @@ export function AchievementsCard({
         title="Add Achievement"
         description="Add a new achievement to showcase your accomplishments."
         dataWithTag={dataWithTag}
+        resumeTags={resumeTags}
       />
     </AchievementsSectionView>
   );
