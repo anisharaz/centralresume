@@ -39,12 +39,27 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+      - name: Build Main App Nextjs
+        run: cd ./main_app && pnpm install && pnpm build
+      - name: Cache Main App Nextjs
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./node_modules 
+            ./.next
+          key: ${{ runner.os }}-main-app
       - name: Build and push Main App Docker image
         if: inputs.build_main_app
         uses: docker/build-push-action@v6
         with:
           context: ./main_app
+          file: Dockerfile.prod
           push: true
           platforms: linux/arm64
           build-args: APP_URL=${{ secrets.APP_URL }}
