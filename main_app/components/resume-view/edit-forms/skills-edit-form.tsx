@@ -27,6 +27,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
+import { DEFAULT_TAG_NAME } from "@/lib/vars";
 
 function SkillsEditForm({
   title,
@@ -102,7 +103,7 @@ function SkillsEditForm({
             fieldArray.append({
               name: "",
               level: "",
-              tags: ["#common"],
+              tags: fieldArray.fields.length > 0 ? ["#for_job1"] : [DEFAULT_TAG_NAME, "#for_job1"],
             })
           }
         >
@@ -176,6 +177,7 @@ function SkillsEditForm({
                             field.onChange(newTags);
                           }}
                           placeholder={`Tag ${tagIndex + 1}`}
+                          disabled={tag.startsWith(DEFAULT_TAG_NAME)}
                         />
                         <Button
                           type="button"
@@ -187,7 +189,7 @@ function SkillsEditForm({
                               [];
                             field.onChange(newTags);
                           }}
-                          disabled={field.value?.length <= 1}
+                          disabled={field.value?.length <= 1 || tag.startsWith(DEFAULT_TAG_NAME)}
                         >
                           Remove tag
                         </Button>
@@ -200,7 +202,7 @@ function SkillsEditForm({
                         variant="destructive"
                         size="sm"
                         onClick={() => fieldArray.remove(index)}
-                        disabled={fieldArray.fields.length <= 1}
+                        disabled={fieldArray.fields.length <= 1 || field.value.filter((tag) => tag.startsWith(DEFAULT_TAG_NAME)).length >= 1}
                       >
                         Remove Skill
                       </Button>
@@ -209,7 +211,7 @@ function SkillsEditForm({
                         variant="outline"
                         size="sm"
                         onClick={() =>
-                          field.onChange([...(field.value || []), "#common"])
+                          field.onChange([...(field.value || []), "#for_job1"])
                         }
                       >
                         Add Tag
