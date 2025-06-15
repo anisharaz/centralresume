@@ -48,7 +48,7 @@ jobs:
         with:
           version: 10
       - name: Build Main App Nextjs
-        run: cd ./main_app && pnpm install && pnpm build
+        run: cd ./main_app && pnpm install && pnpx prisma generate && pnpm build
       - name: Cache Main App Nextjs
         uses: actions/cache@v4
         with:
