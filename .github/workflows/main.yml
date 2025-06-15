@@ -56,7 +56,7 @@ jobs:
         with:
           version: 10
       - name: Build Main App Nextjs
-        run: cd ./main_app && pnpm install && pnpx prisma generate && pnpm build
+        run: cd ./main_app && pnpm install && pnpx prisma generate && pnpm build && ls -al .next
       - name: Build and push Main App Docker image
         if: inputs.build_main_app
         uses: docker/build-push-action@v6
