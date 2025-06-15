@@ -45,6 +45,8 @@ jobs:
           node-version: "22"
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 10
       - name: Build Main App Nextjs
         run: cd ./main_app && pnpm install && pnpm build
       - name: Cache Main App Nextjs
