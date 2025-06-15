@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
+import { DEFAULT_TAG_NAME } from "@/lib/vars";
 
 function WorkExperienceEditForm({
   title,
@@ -165,7 +166,7 @@ function WorkExperienceEditForm({
                 name={`work_experience.${index}.tags`}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Company Tags</FormLabel>
+                    <FormLabel>Company Tags</FormLabel>{" "}
                     <FormControl>
                       <div className="space-y-2">
                         {field.value?.map((tag, tagIndex) => (
@@ -181,6 +182,7 @@ function WorkExperienceEditForm({
                                 field.onChange(newTags);
                               }}
                               placeholder={`Tag ${tagIndex + 1}`}
+                              disabled={tag.startsWith(DEFAULT_TAG_NAME)}
                             />
                             <Button
                               type="button"
@@ -193,7 +195,10 @@ function WorkExperienceEditForm({
                                   ) || [];
                                 field.onChange(newTags);
                               }}
-                              disabled={field.value?.length <= 1}
+                              disabled={
+                                field.value?.length <= 1 ||
+                                tag.startsWith(DEFAULT_TAG_NAME)
+                              }
                             >
                               Remove tag
                             </Button>
@@ -205,7 +210,10 @@ function WorkExperienceEditForm({
                           variant="outline"
                           size="sm"
                           onClick={() =>
-                            field.onChange([...(field.value || []), "#common"])
+                            field.onChange([
+                              ...(field.value || []),
+                              "#for_job1",
+                            ])
                           }
                         >
                           Add Tag
@@ -268,6 +276,9 @@ function WorkExperienceEditForm({
                                           field.onChange(newTags);
                                         }}
                                         placeholder={`Tag ${tagIndex + 1}`}
+                                        disabled={tag.startsWith(
+                                          DEFAULT_TAG_NAME
+                                        )}
                                       />
                                       <Button
                                         type="button"
@@ -280,7 +291,10 @@ function WorkExperienceEditForm({
                                             ) || [];
                                           field.onChange(newTags);
                                         }}
-                                        disabled={field.value?.length <= 1}
+                                        disabled={
+                                          field.value?.length <= 1 ||
+                                          tag.startsWith(DEFAULT_TAG_NAME)
+                                        }
                                       >
                                         Remove tag
                                       </Button>
@@ -308,7 +322,10 @@ function WorkExperienceEditForm({
                                       disabled={
                                         form.watch(
                                           `work_experience.${index}.position`
-                                        )?.length <= 1
+                                        )?.length <= 1 ||
+                                        field.value.filter((tag) =>
+                                          tag.startsWith(DEFAULT_TAG_NAME)
+                                        ).length >= 1
                                       }
                                     >
                                       Remove Position
@@ -320,7 +337,7 @@ function WorkExperienceEditForm({
                                       onClick={() =>
                                         field.onChange([
                                           ...(field.value || []),
-                                          "#common",
+                                          "#for_job1",
                                         ])
                                       }
                                     >
@@ -344,7 +361,13 @@ function WorkExperienceEditForm({
                       );
                       form.setValue(`work_experience.${index}.position`, [
                         ...currentPositions,
-                        { text: "", tags: ["#common"] },
+                        {
+                          text: "",
+                          tags:
+                            currentPositions.length > 0
+                              ? ["#for_job1"]
+                              : [DEFAULT_TAG_NAME, "#for_job1"],
+                        },
                       ]);
                     }}
                   >
@@ -404,6 +427,9 @@ function WorkExperienceEditForm({
                                           field.onChange(newTags);
                                         }}
                                         placeholder={`Tag ${tagIndex + 1}`}
+                                        disabled={tag.startsWith(
+                                          DEFAULT_TAG_NAME
+                                        )}
                                       />
                                       <Button
                                         type="button"
@@ -416,7 +442,10 @@ function WorkExperienceEditForm({
                                             ) || [];
                                           field.onChange(newTags);
                                         }}
-                                        disabled={field.value?.length <= 1}
+                                        disabled={
+                                          field.value?.length <= 1 ||
+                                          tag.startsWith(DEFAULT_TAG_NAME)
+                                        }
                                       >
                                         Remove tag
                                       </Button>
@@ -444,7 +473,10 @@ function WorkExperienceEditForm({
                                       disabled={
                                         form.watch(
                                           `work_experience.${index}.summary`
-                                        )?.length <= 1
+                                        )?.length <= 1 ||
+                                        field.value.filter((tag) =>
+                                          tag.startsWith(DEFAULT_TAG_NAME)
+                                        ).length >= 1
                                       }
                                     >
                                       Remove Summary
@@ -456,7 +488,7 @@ function WorkExperienceEditForm({
                                       onClick={() =>
                                         field.onChange([
                                           ...(field.value || []),
-                                          "#common",
+                                          "#for_job1",
                                         ])
                                       }
                                     >
@@ -480,7 +512,13 @@ function WorkExperienceEditForm({
                       );
                       form.setValue(`work_experience.${index}.summary`, [
                         ...currentSummary,
-                        { text: "", tags: ["#common"] },
+                        {
+                          text: "",
+                          tags:
+                            currentSummary.length > 0
+                              ? ["#for_job1"]
+                              : [DEFAULT_TAG_NAME, "#for_job1"],
+                        },
                       ]);
                     }}
                   >
@@ -585,6 +623,9 @@ function WorkExperienceEditForm({
                                           field.onChange(newTags);
                                         }}
                                         placeholder={`Tag ${tagIndex + 1}`}
+                                        disabled={tag.startsWith(
+                                          DEFAULT_TAG_NAME
+                                        )}
                                       />
                                       <Button
                                         type="button"
@@ -597,7 +638,10 @@ function WorkExperienceEditForm({
                                             ) || [];
                                           field.onChange(newTags);
                                         }}
-                                        disabled={field.value?.length <= 1}
+                                        disabled={
+                                          field.value?.length <= 1 ||
+                                          tag.startsWith(DEFAULT_TAG_NAME)
+                                        }
                                       >
                                         Remove tag
                                       </Button>
@@ -626,7 +670,10 @@ function WorkExperienceEditForm({
                                       disabled={
                                         form.watch(
                                           `work_experience.${index}.highlights`
-                                        )?.length <= 1
+                                        )?.length <= 1 ||
+                                        field.value.filter((tag) =>
+                                          tag.startsWith(DEFAULT_TAG_NAME)
+                                        ).length >= 1
                                       }
                                     >
                                       Remove Highlight
@@ -638,7 +685,7 @@ function WorkExperienceEditForm({
                                       onClick={() =>
                                         field.onChange([
                                           ...(field.value || []),
-                                          "#common",
+                                          "#for_job1",
                                         ])
                                       }
                                     >
@@ -662,7 +709,13 @@ function WorkExperienceEditForm({
                       );
                       form.setValue(`work_experience.${index}.highlights`, [
                         ...currentHighlights,
-                        { text: [""], tags: ["#common"] },
+                        {
+                          text: [""],
+                          tags:
+                            currentHighlights.length > 0
+                              ? ["#for_job1"]
+                              : [DEFAULT_TAG_NAME, "#for_job1"],
+                        },
                       ]);
                     }}
                   >
@@ -694,13 +747,22 @@ function WorkExperienceEditForm({
               onClick={() =>
                 append({
                   company: "",
-                  tags: ["#common"],
+                  tags:
+                    fields.length > 0
+                      ? ["#for_job1"]
+                      : [DEFAULT_TAG_NAME, "#for_job1"],
                   website: "",
                   start_date: new Date().toISOString().split("T")[0],
                   end_date: undefined,
-                  position: [{ text: "", tags: ["#common"] }],
-                  summary: [{ text: "", tags: ["#common"] }],
-                  highlights: [{ text: [""], tags: ["#common"] }],
+                  position: [
+                    { text: "", tags: [DEFAULT_TAG_NAME, "#for_job1"] },
+                  ],
+                  summary: [
+                    { text: "", tags: [DEFAULT_TAG_NAME, "#for_job1"] },
+                  ],
+                  highlights: [
+                    { text: [""], tags: [DEFAULT_TAG_NAME, "#for_job1"] },
+                  ],
                 })
               }
             >
