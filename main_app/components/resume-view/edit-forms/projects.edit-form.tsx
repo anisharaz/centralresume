@@ -20,6 +20,7 @@ import { updateResume } from "@/app/actions/resume/update-resume";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Separator } from "@/components/ui/separator";
 
 function ProjectsEditForm({
   title,
@@ -45,6 +46,7 @@ function ProjectsEditForm({
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
     defaultValues: getDefaultValues(),
+    mode: "all",
   });
 
   const { control, handleSubmit } = form;
@@ -90,12 +92,12 @@ function ProjectsEditForm({
               <h3 className="text-lg font-semibold">Projects</h3>
               <Button
                 type="button"
-                variant="outline"
                 size="sm"
+                className="cursor-pointer"
                 onClick={() =>
                   append({
                     title: "",
-                    tags: [],
+                    tags: ["#common"],
                     startDate: new Date().toISOString().split("T")[0],
                     endDate: undefined,
                     summary: "",
@@ -114,7 +116,9 @@ function ProjectsEditForm({
                   name={`projects.${index}.title`}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Project Title</FormLabel>
+                      <FormLabel className="text-lg font-bold">
+                        Project Title
+                      </FormLabel>
                       <FormControl>
                         <Input placeholder="Enter project title" {...field} />
                       </FormControl>
@@ -129,7 +133,9 @@ function ProjectsEditForm({
                     name={`projects.${index}.startDate`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Start Date</FormLabel>
+                        <FormLabel className="text-lg font-bold">
+                          Start Date
+                        </FormLabel>
                         <FormControl>
                           <Input
                             type="date"
@@ -147,7 +153,9 @@ function ProjectsEditForm({
                     name={`projects.${index}.endDate`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>End Date (Optional)</FormLabel>
+                        <FormLabel className="text-lg font-bold">
+                          End Date (Optional)
+                        </FormLabel>
                         <FormControl>
                           <Input
                             type="date"
@@ -166,7 +174,9 @@ function ProjectsEditForm({
                   name={`projects.${index}.url`}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Project URL (Optional)</FormLabel>
+                      <FormLabel className="text-lg font-bold">
+                        Project URL (Optional)
+                      </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="https://github.com/user/project"
@@ -183,7 +193,9 @@ function ProjectsEditForm({
                   name={`projects.${index}.summary`}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Project Description</FormLabel>
+                      <FormLabel className="text-lg font-bold">
+                        Project Description
+                      </FormLabel>
                       <FormControl>
                         <Textarea
                           placeholder="Describe the project, technologies used, and key achievements..."
@@ -201,11 +213,14 @@ function ProjectsEditForm({
                   name={`projects.${index}.tags`}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Tags</FormLabel>
+                      <FormLabel className="text-lg font-bold">Tags</FormLabel>
                       <FormControl>
                         <div className="space-y-2">
                           {field.value?.map((tag, tagIndex) => (
-                            <div key={tagIndex} className="flex gap-2">
+                            <div
+                              key={tagIndex}
+                              className="flex gap-2 flex-row-reverse items-center"
+                            >
                               <Input
                                 value={tag}
                                 onChange={(e) => {
@@ -217,7 +232,7 @@ function ProjectsEditForm({
                               />
                               <Button
                                 type="button"
-                                variant="outline"
+                                variant="destructive"
                                 size="sm"
                                 onClick={() => {
                                   const newTags =
@@ -226,36 +241,43 @@ function ProjectsEditForm({
                                     ) || [];
                                   field.onChange(newTags);
                                 }}
+                                disabled={field.value?.length <= 1}
                               >
-                                Remove
+                                Remove tag
                               </Button>
                             </div>
                           ))}
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="sm"
-                            onClick={() =>
-                              field.onChange([...(field.value || []), ""])
-                            }
-                          >
-                            Add Tag
-                          </Button>
+                          <Separator className="my-4" />
+                          <div className="flex gap-2">
+                            <Button
+                              type="button"
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => remove(index)}
+                              disabled={fields.length <= 1}
+                            >
+                              Remove Project
+                            </Button>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="sm"
+                              onClick={() =>
+                                field.onChange([
+                                  ...(field.value || []),
+                                  "#common",
+                                ])
+                              }
+                            >
+                              Add Tag
+                            </Button>
+                          </div>
                         </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-
-                <Button
-                  type="button"
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => remove(index)}
-                >
-                  Remove Project
-                </Button>
               </div>
             ))}
           </div>
@@ -269,7 +291,7 @@ function ProjectsEditForm({
               {form.formState.isSubmitting && (
                 <Loader2 className="animate-spin mr-2" />
               )}
-              Save Projects
+              Save Changes
             </Button>
           </div>
         </form>

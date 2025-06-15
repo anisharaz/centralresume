@@ -26,6 +26,7 @@ import { updateResume } from "@/app/actions/resume/update-resume";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Separator } from "@/components/ui/separator";
 
 function SkillsEditForm({
   title,
@@ -51,6 +52,7 @@ function SkillsEditForm({
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
     defaultValues: getDefaultValues(),
+    mode: "all",
   });
 
   const { control, handleSubmit } = form;
@@ -94,13 +96,13 @@ function SkillsEditForm({
         <h3 className="text-lg font-semibold">{title}</h3>
         <Button
           type="button"
-          variant="outline"
           size="sm"
+          className="cursor-pointer"
           onClick={() =>
             fieldArray.append({
               name: "",
               level: "",
-              tags: [],
+              tags: ["#common"],
             })
           }
         >
@@ -116,7 +118,9 @@ function SkillsEditForm({
               name={`${fieldName}.${index}.name`}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Skill Name</FormLabel>
+                  <FormLabel className="text-lg font-bold">
+                    Skill Name
+                  </FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -130,7 +134,7 @@ function SkillsEditForm({
               name={`${fieldName}.${index}.level`}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Level</FormLabel>
+                  <FormLabel className="text-lg font-bold">Level</FormLabel>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
                       <SelectTrigger>
@@ -156,11 +160,14 @@ function SkillsEditForm({
             name={`${fieldName}.${index}.tags`}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Tags</FormLabel>
+                <FormLabel className="text-lg font-bold">Tags</FormLabel>
                 <FormControl>
                   <div className="space-y-2">
                     {field.value?.map((tag, tagIndex) => (
-                      <div key={tagIndex} className="flex gap-2">
+                      <div
+                        key={tagIndex}
+                        className="flex gap-2 flex-row-reverse items-center"
+                      >
                         <Input
                           value={tag}
                           onChange={(e) => {
@@ -172,7 +179,7 @@ function SkillsEditForm({
                         />
                         <Button
                           type="button"
-                          variant="outline"
+                          variant="destructive"
                           size="sm"
                           onClick={() => {
                             const newTags =
@@ -180,36 +187,40 @@ function SkillsEditForm({
                               [];
                             field.onChange(newTags);
                           }}
+                          disabled={field.value?.length <= 1}
                         >
-                          Remove
+                          Remove tag
                         </Button>
                       </div>
                     ))}
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() =>
-                        field.onChange([...(field.value || []), ""])
-                      }
-                    >
-                      Add Tag
-                    </Button>
+                    <Separator className="my-4" />
+                    <div className="flex gap-2">
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => fieldArray.remove(index)}
+                        disabled={fieldArray.fields.length <= 1}
+                      >
+                        Remove Skill
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() =>
+                          field.onChange([...(field.value || []), "#common"])
+                        }
+                      >
+                        Add Tag
+                      </Button>
+                    </div>
                   </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
-          <Button
-            type="button"
-            variant="destructive"
-            size="sm"
-            onClick={() => fieldArray.remove(index)}
-          >
-            Remove Skill
-          </Button>
         </div>
       ))}
     </div>
@@ -238,7 +249,7 @@ function SkillsEditForm({
               {form.formState.isSubmitting && (
                 <Loader2 className="animate-spin mr-2" />
               )}
-              Save Skills
+              Save Changes
             </Button>
           </div>
         </form>
