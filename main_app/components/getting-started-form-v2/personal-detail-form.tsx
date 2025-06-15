@@ -125,9 +125,9 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
       </div>
 
       {/* Tag Lines */}
-      <div className="border border-green-400 p-4 rounded-lg space-y-4">
+      <div className="border  p-4 rounded-lg space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold">Title of your profile</h3>
+          <h3 className="text-lg font-semibold">Your title</h3>
           <Button
             type="button"
             size="sm"

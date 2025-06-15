@@ -38,7 +38,7 @@ export default function GettingStartedFormV2({
         email: defaultData.email,
         tag_line: [
           {
-            text: "I am a passionate .... (edit me)",
+            text: "Computer science student at ..(edit me)..",
             tags: ["#common"],
           },
         ],
