@@ -61,8 +61,8 @@ jobs:
         if: inputs.build_main_app
         uses: docker/build-push-action@v6
         with:
-          context: ./main_app
-          file: ./main_app/Dockerfile.prod
+          context: main_app
+          file: main_app/Dockerfile.prod
           push: true
           platforms: linux/arm64
           build-args: APP_URL=${{ secrets.APP_URL }}

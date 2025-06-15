@@ -6,9 +6,9 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 USER 1001:1001 
 RUN mkdir .next
-COPY --chown=1001:1001 ./.next/standalone ./
-# COPY --chown=1001:1001 ./.next/static ./.next/static
-COPY --chown=1001:1001 ./public ./public
+COPY --chown=1001:1001 ./.next/standalone/ ./
+COPY --chown=1001:1001 ./.next/static/ ./.next/static
+COPY --chown=1001:1001 ./public/ ./public
 
 USER 1001:1001 
 EXPOSE 3000
