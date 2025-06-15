@@ -37,6 +37,7 @@ import {
 } from "@/app/actions/profile/profile-links";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface ProfileLinkCardProps {
   link: {
@@ -58,7 +59,9 @@ export default function ProfileLinkCard({ link }: ProfileLinkCardProps) {
 
   const linkUrl = `${
     process.env.NEXT_PUBLIC_APP_URL || "https://centralresume.me"
-  }/profile?linkId=${link.linkId}&resumeTag=${link.resumeTagName}`;
+  }/profile?linkId=${encodeURIComponent(
+    link.linkId
+  )}&resumeTag=${encodeURIComponent(link.resumeTagName)}`;
   const createdAgo = formatDistanceToNow(link.createdAt, { addSuffix: true });
 
   const handleCopy = async () => {
@@ -180,7 +183,14 @@ export default function ProfileLinkCard({ link }: ProfileLinkCardProps) {
             <p className="text-xs font-medium">Shareable URL</p>
             <div className="flex items-center gap-2 p-2 bg-muted rounded-md">
               <code className="text-xs flex-1 break-all overflow-wrap-anywhere min-w-0">
-                {linkUrl}
+                <Link
+                  href={linkUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:underline"
+                >
+                  {linkUrl}
+                </Link>
               </code>
               <Button
                 variant="ghost"

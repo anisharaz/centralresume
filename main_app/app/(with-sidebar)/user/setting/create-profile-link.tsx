@@ -31,7 +31,7 @@ export default function CreateProfileLink({
   resumeTags,
 }: CreateProfileLinkProps) {
   const [open, setOpen] = useState(false);
-  const [selectedTag, setSelectedTag] = useState<string>("");
+  const [selectedTag, setSelectedTag] = useState<string>("#common");
   const [visibility, setVisibility] = useState<$Enums.VISIBILITY>("PUBLIC");
   const [isCreating, setIsCreating] = useState(false);
   const router = useRouter();

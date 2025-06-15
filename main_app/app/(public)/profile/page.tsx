@@ -7,6 +7,7 @@ import { ProjectsSectionView } from "@/components/resume-view/components/project
 import { PublicationsSectionView } from "@/components/resume-view/components/publication-section-view";
 import { SkillsSectionView } from "@/components/resume-view/components/skills-section-view";
 import { WorkExperienceSectionView } from "@/components/resume-view/components/work-experience-section-view";
+import { Separator } from "@/components/ui/separator";
 import prisma from "@/lib/db";
 import { Resume } from "@/lib/resume";
 import { getResumeFromResumeStore } from "@/lib/services/resume-store";
@@ -79,20 +80,27 @@ async function PublicProfilePage({
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="my-4 rounded-3xl h-48 w-full bg-slate-200 dark:bg-neutral-800 flex items-center justify-center">
+      <div className="my-4 h-48 w-full bg-slate-200 dark:bg-neutral-800 flex items-center justify-center">
         <div className="font-bold md:text-5xl text-3xl text-center text-slate-800 dark:text-slate-200 italic ">
           {profileLink.user.userProfile?.bannerText.split("(")[0] ||
             "Welcome to My Profile"}
         </div>
       </div>
-      <div className="space-y-6">
+      <div className="space-y-6 border m-2 mt-6">
         <ProfileDetailSectionView data={resumeByTag.personal_details} />
+        <Separator className="my-4" />
         <WorkExperienceSectionView data={resumeByTag.work_experience} />
+        <Separator className="my-4" />
         <SkillsSectionView data={resumeByTag.skills} />
+        <Separator className="my-4" />
         <ProjectsSectionView data={resumeByTag.projects} />
+        <Separator className="my-4" />
         <AchievementsSectionView data={resumeByTag.achievements} />
+        <Separator className="my-4" />
         <EducationSectionView data={resumeByTag.education} />
+        <Separator className="my-4" />
         <PublicationsSectionView data={resumeByTag.publications} />
+        <Separator className="my-4" />
         <OtherListsSectionView data={resumeByTag.otherLists} />
       </div>
     </div>
