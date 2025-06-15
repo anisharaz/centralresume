@@ -11,6 +11,12 @@ import { benefitsData } from "./benefits-section-data";
 import { NavBar } from "../navbar";
 import FAQSection from "./faq-section";
 import { faqData } from "./faq-data";
+import { Noto_Sans } from "next/font/google";
+
+const notoSansFont = Noto_Sans({
+  subsets: ["latin-ext"],
+  weight: "500",
+});
 
 export default function LandingPage({
   activeUsers,
@@ -40,12 +46,14 @@ export default function LandingPage({
       {/* Hero Section */}
       <section className="flex flex-col items-center justify-center w-full min-h-screen relative bg-[radial-gradient(circle_at_bottom,_#d97706,_transparent,_transparent)]">
         <div className="flex flex-col items-center text-center max-w-xl md:max-w-4xl z-10 gap-4">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-wider mb-4 leading-16">
-            #resume :{" "}
+          <h1
+            className={`text-4xl md:text-5xl font-bold tracking-wider mb-4 leading-16 ${notoSansFont.className}`}
+          >
+            Resume :{" "}
             <span className="underline decoration-blue-300 decoration-2 underline-offset-8">
               {" "}
-              Sharing{" "}
-            </span>
+              Sharing
+            </span>{" "}
             and{" "}
             <span className="underline decoration-blue-300 decoration-2 underline-offset-8">
               {" "}
@@ -53,7 +61,7 @@ export default function LandingPage({
             </span>{" "}
             made effortless
           </h1>
-          <p className="text-sm md:text-xl mb-8 text-white/70 text-center">
+          <p className="text-sm md:text-xl mb-8 text-white/80 text-center">
             Create and share your resume effortlessly from a single platform —
             whether it&apos;s with recruiters, individuals, or job portals.
             Enjoy features like a
