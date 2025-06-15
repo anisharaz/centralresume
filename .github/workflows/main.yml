@@ -53,8 +53,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            ./node_modules 
-            ./.next
+            ./main_app/node_modules 
+            ./main_app/.next
           key: ${{ runner.os }}-main-app
       - name: Build and push Main App Docker image
         if: inputs.build_main_app
