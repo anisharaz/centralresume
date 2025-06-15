@@ -57,7 +57,7 @@ export const benefitsData = [
         "bg-[radial-gradient(ellipse_at_bottom_left,_#fcd34d,_transparent,_#f43f5e)]",
     },
     background:
-      "bg-[radial-gradient(circle_at_top_right,_#3b82f6,_transparent,_#db2777)]",
+      "bg-[radial-gradient(circle_at_top_right,_#26549e,_transparent,_transparent)]",
   },
   {
     title: "AI-Optimized Standard Format",

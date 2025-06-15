@@ -9,14 +9,16 @@ import { cn } from "@/lib/utils";
 import { ContactForm } from "./contactus-form";
 import { benefitsData } from "./benefits-section-data";
 import { NavBar } from "../navbar";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import FAQSection from "./faq-section";
+import { faqData } from "./faq-data";
 
-export default function LandingPage() {
+export default function LandingPage({
+  activeUsers,
+  resumeCreated,
+}: {
+  activeUsers: string;
+  resumeCreated: string;
+}) {
   const [loaded, setLoaded] = useState(false);
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -159,206 +161,31 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* FAQ section */}
-      <section
-        className="py-20 px-4 bg-[radial-gradient(ellipse_at_center,_#1e293b,_transparent,_#0f172a)]"
-        id="faq"
-      >
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-              Here are the most common questions we receive.
-            </p>
-          </div>
+      {/* Stats Section */}
+      <section className="py-20 px-4 bg-gradient-to-br from-slate-900 via-gray-900 to-black">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+            Join the Central<span className="text-amber-300">#Resume</span>{" "}
+            Community
+          </h2>
+          <p className="text-lg text-gray-300 mb-12 max-w-2xl mx-auto">
+            Join the job seekers who have streamlined their resume process
+          </p>
 
-          <div className="max-w-4xl mx-auto">
-            <Accordion type="single" collapsible className="space-y-4">
-              <AccordionItem
-                value="item-1"
-                className="bg-white/5 rounded-lg border border-white/10"
-              >
-                <AccordionTrigger className="px-6 py-4 text-white hover:text-blue-300 [&[data-state=open]]:text-blue-300">
-                  <div className="flex items-center gap-3">
-                    <span className="text-blue-400 font-bold text-sm">Q:</span>
-                    <span className="font-medium text-left">
-                      What is
-                      <span className="text-amber-400"> centralresume ? </span>
-                    </span>
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent className="px-6 pb-4">
-                  <p className="text-gray-300 text-sm leading-relaxed">
-                    CentralResume is a platform designed to simplify the process
-                    of creating, managing, and sharing resumes. It allows users
-                    to build a central profile that can be used to generate
-                    multiple resume versions tailored for different job
-                    applications. With features like live-updating resume links,
-                    one-click sharing with job platforms, and AI-friendly
-                    structured data format, CentralResume streamlines the entire
-                    resume management process for both job seekers and
-                    employers.
-                  </p>
-                </AccordionContent>
-              </AccordionItem>
+          <div className="grid grid-cols-2 md:grid-cols-2 gap-8">
+            <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-xl">
+              <div className="text-3xl md:text-4xl font-bold text-white mb-2">
+                {activeUsers}
+              </div>
+              <div className="text-sm text-gray-300">Active Users</div>
+            </div>
 
-              <AccordionItem
-                value="item-4"
-                className="bg-white/5 rounded-lg border border-white/10"
-              >
-                <AccordionTrigger className="px-6 py-4 text-white hover:text-blue-300 [&[data-state=open]]:text-blue-300">
-                  <div className="flex items-center gap-3">
-                    <span className="text-blue-400 font-bold text-sm">Q:</span>
-                    <span className="font-medium text-left">
-                      What benefits do I get by using{" "}
-                      <span className="text-amber-400">CentralResume</span>?
-                    </span>
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent className="px-6 pb-4">
-                  <div className="space-y-6">
-                    <div>
-                      <h4 className="font-semibold text-pink-400 mb-3">
-                        For Job Seekers:
-                      </h4>
-                      <p className="text-base leading-relaxed mb-3">
-                        CentralResume makes it super easy to create multiple
-                        resume versions tailored for different job applications.
-                      </p>
-                      <ul className="text-gray-300 text-sm space-y-2 ml-4 list-disc">
-                        <li>Create targeted resume versions with tags</li>
-                        <li>
-                          Share live-updating resume links. yes we understand
-                          the pain of maintaining multiple resume PDFs and
-                          links.
-                        </li>
-                        <li>
-                          Skip repetitive profile creation on job sites (if they
-                          have integrated our system.){" "}
-                        </li>
-                        <li>
-                          Share your profession profile with much better Ui.
-                          Similar to how you share your social media profile.
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div>
-                      <h4 className="font-semibold text-emerald-500 mb-3">
-                        For Companies & Recruiters:
-                      </h4>
-                      <p className="text-base leading-relaxed mb-3">
-                        CentralResume provides companies with a standardized way
-                        to receive and process candidate information for close
-                        to perfect matching.
-                      </p>
-                      <ul className="text-gray-300 text-sm space-y-2 ml-4 list-disc">
-                        <li>
-                          Better search and filter features to find perfect
-                          candidate.
-                        </li>
-                        <li>
-                          Receive consistently formatted candidate data, Trouble
-                          of resume parsing is gone.
-                        </li>
-                        <li>
-                          Receive candidates resume in pure structured text and
-                          process however you want with great efficiency.
-                        </li>
-                        <li>Always access up-to-date candidate information</li>
-                      </ul>
-                    </div>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem
-                value="item-3"
-                className="bg-white/5 rounded-lg border border-white/10"
-              >
-                <AccordionTrigger className="px-6 py-4 text-white hover:text-blue-300 [&[data-state=open]]:text-blue-300">
-                  <div className="flex items-center gap-3">
-                    <span className="text-blue-400 font-bold text-sm">Q:</span>
-                    <span className="font-medium text-left">
-                      How is centralresume{" "}
-                      <span className="text-amber-400"> different </span> from
-                      other job or resume creation platforms?
-                    </span>
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent className="px-6 pb-4">
-                  <p className="text-gray-300 text-sm leading-relaxed">
-                    We&apos;ve created a new method for storing and accessing
-                    resumes by using a standardized data format instead of
-                    traditional PDFs or document files. Think of it like how all
-                    debit and credit cards follow a standard structure—card
-                    number, expiry date, CVV. In the same way, we&apos;ve
-                    defined a consistent format for resume data. This approach
-                    brings several advantages: significantly better AI-driven
-                    resume matching, easier sharing since resumes are now stored
-                    as structured strings rather than bulky files, and more
-                    flexibility in how resumes are used and displayed.
-                  </p>
-                </AccordionContent>
-              </AccordionItem>
-
-              <AccordionItem
-                value="item-1"
-                className="bg-white/5 rounded-lg border border-white/10"
-              >
-                <AccordionTrigger className="px-6 py-4 text-white hover:text-blue-300 [&[data-state=open]]:text-blue-300">
-                  <div className="flex items-center gap-3">
-                    <span className="text-blue-400 font-bold text-sm">Q:</span>
-                    <span className="font-medium text-left">
-                      What are <span className="text-amber-400"> tags? </span>
-                    </span>
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent className="px-6 pb-4">
-                  <p className="text-gray-300 text-sm leading-relaxed">
-                    Tags are keyword labels you assign to different sections of
-                    your resume. For example, if you have four work experiences
-                    listed but only want to showcase two that are relevant to a
-                    specific job, you can tag those two with a label like
-                    &quot;job1.&quot; Then, you can generate a resume link or
-                    download a PDF that includes only the tagged experiences.
-                    This allows you to quickly tailor your resume for different
-                    job applications without having to create separate versions
-                    each time.
-                  </p>
-                </AccordionContent>
-              </AccordionItem>
-
-              <AccordionItem
-                value="item-2"
-                className="bg-white/5 rounded-lg border border-white/10"
-              >
-                <AccordionTrigger className="px-6 py-4 text-white hover:text-blue-300 [&[data-state=open]]:text-blue-300">
-                  <div className="flex items-center gap-3">
-                    <span className="text-blue-400 font-bold text-sm">Q:</span>
-                    <span className="font-medium text-left">
-                      What is{" "}
-                      <span className="text-amber-400">
-                        LoginWithCentralResume
-                      </span>
-                      ?
-                    </span>
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent className="px-6 pb-4">
-                  <p className="text-gray-300 text-sm leading-relaxed">
-                    LoginWithCentralResume is a feature that allows you to log
-                    in to job platforms using your CentralResume profile. This
-                    means you can skip the tedious process of filling out your
-                    profile information on each job site. Instead, you can
-                    simply log in with your CentralResume account, and it will
-                    automatically populate your profile with the relevant
-                    information from your CentralResume profile data.
-                  </p>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+            <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-xl">
+              <div className="text-3xl md:text-4xl font-bold text-white mb-2">
+                {resumeCreated}
+              </div>
+              <div className="text-sm text-gray-300">Resumes Created</div>
+            </div>
           </div>
         </div>
       </section>
@@ -373,6 +200,12 @@ export default function LandingPage() {
           side={index % 2 === 0 ? "left" : "right"}
         />
       ))}
+
+      {/* FAQ section */}
+      <FAQSection
+        faqs={faqData}
+        className="bg-[radial-gradient(ellipse_at_center,_#1e293b,_transparent,_#0f172a)]"
+      />
 
       {/* contact and feedback section */}
       <section
