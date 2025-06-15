@@ -40,6 +40,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Cache Main App Nextjs Restore
+        id: cache-main-app-restore
         uses: actions/cache/restore@v4
         with:
           path: |
@@ -57,12 +58,13 @@ jobs:
       - name: Build Main App Nextjs
         run: cd ./main_app && pnpm install && pnpx prisma generate && pnpm build && ls -al .next
       - name: Cache Main App Nextjs Save 
+        id: cache-main-app-save
         uses: actions/cache/save@v4
         with:
           path: |
             main_app/node_modules 
             main_app/.next
-          key: ${{ runner.os }}-main-app
+          key: ${{ steps.cache-main-app-restore.outputs.cache-primary-key }}
       - name: Build and push Main App Docker image
         if: inputs.build_main_app
         uses: docker/build-push-action@v6
