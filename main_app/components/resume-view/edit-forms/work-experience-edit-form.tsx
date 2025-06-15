@@ -25,10 +25,12 @@ function WorkExperienceEditForm({
   title,
   description,
   dataWithTag,
+  resumeTags,
 }: {
   title: string;
   description: string;
   dataWithTag: RESUME_TYPE["work_experience"];
+  resumeTags: string[];
 }) {
   const router = useRouter();
   const FormSchema = z.object({
@@ -86,6 +88,11 @@ function WorkExperienceEditForm({
           onSubmit={handleSubmit(onSubmit)}
           className="relative h-full overflow-y-scroll space-y-4 p-2"
         >
+          <datalist id="tags">
+            {resumeTags.map((item, index) => (
+              <option value={item} key={index} />
+            ))}
+          </datalist>
           {fields.map((item, index) => (
             <div
               key={item.id}
@@ -181,6 +188,7 @@ function WorkExperienceEditForm({
                                 field.onChange(newTags);
                               }}
                               placeholder={`Tag ${tagIndex + 1}`}
+                              list="tags"
                             />
                             <Button
                               type="button"
@@ -267,6 +275,7 @@ function WorkExperienceEditForm({
                                           field.onChange(newTags);
                                         }}
                                         placeholder={`Tag ${tagIndex + 1}`}
+                                        list="tags"
                                       />
                                       <Button
                                         type="button"
@@ -403,6 +412,7 @@ function WorkExperienceEditForm({
                                           field.onChange(newTags);
                                         }}
                                         placeholder={`Tag ${tagIndex + 1}`}
+                                        list="tags"
                                       />
                                       <Button
                                         type="button"
@@ -579,6 +589,7 @@ function WorkExperienceEditForm({
                                           field.onChange(newTags);
                                         }}
                                         placeholder={`Tag ${tagIndex + 1}`}
+                                        list="tags"
                                       />
                                       <Button
                                         type="button"

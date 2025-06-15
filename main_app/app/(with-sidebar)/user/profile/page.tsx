@@ -67,6 +67,7 @@ export default async function ProfilePage({
         .map((n) => n.charAt(0).toUpperCase())
         .join("")
     : "U";
+  const tags = user?.resumeTags.map((tag) => tag.resumeTagName) || [];
   return (
     <div className="container mx-auto w-full pb-10">
       <div className="relative">
@@ -122,11 +123,13 @@ export default async function ProfilePage({
           <PersonalDetailsCard
             data={resumeByTag.personal_details}
             dataWithTag={resume.getResume().personal_details}
+            resumeTags={tags}
           />
           <Separator className="my-4" />
           <WorkExperienceCard
             data={resumeByTag.work_experience}
             dataWithTag={resume.getResume().work_experience}
+            resumeTags={tags}
           />
           <Separator className="my-4" />
           <SkillsCard

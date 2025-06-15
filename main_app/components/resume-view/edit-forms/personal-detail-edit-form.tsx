@@ -25,10 +25,12 @@ function PersonalDetailEditForm({
   title,
   description,
   dataWithTag,
+  resumeTags,
 }: {
   title: string;
   description: string;
   dataWithTag: RESUME_TYPE["personal_details"];
+  resumeTags: string[];
 }) {
   const router = useRouter();
   const FormSchema = z.object({
@@ -93,6 +95,11 @@ function PersonalDetailEditForm({
           onSubmit={handleSubmit(onSubmit)}
           className="relative h-full overflow-y-scroll space-y-4 px-2"
         >
+          <datalist id="tags">
+            {resumeTags.map((item, index) => (
+              <option value={item} key={index} />
+            ))}
+          </datalist>
           {/* Basic Information */}
           <div className="border p-4 rounded-lg shadow-sm space-y-4">
             <div className="text-lg font-semibold">Profile Information</div>
@@ -221,6 +228,7 @@ function PersonalDetailEditForm({
                                   field.onChange(newTags);
                                 }}
                                 placeholder={`Tag ${tagIndex + 1}`}
+                                list="tags"
                               />
                               <Button
                                 type="button"
@@ -340,6 +348,7 @@ function PersonalDetailEditForm({
                                   field.onChange(newTags);
                                 }}
                                 placeholder={`Tag ${tagIndex + 1}`}
+                                list="tags"
                               />
                               <Button
                                 type="button"
@@ -503,6 +512,7 @@ function PersonalDetailEditForm({
                                   field.onChange(newTags);
                                 }}
                                 placeholder={`Tag ${tagIndex + 1}`}
+                                list="tags"
                               />
                               <Button
                                 type="button"

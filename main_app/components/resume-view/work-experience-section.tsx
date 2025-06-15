@@ -11,9 +11,11 @@ type WorkExperience = ResumeDataType["work_experience"];
 export function WorkExperienceCard({
   data,
   dataWithTag,
+  resumeTags,
 }: {
   data: WorkExperience;
   dataWithTag: RESUME_TYPE["work_experience"];
+  resumeTags: string[];
 }) {
   if (DUMMY_MODE) {
     data = WORK_EXPERIENCE_DUMMY_DATA;
@@ -25,6 +27,7 @@ export function WorkExperienceCard({
         title="Add Work Experience"
         description="Add a new work experience entry"
         dataWithTag={dataWithTag}
+        resumeTags={resumeTags}
       />
     </WorkExperienceSectionView>
   );
