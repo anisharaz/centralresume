@@ -9,11 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import { Info, Rocket, User } from "lucide-react";
-import { Checkbox } from "../ui/checkbox";
-import { Separator } from "../ui/separator";
+import { Rocket, User } from "lucide-react";
 import { FormProvider, useForm } from "react-hook-form";
 import { RESUME_ZOD_SCHEMA, RESUME_TYPE } from "@/lib/zod/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,7 +29,6 @@ export default function GettingStartedFormV2({
 }) {
   const router = useRouter();
   const [currentStage, setCurrentStage] = useState(0);
-  const [understoodTags, setunderstoodTags] = useState(false);
   const form = useForm<RESUME_TYPE>({
     resolver: zodResolver(RESUME_ZOD_SCHEMA),
     defaultValues: {
@@ -41,10 +37,10 @@ export default function GettingStartedFormV2({
         name: defaultData.firstName + " " + defaultData.lastName,
         email: defaultData.email,
         tag_line: [
-          // {
-          //   text: "I am a passionate .... (edit me)",
-          //   tags: ["#general"],
-          // },
+          {
+            text: "I am a passionate .... (edit me)",
+            tags: ["#common"],
+          },
         ],
         summary: [],
         social_links: [],
@@ -79,7 +75,7 @@ export default function GettingStartedFormV2({
     router.push("/user/profile");
   };
 
-  const totalStages = 3;
+  const totalStages = 2;
   const progress = ((currentStage + 1) / totalStages) * 100;
 
   const handleNext = () => {
@@ -98,7 +94,7 @@ export default function GettingStartedFormV2({
             </div>
             <div className="space-y-2">
               <h2 className="text-2xl font-bold">
-                Welcome to Central{" "}
+                Welcome to Central
                 <span className="text-yellow-300">#resume</span>
               </h2>
               <p className="text-muted-foreground">
@@ -114,78 +110,31 @@ export default function GettingStartedFormV2({
 
       case 1:
         return (
-          <div className="space-y-4">
-            <div className="md:p-10 p-2 rounded-4xl border max-w-4xl space-y-6 mx-auto">
-              <div className="text-center">
-                <div className="mx-auto rounded-full flex items-center justify-center">
-                  <Info className="w-8 h-8 text-red-600" />
-                </div>
-                <h2 className="text-2xl font-bold">
-                  You need to understand about tags!
-                </h2>
-              </div>
-              <div className="text-center max-w-4xl mx-auto">
-                Tags are label given to details on your resume. Different
-                version of resume is prepared based on the tags by only showing
-                the details containing the tag while sharing or downloading.
-                This is how different version of resume work using tag.
-              </div>
+          <div className="space-y-2">
+            <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+              <User className="w-16 h-16 text-green-600" />
             </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="terms"
-                checked={understoodTags}
-                onCheckedChange={() => {
-                  setunderstoodTags((prev) => !prev);
-                }}
-              />
-              <Label
-                htmlFor="terms"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            <FormProvider {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-4"
               >
-                I understood about tags and how they work.
-              </Label>
-            </div>
-            <Button
-              onClick={handleNext}
-              disabled={!understoodTags}
-              className="w-full cursor-pointer "
-            >
-              Next
-            </Button>
-          </div>
-        );
-
-      case 2:
-        return (
-          <div className="space-y-6">
-            <div className="text-center space-y-4">
-              <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-                <User className="w-8 h-8 text-green-600" />
-              </div>
-              <FormProvider {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)}>
-                  <PersonalDetailsForm form={form} />
-                  <div className="flex justify-between mt-8">
-                    <div className="flex gap-2"></div>
-                  </div>
-                  <Button
-                    type="submit"
-                    className="w-full"
-                    disabled={
-                      form.formState.isSubmitting ||
-                      !form.getValues("personal_details.name") ||
-                      !form.getValues("personal_details.email")
-                    }
-                  >
-                    {form.formState.isSubmitting
-                      ? "Submitting..."
-                      : "Complete Setup"}
-                  </Button>
-                </form>
-              </FormProvider>
-            </div>
-            <div className="space-y-4"></div>
+                <PersonalDetailsForm form={form} />
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={
+                    form.formState.isSubmitting ||
+                    !form.getValues("personal_details.name") ||
+                    !form.getValues("personal_details.email")
+                  }
+                >
+                  {form.formState.isSubmitting
+                    ? "Submitting..."
+                    : "Complete Setup"}
+                </Button>
+              </form>
+            </FormProvider>
           </div>
         );
 
