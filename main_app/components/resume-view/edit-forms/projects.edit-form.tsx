@@ -21,6 +21,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
+import { DEFAULT_TAG_NAME } from "@/lib/vars";
 
 function ProjectsEditForm({
   title,
@@ -97,7 +98,10 @@ function ProjectsEditForm({
                 onClick={() =>
                   append({
                     title: "",
-                    tags: ["#common"],
+                    tags:
+                      fields.length > 0
+                        ? ["#for_job1"]
+                        : [DEFAULT_TAG_NAME, "#for_job1"],
                     startDate: new Date().toISOString().split("T")[0],
                     endDate: undefined,
                     summary: "",
@@ -229,6 +233,7 @@ function ProjectsEditForm({
                                   field.onChange(newTags);
                                 }}
                                 placeholder={`Tag ${tagIndex + 1}`}
+                                disabled={tag.startsWith(DEFAULT_TAG_NAME)}
                               />
                               <Button
                                 type="button"
@@ -241,7 +246,10 @@ function ProjectsEditForm({
                                     ) || [];
                                   field.onChange(newTags);
                                 }}
-                                disabled={field.value?.length <= 1}
+                                disabled={
+                                  field.value?.length <= 1 ||
+                                  tag.startsWith(DEFAULT_TAG_NAME)
+                                }
                               >
                                 Remove tag
                               </Button>
@@ -254,7 +262,13 @@ function ProjectsEditForm({
                               variant="destructive"
                               size="sm"
                               onClick={() => remove(index)}
-                              disabled={fields.length <= 1}
+                              disabled={
+                                fields.length <= 1 ||
+                                (field.value.filter((tag) =>
+                                  tag.startsWith(DEFAULT_TAG_NAME)
+                                ).length >= 1 &&
+                                  field.value.length <= 1)
+                              }
                             >
                               Remove Project
                             </Button>
@@ -265,7 +279,7 @@ function ProjectsEditForm({
                               onClick={() =>
                                 field.onChange([
                                   ...(field.value || []),
-                                  "#common",
+                                  "#for_job1",
                                 ])
                               }
                             >

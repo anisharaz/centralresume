@@ -103,7 +103,10 @@ function SkillsEditForm({
             fieldArray.append({
               name: "",
               level: "",
-              tags: fieldArray.fields.length > 0 ? ["#for_job1"] : [DEFAULT_TAG_NAME, "#for_job1"],
+              tags:
+                fieldArray.fields.length > 0
+                  ? ["#for_job1"]
+                  : [DEFAULT_TAG_NAME, "#for_job1"],
             })
           }
         >
@@ -189,7 +192,10 @@ function SkillsEditForm({
                               [];
                             field.onChange(newTags);
                           }}
-                          disabled={field.value?.length <= 1 || tag.startsWith(DEFAULT_TAG_NAME)}
+                          disabled={
+                            field.value?.length <= 1 ||
+                            tag.startsWith(DEFAULT_TAG_NAME)
+                          }
                         >
                           Remove tag
                         </Button>
@@ -202,7 +208,6 @@ function SkillsEditForm({
                         variant="destructive"
                         size="sm"
                         onClick={() => fieldArray.remove(index)}
-                        disabled={fieldArray.fields.length <= 1 || field.value.filter((tag) => tag.startsWith(DEFAULT_TAG_NAME)).length >= 1}
                       >
                         Remove Skill
                       </Button>

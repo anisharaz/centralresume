@@ -728,7 +728,6 @@ function WorkExperienceEditForm({
                 variant="destructive"
                 type="button"
                 onClick={() => remove(index)}
-                disabled={fields.length <= 1}
               >
                 Remove Experience
               </Button>
