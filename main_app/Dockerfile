@@ -1,7 +1,6 @@
-FROM node:20.11.1-alpine3.19 AS base
+FROM node:slim AS base
 
 FROM base AS deps
-RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json pnpm-lock.yaml* ./
 RUN npm install -g pnpm
@@ -14,10 +13,12 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ARG APP_URL
 ENV NEXT_PUBLIC_APP_URL=${APP_URL}
+RUN apt update && apt install -y openssl
 RUN npx prisma generate && npm run build
 
 FROM base AS runner
 WORKDIR /app
+RUN apt update && apt install -y openssl
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN addgroup --system --gid 1001 app

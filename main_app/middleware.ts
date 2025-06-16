@@ -1,27 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
-import axios from "axios";
 import { auth } from "./lib/auth";
+import { betterFetch } from "@better-fetch/fetch";
 
 type Session = typeof auth.$Infer.Session;
 export async function middleware(request: NextRequest) {
-  try {
-    const response = await axios.get<Session>("/api/auth/get-session", {
-      baseURL: request.nextUrl.origin,
+  const { data: session } = await betterFetch<Session>(
+    "/api/auth/get-session",
+    {
+      baseURL: "http://localhost:3000",
       headers: {
         cookie: request.headers.get("cookie") || "",
       },
-    });
-
-    const session = response.data;
-
-    if (!session) {
-      return NextResponse.redirect(new URL("/auth/login", request.url));
     }
+  );
 
-    return NextResponse.next();
-  } catch (error) {
+  if (!session) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
+
+  return NextResponse.next();
 }
 
 export const config = {
