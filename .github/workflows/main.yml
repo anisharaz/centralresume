@@ -46,7 +46,7 @@ jobs:
           path: |
             main_app/node_modules 
             main_app/.next
-          key: ${{ runner.os }}-main-app-${{ github.run_id }}
+          key: ${{ runner.os }}-main_app
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
