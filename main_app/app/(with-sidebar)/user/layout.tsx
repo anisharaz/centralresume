@@ -7,6 +7,9 @@ async function UserRouteLayout({ children }: { children: React.ReactNode }) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
+  if (!session) {
+    permanentRedirect("/auth/login");
+  }
   const user = await prisma.user.findUnique({
     where: { id: session?.session.userId },
   });
