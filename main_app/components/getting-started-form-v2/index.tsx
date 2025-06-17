@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { PersonalDetailsForm } from "./personal-detail-form";
 import { HandleResumeCreation } from "@/app/actions/getting-started";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function GettingStartedFormV2({
   defaultData,
@@ -116,7 +117,12 @@ export default function GettingStartedFormV2({
             </div>
             <FormProvider {...form}>
               <form
-                onSubmit={form.handleSubmit(onSubmit)}
+                onSubmit={form.handleSubmit(onSubmit, (err) => {
+                  toast.error("Required fields have red titles", {
+                    description: "fill in the required fields to proceed.",
+                    duration: 5000,
+                  });
+                })}
                 className="space-y-4"
               >
                 <PersonalDetailsForm form={form} />

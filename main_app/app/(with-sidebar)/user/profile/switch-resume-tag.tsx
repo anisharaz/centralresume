@@ -70,7 +70,9 @@ function SwitchCurrentResumeTag({
             setLoading(true);
             await new Promise((resolve) => setTimeout(resolve, 500));
             setLoading(false);
-            router.replace(`/user/profile?resumeProfile=${value}`);
+            router.replace(
+              `/user/profile?resumeProfile=${encodeURIComponent(value)}`
+            );
           }}
         >
           <SelectTrigger className="w-[180px]">

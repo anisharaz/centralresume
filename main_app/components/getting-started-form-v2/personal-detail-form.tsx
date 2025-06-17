@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useFieldArray } from "react-hook-form";
 import { Separator } from "@/components/ui/separator";
+import { DEFAULT_TAG_NAME } from "@/lib/vars";
 
 interface PersonalDetailsFormProps {
   form: UseFormReturn<RESUME_TYPE>;
@@ -133,7 +134,10 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
             size="sm"
             className="cursor-pointer"
             onClick={() =>
-              appendTagLine({ text: "edit me", tags: ["#common"] })
+              appendTagLine({
+                text: "edit me",
+                tags: ["#new"],
+              })
             }
           >
             Add another title
@@ -180,6 +184,7 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
                               field.onChange(newTags);
                             }}
                             placeholder={`Tag ${tagIndex + 1}`}
+                            disabled={tag === DEFAULT_TAG_NAME}
                           />
                           <Button
                             type="button"
@@ -192,12 +197,16 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
                                 ) || [];
                               field.onChange(newTags);
                             }}
-                            disabled={field.value?.length <= 1}
+                            disabled={
+                              field.value?.length <= 1 ||
+                              tag === DEFAULT_TAG_NAME
+                            }
                           >
                             Remove tag
                           </Button>
                         </div>
                       ))}
+
                       <Separator className="my-4" />
                       <div className="flex gap-2 ">
                         <Button
@@ -216,7 +225,7 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
                           variant="outline"
                           size="sm"
                           onClick={() =>
-                            field.onChange([...field.value, "#common"])
+                            field.onChange([...field.value, "#new"])
                           }
                         >
                           Add more TAGs
@@ -254,7 +263,7 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
             onClick={() =>
               appendSummary({
                 text: "I thrive in working better.",
-                tags: ["#common"],
+                tags: summaryFields.length > 0 ? ["#new"] : ["#common"],
               })
             }
             className="cursor-pointer"
@@ -303,6 +312,7 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
                               field.onChange(newTags);
                             }}
                             placeholder={`Tag ${tagIndex + 1}`}
+                            disabled={tag === DEFAULT_TAG_NAME}
                           />
                           <Button
                             type="button"
@@ -315,7 +325,10 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
                                 ) || [];
                               field.onChange(newTags);
                             }}
-                            disabled={field.value?.length <= 1}
+                            disabled={
+                              field.value?.length <= 1 ||
+                              tag === DEFAULT_TAG_NAME
+                            }
                           >
                             Remove tag
                           </Button>
@@ -420,6 +433,7 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
                               field.onChange(newTags);
                             }}
                             placeholder={`Tag ${tagIndex + 1}`}
+                            disabled={tag === DEFAULT_TAG_NAME}
                           />
                           <Button
                             type="button"
@@ -432,7 +446,10 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
                                 ) || [];
                               field.onChange(newTags);
                             }}
-                            disabled={field.value?.length <= 1}
+                            disabled={
+                              field.value?.length <= 1 ||
+                              tag === DEFAULT_TAG_NAME
+                            }
                           >
                             Remove tag
                           </Button>
@@ -453,7 +470,7 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
                           variant="outline"
                           size="sm"
                           onClick={() =>
-                            field.onChange([...field.value, "#common"])
+                            field.onChange([...field.value, "#new"])
                           }
                         >
                           Add Tag
