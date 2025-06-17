@@ -20,14 +20,14 @@ export async function HandleResumeCreation({
   try {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session?.user.id) throw new Error("User not authenticated");
+    const resume = new Resume(resumeData);
 
     const { data, status } = await saveResumeToResumeStore({
-      resumeData: resumeData,
+      resumeData: resume.getResume(),
       userId: session.session.userId,
     });
 
     if (status !== 200) throw new Error("Failed to create resume");
-    const resume = new Resume(resumeData);
     const tags = resume.extractTags();
     function resumeTags() {
       const tagsArray = [];

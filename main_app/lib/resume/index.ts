@@ -2,8 +2,31 @@ import { ResumeDataType } from "../types";
 import { RESUME_TYPE } from "@/lib/zod/schemas";
 export class Resume {
   private data: RESUME_TYPE;
+
   constructor(resumeData: RESUME_TYPE) {
-    this.data = resumeData;
+    this.data = this.sanitizeTags(resumeData);
+  }
+
+  /**
+   * Recursively sanitize the resume data to remove empty strings from tags arrays
+   */
+  private sanitizeTags(data: any): any {
+    if (Array.isArray(data)) {
+      return data.map((item) => this.sanitizeTags(item));
+    } else if (typeof data === "object" && data !== null) {
+      const sanitized: Record<string, any> = {};
+      for (const key in data) {
+        if (key === "tags" && Array.isArray(data[key])) {
+          sanitized[key] = data[key].filter(
+            (tag: string) => typeof tag === "string" && tag.trim() !== ""
+          );
+        } else {
+          sanitized[key] = this.sanitizeTags(data[key]);
+        }
+      }
+      return sanitized;
+    }
+    return data;
   }
 
   /**
