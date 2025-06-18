@@ -79,8 +79,8 @@ async function PublicProfilePage({
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="my-4 h-48 w-full bg-slate-200 dark:bg-neutral-800 flex items-center justify-center">
-        <div className="font-bold md:text-5xl text-3xl text-center text-slate-800 dark:text-slate-200 italic ">
+      <div className="my-4 h-48 w-full bg-secondary border flex items-center justify-center">
+        <div className=" font-bold md:text-5xl text-3xl text-center text-slate-800 dark:text-slate-200 italic ">
           {profileLink.user.userProfile?.bannerText.split("(")[0] ||
             "Welcome to My Profile"}
         </div>

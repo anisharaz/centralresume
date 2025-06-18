@@ -46,7 +46,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${mono.variable} antialiased break-all`}>
+      <body className={`${mono.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

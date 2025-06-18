@@ -89,17 +89,82 @@ export default async function UserSettings() {
   });
 
   return (
-    <div className="container mx-auto p-4 md:p-6 space-y-4 md:space-y-6">
+    <div className="container mx-auto p-4 md:p-6 space-y-4 md:space-y-16">
       {/* Header Section */}
       <div className="space-y-2">
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
-          User & Profile Settings
+          Sharing Settings
         </h1>
         <p className="text-sm md:text-base text-muted-foreground">
-          Manage your account, profile, and essential settings
+          Manage your resume and profile links.
         </p>
       </div>
-      <Separator />
+
+      {/* Resume Links Section */}
+      <div>
+        <div className="space-y-4">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+            <div className="flex-1">
+              <h2 className="text-lg md:text-xl font-semibold">
+                Resume PDF Links
+              </h2>
+              <p className="text-xs md:text-sm text-muted-foreground">
+                Create and manage shareable links for your resume with specific
+                tags
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+              {resumeLinks.length > 0 && (
+                <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
+                  <Link2 className="h-3 w-3 md:h-4 md:w-4" />
+                  {resumeLinks.length} active link
+                  {resumeLinks.length !== 1 ? "s" : ""}
+                </div>
+              )}
+              <CreateResumeLink resumeTags={resumeTags} />
+            </div>
+          </div>
+
+          {/* Resume Links List */}
+          <div className="grid gap-4">
+            <ScrollArea className="max-h-[50vh] md:max-h-[70vh]">
+              <div className="flex flex-col gap-4">
+                {resumeLinks.map((link) => (
+                  <ResumeLinkCard key={link.id} link={link} />
+                ))}
+              </div>
+            </ScrollArea>
+
+            {/* Empty State for Resume Links */}
+            {resumeLinks.length === 0 && (
+              <Card className="p-6 md:p-8 text-center">
+                <div className="space-y-4">
+                  <div className="mx-auto w-12 h-12 md:w-16 md:h-16 rounded-full bg-muted flex items-center justify-center">
+                    <Link2 className="h-6 w-6 md:h-8 md:w-8 text-muted-foreground" />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="font-medium text-base md:text-lg">
+                      No Resume Links
+                    </h3>
+                    <p className="text-xs md:text-sm text-muted-foreground max-w-md mx-auto">
+                      You haven&apos;t created any shareable resume links yet.
+                      Create links to share your resume with specific tag
+                      filters.
+                    </p>
+                  </div>
+                  <div className="pt-2">
+                    <p className="text-xs text-muted-foreground">
+                      Each link can target a specific resume tag for customized
+                      viewing
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            )}
+          </div>
+        </div>
+      </div>
+
       {/* Profile Links Section */}
       <div>
         <div className="space-y-4">
@@ -164,70 +229,7 @@ export default async function UserSettings() {
           </div>
         </div>
       </div>
-      <Separator />
-      {/* Resume Links Section */}
-      <div>
-        <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
-            <div className="flex-1">
-              <h2 className="text-lg md:text-xl font-semibold">Resume Links</h2>
-              <p className="text-xs md:text-sm text-muted-foreground">
-                Create and manage shareable links for your resume with specific
-                tags
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-              {resumeLinks.length > 0 && (
-                <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
-                  <Link2 className="h-3 w-3 md:h-4 md:w-4" />
-                  {resumeLinks.length} active link
-                  {resumeLinks.length !== 1 ? "s" : ""}
-                </div>
-              )}
-              <CreateResumeLink resumeTags={resumeTags} />
-            </div>
-          </div>
 
-          {/* Resume Links List */}
-          <div className="grid gap-4">
-            <ScrollArea className="max-h-[50vh] md:max-h-[70vh]">
-              <div className="flex flex-col gap-4">
-                {resumeLinks.map((link) => (
-                  <ResumeLinkCard key={link.id} link={link} />
-                ))}
-              </div>
-            </ScrollArea>
-
-            {/* Empty State for Resume Links */}
-            {resumeLinks.length === 0 && (
-              <Card className="p-6 md:p-8 text-center">
-                <div className="space-y-4">
-                  <div className="mx-auto w-12 h-12 md:w-16 md:h-16 rounded-full bg-muted flex items-center justify-center">
-                    <Link2 className="h-6 w-6 md:h-8 md:w-8 text-muted-foreground" />
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="font-medium text-base md:text-lg">
-                      No Resume Links
-                    </h3>
-                    <p className="text-xs md:text-sm text-muted-foreground max-w-md mx-auto">
-                      You haven&apos;t created any shareable resume links yet.
-                      Create links to share your resume with specific tag
-                      filters.
-                    </p>
-                  </div>
-                  <div className="pt-2">
-                    <p className="text-xs text-muted-foreground">
-                      Each link can target a specific resume tag for customized
-                      viewing
-                    </p>
-                  </div>
-                </div>
-              </Card>
-            )}
-          </div>
-        </div>
-      </div>
-      <Separator />
       {/* Applications with Access Section */}
       <div>
         <div className="space-y-4">

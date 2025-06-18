@@ -53,7 +53,7 @@ function WorkExperienceEditForm({
 
   const { control, handleSubmit } = form;
 
-  const { fields, append, remove, prepend } = useFieldArray({
+  const { fields, remove, prepend } = useFieldArray({
     control,
     name: "work_experience",
   });
@@ -107,7 +107,7 @@ function WorkExperienceEditForm({
                 type="button"
                 size="sm"
                 className="cursor-pointer"
-                onClick={() =>
+                onClick={() => {
                   prepend({
                     company: "",
                     tags: ["#common"],
@@ -117,8 +117,11 @@ function WorkExperienceEditForm({
                     position: [{ text: "", tags: ["#common"] }],
                     summary: [],
                     highlights: [],
-                  })
-                }
+                  });
+                  toast.success("Added new work experience", {
+                    position: "top-center",
+                  });
+                }}
               >
                 Add Experience
               </Button>
@@ -710,7 +713,12 @@ function WorkExperienceEditForm({
                 <Button
                   variant="destructive"
                   type="button"
-                  onClick={() => remove(index)}
+                  onClick={() => {
+                    remove(index);
+                    toast.success("Removed work experience", {
+                      position: "top-center",
+                    });
+                  }}
                 >
                   Remove Experience
                 </Button>

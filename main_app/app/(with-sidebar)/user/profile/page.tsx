@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
@@ -18,8 +17,6 @@ import {
 } from "@/components/resume-view";
 import { ProjectsCard } from "@/components/resume-view/project-section";
 import BannerTextEdit from "@/components/banner-text-edit";
-import Link from "next/link";
-import { Share2 } from "lucide-react";
 import { DEFAULT_TAG_NAME } from "@/lib/vars";
 
 export default async function ProfilePage({
@@ -61,17 +58,11 @@ export default async function ProfilePage({
   const resumeByTag = resume.getByTag(
     resumeProfile ? resumeProfile : DEFAULT_TAG_NAME
   );
-  const nameInitials = user?.name
-    ? user.name
-        .split(" ")
-        .map((n) => n.charAt(0).toUpperCase())
-        .join("")
-    : "U";
   const tags = user?.resumeTags.map((tag) => tag.resumeTagName) || [];
   return (
     <div className="container mx-auto w-full pb-10">
-      <div className="relative">
-        <div className="h-48 w-full bg-slate-200 dark:bg-neutral-800 flex items-center justify-center">
+      <div className="relative px-1">
+        <div className="h-48 w-full bg-secondary border flex items-center justify-center">
           <div className="font-bold md:text-5xl text-3xl text-center text-slate-800 dark:text-slate-200 italic ">
             {user?.userProfile?.bannerText}
           </div>
@@ -81,45 +72,22 @@ export default async function ProfilePage({
             }
           />
         </div>
-        <div className="absolute -bottom-16 left-8">
-          <div className="h-32 w-32 rounded-full bg-neutral-600 border-4 border-white dark:border-neutral-800 shadow-lg">
-            {session?.user.image && (
-              <Image
-                src={session?.user.image ? session.user.image : "./global.svg"}
-                fill
-                alt=""
-                className="p-2 rounded-full"
-              />
-            )}
-            <div className="flex justify-center items-center h-full text-2xl font-bold">
-              {nameInitials}
-            </div>
-          </div>
-        </div>
       </div>
 
-      <div className="mt-20 mb-8 px-8 flex items-center gap-3">
-        <h1 className="text-2xl font-bold">{user?.name}</h1>
-        <Link
-          href={`/user/setting`}
-          className="text-base text-blue-500 hover:underline flex gap-1"
-        >
-          <Share2 /> <div>Share</div>
-        </Link>
-      </div>
-      <Separator className="my-4" />
-      <div>
-        <Suspense>
-          <SwitchCurrentResumeTag
-            resumeProfileTagName={user?.resumeTags}
-            tagSelected={
-              resumeProfile
-                ? resumeProfile
-                : (user?.resumeTags[0]?.resumeTagName as string)
-            }
-          />
-        </Suspense>
-        <div className="space-y-6 border m-2 mt-6">
+      <div className="">
+        <div className="my-6 md:mx-4 mx-2">
+          <Suspense>
+            <SwitchCurrentResumeTag
+              resumeProfileTagName={user?.resumeTags}
+              tagSelected={
+                resumeProfile
+                  ? resumeProfile
+                  : (user?.resumeTags[0]?.resumeTagName as string)
+              }
+            />
+          </Suspense>
+        </div>
+        <div className="space-y-6 border md:mx-4 mx-2">
           <PersonalDetailsCard
             data={resumeByTag.personal_details}
             dataWithTag={resume.getResume().personal_details}

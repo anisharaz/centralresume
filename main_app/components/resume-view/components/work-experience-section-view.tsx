@@ -20,10 +20,8 @@ export function WorkExperienceSectionView({
     <div className="w-full mx-auto">
       <Card className="border-0 shadow-md bg-gradient-to-br from-background to-muted/10">
         <CardHeader className="pb-3">
-          <CardTitle className="text-3xl lg:text-4xl font-bold tracking-tight flex flex-col lg:flex-row lg:items-center gap-3">
-            <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-              Work Experience
-            </span>
+          <CardTitle className="text-3xl lg:text-4xl font-bold tracking-tight flex lg:items-center gap-3">
+            <span className="">Work Experience</span>
             <div className="flex items-center">{children}</div>
           </CardTitle>
         </CardHeader>
@@ -54,13 +52,7 @@ export function WorkExperienceSectionView({
                     {experience.position && experience.position.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 ml-8">
                         {experience.position.map((pos, posIndex) => (
-                          <Badge
-                            key={posIndex}
-                            variant="secondary"
-                            className="px-2 py-0.5 text-xs font-medium bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
-                          >
-                            {pos.text}
-                          </Badge>
+                          <Badge key={posIndex}>{pos.text}</Badge>
                         ))}
                       </div>
                     )}

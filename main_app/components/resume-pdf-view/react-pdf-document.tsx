@@ -5,16 +5,24 @@ import {
   Text,
   View,
   Font,
+  Line,
   StyleSheet,
 } from "@react-pdf/renderer";
 
 // Define compact styles that match the sample resume format
 const styles = StyleSheet.create({
+  line: {
+    height: 0.6,
+    backgroundColor: "#242424",
+    width: "100%",
+    marginBottom: 4, // Reduced from 8
+  },
   page: {
     flexDirection: "column",
     backgroundColor: "#FFFFFF",
-    padding: 10, // Reduced from 40
-    fontFamily: "Noto Sans Mono",
+    padding: 20, // Reduced from 40
+    paddingHorizontal: 40, // Reduced from 40
+    // fontFamily: "Noto Sans Mono",
     fontSize: 10, // Reduced from 11
     lineHeight: 1.2, // Reduced from 1.3
   },
@@ -34,14 +42,15 @@ const styles = StyleSheet.create({
     fontSize: 10, // Reduced from 11
     color: "#000000",
     // marginBottom: 2,
-    marginTop: 3,
+    marginTop: 6,
+    lineHeight: 0.8, // Reduced from 1.3
   },
   // Section styles
   sectionTitle: {
     fontSize: 12, // Reduced from 14
     fontWeight: "bold",
     marginTop: 12, // Reduced from 20
-    marginBottom: 6, // Reduced from 10
+    marginBottom: 2, // Reduced from 10
     color: "#000000",
   },
   // Entry styles
@@ -156,10 +165,10 @@ export function ResumePDFDocument({
       return typeof date === "string" ? date : date.toString();
     }
   };
-  Font.register({
-    family: "Noto Sans Mono",
-    src: "https://fonts.cdnfonts.com/s/29105/ARIAL.woff",
-  });
+  // Font.register({
+  //   family: "Noto Sans Mono",
+  //   src: "https://fonts.cdnfonts.com/s/29105/ARIAL.woff",
+  // });
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -194,11 +203,18 @@ export function ResumePDFDocument({
         {personal_details.summary?.length > 0 && (
           <View style={styles.sectionContainer}>
             <Text style={styles.sectionTitle}>Summary</Text>
-            {personal_details.summary.map((item, index) => (
-              <Text key={index} style={styles.paragraph}>
-                {item.text}
-              </Text>
-            ))}
+            <View style={styles.line} />
+            <View
+              style={{
+                paddingHorizontal: 6, // Reduced padding
+              }}
+            >
+              {personal_details.summary.map((item, index) => (
+                <Text key={index} style={styles.paragraph}>
+                  {item.text}
+                </Text>
+              ))}
+            </View>
           </View>
         )}
 
@@ -206,31 +222,39 @@ export function ResumePDFDocument({
         {work_experience?.length > 0 && (
           <View style={styles.sectionContainer}>
             <Text style={styles.sectionTitle}>Experience</Text>
-            {work_experience.map((exp, index) => (
-              <View key={index} style={styles.entryContainer}>
-                <View style={styles.entryHeader}>
-                  <Text style={styles.entryTitle}>
-                    {exp.position.map((p) => p.text).join(", ")}, {exp.company}{" "}
-                  </Text>
-                  <Text style={styles.entryDate}>
-                    {formatDate(exp.start_date)} -{" "}
-                    {exp.end_date ? formatDate(exp.end_date) : "Present"}
-                  </Text>
-                </View>
-
-                {/* Highlights as bullet points */}
-                {exp.highlights?.map((highlight, highlightIndex) =>
-                  highlight.text.map((text, textIndex) => (
-                    <Text
-                      key={`${highlightIndex}-${textIndex}`}
-                      style={styles.bulletPoint}
-                    >
-                      • {text}
+            <View style={styles.line} />
+            <View
+              style={{
+                paddingHorizontal: 6, // Reduced padding
+              }}
+            >
+              {work_experience.map((exp, index) => (
+                <View key={index} style={styles.entryContainer}>
+                  <View style={styles.entryHeader}>
+                    <Text style={styles.entryTitle}>
+                      {exp.position.map((p) => p.text).join(", ")},{" "}
+                      {exp.company}{" "}
                     </Text>
-                  ))
-                )}
-              </View>
-            ))}
+                    <Text style={styles.entryDate}>
+                      {formatDate(exp.start_date)} -{" "}
+                      {exp.end_date ? formatDate(exp.end_date) : "Present"}
+                    </Text>
+                  </View>
+
+                  {/* Highlights as bullet points */}
+                  {exp.highlights?.map((highlight, highlightIndex) =>
+                    highlight.text.map((text, textIndex) => (
+                      <Text
+                        key={`${highlightIndex}-${textIndex}`}
+                        style={styles.bulletPoint}
+                      >
+                        • {text}
+                      </Text>
+                    ))
+                  )}
+                </View>
+              ))}
+            </View>
           </View>
         )}
 
@@ -238,17 +262,24 @@ export function ResumePDFDocument({
         {projects?.length > 0 && (
           <View style={styles.sectionContainer}>
             <Text style={styles.sectionTitle}>Projects</Text>
-            {projects.map((project, index) => (
-              <View key={index} style={styles.entryContainer}>
-                <View style={styles.projectHeader}>
-                  <Text style={styles.projectTitle}>{project.title}</Text>
-                  {project.url && (
-                    <Text style={styles.projectUrl}>{project.url}</Text>
-                  )}
+            <View style={styles.line} />
+            <View
+              style={{
+                paddingHorizontal: 6, // Reduced padding
+              }}
+            >
+              {projects.map((project, index) => (
+                <View key={index} style={styles.entryContainer}>
+                  <View style={styles.projectHeader}>
+                    <Text style={styles.projectTitle}>{project.title}</Text>
+                    {project.url && (
+                      <Text style={styles.projectUrl}>{project.url}</Text>
+                    )}
+                  </View>
+                  <Text style={styles.bulletPoint}>• {project.summary}</Text>
                 </View>
-                <Text style={styles.bulletPoint}>• {project.summary}</Text>
-              </View>
-            ))}
+              ))}
+            </View>
           </View>
         )}
 
@@ -256,23 +287,30 @@ export function ResumePDFDocument({
         {education?.length > 0 && (
           <View style={styles.sectionContainer}>
             <Text style={styles.sectionTitle}>Education</Text>
-            {education.map((edu, index) => (
-              <View key={index} style={styles.entryContainer}>
-                <View style={styles.entryHeader}>
-                  <Text style={styles.entryTitle}>
-                    {edu.institution},{" "}
-                    {edu.degree_level.map((d) => d.text).join(" ")} in{" "}
-                    {edu.field.map((f) => f.text).join(", ")}
-                  </Text>
-                  <Text style={styles.entryDate}>
-                    {formatDate(edu.startDate)} – {formatDate(edu.endDate)}
-                  </Text>
+            <View style={styles.line} />
+            <View
+              style={{
+                paddingHorizontal: 6, // Reduced padding
+              }}
+            >
+              {education.map((edu, index) => (
+                <View key={index} style={styles.entryContainer}>
+                  <View style={styles.entryHeader}>
+                    <Text style={styles.entryTitle}>
+                      {edu.institution},{" "}
+                      {edu.degree_level.map((d) => d.text).join(" ")} in{" "}
+                      {edu.field.map((f) => f.text).join(", ")}
+                    </Text>
+                    <Text style={styles.entryDate}>
+                      {formatDate(edu.startDate)} – {formatDate(edu.endDate)}
+                    </Text>
+                  </View>
+                  {edu.score && (
+                    <Text style={styles.bulletPoint}>• score {edu.score}</Text>
+                  )}
                 </View>
-                {edu.score && (
-                  <Text style={styles.bulletPoint}>• score {edu.score}</Text>
-                )}
-              </View>
-            ))}
+              ))}
+            </View>
           </View>
         )}
 
@@ -280,26 +318,33 @@ export function ResumePDFDocument({
         {achievements?.length > 0 && (
           <View style={styles.sectionContainer}>
             <Text style={styles.sectionTitle}>Achievements</Text>
-            {achievements.map((achievement, index) => (
-              <View key={index} style={styles.entryContainer}>
-                <View style={styles.entryHeader}>
-                  <Text style={styles.entryTitle}>{achievement.title}</Text>
-                  <Text style={styles.entryDate}>
-                    {formatDate(achievement.date)}
-                  </Text>
+            <View style={styles.line} />
+            <View
+              style={{
+                paddingHorizontal: 6, // Reduced padding
+              }}
+            >
+              {achievements.map((achievement, index) => (
+                <View key={index} style={styles.entryContainer}>
+                  <View style={styles.entryHeader}>
+                    <Text style={styles.entryTitle}>{achievement.title}</Text>
+                    <Text style={styles.entryDate}>
+                      {formatDate(achievement.date)}
+                    </Text>
+                  </View>
+                  {achievement.awarded_by && (
+                    <Text style={styles.bulletPoint}>
+                      • Awarded by: {achievement.awarded_by}
+                    </Text>
+                  )}
+                  {achievement.summary?.map((summary, summaryIndex) => (
+                    <Text key={summaryIndex} style={styles.bulletPoint}>
+                      • {summary.text}
+                    </Text>
+                  ))}
                 </View>
-                {achievement.awarded_by && (
-                  <Text style={styles.bulletPoint}>
-                    • Awarded by: {achievement.awarded_by}
-                  </Text>
-                )}
-                {achievement.summary?.map((summary, summaryIndex) => (
-                  <Text key={summaryIndex} style={styles.bulletPoint}>
-                    • {summary.text}
-                  </Text>
-                ))}
-              </View>
-            ))}
+              ))}
+            </View>
           </View>
         )}
 
@@ -307,20 +352,27 @@ export function ResumePDFDocument({
         {publications?.length > 0 && (
           <View style={styles.sectionContainer}>
             <Text style={styles.sectionTitle}>Publications</Text>
-            {publications.map((pub, index) => (
-              <View key={index} style={styles.entryContainer}>
-                <Text style={styles.publicationTitle}>{pub.name}</Text>
-                <Text style={styles.publicationDetails}>
-                  {formatDate(pub.releaseDate)}
-                </Text>
-                {pub.summary?.map((summary, summaryIndex) => (
-                  <Text key={summaryIndex} style={styles.publicationDetails}>
-                    {summary.text}
+            <View style={styles.line} />
+            <View
+              style={{
+                paddingHorizontal: 6, // Reduced padding
+              }}
+            >
+              {publications.map((pub, index) => (
+                <View key={index} style={styles.entryContainer}>
+                  <Text style={styles.publicationTitle}>{pub.name}</Text>
+                  <Text style={styles.publicationDetails}>
+                    {formatDate(pub.releaseDate)}
                   </Text>
-                ))}
-                <Text style={styles.publicationDetails}>{pub.url}</Text>
-              </View>
-            ))}
+                  {pub.summary?.map((summary, summaryIndex) => (
+                    <Text key={summaryIndex} style={styles.publicationDetails}>
+                      {summary.text}
+                    </Text>
+                  ))}
+                  <Text style={styles.publicationDetails}>{pub.url}</Text>
+                </View>
+              ))}
+            </View>
           </View>
         )}
 
@@ -328,24 +380,30 @@ export function ResumePDFDocument({
         {(skills?.technical?.length > 0 || skills?.soft?.length > 0) && (
           <View style={styles.sectionContainer}>
             <Text style={styles.sectionTitle}>Skills</Text>
+            <View style={styles.line} />
+            <View
+              style={{
+                paddingHorizontal: 6, // Reduced padding
+              }}
+            >
+              {skills.technical?.length > 0 && (
+                <View style={styles.techSection}>
+                  {/* <Text style={styles.techLabel}>Skills: </Text> */}
+                  <Text style={styles.techList}>
+                    {skills.technical.map((skill) => skill.name).join(", ")}
+                  </Text>
+                </View>
+              )}
 
-            {skills.technical?.length > 0 && (
-              <View style={styles.techSection}>
-                {/* <Text style={styles.techLabel}>Skills: </Text> */}
-                <Text style={styles.techList}>
-                  {skills.technical.map((skill) => skill.name).join(", ")}
-                </Text>
-              </View>
-            )}
-
-            {skills.soft?.length > 0 && (
-              <View style={styles.techSection}>
-                <Text style={styles.techLabel}>Soft Skills:</Text>
-                <Text style={styles.techList}>
-                  {skills.soft.map((skill) => skill.name).join(", ")}
-                </Text>
-              </View>
-            )}
+              {skills.soft?.length > 0 && (
+                <View style={styles.techSection}>
+                  <Text style={styles.techLabel}>Soft Skills:</Text>
+                  <Text style={styles.techList}>
+                    {skills.soft.map((skill) => skill.name).join(", ")}
+                  </Text>
+                </View>
+              )}
+            </View>
           </View>
         )}
 

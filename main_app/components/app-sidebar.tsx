@@ -21,6 +21,7 @@ import {
 } from "./ui/collapsible";
 import { LogoutButton } from "./auth-buttons";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 // Menu items.
 const items = [
@@ -36,10 +37,15 @@ export function AppSidebar() {
   return (
     <Sidebar variant="sidebar">
       <SidebarHeader>
-        <Link href={"/home"}>
-          <div className="font-bold text-xl p-2">
-            Central<span className="text-yellow-300">#resume</span>
+        <Link href={"/home"} className="flex items-center gap-1 p-2">
+          <div className="relative w-10 h-10 max-md:w-12 max-md:h-12">
+            <Image
+              src={"https://static.centralresume.me/logo.svg"}
+              fill
+              alt="Logo"
+            />
           </div>
+          <div className="font-bold text-xl">Central#resume</div>
         </Link>
       </SidebarHeader>
       <SidebarContent>
@@ -66,7 +72,7 @@ export function AppSidebar() {
         <Collapsible defaultOpen className="group/collapsible">
           <SidebarGroup>
             <SidebarGroupLabel asChild>
-              <CollapsibleTrigger className="cursor-pointer hover:bg-neutral-500">
+              <CollapsibleTrigger className="cursor-pointer">
                 Settings Section
                 <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
               </CollapsibleTrigger>

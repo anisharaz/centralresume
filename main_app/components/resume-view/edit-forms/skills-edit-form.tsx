@@ -100,13 +100,16 @@ function SkillsEditForm({
           type="button"
           size="sm"
           className="cursor-pointer"
-          onClick={() =>
-            fieldArray.append({
+          onClick={() => {
+            fieldArray.prepend({
               name: "",
               level: "",
               tags: ["#common"],
-            })
-          }
+            });
+            toast.success(`Added new ${title.split(" ")[0]} skill`, {
+              position: "top-center",
+            });
+          }}
         >
           Add {title.split(" ")[0]} Skill
         </Button>

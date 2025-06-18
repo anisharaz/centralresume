@@ -19,10 +19,8 @@ export function ProjectsSectionView({
     <div className="w-full mx-auto">
       <Card className="border-0 shadow-md bg-gradient-to-br from-background to-muted/10">
         <CardHeader className="pb-3">
-          <CardTitle className="text-3xl lg:text-4xl font-bold tracking-tight flex flex-col lg:flex-row lg:items-center gap-3">
-            <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-              Projects
-            </span>
+          <CardTitle className="text-3xl lg:text-4xl font-bold tracking-tight flex  lg:items-center gap-3">
+            <span>Projects</span>
             <div className="flex items-center">{children}</div>
           </CardTitle>
         </CardHeader>

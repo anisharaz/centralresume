@@ -278,7 +278,12 @@ function PublicationsEditForm({
                   type="button"
                   variant="destructive"
                   size="sm"
-                  onClick={() => removePublication(index)}
+                  onClick={() => {
+                    removePublication(index);
+                    toast.success("Publication removed successfully", {
+                      position: "top-center",
+                    });
+                  }}
                 >
                   Remove Publication
                 </Button>

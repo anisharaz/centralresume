@@ -11,7 +11,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Loader2, CircleHelp } from "lucide-react";
+import { Loader2, CircleHelp, Send } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -22,6 +22,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 function HelpIcon() {
   return (
@@ -58,17 +61,16 @@ function SwitchCurrentResumeTag({
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   return (
-    <div className="space-y-2 px-2">
-      <Label htmlFor="profile" className="md:text-2xl text-lg font-bold italic">
-        Select the tag details to show
-        <HelpIcon />
-      </Label>
+    <div className="flex gap-2 items-center justify-between">
       <div className="flex items-center gap-2">
         <Select
           defaultValue={tagSelected}
           onValueChange={async (value) => {
             setLoading(true);
             await new Promise((resolve) => setTimeout(resolve, 500));
+            toast.info(`Switching tag to: ${value}.`, {
+              position: "top-center",
+            });
             setLoading(false);
             router.replace(
               `/user/profile?resumeProfile=${encodeURIComponent(value)}`
@@ -97,7 +99,23 @@ function SwitchCurrentResumeTag({
             <Loader2 className="animate-spin" />
           </div>
         )}
+        <Label
+          htmlFor="profile"
+          className="md:text-xl text-lg font-bold italic"
+        >
+          Tag
+          <HelpIcon />
+        </Label>
       </div>
+      <Button
+        className="flex items-center gap-2 cursor-pointer md:px-6!"
+        asChild
+      >
+        <Link href={""}>
+          <Send />
+          <div className="text-base">Share</div>
+        </Link>
+      </Button>
     </div>
   );
 }

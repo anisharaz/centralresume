@@ -40,23 +40,15 @@ export function ProfileDetailSectionView({
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
             {/* Name and Title Section */}
             <div className="space-y-3 flex-1">
-              <CardTitle className="text-3xl lg:text-4xl font-bold tracking-tight flex flex-col lg:flex-row lg:items-center gap-3">
-                <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-                  {data.name}
-                </span>
+              <CardTitle className="text-3xl lg:text-4xl font-bold tracking-tight flex lg:items-center gap-3">
+                <span className="">{data.name}</span>
                 <div className="flex items-center">{children}</div>
               </CardTitle>
 
               {data.tag_line && data.tag_line.length > 0 && (
                 <div className="flex flex-wrap gap-1.5">
                   {data.tag_line.map((tag, index) => (
-                    <Badge
-                      key={index}
-                      variant="secondary"
-                      className="px-2 py-0.5 text-xs font-medium bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
-                    >
-                      {tag.text}
-                    </Badge>
+                    <div key={index}>{tag.text}</div>
                   ))}
                 </div>
               )}
