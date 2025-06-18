@@ -92,59 +92,50 @@ function WorkExperienceEditForm({
               position: "top-center",
             });
           })}
-          className="relative h-full overflow-y-scroll space-y-4 p-2"
+          className="relative h-full overflow-y-scroll space-y-4 px-2"
         >
           <datalist id="tags">
             {resumeTags.map((item, index) => (
               <option value={item} key={index} />
             ))}
           </datalist>
-          {fields.map((item, index) => (
-            <div
-              key={item.id}
-              className="border p-4 rounded-lg shadow-sm space-y-4"
-            >
-              <FormField
-                control={control}
-                name={`work_experience.${index}.company`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-lg font-bold">Company</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Company name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          {/* Work Experience Section */}
+          <div className="border p-4 rounded-lg shadow-sm space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold">Work Experience</h3>
+              <Button
+                type="button"
+                size="sm"
+                className="cursor-pointer"
+                onClick={() =>
+                  prepend({
+                    company: "",
+                    tags: ["#common"],
+                    website: "",
+                    start_date: new Date().toISOString().split("T")[0],
+                    end_date: undefined,
+                    position: [{ text: "", tags: ["#common"] }],
+                    summary: [],
+                    highlights: [],
+                  })
+                }
+              >
+                Add Experience
+              </Button>
+            </div>
 
-              <FormField
-                control={control}
-                name={`work_experience.${index}.website`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Website</FormLabel>
-                    <FormControl>
-                      <Input placeholder="https://example.com" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className="flex gap-4">
+            {fields.map((item, index) => (
+              <div key={item.id} className="border p-3 rounded space-y-2">
                 <FormField
                   control={control}
-                  name={`work_experience.${index}.start_date`}
+                  name={`work_experience.${index}.company`}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Start Date</FormLabel>
+                      <FormLabel className="text-lg font-bold">
+                        Company
+                      </FormLabel>
                       <FormControl>
-                        <Input
-                          type="date"
-                          value={formatDateForInput(field.value)}
-                          onChange={(e) => field.onChange(e.target.value)}
-                        />
+                        <Input placeholder="Company name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -153,563 +144,590 @@ function WorkExperienceEditForm({
 
                 <FormField
                   control={control}
-                  name={`work_experience.${index}.end_date`}
+                  name={`work_experience.${index}.website`}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>End Date</FormLabel>
+                      <FormLabel>Website</FormLabel>
                       <FormControl>
-                        <Input
-                          type="date"
-                          value={formatDateForInput(field.value)}
-                          onChange={(e) =>
-                            field.onChange(e.target.value || undefined)
-                          }
-                        />
+                        <Input placeholder="https://example.com" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-              </div>
 
-              {/* Company Tags */}
-              <FormField
-                control={control}
-                name={`work_experience.${index}.tags`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Company Tags</FormLabel>
-                    <FormControl>
-                      <div className="space-y-2">
-                        {field.value?.map((tag, tagIndex) => (
-                          <div
-                            key={tagIndex}
-                            className="flex gap-2 flex-row-reverse items-center"
-                          >
-                            <Input
-                              value={tag}
-                              onChange={(e) => {
-                                const newTags = [...(field.value || [])];
-                                newTags[tagIndex] = e.target.value;
-                                field.onChange(newTags);
-                              }}
-                              placeholder={`Tag ${tagIndex + 1}`}
-                              list="tags"
-                            />
-                            <Button
-                              type="button"
-                              variant="destructive"
-                              size="sm"
-                              onClick={() => {
-                                const newTags =
-                                  field.value?.filter(
-                                    (_, i) => i !== tagIndex
-                                  ) || [];
-                                field.onChange(newTags);
-                              }}
-                              disabled={field.value?.length <= 1}
-                            >
-                              Remove tag
-                            </Button>
-                          </div>
-                        ))}
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={() =>
-                            field.onChange([...(field.value || []), "#common"])
-                          }
-                        >
-                          Add Tag
-                        </Button>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={control}
+                    name={`work_experience.${index}.start_date`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Start Date</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="date"
+                            value={formatDateForInput(field.value)}
+                            onChange={(e) => field.onChange(e.target.value)}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-              {/* Positions */}
-              <div>
-                <FormLabel className="text-lg font-bold">Positions</FormLabel>
-                <div className="space-y-4 mt-2">
-                  {form
-                    .watch(`work_experience.${index}.position`)
-                    ?.map((_, posIndex) => (
-                      <div
-                        key={posIndex}
-                        className="border p-3 rounded space-y-2"
-                      >
-                        <FormField
-                          control={control}
-                          name={`work_experience.${index}.position.${posIndex}.text`}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Position Title</FormLabel>
-                              <FormControl>
-                                <Input
-                                  placeholder="e.g., Senior Software Engineer"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={control}
-                          name={`work_experience.${index}.position.${posIndex}.tags`}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Position Tags</FormLabel>
-                              <FormControl>
-                                <div className="space-y-2">
-                                  {field.value?.map((tag, tagIndex) => (
-                                    <div
-                                      key={tagIndex}
-                                      className="flex gap-2 flex-row-reverse items-center"
-                                    >
-                                      <Input
-                                        value={tag}
-                                        onChange={(e) => {
-                                          const newTags = [
-                                            ...(field.value || []),
-                                          ];
-                                          newTags[tagIndex] = e.target.value;
-                                          field.onChange(newTags);
-                                        }}
-                                        placeholder={`Tag ${tagIndex + 1}`}
-                                        list="tags"
-                                      />
-                                      <Button
-                                        type="button"
-                                        variant="destructive"
-                                        size="sm"
-                                        onClick={() => {
-                                          const newTags =
-                                            field.value?.filter(
-                                              (_, i) => i !== tagIndex
-                                            ) || [];
-                                          field.onChange(newTags);
-                                        }}
-                                        disabled={field.value?.length <= 1}
-                                      >
-                                        Remove tag
-                                      </Button>
-                                    </div>
-                                  ))}
-                                  <Separator className="my-4" />
-                                  <div className="flex gap-2">
-                                    <Button
-                                      type="button"
-                                      variant="destructive"
-                                      size="sm"
-                                      onClick={() => {
-                                        const currentPositions = form.getValues(
-                                          `work_experience.${index}.position`
-                                        );
-                                        const newPositions =
-                                          currentPositions.filter(
-                                            (_, i) => i !== posIndex
-                                          );
-                                        form.setValue(
-                                          `work_experience.${index}.position`,
-                                          newPositions
-                                        );
-                                      }}
-                                      disabled={
-                                        form.watch(
-                                          `work_experience.${index}.position`
-                                        )?.length <= 1
-                                      }
-                                    >
-                                      Remove Position
-                                    </Button>
-                                    <Button
-                                      type="button"
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={() =>
-                                        field.onChange([
-                                          ...(field.value || []),
-                                          "#common",
-                                        ])
-                                      }
-                                    >
-                                      Add Position Tag
-                                    </Button>
-                                  </div>
-                                </div>
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-                    ))}
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => {
-                      const currentPositions = form.getValues(
-                        `work_experience.${index}.position`
-                      );
-                      form.setValue(`work_experience.${index}.position`, [
-                        ...currentPositions,
-                        { text: "", tags: ["#common"] },
-                      ]);
-                    }}
-                  >
-                    Add Position
-                  </Button>
+                  <FormField
+                    control={control}
+                    name={`work_experience.${index}.end_date`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>End Date</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="date"
+                            value={formatDateForInput(field.value)}
+                            onChange={(e) =>
+                              field.onChange(e.target.value || undefined)
+                            }
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
-              </div>
 
-              {/* Summary */}
-              <div>
-                <FormLabel className="text-lg font-bold">Summary</FormLabel>
-                <div className="space-y-4 mt-2">
-                  {form
-                    .watch(`work_experience.${index}.summary`)
-                    ?.map((_, summaryIndex) => (
-                      <div
-                        key={summaryIndex}
-                        className="border p-3 rounded space-y-2"
-                      >
-                        <FormField
-                          control={control}
-                          name={`work_experience.${index}.summary.${summaryIndex}.text`}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Summary Text</FormLabel>
-                              <FormControl>
-                                <Input
-                                  placeholder="Describe your role and responsibilities"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={control}
-                          name={`work_experience.${index}.summary.${summaryIndex}.tags`}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Summary Tags</FormLabel>
-                              <FormControl>
-                                <div className="space-y-2">
-                                  {field.value?.map((tag, tagIndex) => (
-                                    <div
-                                      key={tagIndex}
-                                      className="flex gap-2 flex-row-reverse items-center"
-                                    >
-                                      <Input
-                                        value={tag}
-                                        onChange={(e) => {
-                                          const newTags = [
-                                            ...(field.value || []),
-                                          ];
-                                          newTags[tagIndex] = e.target.value;
-                                          field.onChange(newTags);
-                                        }}
-                                        placeholder={`Tag ${tagIndex + 1}`}
-                                        list="tags"
-                                      />
-                                      <Button
-                                        type="button"
-                                        variant="destructive"
-                                        size="sm"
-                                        onClick={() => {
-                                          const newTags =
-                                            field.value?.filter(
-                                              (_, i) => i !== tagIndex
-                                            ) || [];
-                                          field.onChange(newTags);
-                                        }}
-                                        disabled={field.value?.length <= 1}
-                                      >
-                                        Remove tag
-                                      </Button>
-                                    </div>
-                                  ))}
-                                  <Separator className="my-4" />
-                                  <div className="flex gap-2">
-                                    <Button
-                                      type="button"
-                                      variant="destructive"
-                                      size="sm"
-                                      onClick={() => {
-                                        const currentSummary = form.getValues(
-                                          `work_experience.${index}.summary`
-                                        );
-                                        const newSummary =
-                                          currentSummary.filter(
-                                            (_, i) => i !== summaryIndex
-                                          );
-                                        form.setValue(
-                                          `work_experience.${index}.summary`,
-                                          newSummary
-                                        );
-                                      }}
-                                    >
-                                      Remove Summary
-                                    </Button>
-                                    <Button
-                                      type="button"
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={() =>
-                                        field.onChange([
-                                          ...(field.value || []),
-                                          "#common",
-                                        ])
-                                      }
-                                    >
-                                      Add Summary Tag
-                                    </Button>
-                                  </div>
-                                </div>
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-                    ))}
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => {
-                      const currentSummary = form.getValues(
-                        `work_experience.${index}.summary`
-                      );
-                      form.setValue(`work_experience.${index}.summary`, [
-                        ...currentSummary,
-                        { text: "", tags: ["#common"] },
-                      ]);
-                    }}
-                  >
-                    Add Summary
-                  </Button>
-                </div>
-              </div>
-
-              {/* Highlights */}
-              <div>
-                <FormLabel className="text-lg font-bold">Highlights</FormLabel>
-                <div className="space-y-4 mt-2">
-                  {form
-                    .watch(`work_experience.${index}.highlights`)
-                    ?.map((_, highlightIndex) => (
-                      <div
-                        key={highlightIndex}
-                        className="border p-3 rounded space-y-2"
-                      >
-                        <FormLabel>Highlight Items</FormLabel>
+                {/* Company Tags */}
+                <FormField
+                  control={control}
+                  name={`work_experience.${index}.tags`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Company Tags</FormLabel>
+                      <FormControl>
                         <div className="space-y-2">
-                          {form
-                            .watch(
-                              `work_experience.${index}.highlights.${highlightIndex}.text`
-                            )
-                            ?.map((_, textIndex) => (
-                              <div key={textIndex} className="flex gap-2">
-                                <FormField
-                                  control={control}
-                                  name={`work_experience.${index}.highlights.${highlightIndex}.text.${textIndex}`}
-                                  render={({ field }) => (
-                                    <FormItem className="flex-1">
-                                      <FormControl>
-                                        <Input
-                                          placeholder="Achievement or highlight"
-                                          {...field}
-                                        />
-                                      </FormControl>
-                                      <FormMessage />
-                                    </FormItem>
-                                  )}
-                                />
-                                <Button
-                                  type="button"
-                                  variant="outline"
-                                  size="sm"
-                                  onClick={() => {
-                                    const currentTexts = form.getValues(
-                                      `work_experience.${index}.highlights.${highlightIndex}.text`
-                                    );
-                                    const newTexts = currentTexts.filter(
-                                      (_, i) => i !== textIndex
-                                    );
-                                    form.setValue(
-                                      `work_experience.${index}.highlights.${highlightIndex}.text`,
-                                      newTexts
-                                    );
-                                  }}
-                                >
-                                  Remove
-                                </Button>
-                              </div>
-                            ))}
+                          {field.value?.map((tag, tagIndex) => (
+                            <div
+                              key={tagIndex}
+                              className="flex gap-2 flex-row-reverse items-center"
+                            >
+                              <Input
+                                value={tag}
+                                onChange={(e) => {
+                                  const newTags = [...(field.value || [])];
+                                  newTags[tagIndex] = e.target.value;
+                                  field.onChange(newTags);
+                                }}
+                                placeholder={`Tag ${tagIndex + 1}`}
+                                list="tags"
+                              />
+                              <Button
+                                type="button"
+                                variant="destructive"
+                                size="sm"
+                                onClick={() => {
+                                  const newTags =
+                                    field.value?.filter(
+                                      (_, i) => i !== tagIndex
+                                    ) || [];
+                                  field.onChange(newTags);
+                                }}
+                                disabled={field.value?.length <= 1}
+                              >
+                                Remove tag
+                              </Button>
+                            </div>
+                          ))}
                           <Button
                             type="button"
                             variant="outline"
                             size="sm"
-                            onClick={() => {
-                              const currentTexts = form.getValues(
-                                `work_experience.${index}.highlights.${highlightIndex}.text`
-                              );
-                              form.setValue(
-                                `work_experience.${index}.highlights.${highlightIndex}.text`,
-                                [...currentTexts, ""]
-                              );
-                            }}
+                            onClick={() =>
+                              field.onChange([
+                                ...(field.value || []),
+                                "#common",
+                              ])
+                            }
                           >
-                            Add Highlight Item
+                            Add Tag
                           </Button>
                         </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                        <FormField
-                          control={control}
-                          name={`work_experience.${index}.highlights.${highlightIndex}.tags`}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Highlight Tags</FormLabel>
-                              <FormControl>
-                                <div className="space-y-2">
-                                  {field.value?.map((tag, tagIndex) => (
-                                    <div
-                                      key={tagIndex}
-                                      className="flex gap-2 flex-row-reverse items-center"
-                                    >
-                                      <Input
-                                        value={tag}
-                                        onChange={(e) => {
-                                          const newTags = [
-                                            ...(field.value || []),
-                                          ];
-                                          newTags[tagIndex] = e.target.value;
-                                          field.onChange(newTags);
-                                        }}
-                                        placeholder={`Tag ${tagIndex + 1}`}
-                                        list="tags"
-                                      />
+                {/* Positions */}
+                <div>
+                  <FormLabel className="text-lg font-bold">Positions</FormLabel>
+                  <div className="space-y-4 mt-2">
+                    {form
+                      .watch(`work_experience.${index}.position`)
+                      ?.map((_, posIndex) => (
+                        <div
+                          key={posIndex}
+                          className="border p-3 rounded space-y-2"
+                        >
+                          <FormField
+                            control={control}
+                            name={`work_experience.${index}.position.${posIndex}.text`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Position Title</FormLabel>
+                                <FormControl>
+                                  <Input
+                                    placeholder="e.g., Senior Software Engineer"
+                                    {...field}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={control}
+                            name={`work_experience.${index}.position.${posIndex}.tags`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Position Tags</FormLabel>
+                                <FormControl>
+                                  <div className="space-y-2">
+                                    {field.value?.map((tag, tagIndex) => (
+                                      <div
+                                        key={tagIndex}
+                                        className="flex gap-2 flex-row-reverse items-center"
+                                      >
+                                        <Input
+                                          value={tag}
+                                          onChange={(e) => {
+                                            const newTags = [
+                                              ...(field.value || []),
+                                            ];
+                                            newTags[tagIndex] = e.target.value;
+                                            field.onChange(newTags);
+                                          }}
+                                          placeholder={`Tag ${tagIndex + 1}`}
+                                          list="tags"
+                                        />
+                                        <Button
+                                          type="button"
+                                          variant="destructive"
+                                          size="sm"
+                                          onClick={() => {
+                                            const newTags =
+                                              field.value?.filter(
+                                                (_, i) => i !== tagIndex
+                                              ) || [];
+                                            field.onChange(newTags);
+                                          }}
+                                          disabled={field.value?.length <= 1}
+                                        >
+                                          Remove tag
+                                        </Button>
+                                      </div>
+                                    ))}
+                                    <Separator className="my-4" />
+                                    <div className="flex gap-2">
                                       <Button
                                         type="button"
                                         variant="destructive"
                                         size="sm"
                                         onClick={() => {
-                                          const newTags =
-                                            field.value?.filter(
-                                              (_, i) => i !== tagIndex
-                                            ) || [];
-                                          field.onChange(newTags);
+                                          const currentPositions =
+                                            form.getValues(
+                                              `work_experience.${index}.position`
+                                            );
+                                          const newPositions =
+                                            currentPositions.filter(
+                                              (_, i) => i !== posIndex
+                                            );
+                                          form.setValue(
+                                            `work_experience.${index}.position`,
+                                            newPositions
+                                          );
                                         }}
-                                        disabled={field.value?.length <= 1}
+                                        disabled={
+                                          form.watch(
+                                            `work_experience.${index}.position`
+                                          )?.length <= 1
+                                        }
                                       >
-                                        Remove tag
+                                        Remove Position
+                                      </Button>
+                                      <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() =>
+                                          field.onChange([
+                                            ...(field.value || []),
+                                            "#common",
+                                          ])
+                                        }
+                                      >
+                                        Add Position Tag
                                       </Button>
                                     </div>
-                                  ))}
-                                  <Separator className="my-4" />
-                                  <div className="flex gap-2">
-                                    <Button
-                                      type="button"
-                                      variant="destructive"
-                                      size="sm"
-                                      onClick={() => {
-                                        const currentHighlights =
-                                          form.getValues(
-                                            `work_experience.${index}.highlights`
-                                          );
-                                        const newHighlights =
-                                          currentHighlights.filter(
-                                            (_, i) => i !== highlightIndex
-                                          );
-                                        form.setValue(
-                                          `work_experience.${index}.highlights`,
-                                          newHighlights
-                                        );
-                                      }}
-                                    >
-                                      Remove Highlight
-                                    </Button>
-                                    <Button
-                                      type="button"
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={() =>
-                                        field.onChange([
-                                          ...(field.value || []),
-                                          "#common",
-                                        ])
-                                      }
-                                    >
-                                      Add Highlight Tag
-                                    </Button>
                                   </div>
-                                </div>
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-                    ))}
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => {
-                      const currentHighlights = form.getValues(
-                        `work_experience.${index}.highlights`
-                      );
-                      form.setValue(`work_experience.${index}.highlights`, [
-                        ...currentHighlights,
-                        { text: [""], tags: ["#common"] },
-                      ]);
-                    }}
-                  >
-                    Add Highlight
-                  </Button>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      ))}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => {
+                        const currentPositions = form.getValues(
+                          `work_experience.${index}.position`
+                        );
+                        form.setValue(`work_experience.${index}.position`, [
+                          ...currentPositions,
+                          { text: "", tags: ["#common"] },
+                        ]);
+                      }}
+                    >
+                      Add Position
+                    </Button>
+                  </div>
                 </div>
-              </div>
 
-              <Button
-                variant="destructive"
-                type="button"
-                onClick={() => remove(index)}
-              >
-                Remove Experience
-              </Button>
-            </div>
-          ))}
-          <div className="flex gap-4 sticky bottom-0 bg-background p-4 border-t">
-            <Button type="submit" disabled={form.formState.isSubmitting}>
+                {/* Summary */}
+                <div>
+                  <FormLabel className="text-lg font-bold">Summary</FormLabel>
+                  <div className="space-y-4 mt-2">
+                    {form
+                      .watch(`work_experience.${index}.summary`)
+                      ?.map((_, summaryIndex) => (
+                        <div
+                          key={summaryIndex}
+                          className="border p-3 rounded space-y-2"
+                        >
+                          <FormField
+                            control={control}
+                            name={`work_experience.${index}.summary.${summaryIndex}.text`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Summary Text</FormLabel>
+                                <FormControl>
+                                  <Input
+                                    placeholder="Describe your role and responsibilities"
+                                    {...field}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={control}
+                            name={`work_experience.${index}.summary.${summaryIndex}.tags`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Summary Tags</FormLabel>
+                                <FormControl>
+                                  <div className="space-y-2">
+                                    {field.value?.map((tag, tagIndex) => (
+                                      <div
+                                        key={tagIndex}
+                                        className="flex gap-2 flex-row-reverse items-center"
+                                      >
+                                        <Input
+                                          value={tag}
+                                          onChange={(e) => {
+                                            const newTags = [
+                                              ...(field.value || []),
+                                            ];
+                                            newTags[tagIndex] = e.target.value;
+                                            field.onChange(newTags);
+                                          }}
+                                          placeholder={`Tag ${tagIndex + 1}`}
+                                          list="tags"
+                                        />
+                                        <Button
+                                          type="button"
+                                          variant="destructive"
+                                          size="sm"
+                                          onClick={() => {
+                                            const newTags =
+                                              field.value?.filter(
+                                                (_, i) => i !== tagIndex
+                                              ) || [];
+                                            field.onChange(newTags);
+                                          }}
+                                          disabled={field.value?.length <= 1}
+                                        >
+                                          Remove tag
+                                        </Button>
+                                      </div>
+                                    ))}
+                                    <Separator className="my-4" />
+                                    <div className="flex gap-2">
+                                      <Button
+                                        type="button"
+                                        variant="destructive"
+                                        size="sm"
+                                        onClick={() => {
+                                          const currentSummary = form.getValues(
+                                            `work_experience.${index}.summary`
+                                          );
+                                          const newSummary =
+                                            currentSummary.filter(
+                                              (_, i) => i !== summaryIndex
+                                            );
+                                          form.setValue(
+                                            `work_experience.${index}.summary`,
+                                            newSummary
+                                          );
+                                        }}
+                                      >
+                                        Remove Summary
+                                      </Button>
+                                      <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() =>
+                                          field.onChange([
+                                            ...(field.value || []),
+                                            "#common",
+                                          ])
+                                        }
+                                      >
+                                        Add Summary Tag
+                                      </Button>
+                                    </div>
+                                  </div>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      ))}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => {
+                        const currentSummary = form.getValues(
+                          `work_experience.${index}.summary`
+                        );
+                        form.setValue(`work_experience.${index}.summary`, [
+                          ...currentSummary,
+                          { text: "", tags: ["#common"] },
+                        ]);
+                      }}
+                    >
+                      Add Summary
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Highlights */}
+                <div>
+                  <FormLabel className="text-lg font-bold">
+                    Highlights
+                  </FormLabel>
+                  <div className="space-y-4 mt-2">
+                    {form
+                      .watch(`work_experience.${index}.highlights`)
+                      ?.map((_, highlightIndex) => (
+                        <div
+                          key={highlightIndex}
+                          className="border p-3 rounded space-y-2"
+                        >
+                          <FormLabel>Highlight Items</FormLabel>
+                          <div className="space-y-2">
+                            {form
+                              .watch(
+                                `work_experience.${index}.highlights.${highlightIndex}.text`
+                              )
+                              ?.map((_, textIndex) => (
+                                <div key={textIndex} className="flex gap-2">
+                                  <FormField
+                                    control={control}
+                                    name={`work_experience.${index}.highlights.${highlightIndex}.text.${textIndex}`}
+                                    render={({ field }) => (
+                                      <FormItem className="flex-1">
+                                        <FormControl>
+                                          <Input
+                                            placeholder="Achievement or highlight"
+                                            {...field}
+                                          />
+                                        </FormControl>
+                                        <FormMessage />
+                                      </FormItem>
+                                    )}
+                                  />
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => {
+                                      const currentTexts = form.getValues(
+                                        `work_experience.${index}.highlights.${highlightIndex}.text`
+                                      );
+                                      const newTexts = currentTexts.filter(
+                                        (_, i) => i !== textIndex
+                                      );
+                                      form.setValue(
+                                        `work_experience.${index}.highlights.${highlightIndex}.text`,
+                                        newTexts
+                                      );
+                                    }}
+                                  >
+                                    Remove
+                                  </Button>
+                                </div>
+                              ))}
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="sm"
+                              onClick={() => {
+                                const currentTexts = form.getValues(
+                                  `work_experience.${index}.highlights.${highlightIndex}.text`
+                                );
+                                form.setValue(
+                                  `work_experience.${index}.highlights.${highlightIndex}.text`,
+                                  [...currentTexts, ""]
+                                );
+                              }}
+                            >
+                              Add Highlight Item
+                            </Button>
+                          </div>
+
+                          <FormField
+                            control={control}
+                            name={`work_experience.${index}.highlights.${highlightIndex}.tags`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Highlight Tags</FormLabel>
+                                <FormControl>
+                                  <div className="space-y-2">
+                                    {field.value?.map((tag, tagIndex) => (
+                                      <div
+                                        key={tagIndex}
+                                        className="flex gap-2 flex-row-reverse items-center"
+                                      >
+                                        <Input
+                                          value={tag}
+                                          onChange={(e) => {
+                                            const newTags = [
+                                              ...(field.value || []),
+                                            ];
+                                            newTags[tagIndex] = e.target.value;
+                                            field.onChange(newTags);
+                                          }}
+                                          placeholder={`Tag ${tagIndex + 1}`}
+                                          list="tags"
+                                        />
+                                        <Button
+                                          type="button"
+                                          variant="destructive"
+                                          size="sm"
+                                          onClick={() => {
+                                            const newTags =
+                                              field.value?.filter(
+                                                (_, i) => i !== tagIndex
+                                              ) || [];
+                                            field.onChange(newTags);
+                                          }}
+                                          disabled={field.value?.length <= 1}
+                                        >
+                                          Remove tag
+                                        </Button>
+                                      </div>
+                                    ))}
+                                    <Separator className="my-4" />
+                                    <div className="flex gap-2">
+                                      <Button
+                                        type="button"
+                                        variant="destructive"
+                                        size="sm"
+                                        onClick={() => {
+                                          const currentHighlights =
+                                            form.getValues(
+                                              `work_experience.${index}.highlights`
+                                            );
+                                          const newHighlights =
+                                            currentHighlights.filter(
+                                              (_, i) => i !== highlightIndex
+                                            );
+                                          form.setValue(
+                                            `work_experience.${index}.highlights`,
+                                            newHighlights
+                                          );
+                                        }}
+                                      >
+                                        Remove Highlight
+                                      </Button>
+                                      <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() =>
+                                          field.onChange([
+                                            ...(field.value || []),
+                                            "#common",
+                                          ])
+                                        }
+                                      >
+                                        Add Highlight Tag
+                                      </Button>
+                                    </div>
+                                  </div>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      ))}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => {
+                        const currentHighlights = form.getValues(
+                          `work_experience.${index}.highlights`
+                        );
+                        form.setValue(`work_experience.${index}.highlights`, [
+                          ...currentHighlights,
+                          { text: [""], tags: ["#common"] },
+                        ]);
+                      }}
+                    >
+                      Add Highlight
+                    </Button>
+                  </div>
+                </div>
+
+                <Button
+                  variant="destructive"
+                  type="button"
+                  onClick={() => remove(index)}
+                >
+                  Remove Experience
+                </Button>
+              </div>
+            ))}
+          </div>
+
+          <div className="sticky bottom-0 bg-background p-4 border-t">
+            <Button
+              type="submit"
+              disabled={form.formState.isSubmitting}
+              className="w-full"
+            >
               {form.formState.isSubmitting && (
                 <Loader2 className="animate-spin mr-2" />
               )}
               Save Changes
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() =>
-                prepend({
-                  company: "",
-                  tags: ["#common"],
-                  website: "",
-                  start_date: new Date().toISOString().split("T")[0],
-                  end_date: undefined,
-                  position: [{ text: "", tags: ["#common"] }],
-                  summary: [],
-                  highlights: [],
-                })
-              }
-            >
-              Add New Experience
             </Button>
           </div>
         </form>
