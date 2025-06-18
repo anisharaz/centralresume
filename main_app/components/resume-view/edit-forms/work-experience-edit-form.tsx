@@ -698,8 +698,8 @@ function WorkExperienceEditForm({
                   start_date: new Date().toISOString().split("T")[0],
                   end_date: undefined,
                   position: [{ text: "", tags: ["#common"] }],
-                  summary: [{ text: "", tags: ["#common"] }],
-                  highlights: [{ text: [""], tags: ["#common"] }],
+                  summary: [],
+                  highlights: [],
                 })
               }
             >
