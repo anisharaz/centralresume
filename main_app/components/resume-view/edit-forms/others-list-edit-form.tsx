@@ -78,7 +78,13 @@ function OthersListEditForm({
     <BaseSheetComponentForEdit title={title} description={description}>
       <Form {...form}>
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit, () => {
+            toast.error("Required fields have red titles", {
+              description: "fill in the required fields to proceed.",
+              position: "top-center",
+              duration: 5000,
+            });
+          })}
           className="relative h-full overflow-y-scroll space-y-4 px-2"
         >
           <datalist id="tags">

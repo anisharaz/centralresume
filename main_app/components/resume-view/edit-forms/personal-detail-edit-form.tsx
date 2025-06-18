@@ -16,7 +16,7 @@ import { PERSONAL_DETAILS_SCHEMA } from "@/lib/zod/schemas/resume/personal-detai
 import { z } from "zod";
 import { RESUME_TYPE } from "@/lib/zod/schemas";
 import { updateResume } from "@/app/actions/resume/update-resume";
-import { toast } from "sonner";
+import { toast, Toaster } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
@@ -92,7 +92,13 @@ function PersonalDetailEditForm({
     <BaseSheetComponentForEdit title={title} description={description}>
       <Form {...form}>
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit, (err) => {
+            toast.error("Required fields have red titles", {
+              description: "fill in the required fields to proceed.",
+              position: "top-center",
+              duration: 5000,
+            });
+          })}
           className="relative h-full overflow-y-scroll space-y-4 px-2"
         >
           <datalist id="tags">

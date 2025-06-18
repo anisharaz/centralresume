@@ -53,7 +53,7 @@ function WorkExperienceEditForm({
 
   const { control, handleSubmit } = form;
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, prepend } = useFieldArray({
     control,
     name: "work_experience",
   });
@@ -85,7 +85,13 @@ function WorkExperienceEditForm({
     <BaseSheetComponentForEdit title={title} description={description}>
       <Form {...form}>
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit, () => {
+            toast.error("Required fields have red titles", {
+              description: "fill in the required fields to proceed.",
+              duration: 5000,
+              position: "top-center",
+            });
+          })}
           className="relative h-full overflow-y-scroll space-y-4 p-2"
         >
           <datalist id="tags">
@@ -691,7 +697,7 @@ function WorkExperienceEditForm({
               type="button"
               variant="outline"
               onClick={() =>
-                append({
+                prepend({
                   company: "",
                   tags: ["#common"],
                   website: "",
