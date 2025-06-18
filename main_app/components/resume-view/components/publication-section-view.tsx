@@ -115,7 +115,7 @@ export function PublicationsSectionView({
                       {publication.summary.map((item, summaryIndex) => (
                         <p
                           key={summaryIndex}
-                          className="text-muted-foreground leading-relaxed text-sm"
+                          className="text-muted-foreground leading-relaxed text-sm text-wrap break-all"
                         >
                           {item.text}
                         </p>
