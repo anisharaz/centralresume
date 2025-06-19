@@ -59,7 +59,7 @@ function CreateNewTag({ existingTags = [] }: CreateNewTagProps) {
     startTransition(async () => {
       try {
         const result = await createTag({
-          fromTag: data.fromTag || undefined,
+          fromTag: data.fromTag,
           newTagName: data.newTagName,
           visibility: data.visibility,
         });
@@ -72,6 +72,10 @@ function CreateNewTag({ existingTags = [] }: CreateNewTagProps) {
           window.location.reload();
         } else {
           toast.error(result.error || "Failed to create tag");
+          form.setError("root", {
+            type: "manual",
+            message: result.error as string,
+          });
         }
       } catch (error) {
         toast.error("An unexpected error occurred");
@@ -111,7 +115,7 @@ function CreateNewTag({ existingTags = [] }: CreateNewTagProps) {
                     <SelectContent>
                       {existingTags.length > 0 ? (
                         existingTags.map((tag) => (
-                          <SelectItem key={tag.id} value={tag.id}>
+                          <SelectItem key={tag.id} value={tag.resumeTagName}>
                             {tag.resumeTagName} ({tag.visibility.toLowerCase()})
                           </SelectItem>
                         ))
@@ -144,7 +148,10 @@ function CreateNewTag({ existingTags = [] }: CreateNewTagProps) {
                 </FormItem>
               )}
             />
-
+            {form.formState.errors.root &&
+            form.formState.errors.root.message ? (
+              <FormMessage>{form.formState.errors.root.message}</FormMessage>
+            ) : null}
             <div className="flex gap-2 pt-4">
               <Button
                 type="submit"

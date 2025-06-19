@@ -34,7 +34,7 @@ export default async function TagsSettingPage() {
         {tags.map((tag) => (
           <div
             key={tag.id}
-            className="p-4 flex flex-col md:flex-row gap-2 border justify-between items-center rounded-lg"
+            className="p-4 flex flex-col md:flex-row gap-4 md:gap-2 border justify-between items-center rounded-lg"
           >
             <div className="flex gap-3 items-center">
               <Tag className="h-5 w-5 text-muted-foreground" />

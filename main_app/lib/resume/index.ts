@@ -30,6 +30,43 @@ export class Resume {
   }
 
   /**
+   * copyTag
+   */
+  public copyTag({
+    fromTag,
+    newTagName,
+  }: {
+    fromTag: string;
+    newTagName: string;
+  }) {
+    function addTagWhereExists(data: any): any {
+      if (Array.isArray(data)) {
+        return data.map((item) => addTagWhereExists(item));
+      } else if (typeof data === "object" && data !== null) {
+        const result: Record<string, any> = {};
+        for (const key in data) {
+          if (key === "tags" && Array.isArray(data[key])) {
+            // If this tags array contains fromTag, add newTagName if not already present
+            if (data[key].includes(fromTag)) {
+              result[key] = data[key].includes(newTagName)
+                ? data[key]
+                : [...data[key], newTagName];
+            } else {
+              result[key] = data[key];
+            }
+          } else {
+            result[key] = addTagWhereExists(data[key]);
+          }
+        }
+        return result;
+      }
+      return data;
+    }
+
+    this.data = addTagWhereExists(this.data);
+  }
+
+  /**
    * getByTag
    */
   public getByTag(tag: string): ResumeDataType {
