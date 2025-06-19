@@ -1,5 +1,5 @@
 "use client";
-import { ChevronDown, Settings, User, Lock } from "lucide-react";
+import { ChevronDown, Settings, User, Lock, Share2 } from "lucide-react";
 
 import {
   Sidebar,
@@ -80,11 +80,11 @@ export function AppSidebar() {
             <CollapsibleContent className="space-y-2">
               <SidebarMenuButton
                 asChild
-                isActive={pathName.endsWith("/user/setting")}
+                isActive={pathName.endsWith("/user/setting/sharing")}
               >
-                <Link href={"/user/setting"}>
-                  <Settings />
-                  <span>Settings</span>
+                <Link href={"/user/setting/sharing"}>
+                  <Share2 />
+                  <span>Sharing</span>
                 </Link>
               </SidebarMenuButton>
               <SidebarMenuButton
