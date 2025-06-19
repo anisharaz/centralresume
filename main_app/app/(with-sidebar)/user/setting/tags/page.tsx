@@ -2,8 +2,8 @@ import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
 import { headers } from "next/headers";
 import { DeleteTagButton } from "./delete-tag-button";
-import { Plus, Tag } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Tag } from "lucide-react";
+import CreateNewTag from "./create-new-tag";
 
 export default async function TagsSettingPage() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -25,10 +25,7 @@ export default async function TagsSettingPage() {
           Manage your resume tags to organize your different profiles.
         </p>
       </div>
-      <Button>
-        {" "}
-        <Plus /> Create New Tag
-      </Button>
+      <CreateNewTag existingTags={tags} />
       <div className=" flex flex-col max-w-4xl gap-4">
         {tags.map((tag) => (
           <div
