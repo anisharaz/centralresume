@@ -57,7 +57,7 @@ export default function GettingStartedFormV2({
       publications: [],
       otherLists: [],
     },
-    mode: "onBlur", // Change to onBlur for better UX
+    mode: "all",
   });
 
   const onSubmit = async (data: RESUME_TYPE) => {
