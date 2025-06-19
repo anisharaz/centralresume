@@ -1,5 +1,5 @@
 "use client";
-import { ChevronDown, Settings, User, Lock, Share2 } from "lucide-react";
+import { ChevronDown, Settings, User, Lock, Share2, Tag } from "lucide-react";
 
 import {
   Sidebar,
@@ -89,13 +89,22 @@ export function AppSidebar() {
               </SidebarMenuButton>
               <SidebarMenuButton
                 asChild
+                isActive={pathName.endsWith("/user/setting/tags")}
+              >
+                <Link href={"/user/setting/tags"}>
+                  <Tag />
+                  <span>Tags Management</span>
+                </Link>
+              </SidebarMenuButton>
+              {/* <SidebarMenuButton
+                asChild
                 isActive={pathName.endsWith("/user/setting/oauth")}
               >
                 <Link href={"/user/setting/oauth"}>
                   <Lock />
                   <span>oauth client</span>
                 </Link>
-              </SidebarMenuButton>
+              </SidebarMenuButton> */}
             </CollapsibleContent>
           </SidebarGroup>
         </Collapsible>
