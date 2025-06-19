@@ -1,13 +1,5 @@
 import type { ResumeDataType } from "@/lib/types";
-import {
-  Document,
-  Page,
-  Text,
-  View,
-  Font,
-  Line,
-  StyleSheet,
-} from "@react-pdf/renderer";
+import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 
 // Define compact styles that match the sample resume format
 const styles = StyleSheet.create({
@@ -388,7 +380,7 @@ export function ResumePDFDocument({
             >
               {skills.technical?.length > 0 && (
                 <View style={styles.techSection}>
-                  {/* <Text style={styles.techLabel}>Skills: </Text> */}
+                  <Text style={styles.techLabel}>- </Text>
                   <Text style={styles.techList}>
                     {skills.technical.map((skill) => skill.name).join(", ")}
                   </Text>
@@ -397,7 +389,7 @@ export function ResumePDFDocument({
 
               {skills.soft?.length > 0 && (
                 <View style={styles.techSection}>
-                  <Text style={styles.techLabel}>Soft Skills:</Text>
+                  <Text style={styles.techLabel}>- </Text>
                   <Text style={styles.techList}>
                     {skills.soft.map((skill) => skill.name).join(", ")}
                   </Text>

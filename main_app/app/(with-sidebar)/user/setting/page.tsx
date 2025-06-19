@@ -15,7 +15,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Separator } from "@/components/ui/separator";
+
 import {
   AlertTriangle,
   Globe,
@@ -89,7 +89,7 @@ export default async function UserSettings() {
   });
 
   return (
-    <div className="container mx-auto p-4 md:p-6 space-y-4 md:space-y-16">
+    <div className="container mx-auto p-4 md:p-6 space-y-10 md:space-y-16">
       {/* Header Section */}
       <div className="space-y-2">
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight">

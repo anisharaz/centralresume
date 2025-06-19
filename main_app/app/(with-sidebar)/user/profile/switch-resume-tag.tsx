@@ -111,7 +111,7 @@ function SwitchCurrentResumeTag({
         className="flex items-center gap-2 cursor-pointer md:px-6!"
         asChild
       >
-        <Link href={""}>
+        <Link href={"/user/setting"}>
           <Send />
           <div className="text-base">Share</div>
         </Link>

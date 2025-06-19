@@ -6,6 +6,7 @@ import prisma from "@/lib/db";
 import { Suspense } from "react";
 import { getResumeFromResumeStore } from "@/lib/services/resume-store";
 import { Resume } from "@/lib/resume";
+import BannerBg from "@/public/banner_bg.jpg";
 import {
   AchievementsCard,
   EducationCard,
@@ -18,6 +19,7 @@ import {
 import { ProjectsCard } from "@/components/resume-view/project-section";
 import BannerTextEdit from "@/components/banner-text-edit";
 import { DEFAULT_TAG_NAME } from "@/lib/vars";
+import Image from "next/image";
 
 export default async function ProfilePage({
   searchParams,
@@ -61,14 +63,15 @@ export default async function ProfilePage({
   const tags = user?.resumeTags.map((tag) => tag.resumeTagName) || [];
   return (
     <div className="container mx-auto w-full pb-10">
-      <div className="relative px-1">
-        <div className="h-48 w-full bg-secondary border flex items-center justify-center">
-          <div className="font-bold md:text-5xl text-3xl text-center text-slate-800 dark:text-slate-200 italic ">
+      <div className="relative px-1 md:my-10 my-4">
+        <div className="h-48 w-full flex items-center justify-center">
+          <Image src={BannerBg} alt="" fill className="object-cover border" />
+          <div className="font-bold md:text-5xl z-10 text-3xl text-center text-slate-800 dark:text-slate-200 italic ">
             {user?.userProfile?.bannerText}
           </div>
           <BannerTextEdit
             currentBannerText={
-              user?.userProfile?.bannerText || "Welcome to my profile (edit it)"
+              user?.userProfile?.bannerText || "Welcome to my profile (edit me)"
             }
           />
         </div>

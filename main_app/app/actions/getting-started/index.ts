@@ -56,6 +56,7 @@ export async function HandleResumeCreation({
         data: {
           userId: session.session.userId as string,
           visibility: $Enums.VISIBILITY.PRIVATE,
+          bannerText: "I am a quick learner (edit me!)",
         },
       });
       await tx.user.update({

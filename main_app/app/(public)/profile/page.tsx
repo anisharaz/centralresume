@@ -12,7 +12,8 @@ import prisma from "@/lib/db";
 import { Resume } from "@/lib/resume";
 import { getResumeFromResumeStore } from "@/lib/services/resume-store";
 import { VISIBILITY } from "@prisma/client";
-
+import Image from "next/image";
+import BannerBg from "@/public/banner_bg.jpg";
 async function PublicProfilePage({
   searchParams,
 }: {
@@ -79,10 +80,13 @@ async function PublicProfilePage({
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="my-4 h-48 w-full bg-secondary border flex items-center justify-center">
-        <div className=" font-bold md:text-5xl text-3xl text-center text-slate-800 dark:text-slate-200 italic ">
-          {profileLink.user.userProfile?.bannerText.split("(")[0] ||
-            "Welcome to My Profile"}
+      <div className="relative px-1 my-10">
+        <div className="h-48 w-full flex items-center justify-center">
+          <Image src={BannerBg} alt="" fill className="object-cover border" />
+          <div className="font-bold md:text-5xl z-10 text-3xl text-center text-slate-800 dark:text-slate-200 italic ">
+            {profileLink.user.userProfile?.bannerText.split("(")[0] ||
+              "Welcome to My Profile"}
+          </div>
         </div>
       </div>
       <div className="space-y-6 border m-2 mt-6">
