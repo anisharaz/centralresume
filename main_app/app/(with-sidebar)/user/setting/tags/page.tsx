@@ -1,7 +1,6 @@
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
 import { headers } from "next/headers";
-import { DeleteTagButton } from "./delete-tag-button";
 import { VisibilityToggle } from "./visibility-toggle";
 import { Tag } from "lucide-react";
 import CreateNewTag from "./create-new-tag";
@@ -46,7 +45,6 @@ export default async function TagsSettingPage() {
                 tagId={tag.id}
                 currentVisibility={tag.visibility}
               />
-              <DeleteTagButton tagId={tag.id} tagName={tag.resumeTagName} />
             </div>
           </div>
         ))}
