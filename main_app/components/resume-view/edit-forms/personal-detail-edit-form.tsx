@@ -222,36 +222,40 @@ function PersonalDetailEditForm({
                       <FormControl>
                         <div className="space-y-2">
                           {field.value?.map((tag, tagIndex) => (
-                            <div
+                            <FormField
                               key={tagIndex}
-                              className="flex items-center gap-2 flex-row-reverse"
-                            >
-                              <Input
-                                value={tag}
-                                onChange={(e) => {
-                                  const newTags = [...(field.value || [])];
-                                  newTags[tagIndex] = e.target.value;
-                                  field.onChange(newTags);
-                                }}
-                                placeholder={`Tag ${tagIndex + 1}`}
-                                list="tags"
-                              />
-                              <Button
-                                type="button"
-                                size="sm"
-                                variant="destructive"
-                                onClick={() => {
-                                  const newTags =
-                                    field.value?.filter(
-                                      (_, i) => i !== tagIndex
-                                    ) || [];
-                                  field.onChange(newTags);
-                                }}
-                                disabled={field.value?.length <= 1}
-                              >
-                                Remove tag
-                              </Button>
-                            </div>
+                              control={control}
+                              name={`personal_details.tag_line.${index}.tags.${tagIndex}`}
+                              render={({ field: tagField }) => (
+                                <FormItem>
+                                  <div className="flex items-center gap-2 flex-row-reverse">
+                                    <FormControl>
+                                      <Input
+                                        {...tagField}
+                                        placeholder={`Tag ${tagIndex + 1}`}
+                                        list="tags"
+                                      />
+                                    </FormControl>
+                                    <Button
+                                      type="button"
+                                      size="sm"
+                                      variant="destructive"
+                                      onClick={() => {
+                                        const newTags =
+                                          field.value?.filter(
+                                            (_, i) => i !== tagIndex
+                                          ) || [];
+                                        field.onChange(newTags);
+                                      }}
+                                      disabled={field.value?.length <= 1}
+                                    >
+                                      Remove tag
+                                    </Button>
+                                  </div>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
                           ))}
                           <Separator className="my-4" />
                           <div className="flex gap-2">
@@ -342,36 +346,40 @@ function PersonalDetailEditForm({
                       <FormControl>
                         <div className="space-y-2">
                           {field.value?.map((tag, tagIndex) => (
-                            <div
+                            <FormField
                               key={tagIndex}
-                              className="flex gap-2 flex-row-reverse"
-                            >
-                              <Input
-                                value={tag}
-                                onChange={(e) => {
-                                  const newTags = [...(field.value || [])];
-                                  newTags[tagIndex] = e.target.value;
-                                  field.onChange(newTags);
-                                }}
-                                placeholder={`Tag ${tagIndex + 1}`}
-                                list="tags"
-                              />
-                              <Button
-                                type="button"
-                                variant="destructive"
-                                size="sm"
-                                onClick={() => {
-                                  const newTags =
-                                    field.value?.filter(
-                                      (_, i) => i !== tagIndex
-                                    ) || [];
-                                  field.onChange(newTags);
-                                }}
-                                disabled={field.value?.length <= 1}
-                              >
-                                Remove tag
-                              </Button>
-                            </div>
+                              control={control}
+                              name={`personal_details.summary.${index}.tags.${tagIndex}`}
+                              render={({ field: tagField }) => (
+                                <FormItem>
+                                  <div className="flex gap-2 flex-row-reverse items-center">
+                                    <FormControl>
+                                      <Input
+                                        {...tagField}
+                                        placeholder={`Tag ${tagIndex + 1}`}
+                                        list="tags"
+                                      />
+                                    </FormControl>
+                                    <Button
+                                      type="button"
+                                      variant="destructive"
+                                      size="sm"
+                                      onClick={() => {
+                                        const newTags =
+                                          field.value?.filter(
+                                            (_, i) => i !== tagIndex
+                                          ) || [];
+                                        field.onChange(newTags);
+                                      }}
+                                      disabled={field.value?.length <= 1}
+                                    >
+                                      Remove tag
+                                    </Button>
+                                  </div>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
                           ))}
                           <Separator className="my-4" />
                           <div className="flex gap-2">
@@ -506,36 +514,40 @@ function PersonalDetailEditForm({
                       <FormControl>
                         <div className="space-y-2">
                           {field.value?.map((tag, tagIndex) => (
-                            <div
+                            <FormField
                               key={tagIndex}
-                              className="flex gap-2 flex-row-reverse items-center"
-                            >
-                              <Input
-                                value={tag}
-                                onChange={(e) => {
-                                  const newTags = [...(field.value || [])];
-                                  newTags[tagIndex] = e.target.value;
-                                  field.onChange(newTags);
-                                }}
-                                placeholder={`Tag ${tagIndex + 1}`}
-                                list="tags"
-                              />
-                              <Button
-                                type="button"
-                                variant="destructive"
-                                size="sm"
-                                onClick={() => {
-                                  const newTags =
-                                    field.value?.filter(
-                                      (_, i) => i !== tagIndex
-                                    ) || [];
-                                  field.onChange(newTags);
-                                }}
-                                disabled={field.value?.length <= 1}
-                              >
-                                Remove tag
-                              </Button>
-                            </div>
+                              control={control}
+                              name={`personal_details.social_links.${index}.tags.${tagIndex}`}
+                              render={({ field: tagField }) => (
+                                <FormItem>
+                                  <div className="flex gap-2 flex-row-reverse items-center">
+                                    <FormControl>
+                                      <Input
+                                        {...tagField}
+                                        placeholder={`Tag ${tagIndex + 1}`}
+                                        list="tags"
+                                      />
+                                    </FormControl>
+                                    <Button
+                                      type="button"
+                                      variant="destructive"
+                                      size="sm"
+                                      onClick={() => {
+                                        const newTags =
+                                          field.value?.filter(
+                                            (_, i) => i !== tagIndex
+                                          ) || [];
+                                        field.onChange(newTags);
+                                      }}
+                                      disabled={field.value?.length <= 1}
+                                    >
+                                      Remove tag
+                                    </Button>
+                                  </div>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
                           ))}
                           <Separator className="my-4" />
                           <div className="flex gap-2">
