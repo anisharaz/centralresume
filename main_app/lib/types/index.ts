@@ -7,6 +7,13 @@ export type AllowOauthAccessToGeneralTagParams = {
   scope: string;
 };
 
+export type ServerActionResponse<T> = Promise<{
+  success: boolean;
+  message?: string | null;
+  error?: string | null;
+  data?: T | null;
+}>;
+
 type TAGS = string[];
 
 interface RESUME_INTERFACE {

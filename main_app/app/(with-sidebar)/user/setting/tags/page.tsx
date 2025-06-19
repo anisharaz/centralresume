@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
 import { headers } from "next/headers";
 import { DeleteTagButton } from "./delete-tag-button";
+import { VisibilityToggle } from "./visibility-toggle";
 import { Tag } from "lucide-react";
 import CreateNewTag from "./create-new-tag";
 
@@ -27,18 +28,37 @@ export default async function TagsSettingPage() {
       </div>
       <CreateNewTag existingTags={tags} />
       <div className=" flex flex-col max-w-4xl gap-4">
+        <div>
+          In a publicly searchable profile, only the details with public tag
+          will be shown.
+        </div>
         {tags.map((tag) => (
           <div
             key={tag.id}
-            className="p-4 flex border justify-between items-center"
+            className="p-4 flex flex-col md:flex-row gap-2 border justify-between items-center rounded-lg"
           >
-            <div className="flex gap-2 items-center">
-              <Tag />
-              <div>{tag.resumeTagName}</div>
+            <div className="flex gap-3 items-center">
+              <Tag className="h-5 w-5 text-muted-foreground" />
+              <div className="font-medium">{tag.resumeTagName}</div>
             </div>
-            <DeleteTagButton tagId="" tagName="" />
+            <div className="flex items-center gap-4">
+              <VisibilityToggle
+                tagId={tag.id}
+                currentVisibility={tag.visibility}
+              />
+              <DeleteTagButton tagId={tag.id} tagName={tag.resumeTagName} />
+            </div>
           </div>
         ))}
+        {tags.length === 0 && (
+          <div className="text-center py-8 text-muted-foreground">
+            <Tag className="h-12 w-12 mx-auto mb-4 opacity-50" />
+            <p className="text-lg font-medium mb-2">No tags yet</p>
+            <p className="text-sm">
+              Create your first tag to organize your resume profiles.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
