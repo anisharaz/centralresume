@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 
 function PublicationsEditForm({
   title,
@@ -356,7 +357,7 @@ function PublicationSummarySection({
                   Summary Text
                 </FormLabel>
                 <FormControl>
-                  <Input
+                  <Textarea
                     placeholder="Describe the publication's key findings or contributions"
                     {...field}
                   />

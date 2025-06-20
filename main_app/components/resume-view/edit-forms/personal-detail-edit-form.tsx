@@ -16,10 +16,11 @@ import { PERSONAL_DETAILS_SCHEMA } from "@/lib/zod/schemas/resume/personal-detai
 import { z } from "zod";
 import { RESUME_TYPE } from "@/lib/zod/schemas";
 import { updateResume } from "@/app/actions/resume/update-resume";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 
 function PersonalDetailEditForm({
   title,
@@ -327,7 +328,7 @@ function PersonalDetailEditForm({
                     <FormItem>
                       <FormLabel>Summary Text</FormLabel>
                       <FormControl>
-                        <Input
+                        <Textarea
                           placeholder="Describe yourself professionally"
                           {...field}
                         />
