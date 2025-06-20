@@ -207,7 +207,7 @@ function AchievementEditForm({
                                     </FormControl>
                                     <Button
                                       type="button"
-                                      variant="destructive"
+                                      variant="removeTag"
                                       size="sm"
                                       onClick={() => {
                                         const newTags =
@@ -226,11 +226,11 @@ function AchievementEditForm({
                               )}
                             />
                           ))}
-                          <Separator className="my-4" />
                           <Button
                             type="button"
-                            variant="outline"
+                            variant="addTag"
                             size="sm"
+                            className="mt-2"
                             onClick={() =>
                               field.onChange([
                                 ...(field.value || []),
@@ -240,6 +240,7 @@ function AchievementEditForm({
                           >
                             Add Tag
                           </Button>
+                          <Separator className="my-2" />
                         </div>
                       </FormControl>
                       <FormMessage />
@@ -324,7 +325,7 @@ function AchievementEditForm({
                                             </FormControl>
                                             <Button
                                               type="button"
-                                              variant="destructive"
+                                              variant="removeTag"
                                               size="sm"
                                               onClick={() => {
                                                 const newTags =
@@ -345,7 +346,21 @@ function AchievementEditForm({
                                       )}
                                     />
                                   ))}
-                                  <Separator className="my-4" />
+                                  <Button
+                                    type="button"
+                                    variant="addTag"
+                                    size="sm"
+                                    className="mt-2"
+                                    onClick={() =>
+                                      field.onChange([
+                                        ...(field.value || []),
+                                        "#common",
+                                      ])
+                                    }
+                                  >
+                                    Add Summary Tag
+                                  </Button>
+                                  <Separator className="my-2" />
                                   <div className="flex gap-2">
                                     <Button
                                       type="button"
@@ -366,19 +381,6 @@ function AchievementEditForm({
                                       }}
                                     >
                                       Remove Summary
-                                    </Button>
-                                    <Button
-                                      type="button"
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={() =>
-                                        field.onChange([
-                                          ...(field.value || []),
-                                          "#common",
-                                        ])
-                                      }
-                                    >
-                                      Add Summary Tag
                                     </Button>
                                   </div>
                                 </div>

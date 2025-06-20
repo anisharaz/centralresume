@@ -226,7 +226,7 @@ function WorkExperienceEditForm({
                                     </FormControl>
                                     <Button
                                       type="button"
-                                      variant="destructive"
+                                      variant="removeTag"
                                       size="sm"
                                       onClick={() => {
                                         const newTags =
@@ -247,8 +247,9 @@ function WorkExperienceEditForm({
                           ))}
                           <Button
                             type="button"
-                            variant="outline"
+                            variant="addTag"
                             size="sm"
+                            className="mt-2"
                             onClick={() =>
                               field.onChange([
                                 ...(field.value || []),
@@ -320,7 +321,7 @@ function WorkExperienceEditForm({
                                               </FormControl>
                                               <Button
                                                 type="button"
-                                                variant="destructive"
+                                                variant="removeTag"
                                                 size="sm"
                                                 onClick={() => {
                                                   const newTags =
@@ -341,7 +342,21 @@ function WorkExperienceEditForm({
                                         )}
                                       />
                                     ))}
-                                    <Separator className="my-4" />
+                                    <Button
+                                      type="button"
+                                      variant="addTag"
+                                      size="sm"
+                                      className="mt-2"
+                                      onClick={() =>
+                                        field.onChange([
+                                          ...(field.value || []),
+                                          "#common",
+                                        ])
+                                      }
+                                    >
+                                      Add Position Tag
+                                    </Button>
+                                    <Separator className="my-2" />
                                     <div className="flex gap-2">
                                       <Button
                                         type="button"
@@ -368,19 +383,6 @@ function WorkExperienceEditForm({
                                         }
                                       >
                                         Remove Position
-                                      </Button>
-                                      <Button
-                                        type="button"
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() =>
-                                          field.onChange([
-                                            ...(field.value || []),
-                                            "#common",
-                                          ])
-                                        }
-                                      >
-                                        Add Position Tag
                                       </Button>
                                     </div>
                                   </div>
@@ -464,7 +466,7 @@ function WorkExperienceEditForm({
                                               </FormControl>
                                               <Button
                                                 type="button"
-                                                variant="destructive"
+                                                variant="removeTag"
                                                 size="sm"
                                                 onClick={() => {
                                                   const newTags =
@@ -485,7 +487,21 @@ function WorkExperienceEditForm({
                                         )}
                                       />
                                     ))}
-                                    <Separator className="my-4" />
+                                    <Button
+                                      type="button"
+                                      variant="addTag"
+                                      size="sm"
+                                      className="mt-2"
+                                      onClick={() =>
+                                        field.onChange([
+                                          ...(field.value || []),
+                                          "#common",
+                                        ])
+                                      }
+                                    >
+                                      Add Summary Tag
+                                    </Button>
+                                    <Separator className="my-2" />
                                     <div className="flex gap-2">
                                       <Button
                                         type="button"
@@ -506,19 +522,6 @@ function WorkExperienceEditForm({
                                         }}
                                       >
                                         Remove Summary
-                                      </Button>
-                                      <Button
-                                        type="button"
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() =>
-                                          field.onChange([
-                                            ...(field.value || []),
-                                            "#common",
-                                          ])
-                                        }
-                                      >
-                                        Add Summary Tag
                                       </Button>
                                     </div>
                                   </div>
@@ -649,7 +652,7 @@ function WorkExperienceEditForm({
                                               </FormControl>
                                               <Button
                                                 type="button"
-                                                variant="destructive"
+                                                variant="removeTag"
                                                 size="sm"
                                                 onClick={() => {
                                                   const newTags =
@@ -670,7 +673,21 @@ function WorkExperienceEditForm({
                                         )}
                                       />
                                     ))}
-                                    <Separator className="my-4" />
+                                    <Button
+                                      type="button"
+                                      variant="addTag"
+                                      size="sm"
+                                      className="mt-2"
+                                      onClick={() =>
+                                        field.onChange([
+                                          ...(field.value || []),
+                                          "#common",
+                                        ])
+                                      }
+                                    >
+                                      Add Highlight Tag
+                                    </Button>
+                                    <Separator className="my-2" />
                                     <div className="flex gap-2">
                                       <Button
                                         type="button"
@@ -692,19 +709,6 @@ function WorkExperienceEditForm({
                                         }}
                                       >
                                         Remove Highlight
-                                      </Button>
-                                      <Button
-                                        type="button"
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() =>
-                                          field.onChange([
-                                            ...(field.value || []),
-                                            "#common",
-                                          ])
-                                        }
-                                      >
-                                        Add Highlight Tag
                                       </Button>
                                     </div>
                                   </div>

@@ -185,7 +185,7 @@ function SkillsEditForm({
                               </FormControl>
                               <Button
                                 type="button"
-                                variant="destructive"
+                                variant="removeTag"
                                 size="sm"
                                 onClick={() => {
                                   const newTags =
@@ -203,7 +203,18 @@ function SkillsEditForm({
                         )}
                       />
                     ))}
-                    <Separator className="my-4" />
+                    <Button
+                      type="button"
+                      variant="addTag"
+                      size="sm"
+                      className="mt-2"
+                      onClick={() =>
+                        field.onChange([...(field.value || []), "#common"])
+                      }
+                    >
+                      Add Tag
+                    </Button>
+                    <Separator className="my-2" />
                     <div className="flex gap-2">
                       <Button
                         type="button"
@@ -212,16 +223,6 @@ function SkillsEditForm({
                         onClick={() => fieldArray.remove(index)}
                       >
                         Remove Skill
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={() =>
-                          field.onChange([...(field.value || []), "#common"])
-                        }
-                      >
-                        Add Tag
                       </Button>
                     </div>
                   </div>

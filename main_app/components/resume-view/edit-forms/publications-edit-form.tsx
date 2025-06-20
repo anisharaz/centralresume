@@ -233,7 +233,7 @@ function PublicationsEditForm({
                                     </FormControl>
                                     <Button
                                       type="button"
-                                      variant="destructive"
+                                      variant="removeTag"
                                       size="sm"
                                       onClick={() => {
                                         const newTags =
@@ -253,11 +253,11 @@ function PublicationsEditForm({
                               )}
                             />
                           ))}
-                          <Separator className="my-4" />
                           <Button
                             type="button"
-                            variant="outline"
+                            variant="addTag"
                             size="sm"
+                            className="mt-2"
                             onClick={() =>
                               field.onChange([
                                 ...(field.value || []),
@@ -267,6 +267,7 @@ function PublicationsEditForm({
                           >
                             Add Tag
                           </Button>
+                          <Separator className="my-2" />
                         </div>
                       </FormControl>
                       <FormMessage />
@@ -394,7 +395,7 @@ function PublicationSummarySection({
                               </FormControl>
                               <Button
                                 type="button"
-                                variant="destructive"
+                                variant="removeTag"
                                 size="sm"
                                 onClick={() => {
                                   const newTags =
@@ -413,7 +414,18 @@ function PublicationSummarySection({
                         )}
                       />
                     ))}
-                    <Separator className="my-4" />
+                    <Button
+                      type="button"
+                      variant="addTag"
+                      size="sm"
+                      className="mt-2"
+                      onClick={() =>
+                        field.onChange([...(field.value || []), "#common"])
+                      }
+                    >
+                      Add Tag
+                    </Button>
+                    <Separator className="my-2" />
                     <div className="flex gap-2">
                       <Button
                         type="button"
@@ -422,16 +434,6 @@ function PublicationSummarySection({
                         onClick={() => removeSummary(summaryIndex)}
                       >
                         Remove Summary
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={() =>
-                          field.onChange([...(field.value || []), "#common"])
-                        }
-                      >
-                        Add Tag
                       </Button>
                     </div>
                   </div>

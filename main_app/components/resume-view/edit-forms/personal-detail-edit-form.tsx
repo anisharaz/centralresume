@@ -240,7 +240,7 @@ function PersonalDetailEditForm({
                                     <Button
                                       type="button"
                                       size="sm"
-                                      variant="destructive"
+                                      variant="removeTag"
                                       onClick={() => {
                                         const newTags =
                                           field.value?.filter(
@@ -258,28 +258,27 @@ function PersonalDetailEditForm({
                               )}
                             />
                           ))}
-                          <Separator className="my-4" />
+                          <Button
+                            type="button"
+                            className="mt-2"
+                            variant="addTag"
+                            size="sm"
+                            onClick={() =>
+                              field.onChange([...field.value, "#common"])
+                            }
+                          >
+                            Add more TAGs
+                          </Button>
+                          <Separator className="my-2" />
                           <div className="flex gap-2">
                             <Button
                               type="button"
                               variant="destructive"
-                              size="sm"
                               onClick={() => removeTagLine(index)}
                               className="cursor-pointer"
                               disabled={tagLineFields.length <= 1}
                             >
                               Remove Title
-                            </Button>
-                            <Button
-                              type="button"
-                              className=""
-                              variant="outline"
-                              size="sm"
-                              onClick={() =>
-                                field.onChange([...field.value, "#common"])
-                              }
-                            >
-                              Add more TAGs
                             </Button>
                           </div>
                         </div>
@@ -363,7 +362,7 @@ function PersonalDetailEditForm({
                                     </FormControl>
                                     <Button
                                       type="button"
-                                      variant="destructive"
+                                      variant="removeTag"
                                       size="sm"
                                       onClick={() => {
                                         const newTags =
@@ -382,7 +381,18 @@ function PersonalDetailEditForm({
                               )}
                             />
                           ))}
-                          <Separator className="my-4" />
+                          <Button
+                            type="button"
+                            variant="addTag"
+                            size="sm"
+                            className="mt-2"
+                            onClick={() =>
+                              field.onChange([...field.value, "#common"])
+                            }
+                          >
+                            Add another Tag
+                          </Button>
+                          <Separator className="my-2" />
                           <div className="flex gap-2">
                             <Button
                               type="button"
@@ -391,16 +401,6 @@ function PersonalDetailEditForm({
                               onClick={() => removeSummary(index)}
                             >
                               Remove Summary
-                            </Button>
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="sm"
-                              onClick={() =>
-                                field.onChange([...field.value, "#common"])
-                              }
-                            >
-                              Add another Tag
                             </Button>
                           </div>
                         </div>
@@ -531,7 +531,7 @@ function PersonalDetailEditForm({
                                     </FormControl>
                                     <Button
                                       type="button"
-                                      variant="destructive"
+                                      variant="removeTag"
                                       size="sm"
                                       onClick={() => {
                                         const newTags =
@@ -550,7 +550,18 @@ function PersonalDetailEditForm({
                               )}
                             />
                           ))}
-                          <Separator className="my-4" />
+                          <Button
+                            type="button"
+                            variant="addTag"
+                            size="sm"
+                            className="mt-2"
+                            onClick={() =>
+                              field.onChange([...field.value, "#common"])
+                            }
+                          >
+                            Add Tag
+                          </Button>
+                          <Separator className="my-2" />
                           <div className="flex gap-2">
                             <Button
                               type="button"
@@ -559,16 +570,6 @@ function PersonalDetailEditForm({
                               onClick={() => removeSocialLink(index)}
                             >
                               Remove Social Link
-                            </Button>
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="sm"
-                              onClick={() =>
-                                field.onChange([...field.value, "#common"])
-                              }
-                            >
-                              Add Tag
                             </Button>
                           </div>
                         </div>

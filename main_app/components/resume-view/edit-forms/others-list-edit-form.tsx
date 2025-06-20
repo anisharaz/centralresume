@@ -155,7 +155,7 @@ function OthersListEditForm({
                                       />
                                       <Button
                                         type="button"
-                                        variant="destructive"
+                                        variant="removeTag"
                                         size="sm"
                                         onClick={() => {
                                           const newTags =
@@ -176,11 +176,11 @@ function OthersListEditForm({
                               )}
                             />
                           ))}
-                          <Separator className="my-4" />
                           <Button
                             type="button"
-                            variant="outline"
+                            variant="addTag"
                             size="sm"
+                            className="mt-2"
                             onClick={() =>
                               field.onChange([
                                 ...(field.value || []),
@@ -190,6 +190,7 @@ function OthersListEditForm({
                           >
                             Add Tag
                           </Button>
+                          <Separator className="my-2" />
                         </div>
                       </FormControl>
                       <FormMessage />
@@ -303,7 +304,7 @@ function OtherListHeadingSection({
                                 />
                                 <Button
                                   type="button"
-                                  variant="destructive"
+                                  variant="removeTag"
                                   size="sm"
                                   onClick={() => {
                                     const newTags =
@@ -323,7 +324,18 @@ function OtherListHeadingSection({
                         )}
                       />
                     ))}
-                    <Separator className="my-4" />
+                    <Button
+                      type="button"
+                      variant="addTag"
+                      size="sm"
+                      className="mt-2"
+                      onClick={() =>
+                        field.onChange([...(field.value || []), "#common"])
+                      }
+                    >
+                      Add Tag
+                    </Button>
+                    <Separator className="my-2" />
                     <div className="flex gap-2">
                       <Button
                         type="button"
@@ -332,16 +344,6 @@ function OtherListHeadingSection({
                         onClick={() => removeHeading(headingIndex)}
                       >
                         Remove Heading
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={() =>
-                          field.onChange([...(field.value || []), "#common"])
-                        }
-                      >
-                        Add Tag
                       </Button>
                     </div>
                   </div>
@@ -413,6 +415,7 @@ function OtherListSummarySection({
             name={`otherLists.${listIndex}.summary.${summaryIndex}.tags`}
             render={({ field }) => (
               <FormItem>
+                {" "}
                 <FormLabel className="text-lg font-bold">
                   Summary Tags
                 </FormLabel>
@@ -435,7 +438,7 @@ function OtherListSummarySection({
                                 />
                                 <Button
                                   type="button"
-                                  variant="destructive"
+                                  variant="removeTag"
                                   size="sm"
                                   onClick={() => {
                                     const newTags =
@@ -455,7 +458,18 @@ function OtherListSummarySection({
                         )}
                       />
                     ))}
-                    <Separator className="my-4" />
+                    <Button
+                      type="button"
+                      variant="addTag"
+                      size="sm"
+                      className="mt-2"
+                      onClick={() =>
+                        field.onChange([...(field.value || []), "#common"])
+                      }
+                    >
+                      Add Tag
+                    </Button>
+                    <Separator className="my-2" />
                     <div className="flex gap-2">
                       <Button
                         type="button"
@@ -464,16 +478,6 @@ function OtherListSummarySection({
                         onClick={() => removeSummary(summaryIndex)}
                       >
                         Remove Summary
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={() =>
-                          field.onChange([...(field.value || []), "#common"])
-                        }
-                      >
-                        Add Tag
                       </Button>
                     </div>
                   </div>
