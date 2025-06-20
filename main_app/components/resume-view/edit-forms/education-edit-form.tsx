@@ -52,7 +52,7 @@ function EducationEditForm({
 
   const { control, handleSubmit } = form;
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, prepend, remove } = useFieldArray({
     control,
     name: "education",
   });
@@ -107,7 +107,7 @@ function EducationEditForm({
                 size="sm"
                 className="cursor-pointer"
                 onClick={() =>
-                  append({
+                  prepend({
                     institution: "",
                     tags: ["#common"],
                     field: [{ text: "", tags: ["#common"] }],

@@ -53,7 +53,7 @@ function ProjectsEditForm({
 
   const { control, handleSubmit } = form;
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, remove, prepend } = useFieldArray({
     control,
     name: "projects",
   });
@@ -108,7 +108,7 @@ function ProjectsEditForm({
                 size="sm"
                 className="cursor-pointer"
                 onClick={() =>
-                  append({
+                  prepend({
                     title: "",
                     tags: ["#common"],
                     startDate: new Date().toISOString().split("T")[0],

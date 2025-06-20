@@ -55,7 +55,7 @@ function PublicationsEditForm({
 
   const {
     fields: publicationFields,
-    append: appendPublication,
+    prepend: prependPublication,
     remove: removePublication,
   } = useFieldArray({
     control,
@@ -112,7 +112,7 @@ function PublicationsEditForm({
                 size="sm"
                 className="cursor-pointer"
                 onClick={() =>
-                  appendPublication({
+                  prependPublication({
                     name: "",
                     tags: ["#common"],
                     publisher: "",

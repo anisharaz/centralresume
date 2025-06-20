@@ -53,7 +53,7 @@ function AchievementEditForm({
 
   const { control, handleSubmit } = form;
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, remove, prepend } = useFieldArray({
     control,
     name: "achievements",
   });
@@ -108,7 +108,7 @@ function AchievementEditForm({
                 size="sm"
                 className="cursor-pointer"
                 onClick={() =>
-                  append({
+                  prepend({
                     title: "",
                     tags: ["#common"],
                     date: new Date().toISOString().split("T")[0],
