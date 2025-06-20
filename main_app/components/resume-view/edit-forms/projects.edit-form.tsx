@@ -21,7 +21,8 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
-
+import { DEFAULT_TAG_NAME } from "@/lib/vars";
+import cookies from "js-cookie";
 function ProjectsEditForm({
   title,
   description,
@@ -34,6 +35,7 @@ function ProjectsEditForm({
   resumeTags: string[];
 }) {
   const router = useRouter();
+  const currentTag = cookies.get("currentTag") || DEFAULT_TAG_NAME;
   const FormSchema = z.object({
     projects: PROJECTS_SCHEMA,
   });
@@ -110,7 +112,7 @@ function ProjectsEditForm({
                 onClick={() =>
                   prepend({
                     title: "",
-                    tags: ["#common"],
+                    tags: [currentTag],
                     startDate: new Date().toISOString().split("T")[0],
                     endDate: undefined,
                     summary: "",
@@ -273,7 +275,7 @@ function ProjectsEditForm({
                             onClick={() =>
                               field.onChange([
                                 ...(field.value || []),
-                                "#common",
+                                currentTag,
                               ])
                             }
                           >

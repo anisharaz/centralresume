@@ -128,7 +128,7 @@ export async function updateResume({
     (resumeData as any)[data_key] = (newResumeData as any)[data_key];
 
     await updateResumeInResumeStore({
-      resumeData: resumeData,
+      resumeData: new Resume(resumeData).getResume(),
       userId: session.session.userId,
     });
 

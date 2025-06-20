@@ -21,7 +21,8 @@ import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-
+import { DEFAULT_TAG_NAME } from "@/lib/vars";
+import cookies from "js-cookie";
 function AchievementEditForm({
   title,
   description,
@@ -34,6 +35,7 @@ function AchievementEditForm({
   resumeTags: string[];
 }) {
   const router = useRouter();
+  const currentTag = cookies.get("currentTag") || DEFAULT_TAG_NAME;
   const FormSchema = z.object({
     achievements: ACHIEVEMENT_SCHEMA,
   });
@@ -110,10 +112,10 @@ function AchievementEditForm({
                 onClick={() =>
                   prepend({
                     title: "",
-                    tags: ["#common"],
+                    tags: [currentTag],
                     date: new Date().toISOString().split("T")[0],
                     awarded_by: "",
-                    summary: [{ text: "", tags: ["#common"] }],
+                    summary: [{ text: "", tags: [currentTag] }],
                   })
                 }
               >
@@ -234,7 +236,7 @@ function AchievementEditForm({
                             onClick={() =>
                               field.onChange([
                                 ...(field.value || []),
-                                "#common",
+                                currentTag,
                               ])
                             }
                           >
@@ -262,7 +264,7 @@ function AchievementEditForm({
                         );
                         form.setValue(`achievements.${index}.summary`, [
                           ...currentSummary,
-                          { text: "", tags: ["#common"] },
+                          { text: "", tags: [currentTag] },
                         ]);
                       }}
                     >
@@ -354,7 +356,7 @@ function AchievementEditForm({
                                     onClick={() =>
                                       field.onChange([
                                         ...(field.value || []),
-                                        "#common",
+                                        currentTag,
                                       ])
                                     }
                                   >

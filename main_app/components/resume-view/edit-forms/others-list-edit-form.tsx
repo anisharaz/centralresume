@@ -21,7 +21,8 @@ import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-
+import { DEFAULT_TAG_NAME } from "@/lib/vars";
+import cookies from "js-cookie";
 function OthersListEditForm({
   title,
   description,
@@ -34,6 +35,8 @@ function OthersListEditForm({
   resumeTags: string[];
 }) {
   const router = useRouter();
+  const currentTag = cookies.get("currentTag") || DEFAULT_TAG_NAME;
+
   const FormSchema = z.object({
     otherLists: OTHER_LIST_SCHEMA,
   });
@@ -103,7 +106,7 @@ function OthersListEditForm({
                 className="cursor-pointer"
                 onClick={() =>
                   appendOtherList({
-                    tags: ["#common"],
+                    tags: [currentTag],
                     heading: [],
                     summary: [],
                   })
@@ -184,7 +187,7 @@ function OthersListEditForm({
                             onClick={() =>
                               field.onChange([
                                 ...(field.value || []),
-                                "#common",
+                                currentTag,
                               ])
                             }
                           >
@@ -199,10 +202,18 @@ function OthersListEditForm({
                 />
 
                 {/* Headings Section */}
-                <OtherListHeadingSection control={control} listIndex={index} />
+                <OtherListHeadingSection
+                  control={control}
+                  listIndex={index}
+                  currentTag={currentTag}
+                />
 
                 {/* Summary Section */}
-                <OtherListSummarySection control={control} listIndex={index} />
+                <OtherListSummarySection
+                  control={control}
+                  listIndex={index}
+                  currentTag={currentTag}
+                />
               </div>
             ))}
           </div>
@@ -229,9 +240,11 @@ function OthersListEditForm({
 function OtherListHeadingSection({
   control,
   listIndex,
+  currentTag,
 }: {
   control: Control<any>;
   listIndex: number;
+  currentTag: string;
 }) {
   const {
     fields: headingFields,
@@ -250,7 +263,7 @@ function OtherListHeadingSection({
           type="button"
           size="sm"
           className="cursor-pointer"
-          onClick={() => appendHeading({ text: "", tags: ["#common"] })}
+          onClick={() => appendHeading({ text: "", tags: [currentTag] })}
         >
           Add Heading
         </Button>
@@ -330,7 +343,7 @@ function OtherListHeadingSection({
                       size="sm"
                       className="mt-2"
                       onClick={() =>
-                        field.onChange([...(field.value || []), "#common"])
+                        field.onChange([...(field.value || []), currentTag])
                       }
                     >
                       Add Tag
@@ -362,9 +375,11 @@ function OtherListHeadingSection({
 function OtherListSummarySection({
   control,
   listIndex,
+  currentTag,
 }: {
   control: Control<any>;
   listIndex: number;
+  currentTag: string;
 }) {
   const {
     fields: summaryFields,
@@ -383,7 +398,7 @@ function OtherListSummarySection({
           type="button"
           size="sm"
           className="cursor-pointer"
-          onClick={() => appendSummary({ text: "", tags: ["#common"] })}
+          onClick={() => appendSummary({ text: "", tags: [currentTag] })}
         >
           Add Summary
         </Button>
@@ -464,7 +479,7 @@ function OtherListSummarySection({
                       size="sm"
                       className="mt-2"
                       onClick={() =>
-                        field.onChange([...(field.value || []), "#common"])
+                        field.onChange([...(field.value || []), currentTag])
                       }
                     >
                       Add Tag

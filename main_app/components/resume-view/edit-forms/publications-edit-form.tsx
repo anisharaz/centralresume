@@ -21,7 +21,8 @@ import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-
+import { DEFAULT_TAG_NAME } from "@/lib/vars";
+import cookies from "js-cookie";
 function PublicationsEditForm({
   title,
   description,
@@ -34,6 +35,7 @@ function PublicationsEditForm({
   resumeTags: string[];
 }) {
   const router = useRouter();
+  const currentTag = cookies.get("currentTag") || DEFAULT_TAG_NAME;
   const FormSchema = z.object({
     publications: PUBLICATION_SCHEMA,
   });
@@ -114,7 +116,7 @@ function PublicationsEditForm({
                 onClick={() =>
                   prependPublication({
                     name: "",
-                    tags: ["#common"],
+                    tags: [currentTag],
                     publisher: "",
                     releaseDate: new Date().toISOString().split("T")[0],
                     url: "",
@@ -261,7 +263,7 @@ function PublicationsEditForm({
                             onClick={() =>
                               field.onChange([
                                 ...(field.value || []),
-                                "#common",
+                                currentTag,
                               ])
                             }
                           >
@@ -279,6 +281,7 @@ function PublicationsEditForm({
                 <PublicationSummarySection
                   control={control}
                   publicationIndex={index}
+                  currentTag={currentTag}
                 />
 
                 <Button
@@ -320,9 +323,11 @@ function PublicationsEditForm({
 function PublicationSummarySection({
   control,
   publicationIndex,
+  currentTag,
 }: {
   control: Control<any>;
   publicationIndex: number;
+  currentTag: string;
 }) {
   const {
     fields: summaryFields,
@@ -341,7 +346,7 @@ function PublicationSummarySection({
           type="button"
           size="sm"
           className="cursor-pointer"
-          onClick={() => appendSummary({ text: "", tags: ["#common"] })}
+          onClick={() => appendSummary({ text: "", tags: [currentTag] })}
         >
           Add Summary
         </Button>
@@ -420,7 +425,7 @@ function PublicationSummarySection({
                       size="sm"
                       className="mt-2"
                       onClick={() =>
-                        field.onChange([...(field.value || []), "#common"])
+                        field.onChange([...(field.value || []), currentTag])
                       }
                     >
                       Add Tag

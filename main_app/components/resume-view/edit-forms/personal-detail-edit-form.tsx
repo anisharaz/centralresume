@@ -21,7 +21,8 @@ import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-
+import cookies from "js-cookie";
+import { DEFAULT_TAG_NAME } from "@/lib/vars";
 function PersonalDetailEditForm({
   title,
   description,
@@ -34,6 +35,8 @@ function PersonalDetailEditForm({
   resumeTags: string[];
 }) {
   const router = useRouter();
+  const currentTag = cookies.get("currentTag") || DEFAULT_TAG_NAME;
+
   const FormSchema = z.object({
     personal_details: PERSONAL_DETAILS_SCHEMA,
   });
@@ -189,7 +192,7 @@ function PersonalDetailEditForm({
                 size="sm"
                 className="cursor-pointer"
                 onClick={() =>
-                  appendTagLine({ text: "edit me", tags: ["#common"] })
+                  appendTagLine({ text: "edit me", tags: [currentTag] })
                 }
               >
                 Add another title
@@ -264,7 +267,7 @@ function PersonalDetailEditForm({
                             variant="addTag"
                             size="sm"
                             onClick={() =>
-                              field.onChange([...field.value, "#common"])
+                              field.onChange([...field.value, currentTag])
                             }
                           >
                             Add more TAGs
@@ -310,7 +313,7 @@ function PersonalDetailEditForm({
                 onClick={() =>
                   appendSummary({
                     text: "I thrive in working better.",
-                    tags: ["#common"],
+                    tags: [currentTag],
                   })
                 }
                 className="cursor-pointer"
@@ -387,7 +390,7 @@ function PersonalDetailEditForm({
                             size="sm"
                             className="mt-2"
                             onClick={() =>
-                              field.onChange([...field.value, "#common"])
+                              field.onChange([...field.value, currentTag])
                             }
                           >
                             Add another Tag
@@ -468,7 +471,7 @@ function PersonalDetailEditForm({
                 type="button"
                 size="sm"
                 onClick={() =>
-                  appendSocialLink({ name: "", url: "", tags: ["#common"] })
+                  appendSocialLink({ name: "", url: "", tags: [currentTag] })
                 }
               >
                 Add Social Link
@@ -556,7 +559,7 @@ function PersonalDetailEditForm({
                             size="sm"
                             className="mt-2"
                             onClick={() =>
-                              field.onChange([...field.value, "#common"])
+                              field.onChange([...field.value, currentTag])
                             }
                           >
                             Add Tag

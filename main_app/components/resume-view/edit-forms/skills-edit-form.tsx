@@ -27,7 +27,8 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
-
+import { DEFAULT_TAG_NAME } from "@/lib/vars";
+import cookies from "js-cookie";
 function SkillsEditForm({
   title,
   description,
@@ -40,6 +41,7 @@ function SkillsEditForm({
   resumeTags: string[];
 }) {
   const router = useRouter();
+  const currentTag = cookies.get("currentTag") || DEFAULT_TAG_NAME;
   const FormSchema = z.object({
     skills: SKILLS_SCHEMA,
   });
@@ -104,7 +106,7 @@ function SkillsEditForm({
             fieldArray.prepend({
               name: "",
               level: "",
-              tags: ["#common"],
+              tags: [currentTag],
             });
             toast.success(`Added new ${title.split(" ")[0]} skill`, {
               position: "top-center",
@@ -209,7 +211,7 @@ function SkillsEditForm({
                       size="sm"
                       className="mt-2"
                       onClick={() =>
-                        field.onChange([...(field.value || []), "#common"])
+                        field.onChange([...(field.value || []), currentTag])
                       }
                     >
                       Add Tag

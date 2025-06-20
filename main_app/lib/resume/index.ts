@@ -17,9 +17,14 @@ export class Resume {
       const sanitized: Record<string, any> = {};
       for (const key in data) {
         if (key === "tags" && Array.isArray(data[key])) {
-          sanitized[key] = data[key].filter(
-            (tag: string) => typeof tag === "string" && tag.trim() !== ""
+          const filteredUniqueTags = Array.from(
+            new Set(
+              data[key].filter(
+                (tag: string) => typeof tag === "string" && tag.trim() !== ""
+              )
+            )
           );
+          sanitized[key] = filteredUniqueTags;
         } else {
           sanitized[key] = this.sanitizeTags(data[key]);
         }

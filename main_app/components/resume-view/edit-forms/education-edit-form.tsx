@@ -20,7 +20,8 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
-
+import { DEFAULT_TAG_NAME } from "@/lib/vars";
+import cookies from "js-cookie";
 function EducationEditForm({
   title,
   description,
@@ -33,6 +34,7 @@ function EducationEditForm({
   resumeTags: string[];
 }) {
   const router = useRouter();
+  const currentTag = cookies.get("currentTag") || DEFAULT_TAG_NAME;
   const FormSchema = z.object({
     education: EDUCATION_SCHEMA,
   });
@@ -109,9 +111,9 @@ function EducationEditForm({
                 onClick={() =>
                   prepend({
                     institution: "",
-                    tags: ["#common"],
-                    field: [{ text: "", tags: ["#common"] }],
-                    degree_level: [{ text: "", tags: ["#common"] }],
+                    tags: [currentTag],
+                    field: [{ text: "", tags: [currentTag] }],
+                    degree_level: [{ text: "", tags: [currentTag] }],
                     startDate: new Date().toISOString().split("T")[0],
                     endDate: new Date().toISOString().split("T")[0],
                     score: "",
@@ -257,7 +259,7 @@ function EducationEditForm({
                             onClick={() =>
                               field.onChange([
                                 ...(field.value || []),
-                                "#common",
+                                currentTag,
                               ])
                             }
                           >
@@ -286,7 +288,7 @@ function EducationEditForm({
                         );
                         form.setValue(`education.${index}.field`, [
                           ...currentFields,
-                          { text: "", tags: ["#common"] },
+                          { text: "", tags: [currentTag] },
                         ]);
                       }}
                     >
@@ -379,7 +381,7 @@ function EducationEditForm({
                                     onClick={() =>
                                       field.onChange([
                                         ...(field.value || []),
-                                        "#common",
+                                        currentTag,
                                       ])
                                     }
                                   >
@@ -437,7 +439,7 @@ function EducationEditForm({
                         );
                         form.setValue(`education.${index}.degree_level`, [
                           ...currentDegrees,
-                          { text: "", tags: ["#common"] },
+                          { text: "", tags: [currentTag] },
                         ]);
                       }}
                     >
@@ -530,7 +532,7 @@ function EducationEditForm({
                                     onClick={() =>
                                       field.onChange([
                                         ...(field.value || []),
-                                        "#common",
+                                        currentTag,
                                       ])
                                     }
                                   >

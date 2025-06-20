@@ -21,7 +21,8 @@ import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-
+import cookies from "js-cookie";
+import { DEFAULT_TAG_NAME } from "@/lib/vars";
 function WorkExperienceEditForm({
   title,
   description,
@@ -34,6 +35,7 @@ function WorkExperienceEditForm({
   resumeTags: string[];
 }) {
   const router = useRouter();
+  const currentTag = cookies.get("currentTag") || DEFAULT_TAG_NAME;
   const FormSchema = z.object({
     work_experience: WORK_EXPERIENCE_SCHEMA,
   });
@@ -111,11 +113,11 @@ function WorkExperienceEditForm({
                 onClick={() => {
                   prepend({
                     company: "",
-                    tags: ["#common"],
+                    tags: [currentTag],
                     website: "",
                     start_date: new Date().toISOString().split("T")[0],
                     end_date: undefined,
-                    position: [{ text: "", tags: ["#common"] }],
+                    position: [{ text: "", tags: [currentTag] }],
                     summary: [],
                     highlights: [],
                   });
@@ -253,7 +255,7 @@ function WorkExperienceEditForm({
                             onClick={() =>
                               field.onChange([
                                 ...(field.value || []),
-                                "#common",
+                                currentTag,
                               ])
                             }
                           >
@@ -350,7 +352,7 @@ function WorkExperienceEditForm({
                                       onClick={() =>
                                         field.onChange([
                                           ...(field.value || []),
-                                          "#common",
+                                          currentTag,
                                         ])
                                       }
                                     >
@@ -402,7 +404,7 @@ function WorkExperienceEditForm({
                         );
                         form.setValue(`work_experience.${index}.position`, [
                           ...currentPositions,
-                          { text: "", tags: ["#common"] },
+                          { text: "", tags: [currentTag] },
                         ]);
                       }}
                     >
@@ -495,7 +497,7 @@ function WorkExperienceEditForm({
                                       onClick={() =>
                                         field.onChange([
                                           ...(field.value || []),
-                                          "#common",
+                                          currentTag,
                                         ])
                                       }
                                     >
@@ -541,7 +543,7 @@ function WorkExperienceEditForm({
                         );
                         form.setValue(`work_experience.${index}.summary`, [
                           ...currentSummary,
-                          { text: "", tags: ["#common"] },
+                          { text: "", tags: [currentTag] },
                         ]);
                       }}
                     >
@@ -681,7 +683,7 @@ function WorkExperienceEditForm({
                                       onClick={() =>
                                         field.onChange([
                                           ...(field.value || []),
-                                          "#common",
+                                          currentTag,
                                         ])
                                       }
                                     >
@@ -728,7 +730,7 @@ function WorkExperienceEditForm({
                         );
                         form.setValue(`work_experience.${index}.highlights`, [
                           ...currentHighlights,
-                          { text: [""], tags: ["#common"] },
+                          { text: [""], tags: [currentTag] },
                         ]);
                       }}
                     >
