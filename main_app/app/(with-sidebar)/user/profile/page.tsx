@@ -1,6 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import SwitchCurrentResumeTag from "./switch-resume-tag";
 import prisma from "@/lib/db";
 import { Suspense } from "react";
@@ -18,16 +18,11 @@ import {
 } from "@/components/resume-view";
 import { ProjectsCard } from "@/components/resume-view/project-section";
 import BannerTextEdit from "@/components/banner-text-edit";
-import { DEFAULT_TAG_NAME } from "@/lib/vars";
 import Image from "next/image";
 
-export default async function ProfilePage({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | undefined }>;
-}) {
-  const resumeProfile = (await searchParams).resumeProfile;
-
+export default async function ProfilePage() {
+  const cookie = await cookies();
+  const currentSelectedTag = cookie.get("currentTag")?.value;
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -58,7 +53,9 @@ export default async function ProfilePage({
   });
   const resume = new Resume(data);
   const resumeByTag = resume.getByTag(
-    resumeProfile ? resumeProfile : DEFAULT_TAG_NAME
+    currentSelectedTag
+      ? currentSelectedTag
+      : (user?.resumeTags[0].resumeTagName as string)
   );
   const tags = user?.resumeTags.map((tag) => tag.resumeTagName) || [];
   return (
@@ -83,8 +80,8 @@ export default async function ProfilePage({
             <SwitchCurrentResumeTag
               resumeProfileTagName={user?.resumeTags}
               tagSelected={
-                resumeProfile
-                  ? resumeProfile
+                currentSelectedTag
+                  ? currentSelectedTag
                   : (user?.resumeTags[0]?.resumeTagName as string)
               }
             />

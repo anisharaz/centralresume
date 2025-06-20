@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import cookies from "js-cookie";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -67,14 +68,15 @@ function SwitchCurrentResumeTag({
           defaultValue={tagSelected}
           onValueChange={async (value) => {
             setLoading(true);
-            await new Promise((resolve) => setTimeout(resolve, 500));
+            await new Promise((resolve) => setTimeout(resolve, 200));
             toast.info(`Switching tag to: ${value}.`, {
               position: "top-center",
             });
+            cookies.set("currentTag", value, {
+              expires: new Date(2050, 0, 1),
+            });
             setLoading(false);
-            router.replace(
-              `/user/profile?resumeProfile=${encodeURIComponent(value)}`
-            );
+            router.refresh();
           }}
         >
           <SelectTrigger className="w-[180px]">

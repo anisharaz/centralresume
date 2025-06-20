@@ -224,7 +224,7 @@ export function ResumePDFDocument({
                 <View key={index} style={styles.entryContainer}>
                   <View style={styles.entryHeader}>
                     <Text style={styles.entryTitle}>
-                      {exp.position.map((p) => p.text).join(", ")},{" "}
+                      - {exp.position.map((p) => p.text).join(", ")},{" "}
                       {exp.company}{" "}
                     </Text>
                     <Text style={styles.entryDate}>
@@ -232,18 +232,34 @@ export function ResumePDFDocument({
                       {exp.end_date ? formatDate(exp.end_date) : "Present"}
                     </Text>
                   </View>
-
-                  {/* Highlights as bullet points */}
-                  {exp.highlights?.map((highlight, highlightIndex) =>
-                    highlight.text.map((text, textIndex) => (
+                  <View
+                    style={{
+                      paddingLeft: 8,
+                    }}
+                  >
+                    {exp.summary?.map((summary, summaryIndex) => (
                       <Text
-                        key={`${highlightIndex}-${textIndex}`}
-                        style={styles.bulletPoint}
+                        key={summaryIndex}
+                        style={
+                          styles.bulletPoint && {
+                            marginBottom: 4,
+                          }
+                        }
                       >
-                        • {text}
+                        {summary.text}
                       </Text>
-                    ))
-                  )}
+                    ))}
+                    {exp.highlights?.map((highlight, highlightIndex) =>
+                      highlight.text.map((text, textIndex) => (
+                        <Text
+                          key={`${highlightIndex}-${textIndex}`}
+                          style={styles.bulletPoint}
+                        >
+                          • {text}
+                        </Text>
+                      ))
+                    )}
+                  </View>
                 </View>
               ))}
             </View>
