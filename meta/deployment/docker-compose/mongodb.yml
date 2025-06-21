@@ -14,4 +14,4 @@ services:
     networks:
       - default
     volumes:
-      - ./data/mongodb/:/data/db:Z
+      - ../data/mongodb/:/data/db:Z

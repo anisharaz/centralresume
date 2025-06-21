@@ -22,4 +22,4 @@ services:
       postgres:
       mongodb:
     volumes:
-      - ./data/main_app/.env:/app/.env:ro
+      - ../data/main_app/.env:/app/.env:ro

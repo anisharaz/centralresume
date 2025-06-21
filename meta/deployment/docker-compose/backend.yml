@@ -1,5 +1,3 @@
-version: "3.8"
-
 networks:
   default:
     external: true
@@ -24,4 +22,4 @@ services:
       postgres:
       mongodb:
     volumes:
-      - ./data/be/.env:/app/.env:ro
+      - ../data/be/.env:/app/.env:ro

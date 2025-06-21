@@ -14,4 +14,4 @@ services:
     networks:
       - default
     volumes:
-      - ./data/postgres/:/var/lib/postgresql/data:Z
+      - ../data/postgres/:/var/lib/postgresql/data:Z
