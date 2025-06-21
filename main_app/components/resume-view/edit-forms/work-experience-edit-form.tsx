@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, Control, FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { WORK_EXPERIENCE_SCHEMA } from "@/lib/zod/schemas/resume/work-experience";
 import { z } from "zod";
@@ -23,6 +23,111 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import cookies from "js-cookie";
 import { DEFAULT_TAG_NAME } from "@/lib/vars";
+
+// TagManagement component types
+interface TagManagementProps<T extends FieldValues = any> {
+  control: Control<T>;
+  fieldName: string;
+  resumeTags: string[];
+  currentTag: string;
+  onRemoveField?: () => void;
+  removeFieldLabel?: string;
+  canRemoveField?: boolean;
+  tagLabel?: string;
+}
+
+function TagManagement({
+  control,
+  fieldName,
+  resumeTags,
+  currentTag,
+  onRemoveField,
+  removeFieldLabel = "Remove",
+  canRemoveField = true,
+  tagLabel = "Tags",
+}: TagManagementProps) {
+  const {
+    fields: tagFields,
+    append: appendTag,
+    remove: removeTag,
+  } = useFieldArray({
+    control,
+    name: fieldName,
+  });
+
+  return (
+    <FormField
+      control={control}
+      name={fieldName}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>{tagLabel}</FormLabel>
+          <FormControl>
+            <div className="space-y-2">
+              {tagFields.map((tagField, tagIndex) => (
+                <FormField
+                  key={tagField.id}
+                  control={control}
+                  name={`${fieldName}.${tagIndex}.tag`}
+                  render={({ field: tagInputField }) => (
+                    <FormItem>
+                      <div className="flex items-center gap-2 flex-row-reverse">
+                        <FormControl>
+                          <Input
+                            {...tagInputField}
+                            placeholder={`Tag ${tagIndex + 1}`}
+                            list="tags"
+                          />
+                        </FormControl>
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="removeTag"
+                          onClick={() => removeTag(tagIndex)}
+                          disabled={tagFields.length <= 1}
+                        >
+                          Remove tag
+                        </Button>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              ))}
+              <Button
+                type="button"
+                className="mt-2"
+                variant="addTag"
+                size="sm"
+                onClick={() => appendTag({ tag: currentTag })}
+              >
+                Add Tag
+              </Button>
+              {onRemoveField && (
+                <>
+                  <Separator className="my-2" />
+                  <div className="flex gap-2">
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      onClick={onRemoveField}
+                      className="cursor-pointer"
+                      disabled={!canRemoveField}
+                    >
+                      {removeFieldLabel}
+                    </Button>
+                  </div>
+                </>
+              )}
+            </div>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+}
+
 function WorkExperienceEditForm({
   title,
   description,
@@ -113,11 +218,11 @@ function WorkExperienceEditForm({
                 onClick={() => {
                   prepend({
                     company: "",
-                    tags: [currentTag],
+                    tags: [{ tag: currentTag }],
                     website: "",
                     start_date: new Date().toISOString().split("T")[0],
                     end_date: undefined,
-                    position: [{ text: "", tags: [currentTag] }],
+                    position: [{ text: "", tags: [{ tag: currentTag }] }],
                     summary: [],
                     highlights: [],
                   });
@@ -203,69 +308,12 @@ function WorkExperienceEditForm({
                 </div>
 
                 {/* Company Tags */}
-                <FormField
+                <TagManagement
                   control={control}
-                  name={`work_experience.${index}.tags`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Company Tags</FormLabel>
-                      <FormControl>
-                        <div className="space-y-2">
-                          {field.value?.map((tag, tagIndex) => (
-                            <FormField
-                              key={tagIndex}
-                              control={control}
-                              name={`work_experience.${index}.tags.${tagIndex}`}
-                              render={({ field: tagField }) => (
-                                <FormItem>
-                                  <div className="flex gap-2 flex-row-reverse items-center">
-                                    <FormControl>
-                                      <Input
-                                        {...tagField}
-                                        placeholder={`Tag ${tagIndex + 1}`}
-                                        list="tags"
-                                      />
-                                    </FormControl>
-                                    <Button
-                                      type="button"
-                                      variant="removeTag"
-                                      size="sm"
-                                      onClick={() => {
-                                        const newTags =
-                                          field.value?.filter(
-                                            (_, i) => i !== tagIndex
-                                          ) || [];
-                                        field.onChange(newTags);
-                                      }}
-                                      disabled={field.value?.length <= 1}
-                                    >
-                                      Remove tag
-                                    </Button>
-                                  </div>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                          ))}
-                          <Button
-                            type="button"
-                            variant="addTag"
-                            size="sm"
-                            className="mt-2"
-                            onClick={() =>
-                              field.onChange([
-                                ...(field.value || []),
-                                currentTag,
-                              ])
-                            }
-                          >
-                            Add Tag
-                          </Button>
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  fieldName={`work_experience.${index}.tags`}
+                  resumeTags={resumeTags}
+                  currentTag={currentTag}
+                  tagLabel="Company Tags"
                 />
 
                 {/* Positions */}
@@ -296,102 +344,29 @@ function WorkExperienceEditForm({
                             )}
                           />
 
-                          <FormField
+                          <TagManagement
                             control={control}
-                            name={`work_experience.${index}.position.${posIndex}.tags`}
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Position Tags</FormLabel>
-                                <FormControl>
-                                  <div className="space-y-2">
-                                    {field.value?.map((tag, tagIndex) => (
-                                      <FormField
-                                        key={tagIndex}
-                                        control={control}
-                                        name={`work_experience.${index}.position.${posIndex}.tags.${tagIndex}`}
-                                        render={({ field: tagField }) => (
-                                          <FormItem>
-                                            <div className="flex gap-2 flex-row-reverse items-center">
-                                              <FormControl>
-                                                <Input
-                                                  {...tagField}
-                                                  placeholder={`Tag ${
-                                                    tagIndex + 1
-                                                  }`}
-                                                  list="tags"
-                                                />
-                                              </FormControl>
-                                              <Button
-                                                type="button"
-                                                variant="removeTag"
-                                                size="sm"
-                                                onClick={() => {
-                                                  const newTags =
-                                                    field.value?.filter(
-                                                      (_, i) => i !== tagIndex
-                                                    ) || [];
-                                                  field.onChange(newTags);
-                                                }}
-                                                disabled={
-                                                  field.value?.length <= 1
-                                                }
-                                              >
-                                                Remove tag
-                                              </Button>
-                                            </div>
-                                            <FormMessage />
-                                          </FormItem>
-                                        )}
-                                      />
-                                    ))}
-                                    <Button
-                                      type="button"
-                                      variant="addTag"
-                                      size="sm"
-                                      className="mt-2"
-                                      onClick={() =>
-                                        field.onChange([
-                                          ...(field.value || []),
-                                          currentTag,
-                                        ])
-                                      }
-                                    >
-                                      Add Position Tag
-                                    </Button>
-                                    <Separator className="my-2" />
-                                    <div className="flex gap-2">
-                                      <Button
-                                        type="button"
-                                        variant="destructive"
-                                        size="sm"
-                                        onClick={() => {
-                                          const currentPositions =
-                                            form.getValues(
-                                              `work_experience.${index}.position`
-                                            );
-                                          const newPositions =
-                                            currentPositions.filter(
-                                              (_, i) => i !== posIndex
-                                            );
-                                          form.setValue(
-                                            `work_experience.${index}.position`,
-                                            newPositions
-                                          );
-                                        }}
-                                        disabled={
-                                          form.watch(
-                                            `work_experience.${index}.position`
-                                          )?.length <= 1
-                                        }
-                                      >
-                                        Remove Position
-                                      </Button>
-                                    </div>
-                                  </div>
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
+                            fieldName={`work_experience.${index}.position.${posIndex}.tags`}
+                            resumeTags={resumeTags}
+                            currentTag={currentTag}
+                            tagLabel="Position Tags"
+                            onRemoveField={() => {
+                              const currentPositions = form.getValues(
+                                `work_experience.${index}.position`
+                              );
+                              const newPositions = currentPositions.filter(
+                                (_, i) => i !== posIndex
+                              );
+                              form.setValue(
+                                `work_experience.${index}.position`,
+                                newPositions
+                              );
+                            }}
+                            removeFieldLabel="Remove Position"
+                            canRemoveField={
+                              form.watch(`work_experience.${index}.position`)
+                                ?.length > 1
+                            }
                           />
                         </div>
                       ))}
@@ -404,7 +379,7 @@ function WorkExperienceEditForm({
                         );
                         form.setValue(`work_experience.${index}.position`, [
                           ...currentPositions,
-                          { text: "", tags: [currentTag] },
+                          { text: "", tags: [{ tag: currentTag }] },
                         ]);
                       }}
                     >
@@ -441,96 +416,26 @@ function WorkExperienceEditForm({
                             )}
                           />
 
-                          <FormField
+                          <TagManagement
                             control={control}
-                            name={`work_experience.${index}.summary.${summaryIndex}.tags`}
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Summary Tags</FormLabel>
-                                <FormControl>
-                                  <div className="space-y-2">
-                                    {field.value?.map((tag, tagIndex) => (
-                                      <FormField
-                                        key={tagIndex}
-                                        control={control}
-                                        name={`work_experience.${index}.summary.${summaryIndex}.tags.${tagIndex}`}
-                                        render={({ field: tagField }) => (
-                                          <FormItem>
-                                            <div className="flex gap-2 flex-row-reverse items-center">
-                                              <FormControl>
-                                                <Input
-                                                  {...tagField}
-                                                  placeholder={`Tag ${
-                                                    tagIndex + 1
-                                                  }`}
-                                                  list="tags"
-                                                />
-                                              </FormControl>
-                                              <Button
-                                                type="button"
-                                                variant="removeTag"
-                                                size="sm"
-                                                onClick={() => {
-                                                  const newTags =
-                                                    field.value?.filter(
-                                                      (_, i) => i !== tagIndex
-                                                    ) || [];
-                                                  field.onChange(newTags);
-                                                }}
-                                                disabled={
-                                                  field.value?.length <= 1
-                                                }
-                                              >
-                                                Remove tag
-                                              </Button>
-                                            </div>
-                                            <FormMessage />
-                                          </FormItem>
-                                        )}
-                                      />
-                                    ))}
-                                    <Button
-                                      type="button"
-                                      variant="addTag"
-                                      size="sm"
-                                      className="mt-2"
-                                      onClick={() =>
-                                        field.onChange([
-                                          ...(field.value || []),
-                                          currentTag,
-                                        ])
-                                      }
-                                    >
-                                      Add Summary Tag
-                                    </Button>
-                                    <Separator className="my-2" />
-                                    <div className="flex gap-2">
-                                      <Button
-                                        type="button"
-                                        variant="destructive"
-                                        size="sm"
-                                        onClick={() => {
-                                          const currentSummary = form.getValues(
-                                            `work_experience.${index}.summary`
-                                          );
-                                          const newSummary =
-                                            currentSummary.filter(
-                                              (_, i) => i !== summaryIndex
-                                            );
-                                          form.setValue(
-                                            `work_experience.${index}.summary`,
-                                            newSummary
-                                          );
-                                        }}
-                                      >
-                                        Remove Summary
-                                      </Button>
-                                    </div>
-                                  </div>
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
+                            fieldName={`work_experience.${index}.summary.${summaryIndex}.tags`}
+                            resumeTags={resumeTags}
+                            currentTag={currentTag}
+                            tagLabel="Summary Tags"
+                            onRemoveField={() => {
+                              const currentSummary = form.getValues(
+                                `work_experience.${index}.summary`
+                              );
+                              const newSummary = currentSummary.filter(
+                                (_, i) => i !== summaryIndex
+                              );
+                              form.setValue(
+                                `work_experience.${index}.summary`,
+                                newSummary
+                              );
+                            }}
+                            removeFieldLabel="Remove Summary"
+                            canRemoveField={true}
                           />
                         </div>
                       ))}
@@ -543,7 +448,7 @@ function WorkExperienceEditForm({
                         );
                         form.setValue(`work_experience.${index}.summary`, [
                           ...currentSummary,
-                          { text: "", tags: [currentTag] },
+                          { text: "", tags: [{ tag: currentTag }] },
                         ]);
                       }}
                     >
@@ -627,97 +532,26 @@ function WorkExperienceEditForm({
                             </Button>
                           </div>
 
-                          <FormField
+                          <TagManagement
                             control={control}
-                            name={`work_experience.${index}.highlights.${highlightIndex}.tags`}
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Highlight Tags</FormLabel>
-                                <FormControl>
-                                  <div className="space-y-2">
-                                    {field.value?.map((tag, tagIndex) => (
-                                      <FormField
-                                        key={tagIndex}
-                                        control={control}
-                                        name={`work_experience.${index}.highlights.${highlightIndex}.tags.${tagIndex}`}
-                                        render={({ field: tagField }) => (
-                                          <FormItem>
-                                            <div className="flex gap-2 flex-row-reverse items-center">
-                                              <FormControl>
-                                                <Input
-                                                  {...tagField}
-                                                  placeholder={`Tag ${
-                                                    tagIndex + 1
-                                                  }`}
-                                                  list="tags"
-                                                />
-                                              </FormControl>
-                                              <Button
-                                                type="button"
-                                                variant="removeTag"
-                                                size="sm"
-                                                onClick={() => {
-                                                  const newTags =
-                                                    field.value?.filter(
-                                                      (_, i) => i !== tagIndex
-                                                    ) || [];
-                                                  field.onChange(newTags);
-                                                }}
-                                                disabled={
-                                                  field.value?.length <= 1
-                                                }
-                                              >
-                                                Remove tag
-                                              </Button>
-                                            </div>
-                                            <FormMessage />
-                                          </FormItem>
-                                        )}
-                                      />
-                                    ))}
-                                    <Button
-                                      type="button"
-                                      variant="addTag"
-                                      size="sm"
-                                      className="mt-2"
-                                      onClick={() =>
-                                        field.onChange([
-                                          ...(field.value || []),
-                                          currentTag,
-                                        ])
-                                      }
-                                    >
-                                      Add Highlight Tag
-                                    </Button>
-                                    <Separator className="my-2" />
-                                    <div className="flex gap-2">
-                                      <Button
-                                        type="button"
-                                        variant="destructive"
-                                        size="sm"
-                                        onClick={() => {
-                                          const currentHighlights =
-                                            form.getValues(
-                                              `work_experience.${index}.highlights`
-                                            );
-                                          const newHighlights =
-                                            currentHighlights.filter(
-                                              (_, i) => i !== highlightIndex
-                                            );
-                                          form.setValue(
-                                            `work_experience.${index}.highlights`,
-                                            newHighlights
-                                          );
-                                        }}
-                                      >
-                                        Remove Highlight
-                                      </Button>
-                                    </div>
-                                  </div>
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
+                            fieldName={`work_experience.${index}.highlights.${highlightIndex}.tags`}
+                            resumeTags={resumeTags}
+                            currentTag={currentTag}
+                            tagLabel="Highlight Tags"
+                            onRemoveField={() => {
+                              const currentHighlights = form.getValues(
+                                `work_experience.${index}.highlights`
+                              );
+                              const newHighlights = currentHighlights.filter(
+                                (_, i) => i !== highlightIndex
+                              );
+                              form.setValue(
+                                `work_experience.${index}.highlights`,
+                                newHighlights
+                              );
+                            }}
+                            removeFieldLabel="Remove Highlight"
+                            canRemoveField={true}
                           />
                         </div>
                       ))}
@@ -730,7 +564,7 @@ function WorkExperienceEditForm({
                         );
                         form.setValue(`work_experience.${index}.highlights`, [
                           ...currentHighlights,
-                          { text: [""], tags: [currentTag] },
+                          { text: [""], tags: [{ tag: currentTag }] },
                         ]);
                       }}
                     >

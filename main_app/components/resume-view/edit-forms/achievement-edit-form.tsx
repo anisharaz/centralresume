@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, Control, FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ACHIEVEMENT_SCHEMA } from "@/lib/zod/schemas/resume/achievement";
 import { z } from "zod";
@@ -23,6 +23,111 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { DEFAULT_TAG_NAME } from "@/lib/vars";
 import cookies from "js-cookie";
+
+// TagManagement component types
+interface TagManagementProps<T extends FieldValues = any> {
+  control: Control<T>;
+  fieldName: string;
+  resumeTags: string[];
+  currentTag: string;
+  onRemoveField?: () => void;
+  removeFieldLabel?: string;
+  canRemoveField?: boolean;
+  tagLabel?: string;
+}
+
+function TagManagement({
+  control,
+  fieldName,
+  resumeTags,
+  currentTag,
+  onRemoveField,
+  removeFieldLabel = "Remove",
+  canRemoveField = true,
+  tagLabel = "Tags",
+}: TagManagementProps) {
+  const {
+    fields: tagFields,
+    append: appendTag,
+    remove: removeTag,
+  } = useFieldArray({
+    control,
+    name: fieldName,
+  });
+
+  return (
+    <FormField
+      control={control}
+      name={fieldName}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel className="text-lg font-bold">{tagLabel}</FormLabel>
+          <FormControl>
+            <div className="space-y-2">
+              {tagFields.map((tagField, tagIndex) => (
+                <FormField
+                  key={tagField.id}
+                  control={control}
+                  name={`${fieldName}.${tagIndex}.tag`}
+                  render={({ field: tagInputField }) => (
+                    <FormItem>
+                      <div className="flex items-center gap-2 flex-row-reverse">
+                        <FormControl>
+                          <Input
+                            {...tagInputField}
+                            placeholder={`Tag ${tagIndex + 1}`}
+                            list="tags"
+                          />
+                        </FormControl>
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="removeTag"
+                          onClick={() => removeTag(tagIndex)}
+                          disabled={tagFields.length <= 1}
+                        >
+                          Remove tag
+                        </Button>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              ))}
+              <Button
+                type="button"
+                className="mt-2"
+                variant="addTag"
+                size="sm"
+                onClick={() => appendTag({ tag: currentTag })}
+              >
+                Add Tag
+              </Button>
+              {onRemoveField && (
+                <>
+                  <Separator className="my-2" />
+                  <div className="flex gap-2">
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      onClick={onRemoveField}
+                      className="cursor-pointer"
+                      disabled={!canRemoveField}
+                    >
+                      {removeFieldLabel}
+                    </Button>
+                  </div>
+                </>
+              )}
+            </div>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+}
 function AchievementEditForm({
   title,
   description,
@@ -112,10 +217,10 @@ function AchievementEditForm({
                 onClick={() =>
                   prepend({
                     title: "",
-                    tags: [currentTag],
+                    tags: [{ tag: currentTag }],
                     date: new Date().toISOString().split("T")[0],
                     awarded_by: "",
-                    summary: [{ text: "", tags: [currentTag] }],
+                    summary: [{ text: "", tags: [{ tag: currentTag }] }],
                   })
                 }
               >
@@ -182,72 +287,12 @@ function AchievementEditForm({
                   />
                 </div>
 
-                <FormField
+                <TagManagement
                   control={control}
-                  name={`achievements.${index}.tags`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-lg font-bold">
-                        Achievement Tags
-                      </FormLabel>
-                      <FormControl>
-                        <div className="space-y-2">
-                          {field.value?.map((tag, tagIndex) => (
-                            <FormField
-                              key={tagIndex}
-                              control={control}
-                              name={`achievements.${index}.tags.${tagIndex}`}
-                              render={({ field: tagField }) => (
-                                <FormItem>
-                                  <div className="flex gap-2 flex-row-reverse items-center">
-                                    <FormControl>
-                                      <Input
-                                        {...tagField}
-                                        placeholder={`Tag ${tagIndex + 1}`}
-                                        list="tags"
-                                      />
-                                    </FormControl>
-                                    <Button
-                                      type="button"
-                                      variant="removeTag"
-                                      size="sm"
-                                      onClick={() => {
-                                        const newTags =
-                                          field.value?.filter(
-                                            (_, i) => i !== tagIndex
-                                          ) || [];
-                                        field.onChange(newTags);
-                                      }}
-                                      disabled={field.value?.length <= 1}
-                                    >
-                                      Remove tag
-                                    </Button>
-                                  </div>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                          ))}
-                          <Button
-                            type="button"
-                            variant="addTag"
-                            size="sm"
-                            className="mt-2"
-                            onClick={() =>
-                              field.onChange([
-                                ...(field.value || []),
-                                currentTag,
-                              ])
-                            }
-                          >
-                            Add Tag
-                          </Button>
-                          <Separator className="my-2" />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  fieldName={`achievements.${index}.tags`}
+                  resumeTags={resumeTags}
+                  currentTag={currentTag}
+                  tagLabel="Achievement Tags"
                 />
 
                 {/* Summary Section */}
@@ -264,7 +309,7 @@ function AchievementEditForm({
                         );
                         form.setValue(`achievements.${index}.summary`, [
                           ...currentSummary,
-                          { text: "", tags: [currentTag] },
+                          { text: "", tags: [{ tag: currentTag }] },
                         ]);
                       }}
                     >
@@ -298,98 +343,25 @@ function AchievementEditForm({
                           )}
                         />
 
-                        <FormField
+                        <TagManagement
                           control={control}
-                          name={`achievements.${index}.summary.${summaryIndex}.tags`}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="text-lg font-bold">
-                                Summary Tags
-                              </FormLabel>
-                              <FormControl>
-                                <div className="space-y-2">
-                                  {field.value?.map((tag, tagIndex) => (
-                                    <FormField
-                                      key={tagIndex}
-                                      control={control}
-                                      name={`achievements.${index}.summary.${summaryIndex}.tags.${tagIndex}`}
-                                      render={({ field: tagField }) => (
-                                        <FormItem>
-                                          <div className="flex gap-2 flex-row-reverse items-center">
-                                            <FormControl>
-                                              <Input
-                                                {...tagField}
-                                                placeholder={`Tag ${
-                                                  tagIndex + 1
-                                                }`}
-                                                list="tags"
-                                              />
-                                            </FormControl>
-                                            <Button
-                                              type="button"
-                                              variant="removeTag"
-                                              size="sm"
-                                              onClick={() => {
-                                                const newTags =
-                                                  field.value?.filter(
-                                                    (_, i) => i !== tagIndex
-                                                  ) || [];
-                                                field.onChange(newTags);
-                                              }}
-                                              disabled={
-                                                field.value?.length <= 1
-                                              }
-                                            >
-                                              Remove tag
-                                            </Button>
-                                          </div>
-                                          <FormMessage />
-                                        </FormItem>
-                                      )}
-                                    />
-                                  ))}
-                                  <Button
-                                    type="button"
-                                    variant="addTag"
-                                    size="sm"
-                                    className="mt-2"
-                                    onClick={() =>
-                                      field.onChange([
-                                        ...(field.value || []),
-                                        currentTag,
-                                      ])
-                                    }
-                                  >
-                                    Add Summary Tag
-                                  </Button>
-                                  <Separator className="my-2" />
-                                  <div className="flex gap-2">
-                                    <Button
-                                      type="button"
-                                      variant="destructive"
-                                      size="sm"
-                                      onClick={() => {
-                                        const currentSummary = form.getValues(
-                                          `achievements.${index}.summary`
-                                        );
-                                        const newSummary =
-                                          currentSummary.filter(
-                                            (_, i) => i !== summaryIndex
-                                          );
-                                        form.setValue(
-                                          `achievements.${index}.summary`,
-                                          newSummary
-                                        );
-                                      }}
-                                    >
-                                      Remove Summary
-                                    </Button>
-                                  </div>
-                                </div>
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
+                          fieldName={`achievements.${index}.summary.${summaryIndex}.tags`}
+                          resumeTags={resumeTags}
+                          currentTag={currentTag}
+                          onRemoveField={() => {
+                            const currentSummary = form.getValues(
+                              `achievements.${index}.summary`
+                            );
+                            const newSummary = currentSummary.filter(
+                              (_, i) => i !== summaryIndex
+                            );
+                            form.setValue(
+                              `achievements.${index}.summary`,
+                              newSummary
+                            );
+                          }}
+                          removeFieldLabel="Remove Summary"
+                          tagLabel="Summary Tags"
                         />
                       </div>
                     ))}

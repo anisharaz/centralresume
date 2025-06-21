@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, Control, FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PROJECTS_SCHEMA } from "@/lib/zod/schemas/resume/projects";
 import { z } from "zod";
@@ -23,6 +23,111 @@ import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import { DEFAULT_TAG_NAME } from "@/lib/vars";
 import cookies from "js-cookie";
+
+// TagManagement component types
+interface TagManagementProps<T extends FieldValues = any> {
+  control: Control<T>;
+  fieldName: string;
+  resumeTags: string[];
+  currentTag: string;
+  onRemoveField?: () => void;
+  removeFieldLabel?: string;
+  canRemoveField?: boolean;
+  tagLabel?: string;
+}
+
+function TagManagement({
+  control,
+  fieldName,
+  resumeTags,
+  currentTag,
+  onRemoveField,
+  removeFieldLabel = "Remove",
+  canRemoveField = true,
+  tagLabel = "Tags",
+}: TagManagementProps) {
+  const {
+    fields: tagFields,
+    append: appendTag,
+    remove: removeTag,
+  } = useFieldArray({
+    control,
+    name: fieldName,
+  });
+
+  return (
+    <FormField
+      control={control}
+      name={fieldName}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel className="text-lg font-bold">{tagLabel}</FormLabel>
+          <FormControl>
+            <div className="space-y-2">
+              {tagFields.map((tagField, tagIndex) => (
+                <FormField
+                  key={tagField.id}
+                  control={control}
+                  name={`${fieldName}.${tagIndex}.tag`}
+                  render={({ field: tagInputField }) => (
+                    <FormItem>
+                      <div className="flex items-center gap-2 flex-row-reverse">
+                        <FormControl>
+                          <Input
+                            {...tagInputField}
+                            placeholder={`Tag ${tagIndex + 1}`}
+                            list="tags"
+                          />
+                        </FormControl>
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="removeTag"
+                          onClick={() => removeTag(tagIndex)}
+                          disabled={tagFields.length <= 1}
+                        >
+                          Remove tag
+                        </Button>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              ))}
+              <Button
+                type="button"
+                className="mt-2"
+                variant="addTag"
+                size="sm"
+                onClick={() => appendTag({ tag: currentTag })}
+              >
+                Add Tag
+              </Button>
+              {onRemoveField && (
+                <>
+                  <Separator className="my-2" />
+                  <div className="flex gap-2">
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      onClick={onRemoveField}
+                      className="cursor-pointer"
+                      disabled={!canRemoveField}
+                    >
+                      {removeFieldLabel}
+                    </Button>
+                  </div>
+                </>
+              )}
+            </div>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+}
 function ProjectsEditForm({
   title,
   description,
@@ -112,7 +217,7 @@ function ProjectsEditForm({
                 onClick={() =>
                   prepend({
                     title: "",
-                    tags: [currentTag],
+                    tags: [{ tag: currentTag }],
                     startDate: new Date().toISOString().split("T")[0],
                     endDate: undefined,
                     summary: "",
@@ -223,80 +328,13 @@ function ProjectsEditForm({
                   )}
                 />
 
-                <FormField
+                <TagManagement
                   control={control}
-                  name={`projects.${index}.tags`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-lg font-bold">Tags</FormLabel>
-                      <FormControl>
-                        <div className="space-y-2">
-                          {field.value?.map((tag, tagIndex) => (
-                            <FormField
-                              key={tagIndex}
-                              control={control}
-                              name={`projects.${index}.tags.${tagIndex}`}
-                              render={({ field: tagField }) => (
-                                <FormItem>
-                                  <div className="flex gap-2 flex-row-reverse items-center">
-                                    <FormControl>
-                                      <Input
-                                        {...tagField}
-                                        placeholder={`Tag ${tagIndex + 1}`}
-                                        list="tags"
-                                      />
-                                    </FormControl>
-                                    <Button
-                                      type="button"
-                                      variant="removeTag"
-                                      size="sm"
-                                      onClick={() => {
-                                        const newTags =
-                                          field.value?.filter(
-                                            (_, i) => i !== tagIndex
-                                          ) || [];
-                                        field.onChange(newTags);
-                                      }}
-                                      disabled={field.value?.length <= 1}
-                                    >
-                                      Remove tag
-                                    </Button>
-                                  </div>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                          ))}
-                          <Button
-                            type="button"
-                            variant="addTag"
-                            size="sm"
-                            className="mt-2"
-                            onClick={() =>
-                              field.onChange([
-                                ...(field.value || []),
-                                currentTag,
-                              ])
-                            }
-                          >
-                            Add Tag
-                          </Button>
-                          <Separator className="my-2" />
-                          <div className="flex gap-2">
-                            <Button
-                              type="button"
-                              variant="destructive"
-                              size="sm"
-                              onClick={() => remove(index)}
-                            >
-                              Remove Project
-                            </Button>
-                          </div>
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  fieldName={`projects.${index}.tags`}
+                  resumeTags={resumeTags}
+                  currentTag={currentTag}
+                  onRemoveField={() => remove(index)}
+                  removeFieldLabel="Remove Project"
                 />
               </div>
             ))}

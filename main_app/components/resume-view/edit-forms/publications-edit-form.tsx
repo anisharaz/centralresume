@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useForm, useFieldArray, Control } from "react-hook-form";
+import { useForm, useFieldArray, Control, FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PUBLICATION_SCHEMA } from "@/lib/zod/schemas/resume/publication";
 import { z } from "zod";
@@ -23,6 +23,112 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { DEFAULT_TAG_NAME } from "@/lib/vars";
 import cookies from "js-cookie";
+
+// TagManagement component types
+interface TagManagementProps<T extends FieldValues = any> {
+  control: Control<T>;
+  fieldName: string;
+  resumeTags?: string[];
+  currentTag: string;
+  onRemoveField?: () => void;
+  removeFieldLabel?: string;
+  canRemoveField?: boolean;
+  tagLabel?: string;
+}
+
+function TagManagement({
+  control,
+  fieldName,
+  resumeTags = [],
+  currentTag,
+  onRemoveField,
+  removeFieldLabel = "Remove",
+  canRemoveField = true,
+  tagLabel = "Tags",
+}: TagManagementProps) {
+  const {
+    fields: tagFields,
+    append: appendTag,
+    remove: removeTag,
+  } = useFieldArray({
+    control,
+    name: fieldName,
+  });
+
+  return (
+    <FormField
+      control={control}
+      name={fieldName}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel className="text-lg font-bold">{tagLabel}</FormLabel>
+          <FormControl>
+            <div className="space-y-2">
+              {tagFields.map((tagField, tagIndex) => (
+                <FormField
+                  key={tagField.id}
+                  control={control}
+                  name={`${fieldName}.${tagIndex}.tag`}
+                  render={({ field: tagInputField }) => (
+                    <FormItem>
+                      <div className="flex items-center gap-2 flex-row-reverse">
+                        <FormControl>
+                          <Input
+                            {...tagInputField}
+                            placeholder={`Tag ${tagIndex + 1}`}
+                            list="tags"
+                          />
+                        </FormControl>
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="removeTag"
+                          onClick={() => removeTag(tagIndex)}
+                          disabled={tagFields.length <= 1}
+                        >
+                          Remove tag
+                        </Button>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              ))}
+              <Button
+                type="button"
+                className="mt-2"
+                variant="addTag"
+                size="sm"
+                onClick={() => appendTag({ tag: currentTag })}
+              >
+                Add Tag
+              </Button>
+              {onRemoveField && (
+                <>
+                  <Separator className="my-2" />
+                  <div className="flex gap-2">
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      onClick={onRemoveField}
+                      className="cursor-pointer"
+                      disabled={!canRemoveField}
+                    >
+                      {removeFieldLabel}
+                    </Button>
+                  </div>
+                </>
+              )}
+            </div>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+}
+
 function PublicationsEditForm({
   title,
   description,
@@ -116,7 +222,7 @@ function PublicationsEditForm({
                 onClick={() =>
                   prependPublication({
                     name: "",
-                    tags: [currentTag],
+                    tags: [{ tag: currentTag }],
                     publisher: "",
                     releaseDate: new Date().toISOString().split("T")[0],
                     url: "",
@@ -208,73 +314,12 @@ function PublicationsEditForm({
                 />
 
                 {/* Publication Tags */}
-                <FormField
+                <TagManagement
                   control={control}
-                  name={`publications.${index}.tags`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-lg font-bold">
-                        Publication Tags
-                      </FormLabel>
-                      <FormControl>
-                        <div className="space-y-2">
-                          {field.value?.map((tag: string, tagIndex: number) => (
-                            <FormField
-                              key={tagIndex}
-                              control={control}
-                              name={`publications.${index}.tags.${tagIndex}`}
-                              render={({ field: tagField }) => (
-                                <FormItem>
-                                  <div className="flex gap-2 flex-row-reverse items-center">
-                                    <FormControl>
-                                      <Input
-                                        {...tagField}
-                                        placeholder={`Tag ${tagIndex + 1}`}
-                                        list="tags"
-                                      />
-                                    </FormControl>
-                                    <Button
-                                      type="button"
-                                      variant="removeTag"
-                                      size="sm"
-                                      onClick={() => {
-                                        const newTags =
-                                          field.value?.filter(
-                                            (_: string, i: number) =>
-                                              i !== tagIndex
-                                          ) || [];
-                                        field.onChange(newTags);
-                                      }}
-                                      disabled={field.value?.length <= 1}
-                                    >
-                                      Remove tag
-                                    </Button>
-                                  </div>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                          ))}
-                          <Button
-                            type="button"
-                            variant="addTag"
-                            size="sm"
-                            className="mt-2"
-                            onClick={() =>
-                              field.onChange([
-                                ...(field.value || []),
-                                currentTag,
-                              ])
-                            }
-                          >
-                            Add Tag
-                          </Button>
-                          <Separator className="my-2" />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  fieldName={`publications.${index}.tags`}
+                  resumeTags={resumeTags}
+                  currentTag={currentTag}
+                  tagLabel="Publication Tags"
                 />
 
                 {/* Publication Summary */}
@@ -346,7 +391,9 @@ function PublicationSummarySection({
           type="button"
           size="sm"
           className="cursor-pointer"
-          onClick={() => appendSummary({ text: "", tags: [currentTag] })}
+          onClick={() =>
+            appendSummary({ text: "", tags: [{ tag: currentTag }] })
+          }
         >
           Add Summary
         </Button>
@@ -373,79 +420,14 @@ function PublicationSummarySection({
             )}
           />
 
-          <FormField
+          <TagManagement
             control={control}
-            name={`publications.${publicationIndex}.summary.${summaryIndex}.tags`}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-lg font-bold">
-                  Summary Tags
-                </FormLabel>
-                <FormControl>
-                  <div className="space-y-2">
-                    {field.value?.map((tag: string, tagIndex: number) => (
-                      <FormField
-                        key={tagIndex}
-                        control={control}
-                        name={`publications.${publicationIndex}.summary.${summaryIndex}.tags.${tagIndex}`}
-                        render={({ field: tagField }) => (
-                          <FormItem>
-                            <div className="flex gap-2 flex-row-reverse items-center">
-                              <FormControl>
-                                <Input
-                                  {...tagField}
-                                  placeholder={`Tag ${tagIndex + 1}`}
-                                  list="tags"
-                                />
-                              </FormControl>
-                              <Button
-                                type="button"
-                                variant="removeTag"
-                                size="sm"
-                                onClick={() => {
-                                  const newTags =
-                                    field.value?.filter(
-                                      (_: string, i: number) => i !== tagIndex
-                                    ) || [];
-                                  field.onChange(newTags);
-                                }}
-                                disabled={field.value?.length <= 1}
-                              >
-                                Remove tag
-                              </Button>
-                            </div>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    ))}
-                    <Button
-                      type="button"
-                      variant="addTag"
-                      size="sm"
-                      className="mt-2"
-                      onClick={() =>
-                        field.onChange([...(field.value || []), currentTag])
-                      }
-                    >
-                      Add Tag
-                    </Button>
-                    <Separator className="my-2" />
-                    <div className="flex gap-2">
-                      <Button
-                        type="button"
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => removeSummary(summaryIndex)}
-                      >
-                        Remove Summary
-                      </Button>
-                    </div>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            fieldName={`publications.${publicationIndex}.summary.${summaryIndex}.tags`}
+            currentTag={currentTag}
+            tagLabel="Summary Tags"
+            onRemoveField={() => removeSummary(summaryIndex)}
+            removeFieldLabel="Remove Summary"
+            canRemoveField={true}
           />
         </div>
       ))}

@@ -28,23 +28,23 @@ import { DEFAULT_TAG_NAME } from "@/lib/vars";
 interface TagManagementProps<T extends FieldValues = any> {
   control: Control<T>;
   fieldName: string;
-  fieldIndex: number;
   resumeTags: string[];
   currentTag: string;
   onRemoveField?: () => void;
   removeFieldLabel?: string;
   canRemoveField?: boolean;
+  tagLabel?: string;
 }
 
 function TagManagement({
   control,
   fieldName,
-  fieldIndex,
   resumeTags,
   currentTag,
   onRemoveField,
   removeFieldLabel = "Remove",
   canRemoveField = true,
+  tagLabel = "Tags",
 }: TagManagementProps) {
   const {
     fields: tagFields,
@@ -52,23 +52,23 @@ function TagManagement({
     remove: removeTag,
   } = useFieldArray({
     control,
-    name: `${fieldName}.${fieldIndex}.tags`,
+    name: fieldName,
   });
 
   return (
     <FormField
       control={control}
-      name={`${fieldName}.${fieldIndex}.tags`}
+      name={fieldName}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Tags</FormLabel>
+          <FormLabel className="text-lg font-bold">{tagLabel}</FormLabel>
           <FormControl>
             <div className="space-y-2">
               {tagFields.map((tagField, tagIndex) => (
                 <FormField
                   key={tagField.id}
                   control={control}
-                  name={`${fieldName}.${fieldIndex}.tags.${tagIndex}.tag`}
+                  name={`${fieldName}.${tagIndex}.tag`}
                   render={({ field: tagInputField }) => (
                     <FormItem>
                       <div className="flex items-center gap-2 flex-row-reverse">
@@ -101,21 +101,24 @@ function TagManagement({
                 size="sm"
                 onClick={() => appendTag({ tag: currentTag })}
               >
-                Add more TAGs
+                Add Tag
               </Button>
-              <Separator className="my-2" />
               {onRemoveField && (
-                <div className="flex gap-2">
-                  <Button
-                    type="button"
-                    variant="destructive"
-                    onClick={onRemoveField}
-                    className="cursor-pointer"
-                    disabled={!canRemoveField}
-                  >
-                    {removeFieldLabel}
-                  </Button>
-                </div>
+                <>
+                  <Separator className="my-2" />
+                  <div className="flex gap-2">
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      onClick={onRemoveField}
+                      className="cursor-pointer"
+                      disabled={!canRemoveField}
+                    >
+                      {removeFieldLabel}
+                    </Button>
+                  </div>
+                </>
               )}
             </div>
           </FormControl>
@@ -329,13 +332,13 @@ function PersonalDetailEditForm({
 
                 <TagManagement
                   control={control}
-                  fieldName="personal_details.tag_line"
-                  fieldIndex={index}
+                  fieldName={`personal_details.tag_line.${index}.tags`}
                   resumeTags={resumeTags}
                   currentTag={currentTag}
                   onRemoveField={() => removeTagLine(index)}
                   removeFieldLabel="Remove Title"
                   canRemoveField={tagLineFields.length > 1}
+                  tagLabel="Tags"
                 />
               </div>
             ))}
@@ -389,13 +392,13 @@ function PersonalDetailEditForm({
 
                 <TagManagement
                   control={control}
-                  fieldName="personal_details.summary"
-                  fieldIndex={index}
+                  fieldName={`personal_details.summary.${index}.tags`}
                   resumeTags={resumeTags}
                   currentTag={currentTag}
                   onRemoveField={() => removeSummary(index)}
                   removeFieldLabel="Remove Summary"
                   canRemoveField={summaryFields.length > 1}
+                  tagLabel="Tags"
                 />
               </div>
             ))}
@@ -500,13 +503,13 @@ function PersonalDetailEditForm({
 
                 <TagManagement
                   control={control}
-                  fieldName="personal_details.social_links"
-                  fieldIndex={index}
+                  fieldName={`personal_details.social_links.${index}.tags`}
                   resumeTags={resumeTags}
                   currentTag={currentTag}
                   onRemoveField={() => removeSocialLink(index)}
                   removeFieldLabel="Remove Social Link"
                   canRemoveField={socialLinkFields.length > 1}
+                  tagLabel="Tags"
                 />
               </div>
             ))}
