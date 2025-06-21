@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, Control, FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PERSONAL_DETAILS_SCHEMA } from "@/lib/zod/schemas/resume/personal-detail";
 import { z } from "zod";
@@ -23,6 +23,109 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import cookies from "js-cookie";
 import { DEFAULT_TAG_NAME } from "@/lib/vars";
+
+// TagManagement component types
+interface TagManagementProps<T extends FieldValues = any> {
+  control: Control<T>;
+  fieldName: string;
+  fieldIndex: number;
+  resumeTags: string[];
+  currentTag: string;
+  onRemoveField?: () => void;
+  removeFieldLabel?: string;
+  canRemoveField?: boolean;
+}
+
+function TagManagement({
+  control,
+  fieldName,
+  fieldIndex,
+  resumeTags,
+  currentTag,
+  onRemoveField,
+  removeFieldLabel = "Remove",
+  canRemoveField = true,
+}: TagManagementProps) {
+  const {
+    fields: tagFields,
+    append: appendTag,
+    remove: removeTag,
+  } = useFieldArray({
+    control,
+    name: `${fieldName}.${fieldIndex}.tags`,
+  });
+
+  return (
+    <FormField
+      control={control}
+      name={`${fieldName}.${fieldIndex}.tags`}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Tags</FormLabel>
+          <FormControl>
+            <div className="space-y-2">
+              {tagFields.map((tagField, tagIndex) => (
+                <FormField
+                  key={tagField.id}
+                  control={control}
+                  name={`${fieldName}.${fieldIndex}.tags.${tagIndex}.tag`}
+                  render={({ field: tagInputField }) => (
+                    <FormItem>
+                      <div className="flex items-center gap-2 flex-row-reverse">
+                        <FormControl>
+                          <Input
+                            {...tagInputField}
+                            placeholder={`Tag ${tagIndex + 1}`}
+                            list="tags"
+                          />
+                        </FormControl>
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="removeTag"
+                          onClick={() => removeTag(tagIndex)}
+                          disabled={tagFields.length <= 1}
+                        >
+                          Remove tag
+                        </Button>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              ))}
+              <Button
+                type="button"
+                className="mt-2"
+                variant="addTag"
+                size="sm"
+                onClick={() => appendTag({ tag: currentTag })}
+              >
+                Add more TAGs
+              </Button>
+              <Separator className="my-2" />
+              {onRemoveField && (
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    onClick={onRemoveField}
+                    className="cursor-pointer"
+                    disabled={!canRemoveField}
+                  >
+                    {removeFieldLabel}
+                  </Button>
+                </div>
+              )}
+            </div>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+}
+
 function PersonalDetailEditForm({
   title,
   description,
@@ -192,7 +295,14 @@ function PersonalDetailEditForm({
                 size="sm"
                 className="cursor-pointer"
                 onClick={() =>
-                  appendTagLine({ text: "edit me", tags: [currentTag] })
+                  appendTagLine({
+                    text: "edit me",
+                    tags: [
+                      {
+                        tag: currentTag,
+                      },
+                    ],
+                  })
                 }
               >
                 Add another title
@@ -217,78 +327,15 @@ function PersonalDetailEditForm({
                   )}
                 />
 
-                <FormField
+                <TagManagement
                   control={control}
-                  name={`personal_details.tag_line.${index}.tags`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Tags</FormLabel>
-                      <FormControl>
-                        <div className="space-y-2">
-                          {field.value?.map((tag, tagIndex) => (
-                            <FormField
-                              key={tagIndex}
-                              control={control}
-                              name={`personal_details.tag_line.${index}.tags.${tagIndex}`}
-                              render={({ field: tagField }) => (
-                                <FormItem>
-                                  <div className="flex items-center gap-2 flex-row-reverse">
-                                    <FormControl>
-                                      <Input
-                                        {...tagField}
-                                        placeholder={`Tag ${tagIndex + 1}`}
-                                        list="tags"
-                                      />
-                                    </FormControl>
-                                    <Button
-                                      type="button"
-                                      size="sm"
-                                      variant="removeTag"
-                                      onClick={() => {
-                                        const newTags =
-                                          field.value?.filter(
-                                            (_, i) => i !== tagIndex
-                                          ) || [];
-                                        field.onChange(newTags);
-                                      }}
-                                      disabled={field.value?.length <= 1}
-                                    >
-                                      Remove tag
-                                    </Button>
-                                  </div>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                          ))}
-                          <Button
-                            type="button"
-                            className="mt-2"
-                            variant="addTag"
-                            size="sm"
-                            onClick={() =>
-                              field.onChange([...field.value, currentTag])
-                            }
-                          >
-                            Add more TAGs
-                          </Button>
-                          <Separator className="my-2" />
-                          <div className="flex gap-2">
-                            <Button
-                              type="button"
-                              variant="destructive"
-                              onClick={() => removeTagLine(index)}
-                              className="cursor-pointer"
-                              disabled={tagLineFields.length <= 1}
-                            >
-                              Remove Title
-                            </Button>
-                          </div>
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  fieldName="personal_details.tag_line"
+                  fieldIndex={index}
+                  resumeTags={resumeTags}
+                  currentTag={currentTag}
+                  onRemoveField={() => removeTagLine(index)}
+                  removeFieldLabel="Remove Title"
+                  canRemoveField={tagLineFields.length > 1}
                 />
               </div>
             ))}
@@ -313,7 +360,7 @@ function PersonalDetailEditForm({
                 onClick={() =>
                   appendSummary({
                     text: "I thrive in working better.",
-                    tags: [currentTag],
+                    tags: [{ tag: currentTag }],
                   })
                 }
                 className="cursor-pointer"
@@ -340,77 +387,15 @@ function PersonalDetailEditForm({
                   )}
                 />
 
-                <FormField
+                <TagManagement
                   control={control}
-                  name={`personal_details.summary.${index}.tags`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Tags</FormLabel>
-                      <FormControl>
-                        <div className="space-y-2">
-                          {field.value?.map((tag, tagIndex) => (
-                            <FormField
-                              key={tagIndex}
-                              control={control}
-                              name={`personal_details.summary.${index}.tags.${tagIndex}`}
-                              render={({ field: tagField }) => (
-                                <FormItem>
-                                  <div className="flex gap-2 flex-row-reverse items-center">
-                                    <FormControl>
-                                      <Input
-                                        {...tagField}
-                                        placeholder={`Tag ${tagIndex + 1}`}
-                                        list="tags"
-                                      />
-                                    </FormControl>
-                                    <Button
-                                      type="button"
-                                      variant="removeTag"
-                                      size="sm"
-                                      onClick={() => {
-                                        const newTags =
-                                          field.value?.filter(
-                                            (_, i) => i !== tagIndex
-                                          ) || [];
-                                        field.onChange(newTags);
-                                      }}
-                                      disabled={field.value?.length <= 1}
-                                    >
-                                      Remove tag
-                                    </Button>
-                                  </div>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                          ))}
-                          <Button
-                            type="button"
-                            variant="addTag"
-                            size="sm"
-                            className="mt-2"
-                            onClick={() =>
-                              field.onChange([...field.value, currentTag])
-                            }
-                          >
-                            Add another Tag
-                          </Button>
-                          <Separator className="my-2" />
-                          <div className="flex gap-2">
-                            <Button
-                              type="button"
-                              variant="destructive"
-                              size="sm"
-                              onClick={() => removeSummary(index)}
-                            >
-                              Remove Summary
-                            </Button>
-                          </div>
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  fieldName="personal_details.summary"
+                  fieldIndex={index}
+                  resumeTags={resumeTags}
+                  currentTag={currentTag}
+                  onRemoveField={() => removeSummary(index)}
+                  removeFieldLabel="Remove Summary"
+                  canRemoveField={summaryFields.length > 1}
                 />
               </div>
             ))}
@@ -471,7 +456,11 @@ function PersonalDetailEditForm({
                 type="button"
                 size="sm"
                 onClick={() =>
-                  appendSocialLink({ name: "", url: "", tags: [currentTag] })
+                  appendSocialLink({
+                    name: "",
+                    url: "",
+                    tags: [{ tag: currentTag }],
+                  })
                 }
               >
                 Add Social Link
@@ -509,77 +498,15 @@ function PersonalDetailEditForm({
                   />
                 </div>
 
-                <FormField
+                <TagManagement
                   control={control}
-                  name={`personal_details.social_links.${index}.tags`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Tags</FormLabel>
-                      <FormControl>
-                        <div className="space-y-2">
-                          {field.value?.map((tag, tagIndex) => (
-                            <FormField
-                              key={tagIndex}
-                              control={control}
-                              name={`personal_details.social_links.${index}.tags.${tagIndex}`}
-                              render={({ field: tagField }) => (
-                                <FormItem>
-                                  <div className="flex gap-2 flex-row-reverse items-center">
-                                    <FormControl>
-                                      <Input
-                                        {...tagField}
-                                        placeholder={`Tag ${tagIndex + 1}`}
-                                        list="tags"
-                                      />
-                                    </FormControl>
-                                    <Button
-                                      type="button"
-                                      variant="removeTag"
-                                      size="sm"
-                                      onClick={() => {
-                                        const newTags =
-                                          field.value?.filter(
-                                            (_, i) => i !== tagIndex
-                                          ) || [];
-                                        field.onChange(newTags);
-                                      }}
-                                      disabled={field.value?.length <= 1}
-                                    >
-                                      Remove tag
-                                    </Button>
-                                  </div>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                          ))}
-                          <Button
-                            type="button"
-                            variant="addTag"
-                            size="sm"
-                            className="mt-2"
-                            onClick={() =>
-                              field.onChange([...field.value, currentTag])
-                            }
-                          >
-                            Add Tag
-                          </Button>
-                          <Separator className="my-2" />
-                          <div className="flex gap-2">
-                            <Button
-                              type="button"
-                              variant="destructive"
-                              size="sm"
-                              onClick={() => removeSocialLink(index)}
-                            >
-                              Remove Social Link
-                            </Button>
-                          </div>
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  fieldName="personal_details.social_links"
+                  fieldIndex={index}
+                  resumeTags={resumeTags}
+                  currentTag={currentTag}
+                  onRemoveField={() => removeSocialLink(index)}
+                  removeFieldLabel="Remove Social Link"
+                  canRemoveField={socialLinkFields.length > 1}
                 />
               </div>
             ))}

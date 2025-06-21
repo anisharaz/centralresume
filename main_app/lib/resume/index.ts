@@ -8,7 +8,7 @@ export class Resume {
   }
 
   /**
-   * Recursively sanitize the resume data to remove empty strings from tags arrays
+   * Recursively sanitize the resume data to remove empty or duplicate tags
    */
   private sanitizeTags(data: any): any {
     if (Array.isArray(data)) {
@@ -18,11 +18,14 @@ export class Resume {
       for (const key in data) {
         if (key === "tags" && Array.isArray(data[key])) {
           const filteredUniqueTags = Array.from(
-            new Set(
-              data[key].filter(
-                (tag: string) => typeof tag === "string" && tag.trim() !== ""
-              )
-            )
+            new Map(
+              data[key]
+                .filter(
+                  (tagObj: any) =>
+                    typeof tagObj?.tag === "string" && tagObj.tag.trim() !== ""
+                )
+                .map((tagObj: { tag: string }) => [tagObj.tag, tagObj])
+            ).values()
           );
           sanitized[key] = filteredUniqueTags;
         } else {
@@ -35,7 +38,7 @@ export class Resume {
   }
 
   /**
-   * copyTag
+   * copyTag: copy a tag to new name wherever it exists
    */
   public copyTag({
     fromTag,
@@ -51,14 +54,14 @@ export class Resume {
         const result: Record<string, any> = {};
         for (const key in data) {
           if (key === "tags" && Array.isArray(data[key])) {
-            // If this tags array contains fromTag, add newTagName if not already present
-            if (data[key].includes(fromTag)) {
-              result[key] = data[key].includes(newTagName)
-                ? data[key]
-                : [...data[key], newTagName];
-            } else {
-              result[key] = data[key];
-            }
+            const tags: { tag: string }[] = data[key];
+            const hasFrom = tags.some((t) => t.tag === fromTag);
+            const hasNew = tags.some((t) => t.tag === newTagName);
+            result[key] = hasFrom
+              ? hasNew
+                ? tags
+                : [...tags, { tag: newTagName }]
+              : tags;
           } else {
             result[key] = addTagWhereExists(data[key]);
           }
@@ -72,83 +75,78 @@ export class Resume {
   }
 
   /**
-   * getByTag
+   * getByTag: filter resume by tag
    */
   public getByTag(tag: string): ResumeDataType {
     function filterByTag({ data, tag }: { data: any; tag: string }): any {
       if (Array.isArray(data)) {
         const filteredArray = data
           .map((item) => filterByTag({ data: item, tag }))
-          .filter((item) => {
-            // Keep only non-empty objects and primitives
-            return (
+          .filter(
+            (item) =>
               item !== null &&
               (typeof item !== "object" ||
                 (Array.isArray(item)
                   ? item.length > 0
                   : Object.keys(item).length > 0))
-            );
-          });
+          );
         return filteredArray.length > 0 ? filteredArray : [];
       } else if (typeof data === "object" && data !== null) {
-        if ("tags" in data && !data.tags.includes(tag)) {
-          return null; // remove object from output
+        if (
+          "tags" in data &&
+          Array.isArray(data.tags) &&
+          !data.tags.some((t: { tag: string }) => t.tag === tag)
+        ) {
+          return null;
         }
 
         const result: Record<string, any> = {};
         for (const key in data) {
-          if (key === "tags") continue; // remove tags field
+          if (key === "tags") continue; // Exclude tag field
           const filtered = filterByTag({ data: data[key], tag });
           result[key] = filtered;
         }
-
         return result;
       }
 
       return data;
     }
+
     return filterByTag({ data: this.data, tag });
   }
 
   /**
-   * extractTags
-   * Extracts all tags from the resume data.
+   * extractTags: collect all tag strings from resume
    */
   public extractTags(): string[] {
-    function extractAllTags(resume: any): string[] {
-      const collectedTags: Set<string> = new Set();
-      function extractTags(obj: any): void {
-        if (!obj) return;
+    const collectedTags = new Set<string>();
 
-        if (Array.isArray(obj)) {
-          for (const item of obj) {
-            extractTags(item);
-          }
-        } else if (typeof obj === "object") {
-          for (const key in obj) {
-            if (key === "tags" && Array.isArray(obj[key])) {
-              for (const tag of obj[key]) {
-                collectedTags.add(tag);
+    function extractAllTags(data: any): void {
+      if (Array.isArray(data)) {
+        for (const item of data) {
+          extractAllTags(item);
+        }
+      } else if (typeof data === "object" && data !== null) {
+        for (const key in data) {
+          if (key === "tags" && Array.isArray(data[key])) {
+            for (const tagObj of data[key]) {
+              if (typeof tagObj?.tag === "string") {
+                collectedTags.add(tagObj.tag);
               }
-            } else {
-              extractTags(obj[key]);
             }
+          } else {
+            extractAllTags(data[key]);
           }
         }
       }
-      extractTags(resume);
-      collectedTags.forEach((tag) => {
-        if (tag === null) {
-          collectedTags.delete(tag);
-        }
-      });
-      return Array.from(collectedTags);
     }
-    return extractAllTags(this.data);
+
+    extractAllTags(this.data);
+    return Array.from(collectedTags);
   }
 
   /**
-   * getResume
+   * Get the sanitized resume
    */
   public getResume() {
     return this.data;

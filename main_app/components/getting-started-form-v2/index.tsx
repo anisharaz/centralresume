@@ -40,7 +40,7 @@ export default function GettingStartedFormV2({
         tag_line: [
           {
             text: "Computer science student at ..(edit me)..",
-            tags: ["#common"],
+            tags: [{ tag: "#common" }],
           },
         ],
         summary: [],

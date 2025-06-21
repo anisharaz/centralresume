@@ -11,9 +11,113 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useFieldArray } from "react-hook-form";
+import { useFieldArray, Control, FieldValues } from "react-hook-form";
 import { Separator } from "@/components/ui/separator";
 import { DEFAULT_TAG_NAME } from "@/lib/vars";
+
+// TagManagement component types
+interface TagManagementProps<T extends FieldValues = any> {
+  control: Control<T>;
+  fieldName: string;
+  fieldIndex: number;
+  currentTag: string;
+  onRemoveField?: () => void;
+  removeFieldLabel?: string;
+  canRemoveField?: boolean;
+}
+
+function TagManagement({
+  control,
+  fieldName,
+  fieldIndex,
+  currentTag,
+  onRemoveField,
+  removeFieldLabel = "Remove",
+  canRemoveField = true,
+}: TagManagementProps) {
+  const {
+    fields: tagFields,
+    append: appendTag,
+    remove: removeTag,
+  } = useFieldArray({
+    control,
+    name: `${fieldName}.${fieldIndex}.tags`,
+  });
+
+  return (
+    <FormField
+      control={control}
+      name={`${fieldName}.${fieldIndex}.tags`}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Tags</FormLabel>
+          <FormControl>
+            <div className="space-y-2">
+              {tagFields.map((tagField, tagIndex) => (
+                <FormField
+                  key={tagField.id}
+                  control={control}
+                  name={`${fieldName}.${fieldIndex}.tags.${tagIndex}.tag`}
+                  render={({ field: tagInputField }) => (
+                    <FormItem>
+                      <div className="flex items-center gap-2 flex-row-reverse">
+                        <FormControl>
+                          <Input
+                            {...tagInputField}
+                            placeholder={`Tag ${tagIndex + 1}`}
+                            disabled={tagInputField.value === DEFAULT_TAG_NAME}
+                          />
+                        </FormControl>
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => removeTag(tagIndex)}
+                          disabled={
+                            tagFields.length <= 1 ||
+                            tagInputField.value === DEFAULT_TAG_NAME
+                          }
+                        >
+                          Remove tag
+                        </Button>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              ))}
+              <Separator className="my-4" />
+              <div className="flex gap-2">
+                {onRemoveField && (
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="sm"
+                    onClick={onRemoveField}
+                    className="cursor-pointer"
+                    disabled={!canRemoveField}
+                  >
+                    {removeFieldLabel}
+                  </Button>
+                )}
+                <Button
+                  type="button"
+                  className=""
+                  variant="outline"
+                  size="sm"
+                  onClick={() => appendTag({ tag: "#new" })}
+                >
+                  Add more TAGs
+                </Button>
+              </div>
+            </div>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+}
 
 interface PersonalDetailsFormProps {
   form: UseFormReturn<RESUME_TYPE>;
@@ -136,7 +240,7 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
             onClick={() =>
               appendTagLine({
                 text: "edit me",
-                tags: ["#new"],
+                tags: [{ tag: "#new" }],
               })
             }
           >
@@ -163,89 +267,14 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
               )}
             />
 
-            <FormField
+            <TagManagement
               control={control}
-              name={`personal_details.tag_line.${index}.tags`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Tags</FormLabel>
-                  <FormControl>
-                    <div className="space-y-2 ">
-                      {field.value?.map((tag: string, tagIndex: number) => (
-                        <FormField
-                          key={tagIndex}
-                          control={control}
-                          name={`personal_details.tag_line.${index}.tags.${tagIndex}`}
-                          render={({ field: tagField }) => (
-                            <FormItem>
-                              <FormControl>
-                                <div className="flex items-center gap-2 flex-row-reverse">
-                                  <Input
-                                    value={tag}
-                                    onChange={(e) => {
-                                      const newTags = [...(field.value || [])];
-                                      newTags[tagIndex] = e.target.value;
-                                      field.onChange(newTags);
-                                    }}
-                                    placeholder={`Tag ${tagIndex + 1}`}
-                                    disabled={tag === DEFAULT_TAG_NAME}
-                                  />
-                                  <Button
-                                    type="button"
-                                    size="sm"
-                                    variant="destructive"
-                                    onClick={() => {
-                                      const newTags =
-                                        field.value?.filter(
-                                          (_: string, i: number) =>
-                                            i !== tagIndex
-                                        ) || [];
-                                      field.onChange(newTags);
-                                    }}
-                                    disabled={
-                                      field.value?.length <= 1 ||
-                                      tag === DEFAULT_TAG_NAME
-                                    }
-                                  >
-                                    Remove tag
-                                  </Button>
-                                </div>
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      ))}
-
-                      <Separator className="my-4" />
-                      <div className="flex gap-2 ">
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          size="sm"
-                          onClick={() => removeTagLine(index)}
-                          className="cursor-pointer"
-                          disabled={tagLineFields.length <= 1}
-                        >
-                          Remove Title
-                        </Button>
-                        <Button
-                          type="button"
-                          className=""
-                          variant="outline"
-                          size="sm"
-                          onClick={() =>
-                            field.onChange([...field.value, "#new"])
-                          }
-                        >
-                          Add more TAGs
-                        </Button>
-                      </div>
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              fieldName="personal_details.tag_line"
+              fieldIndex={index}
+              currentTag="#new"
+              onRemoveField={() => removeTagLine(index)}
+              removeFieldLabel="Remove Title"
+              canRemoveField={tagLineFields.length > 1}
             />
           </div>
         ))}
@@ -273,7 +302,10 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
             onClick={() =>
               appendSummary({
                 text: "I thrive in working better.",
-                tags: summaryFields.length > 0 ? ["#new"] : ["#common"],
+                tags:
+                  summaryFields.length > 0
+                    ? [{ tag: "#new" }]
+                    : [{ tag: "#common" }],
               })
             }
             className="cursor-pointer"
@@ -301,85 +333,14 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
               )}
             />
 
-            <FormField
+            <TagManagement
               control={control}
-              name={`personal_details.summary.${index}.tags`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Tags</FormLabel>
-                  <FormControl>
-                    <div className="space-y-2">
-                      {field.value?.map((tag: string, tagIndex: number) => (
-                        <FormField
-                          key={tagIndex}
-                          control={control}
-                          name={`personal_details.summary.${index}.tags.${tagIndex}`}
-                          render={({ field: tagField }) => (
-                            <FormItem>
-                              <FormControl>
-                                <div className="flex gap-2 flex-row-reverse">
-                                  <Input
-                                    value={tag}
-                                    onChange={(e) => {
-                                      const newTags = [...(field.value || [])];
-                                      newTags[tagIndex] = e.target.value;
-                                      field.onChange(newTags);
-                                    }}
-                                    placeholder={`Tag ${tagIndex + 1}`}
-                                    disabled={tag === DEFAULT_TAG_NAME}
-                                  />
-                                  <Button
-                                    type="button"
-                                    variant="destructive"
-                                    size="sm"
-                                    onClick={() => {
-                                      const newTags =
-                                        field.value?.filter(
-                                          (_: string, i: number) =>
-                                            i !== tagIndex
-                                        ) || [];
-                                      field.onChange(newTags);
-                                    }}
-                                    disabled={
-                                      field.value?.length <= 1 ||
-                                      tag === DEFAULT_TAG_NAME
-                                    }
-                                  >
-                                    Remove tag
-                                  </Button>
-                                </div>
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      ))}
-                      <Separator className="my-4" />
-                      <div className="flex gap-2">
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          size="sm"
-                          onClick={() => removeSummary(index)}
-                        >
-                          Remove Summary
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={() =>
-                            field.onChange([...(field.value || []), ""])
-                          }
-                        >
-                          Add another Tag
-                        </Button>
-                      </div>
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              fieldName="personal_details.summary"
+              fieldIndex={index}
+              currentTag="#new"
+              onRemoveField={() => removeSummary(index)}
+              removeFieldLabel="Remove Summary"
+              canRemoveField={summaryFields.length > 1}
             />
           </div>
         ))}
@@ -393,7 +354,11 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
             type="button"
             size="sm"
             onClick={() =>
-              appendSocialLink({ name: "", url: "", tags: ["#common"] })
+              appendSocialLink({
+                name: "",
+                url: "",
+                tags: [{ tag: "#common" }],
+              })
             }
           >
             Add Social Link
@@ -432,85 +397,14 @@ export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {
               />
             </div>
 
-            <FormField
+            <TagManagement
               control={control}
-              name={`personal_details.social_links.${index}.tags`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Tags</FormLabel>
-                  <FormControl>
-                    <div className="space-y-2">
-                      {field.value?.map((tag: string, tagIndex: number) => (
-                        <FormField
-                          key={tagIndex}
-                          control={control}
-                          name={`personal_details.social_links.${index}.tags.${tagIndex}`}
-                          render={({ field: tagField }) => (
-                            <FormItem>
-                              <FormControl>
-                                <div className="flex gap-2 flex-row-reverse items-center">
-                                  <Input
-                                    value={tag}
-                                    onChange={(e) => {
-                                      const newTags = [...(field.value || [])];
-                                      newTags[tagIndex] = e.target.value;
-                                      field.onChange(newTags);
-                                    }}
-                                    placeholder={`Tag ${tagIndex + 1}`}
-                                    disabled={tag === DEFAULT_TAG_NAME}
-                                  />
-                                  <Button
-                                    type="button"
-                                    variant="destructive"
-                                    size="sm"
-                                    onClick={() => {
-                                      const newTags =
-                                        field.value?.filter(
-                                          (_: string, i: number) =>
-                                            i !== tagIndex
-                                        ) || [];
-                                      field.onChange(newTags);
-                                    }}
-                                    disabled={
-                                      field.value?.length <= 1 ||
-                                      tag === DEFAULT_TAG_NAME
-                                    }
-                                  >
-                                    Remove tag
-                                  </Button>
-                                </div>
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      ))}
-                      <Separator className="my-4" />
-                      <div className="flex gap-2">
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          size="sm"
-                          onClick={() => removeSocialLink(index)}
-                        >
-                          Remove Social Link
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={() =>
-                            field.onChange([...field.value, "#new"])
-                          }
-                        >
-                          Add Tag
-                        </Button>
-                      </div>
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              fieldName="personal_details.social_links"
+              fieldIndex={index}
+              currentTag="#new"
+              onRemoveField={() => removeSocialLink(index)}
+              removeFieldLabel="Remove Social Link"
+              canRemoveField={socialLinkFields.length > 1}
             />
           </div>
         ))}
