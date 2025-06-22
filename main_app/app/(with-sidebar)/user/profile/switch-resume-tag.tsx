@@ -53,11 +53,11 @@ function HelpIcon() {
 }
 
 function SwitchCurrentResumeTag({
-  resumeProfileTagName,
+  availableTags,
   tagSelected,
 }: {
-  resumeProfileTagName?: { resumeTagName: string }[];
-  tagSelected: string | undefined;
+  availableTags: string[];
+  tagSelected: string;
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -85,12 +85,9 @@ function SwitchCurrentResumeTag({
           <SelectContent id="profile">
             <SelectGroup>
               <SelectLabel>Select Resume Tag</SelectLabel>
-              {resumeProfileTagName?.map((profile) => (
-                <SelectItem
-                  key={profile.resumeTagName}
-                  value={profile.resumeTagName}
-                >
-                  {profile.resumeTagName}
+              {availableTags?.map((tag) => (
+                <SelectItem key={tag} value={tag}>
+                  {tag}
                 </SelectItem>
               ))}
             </SelectGroup>
