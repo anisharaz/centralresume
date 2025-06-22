@@ -18,7 +18,7 @@ import { PersonalDetailsForm } from "./personal-detail-form";
 import { HandleResumeCreation } from "@/app/actions/getting-started";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-
+import cookies from "js-cookie";
 export default function GettingStartedFormV2({
   defaultData,
 }: {
@@ -72,6 +72,9 @@ export default function GettingStartedFormV2({
       alert("Failed to submit resume data. Please try again.");
       return;
     }
+    cookies.set("currentTag", "#common", {
+      expires: new Date(2050, 0, 1),
+    });
     alert("Resume data submitted successfully!");
     router.push("/user/profile");
   };

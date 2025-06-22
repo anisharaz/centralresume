@@ -29,7 +29,10 @@ import { $Enums } from "@prisma/client";
 
 const createTagSchema = z.object({
   fromTag: z.string(),
-  newTagName: z.string().min(1, "Tag name is required"),
+  newTagName: z
+    .string()
+    .startsWith("#")
+    .min(2, "Tag must start with # and be at least 1 characters long"),
   visibility: z.nativeEnum($Enums.VISIBILITY),
 });
 
@@ -53,6 +56,7 @@ function CreateNewTag({ existingTags = [] }: CreateNewTagProps) {
       newTagName: "",
       visibility: $Enums.VISIBILITY.PRIVATE,
     },
+    mode: "all",
   });
 
   const onSubmit = (data: CreateTagForm) => {

@@ -292,7 +292,7 @@ function PersonalDetailEditForm({
                   currentTag={currentTag}
                   onRemoveField={() => removeSummary(index)}
                   removeFieldLabel="Remove Summary"
-                  canRemoveField={summaryFields.length > 1}
+                  canRemoveField={true}
                   tagLabel="Tags"
                 />
               </div>

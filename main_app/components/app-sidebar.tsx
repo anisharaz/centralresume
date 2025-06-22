@@ -1,5 +1,13 @@
 "use client";
-import { ChevronDown, Settings, User, Lock, Share2, Tag } from "lucide-react";
+import {
+  ChevronDown,
+  Settings,
+  User,
+  Lock,
+  Share2,
+  Tag,
+  HelpCircle,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -50,7 +58,7 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>General Section</SidebarGroupLabel>
+          <SidebarGroupLabel>Profile Management</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -108,6 +116,15 @@ export function AppSidebar() {
             </CollapsibleContent>
           </SidebarGroup>
         </Collapsible>
+        <SidebarGroup>
+          <SidebarGroupLabel>Help & support</SidebarGroupLabel>
+          <SidebarMenuButton asChild isActive={pathName.endsWith("/user/help")}>
+            <Link href={"/user/help"}>
+              <HelpCircle />
+              <span>Help</span>
+            </Link>
+          </SidebarMenuButton>
+        </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
