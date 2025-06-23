@@ -6,7 +6,7 @@ import { CheckCircle, FileStack, Key, Star, Brain } from "lucide-react";
 import { useEffect, useState } from "react";
 import WaitlistForm from "./waitlist-form";
 import { cn } from "@/lib/utils";
-import { ContactForm } from "./contactus-form";
+import { ContactForm } from "./contact-us-form";
 import { benefitsData } from "./benefits-section-data";
 import { NavBar } from "../navbar";
 import FAQSection from "./faq-section";

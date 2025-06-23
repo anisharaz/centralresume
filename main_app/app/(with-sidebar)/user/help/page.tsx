@@ -1,6 +1,6 @@
 "use client";
 
-import { ContactForm } from "@/components/landing-page/contactus-form";
+import { ContactForm } from "@/components/landing-page/contact-us-form";
 import {
   Card,
   CardContent,
@@ -10,56 +10,123 @@ import {
 } from "@/components/ui/card";
 import {
   HelpCircle,
-  MessageSquare,
   Book,
-  Settings,
   User,
   FileText,
   Download,
   Shield,
+  LifeBuoy,
+  Share,
 } from "lucide-react";
 
 const helpTopics = [
   {
+    title: "Understanding Tags",
+    icon: <HelpCircle className="w-5 h-5" />,
+    content: (
+      <div className="text-muted-foreground">
+        Tags are labels you assign to specific details on your resume. When you
+        share your resume by creating a link, you can choose the tag. The shared
+        resume will then only display the details associated with the selected
+        tags. In this way you can create multiple versions of your resume using
+        tags.
+      </div>
+    ),
+  },
+  {
     title: "Getting Started",
     icon: <Book className="w-5 h-5" />,
-    content:
-      "Welcome to CentralResume! Start by creating your first resume through the Resume section. Use our step-by-step wizard to add your personal information, work experience, education, and skills. You can preview and download your resume at any time.",
+    content: (
+      <div className="space-y-4 text-muted-foreground">
+        <div>
+          After signing up you will have a tag called #common and you will be
+          redirected to profile page. After that you can continue to fill all
+          your profile/resume details. By default the #common tag will
+          automatically apply on every new detail you continue to add.
+        </div>
+        <div>
+          Now, To create a new version of your resume, go to Tags management and
+          click create new tag. Select the #common in the dropdown and enter a
+          new tag name in the below input field. Doing this will add a new tag
+          to every details you have added in your profile/resume.
+        </div>
+        <div>
+          Congratulation 💫, You just created a new resume version from the
+          #common tag. At this point the details on #the_new_tag_you_created tag
+          will be same as #common. When you edit the details you will see the
+          new tag is added to all the details, from here onwards you can decide
+          which details to show on which tag and accordingly add or remove tags
+          from the details.
+        </div>
+      </div>
+    ),
   },
+
   {
-    title: "Resume Templates",
-    icon: <FileText className="w-5 h-5" />,
-    content:
-      "Choose from our variety of professional resume templates including Modern, Classic, Creative, and ATS-friendly formats. Each template is designed to highlight your skills effectively, and you can switch between templates without losing your data.",
-  },
-  {
-    title: "Account Management",
-    icon: <Settings className="w-5 h-5" />,
-    content:
-      "Manage your account settings from the Profile section. Update your personal information, change your password, or manage your account preferences. All changes will automatically sync across your resumes.",
+    title: "Sharing Your Resume",
+    icon: <Share className="w-5 h-5" />,
+    content: (
+      <div className="text-muted-foreground">
+        You can share your resume in 2 different ways.
+        <br />
+        <br />
+        <ul className="list-disc pl-5 space-y-2">
+          <li>
+            <strong>Resume PDF link:</strong> Go to Sharing section and create a
+            new resume pdf link. you will be asked to select the tag. Remember,
+            the pdf will only have the details based on which tag you select
+            when creating the link. You can create as many link and and tags as
+            you required without worrying about editing the pdf.
+          </li>
+          <li>
+            <strong>Resume Profile link:</strong> The profile link is similar to
+            resume pdf link but it will show the profile UI as you see in the
+            profile page. Consider it similar to how you share your LinkedIn
+            profile link.
+          </li>
+        </ul>
+      </div>
+    ),
   },
   {
     title: "Download & Export",
     icon: <Download className="w-5 h-5" />,
-    content:
-      "Download your resume in multiple formats including PDF, Word (.docx), and plain text. PDF format is recommended for most job applications as it preserves formatting across different devices and systems.",
+    content: (
+      <div className="text-muted-foreground">
+        The resume pdf link has a download button on the top which will download
+        the PDF of the resume.
+      </div>
+    ),
+  },
+  {
+    title: "Resume Templates",
+    icon: <FileText className="w-5 h-5" />,
+    content: (
+      <div className="text-muted-foreground">
+        We use a simple, clean, and ATS-friendly resume template. We plan to add
+        options for selecting templates in the future.
+      </div>
+    ),
   },
   {
     title: "Privacy & Security",
     icon: <Shield className="w-5 h-5" />,
-    content:
-      "Your data is secure with us. We use industry-standard encryption and security measures to protect your personal information. You have full control over your data and can export or delete your account at any time.",
+    content: (
+      <div className="text-muted-foreground">
+        Your data is secure with us. We never share your profile/resume data.
+      </div>
+    ),
   },
 ];
 
 function HelpPage() {
   return (
-    <div className="container mx-auto max-w-6xl p-6 space-y-8">
+    <div className="container mx-auto max-w-6xl p-4 space-y-16">
       {/* Header Section */}
       <div className="text-center space-y-4">
         <div className="flex items-center justify-center gap-3">
           <HelpCircle className="w-8 h-8 text-primary" />
-          <h1 className="text-3xl font-bold text-foreground">Help & Support</h1>
+          <h1 className="text-4xl font-bold text-foreground">Help & Support</h1>
         </div>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
           Find answers to common questions or get in touch with our support team
@@ -69,32 +136,25 @@ function HelpPage() {
 
       {/* Help Topics */}
       <div className="grid gap-6">
-        <h2 className="text-2xl font-semibold text-foreground flex items-center gap-2">
-          <Book className="w-6 h-6" />
-          Help Topics
-        </h2>
-
-        <div className="grid md:grid-cols-2 gap-6">
-          {helpTopics.map((topic, index) => (
-            <Card key={index} className="w-full">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  {topic.icon}
-                  {topic.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground leading-relaxed">
-                  {topic.content}
-                </p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        {helpTopics.map((topic, index) => (
+          <Card key={index} className="w-full">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-xl">
+                {topic.icon}
+                {topic.title}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>{topic.content}</CardContent>
+          </Card>
+        ))}
       </div>
 
       {/* Contact Support Section */}
-      <div>
+      <div className="space-y-6">
+        <h2 className="text-2xl font-semibold text-foreground flex items-center gap-2">
+          <LifeBuoy className="w-6 h-6" />
+          Contact Support
+        </h2>
         <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -113,7 +173,7 @@ function HelpPage() {
       </div>
 
       {/* Additional Resources */}
-      <Card>
+      {/* <Card>
         <CardHeader>
           <CardTitle>Additional Resources</CardTitle>
           <CardDescription>
@@ -143,7 +203,7 @@ function HelpPage() {
             </div>
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
     </div>
   );
 }
