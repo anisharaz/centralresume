@@ -97,7 +97,7 @@ function WorkExperienceEditForm({
               position: "top-center",
             });
           })}
-          className="relative h-full overflow-y-auto space-y-4 px-2"
+          className="relative h-full overflow-y-auto px-2"
         >
           <datalist id="tags">
             {resumeTags.map((item, index) => (
@@ -125,6 +125,7 @@ function WorkExperienceEditForm({
                   });
                   toast.success("Added new work experience", {
                     position: "top-center",
+                    duration: 1000,
                   });
                 }}
               >
@@ -134,12 +135,12 @@ function WorkExperienceEditForm({
             <div>
               {fields.map((item, index) => (
                 <div key={item.id}>
-                    <div className="relative">
+                  <div className="relative">
                     <Separator className="my-2 border-4 rounded-xl border-foreground/50" />
-                    <div className="absolute text-2xl rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-background px-2">
-                      {index+1}
+                    <div className="absolute text-base md:text-lg rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-background px-2">
+                      {index + 1} / {fields.length}
                     </div>
-                    </div>
+                  </div>
                   <div className="border p-3 rounded space-y-2">
                     <FormField
                       control={control}

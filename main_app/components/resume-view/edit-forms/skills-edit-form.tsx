@@ -96,9 +96,9 @@ function SkillsEditForm({
     fieldArray: typeof softSkillsArray | typeof technicalSkillsArray,
     fieldName: "skills.soft" | "skills.technical"
   ) => (
-    <div className="border p-4 rounded-lg shadow-sm space-y-4">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">{title}</h3>
+    <div className="p-2 space-y-4">
+      <div className="flex items-center gap-4">
+        <h3 className="text-xl font-bold">{title}</h3>
         <Button
           type="button"
           size="sm"
@@ -117,64 +117,71 @@ function SkillsEditForm({
           Add {title.split(" ")[0]} Skill
         </Button>
       </div>
+      <div className="space-y-4">
+        {fieldArray.fields.map((item, index) => (
+          <div key={item.id}>
+            <div className="">{index + 1}</div>
+            <div key={item.id} className="border p-3 rounded space-y-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={control}
+                  name={`${fieldName}.${index}.name`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-lg font-bold">
+                        Skill Name
+                      </FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-      {fieldArray.fields.map((item, index) => (
-        <div key={item.id} className="border p-3 rounded space-y-2">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FormField
-              control={control}
-              name={`${fieldName}.${index}.name`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-lg font-bold">
-                    Skill Name
-                  </FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                <FormField
+                  control={control}
+                  name={`${fieldName}.${index}.level`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-lg font-bold">Level</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select level" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {skillLevels.map((level) => (
+                            <SelectItem key={level.value} value={level.value}>
+                              {level.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-            <FormField
-              control={control}
-              name={`${fieldName}.${index}.level`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-lg font-bold">Level</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select level" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {skillLevels.map((level) => (
-                        <SelectItem key={level.value} value={level.value}>
-                          {level.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <TagManagement
+                control={control}
+                fieldName={`${fieldName}.${index}.tags`}
+                resumeTags={resumeTags}
+                currentTag={currentTag}
+                tagLabel="Tags"
+                onRemoveField={() => fieldArray.remove(index)}
+                removeFieldLabel="Remove Skill"
+                canRemoveField={true}
+              />
+            </div>
           </div>
-
-          <TagManagement
-            control={control}
-            fieldName={`${fieldName}.${index}.tags`}
-            resumeTags={resumeTags}
-            currentTag={currentTag}
-            tagLabel="Tags"
-            onRemoveField={() => fieldArray.remove(index)}
-            removeFieldLabel="Remove Skill"
-            canRemoveField={true}
-          />
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 
@@ -189,20 +196,22 @@ function SkillsEditForm({
               duration: 5000,
             });
           })}
-          className="relative h-full overflow-y-scroll space-y-4 px-2"
+          className="relative h-full overflow-y-auto space-y-4 px-2"
         >
           <datalist id="tags">
             {resumeTags.map((item, index) => (
               <option value={item} key={index} />
             ))}
           </datalist>
-          {renderSkillSection("Soft Skills", softSkillsArray, "skills.soft")}
-          {renderSkillSection(
-            "Technical Skills",
-            technicalSkillsArray,
-            "skills.technical"
-          )}
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+            {renderSkillSection("Soft Skills", softSkillsArray, "skills.soft")}
 
+            {renderSkillSection(
+              "Technical Skills",
+              technicalSkillsArray,
+              "skills.technical"
+            )}
+          </div>
           <div className="sticky bottom-0 bg-background p-4 border-t">
             <Button
               type="submit"

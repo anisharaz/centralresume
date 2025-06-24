@@ -23,6 +23,7 @@ import { useRouter } from "next/navigation";
 import { DEFAULT_TAG_NAME } from "@/lib/vars";
 import cookies from "js-cookie";
 import { TagManagement } from "./tag-management-form";
+import { Separator } from "@/components/ui/separator";
 
 function ProjectsEditForm({
   title,
@@ -95,7 +96,7 @@ function ProjectsEditForm({
               duration: 5000,
             });
           })}
-          className="relative h-full overflow-y-scroll space-y-4 px-2"
+          className="relative h-full overflow-y-auto space-y-4 px-2"
         >
           <datalist id="tags">
             {resumeTags.map((item, index) => (
@@ -103,9 +104,9 @@ function ProjectsEditForm({
             ))}
           </datalist>
           {/* Projects Section */}
-          <div className="border p-4 rounded-lg shadow-sm space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">Projects</h3>
+          <div className="p-2 space-y-4">
+            <div className="flex items-center gap-4">
+              <h3 className="text-xl font-bold">Projects</h3>
               <Button
                 type="button"
                 size="sm"
@@ -124,116 +125,128 @@ function ProjectsEditForm({
                 Add Project
               </Button>
             </div>
+            <div className="space-y-4">
+              {fields.map((item, index) => (
+                <div key={item.id}>
+                  <div className="relative">
+                    <Separator className="my-2 border-4 rounded-xl border-foreground/50" />
+                    <div className="absolute text-base md:text-lg rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-background px-2">
+                      {index + 1} / {fields.length}
+                    </div>
+                  </div>
+                  <div className="border p-3 rounded space-y-2">
+                    <FormField
+                      control={control}
+                      name={`projects.${index}.title`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-lg font-bold">
+                            Project Title
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter project title"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-            {fields.map((item, index) => (
-              <div key={item.id} className="border p-3 rounded space-y-2">
-                <FormField
-                  control={control}
-                  name={`projects.${index}.title`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-lg font-bold">
-                        Project Title
-                      </FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter project title" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <FormField
+                        control={control}
+                        name={`projects.${index}.startDate`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-lg font-bold">
+                              Start Date
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                type="date"
+                                value={formatDateForInput(field.value)}
+                                onChange={(e) => field.onChange(e.target.value)}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={control}
-                    name={`projects.${index}.startDate`}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-lg font-bold">
-                          Start Date
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="date"
-                            value={formatDateForInput(field.value)}
-                            onChange={(e) => field.onChange(e.target.value)}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      <FormField
+                        control={control}
+                        name={`projects.${index}.endDate`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-lg font-bold">
+                              End Date (Optional)
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                type="date"
+                                value={formatDateForInput(field.value)}
+                                onChange={(e) => field.onChange(e.target.value)}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
 
-                  <FormField
-                    control={control}
-                    name={`projects.${index}.endDate`}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-lg font-bold">
-                          End Date (Optional)
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="date"
-                            value={formatDateForInput(field.value)}
-                            onChange={(e) => field.onChange(e.target.value)}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                    <FormField
+                      control={control}
+                      name={`projects.${index}.url`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-lg font-bold">
+                            Project URL (Optional)
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="https://github.com/user/project"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={control}
+                      name={`projects.${index}.summary`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-lg font-bold">
+                            Project Description
+                          </FormLabel>
+                          <FormControl>
+                            <Textarea
+                              placeholder="Describe the project, technologies used, and key achievements..."
+                              className="min-h-[100px]"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <TagManagement
+                      control={control}
+                      fieldName={`projects.${index}.tags`}
+                      resumeTags={resumeTags}
+                      currentTag={currentTag}
+                      onRemoveField={() => remove(index)}
+                      removeFieldLabel="Remove Project"
+                    />
+                  </div>
                 </div>
-
-                <FormField
-                  control={control}
-                  name={`projects.${index}.url`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-lg font-bold">
-                        Project URL (Optional)
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="https://github.com/user/project"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={control}
-                  name={`projects.${index}.summary`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-lg font-bold">
-                        Project Description
-                      </FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Describe the project, technologies used, and key achievements..."
-                          className="min-h-[100px]"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <TagManagement
-                  control={control}
-                  fieldName={`projects.${index}.tags`}
-                  resumeTags={resumeTags}
-                  currentTag={currentTag}
-                  onRemoveField={() => remove(index)}
-                  removeFieldLabel="Remove Project"
-                />
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           <div className="sticky bottom-0 bg-background p-4 border-t">

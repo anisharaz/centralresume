@@ -23,6 +23,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { DEFAULT_TAG_NAME } from "@/lib/vars";
 import cookies from "js-cookie";
 import { TagManagement } from "./tag-management-form";
+import { Separator } from "@/components/ui/separator";
 
 function AchievementEditForm({
   title,
@@ -95,7 +96,7 @@ function AchievementEditForm({
               duration: 5000,
             });
           })}
-          className="relative h-full overflow-y-scroll space-y-4 px-2"
+          className="relative h-full overflow-y-auto space-y-4 px-2"
         >
           <datalist id="tags">
             {resumeTags.map((item, index) => (
@@ -103,9 +104,9 @@ function AchievementEditForm({
             ))}
           </datalist>
           {/* Achievements Section */}
-          <div className="border p-4 rounded-lg shadow-sm space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">Achievements</h3>
+          <div className="p-2 space-y-4">
+            <div className="flex items-center gap-4">
+              <h3 className="text-xl font-bold">Achievements</h3>
               <Button
                 type="button"
                 size="sm"
@@ -123,156 +124,167 @@ function AchievementEditForm({
                 Add Achievement
               </Button>
             </div>
-
-            {fields.map((item, index) => (
-              <div key={item.id} className="border p-3 rounded space-y-2">
-                <FormField
-                  control={control}
-                  name={`achievements.${index}.title`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-lg font-bold">
-                        Achievement Title
-                      </FormLabel>
-                      <FormControl>
-                        <Input placeholder="Achievement title" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={control}
-                    name={`achievements.${index}.awarded_by`}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-lg font-bold">
-                          Awarded By
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Organization or institution"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={control}
-                    name={`achievements.${index}.date`}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-lg font-bold">
-                          Date
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="date"
-                            value={formatDateForInput(field.value)}
-                            onChange={(e) => field.onChange(e.target.value)}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <TagManagement
-                  control={control}
-                  fieldName={`achievements.${index}.tags`}
-                  resumeTags={resumeTags}
-                  currentTag={currentTag}
-                  tagLabel="Achievement Tags"
-                />
-
-                {/* Summary Section */}
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <FormLabel className="text-lg font-bold">Summary</FormLabel>
-                    <Button
-                      type="button"
-                      size="sm"
-                      className="cursor-pointer"
-                      onClick={() => {
-                        const currentSummary = form.getValues(
-                          `achievements.${index}.summary`
-                        );
-                        form.setValue(`achievements.${index}.summary`, [
-                          ...currentSummary,
-                          { text: "", tags: [{ tag: currentTag }] },
-                        ]);
-                      }}
-                    >
-                      Add Summary
-                    </Button>
+            <div className="space-y-4">
+              {fields.map((item, index) => (
+                <div key={item.id}>
+                  <div className="relative">
+                    <Separator className="my-2 border-4 rounded-xl border-foreground/50" />
+                    <div className="absolute text-2xl rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-background px-2">
+                      {index + 1} / {fields.length}
+                    </div>
                   </div>
+                  <div className="border p-3 rounded space-y-2">
+                    <FormField
+                      control={control}
+                      name={`achievements.${index}.title`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-lg font-bold">
+                            Achievement Title
+                          </FormLabel>
+                          <FormControl>
+                            <Input placeholder="Achievement title" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                  {form
-                    .watch(`achievements.${index}.summary`)
-                    ?.map((_, summaryIndex) => (
-                      <div
-                        key={summaryIndex}
-                        className="border p-2 rounded space-y-2"
-                      >
-                        <FormField
-                          control={control}
-                          name={`achievements.${index}.summary.${summaryIndex}.text`}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="text-lg font-bold">
-                                Summary Text
-                              </FormLabel>
-                              <FormControl>
-                                <Textarea
-                                  placeholder="Describe your achievement"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <FormField
+                        control={control}
+                        name={`achievements.${index}.awarded_by`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-lg font-bold">
+                              Awarded By
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Organization or institution"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                        <TagManagement
-                          control={control}
-                          fieldName={`achievements.${index}.summary.${summaryIndex}.tags`}
-                          resumeTags={resumeTags}
-                          currentTag={currentTag}
-                          onRemoveField={() => {
+                      <FormField
+                        control={control}
+                        name={`achievements.${index}.date`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-lg font-bold">
+                              Date
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                type="date"
+                                value={formatDateForInput(field.value)}
+                                onChange={(e) => field.onChange(e.target.value)}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <TagManagement
+                      control={control}
+                      fieldName={`achievements.${index}.tags`}
+                      resumeTags={resumeTags}
+                      currentTag={currentTag}
+                      tagLabel="Achievement Tags"
+                    />
+
+                    {/* Summary Section */}
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <FormLabel className="text-lg font-bold">
+                          Summary
+                        </FormLabel>
+                        <Button
+                          type="button"
+                          size="sm"
+                          className="cursor-pointer"
+                          onClick={() => {
                             const currentSummary = form.getValues(
                               `achievements.${index}.summary`
                             );
-                            const newSummary = currentSummary.filter(
-                              (_, i) => i !== summaryIndex
-                            );
-                            form.setValue(
-                              `achievements.${index}.summary`,
-                              newSummary
-                            );
+                            form.setValue(`achievements.${index}.summary`, [
+                              ...currentSummary,
+                              { text: "", tags: [{ tag: currentTag }] },
+                            ]);
                           }}
-                          removeFieldLabel="Remove Summary"
-                          tagLabel="Summary Tags"
-                        />
+                        >
+                          Add Summary
+                        </Button>
                       </div>
-                    ))}
-                </div>
 
-                <Button
-                  type="button"
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => remove(index)}
-                >
-                  Remove Achievement
-                </Button>
-              </div>
-            ))}
+                      {form
+                        .watch(`achievements.${index}.summary`)
+                        ?.map((_, summaryIndex) => (
+                          <div
+                            key={summaryIndex}
+                            className="border p-2 rounded space-y-2"
+                          >
+                            <FormField
+                              control={control}
+                              name={`achievements.${index}.summary.${summaryIndex}.text`}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="text-lg font-bold">
+                                    Summary Text
+                                  </FormLabel>
+                                  <FormControl>
+                                    <Textarea
+                                      placeholder="Describe your achievement"
+                                      {...field}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            <TagManagement
+                              control={control}
+                              fieldName={`achievements.${index}.summary.${summaryIndex}.tags`}
+                              resumeTags={resumeTags}
+                              currentTag={currentTag}
+                              onRemoveField={() => {
+                                const currentSummary = form.getValues(
+                                  `achievements.${index}.summary`
+                                );
+                                const newSummary = currentSummary.filter(
+                                  (_, i) => i !== summaryIndex
+                                );
+                                form.setValue(
+                                  `achievements.${index}.summary`,
+                                  newSummary
+                                );
+                              }}
+                              removeFieldLabel="Remove Summary"
+                              tagLabel="Summary Tags"
+                            />
+                          </div>
+                        ))}
+                    </div>
+
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => remove(index)}
+                    >
+                      Remove Achievement
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="sticky bottom-0 bg-background p-4 border-t">

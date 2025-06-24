@@ -23,6 +23,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { DEFAULT_TAG_NAME } from "@/lib/vars";
 import cookies from "js-cookie";
 import { TagManagement } from "./tag-management-form";
+import { Separator } from "@/components/ui/separator";
 
 function OthersListEditForm({
   title,
@@ -90,7 +91,7 @@ function OthersListEditForm({
               duration: 5000,
             });
           })}
-          className="relative h-full overflow-y-scroll space-y-4 px-2"
+          className="relative h-full overflow-y-auto space-y-4 px-2"
         >
           <datalist id="tags">
             {resumeTags.map((item, index) => (
@@ -98,9 +99,9 @@ function OthersListEditForm({
             ))}
           </datalist>
           {/* Other Lists Section */}
-          <div className="border p-4 rounded-lg shadow-sm space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">Other Lists</h3>
+          <div className="p-2 space-y-4">
+            <div className="flex items-center gap-4">
+              <h3 className="text-xl font-bold">Other Lists</h3>
               <Button
                 type="button"
                 size="sm"
@@ -116,46 +117,55 @@ function OthersListEditForm({
                 Add Other List
               </Button>
             </div>
+            <div className="space-y-4">
+              {otherListFields.map((item, index) => (
+                <div key={item.id}>
+                  <div className="relative">
+                    <Separator className="my-2 border-4 rounded-xl border-foreground/50" />
+                    <div className="absolute text-2xl rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-background px-2">
+                      {index + 1} / {otherListFields.length}
+                    </div>
+                  </div>
+                  <div className="border p-3 rounded space-y-2">
+                    <div className="flex items-center justify-between">
+                      <h4 className="text-lg font-bold">Item {index + 1}</h4>
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => removeOtherList(index)}
+                      >
+                        Remove List
+                      </Button>
+                    </div>
 
-            {otherListFields.map((item, index) => (
-              <div key={item.id} className="border p-3 rounded space-y-2">
-                <div className="flex items-center justify-between">
-                  <h4 className="text-lg font-bold">Item {index + 1}</h4>
-                  <Button
-                    type="button"
-                    variant="destructive"
-                    size="sm"
-                    onClick={() => removeOtherList(index)}
-                  >
-                    Remove List
-                  </Button>
+                    <TagManagement
+                      control={control}
+                      fieldName={`otherLists.${index}.tags`}
+                      resumeTags={resumeTags}
+                      currentTag={currentTag}
+                      tagLabel="Item Tags"
+                    />
+
+                    {/* Headings Section */}
+                    <OtherListHeadingSection
+                      control={control}
+                      listIndex={index}
+                      currentTag={currentTag}
+                      resumeTags={resumeTags}
+                    />
+
+                    {/* Summary Section */}
+                    <OtherListSummarySection
+                      control={control}
+                      listIndex={index}
+                      currentTag={currentTag}
+                      resumeTags={resumeTags}
+                    />
+                  </div>
                 </div>
-
-                <TagManagement
-                  control={control}
-                  fieldName={`otherLists.${index}.tags`}
-                  resumeTags={resumeTags}
-                  currentTag={currentTag}
-                  tagLabel="Item Tags"
-                />
-
-                {/* Headings Section */}
-                <OtherListHeadingSection
-                  control={control}
-                  listIndex={index}
-                  currentTag={currentTag}
-                  resumeTags={resumeTags}
-                />
-
-                {/* Summary Section */}
-                <OtherListSummarySection
-                  control={control}
-                  listIndex={index}
-                  currentTag={currentTag}
-                  resumeTags={resumeTags}
-                />
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           <div className="sticky bottom-0 bg-background p-4 border-t">

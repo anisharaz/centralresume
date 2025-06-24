@@ -23,6 +23,7 @@ import { Textarea } from "@/components/ui/textarea";
 import cookies from "js-cookie";
 import { DEFAULT_TAG_NAME } from "@/lib/vars";
 import { TagManagement } from "./tag-management-form";
+import { Separator } from "@/components/ui/separator";
 
 function PersonalDetailEditForm({
   title,
@@ -97,14 +98,14 @@ function PersonalDetailEditForm({
     <BaseSheetComponentForEdit title={title} description={description}>
       <Form {...form}>
         <form
-          onSubmit={handleSubmit(onSubmit, (err) => {
+          onSubmit={handleSubmit(onSubmit, () => {
             toast.error("Required fields have red titles", {
               description: "fill in the required fields to proceed.",
-              position: "top-center",
               duration: 5000,
+              position: "top-center",
             });
           })}
-          className="relative h-full overflow-y-scroll space-y-4 px-2"
+          className="relative h-full overflow-y-auto space-y-4 px-2"
         >
           <datalist id="tags">
             {resumeTags.map((item, index) => (
@@ -112,82 +113,85 @@ function PersonalDetailEditForm({
             ))}
           </datalist>
           {/* Basic Information */}
-          <div className="border p-4 rounded-lg shadow-sm space-y-4">
-            <div className="text-lg font-semibold">Profile Information</div>
-
-            <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
-              <FormField
-                control={control}
-                name="personal_details.name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Full Name <span className="text-red-500">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input placeholder="John Doe" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={control}
-                name="personal_details.email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Email <span className="text-red-500">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="john.doe@example.com"
-                        type="email"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <div className="p-2 space-y-4">
+            <div className="flex items-center gap-4">
+              <h3 className="text-xl font-bold">Profile Information</h3>
             </div>
+            <div className="border p-4 rounded-lg space-y-4">
+              <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+                <FormField
+                  control={control}
+                  name="personal_details.name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Full Name <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input placeholder="John Doe" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormField
-                control={control}
-                name="personal_details.phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Phone Number</FormLabel>
-                    <FormControl>
-                      <Input placeholder="+1 (555) 123-4567" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  control={control}
+                  name="personal_details.email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Email <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="john.doe@example.com"
+                          type="email"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-              <FormField
-                control={control}
-                name="personal_details.date_of_birth"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Date of Birth</FormLabel>
-                    <FormControl>
-                      <Input type="date" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={control}
+                  name="personal_details.phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone Number</FormLabel>
+                      <FormControl>
+                        <Input placeholder="+1 (555) 123-4567" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={control}
+                  name="personal_details.date_of_birth"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Date of Birth</FormLabel>
+                      <FormControl>
+                        <Input type="date" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
           </div>
 
           {/* Tag Lines */}
-          <div className="border p-4 rounded-lg space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">Title of your profile</h3>
+          <div className="p-2 space-y-4">
+            <div className="flex items-center gap-4">
+              <h3 className="text-xl font-bold">Title of your profile</h3>
               <Button
                 type="button"
                 size="sm"
@@ -206,52 +210,54 @@ function PersonalDetailEditForm({
                 Add another title
               </Button>
             </div>
-            {tagLineFields.map((item, index) => (
-              <div key={item.id} className="border p-3 rounded space-y-2">
-                <FormField
-                  control={control}
-                  name={`personal_details.tag_line.${index}.text`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Title Text</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="e.g., Full Stack Developer"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+            <div className="space-y-4">
+              {tagLineFields.map((item, index) => (
+                <div key={item.id} className="border p-3 rounded space-y-2">
+                  <FormField
+                    control={control}
+                    name={`personal_details.tag_line.${index}.text`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Title Text</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="e.g., Full Stack Developer"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <TagManagement
-                  control={control}
-                  fieldName={`personal_details.tag_line.${index}.tags`}
-                  resumeTags={resumeTags}
-                  currentTag={currentTag}
-                  onRemoveField={() => removeTagLine(index)}
-                  removeFieldLabel="Remove Title"
-                  canRemoveField={tagLineFields.length > 1}
-                  tagLabel="Tags"
-                />
-              </div>
-            ))}
-            <FormField
-              control={control}
-              name={`personal_details.tag_line`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                  <TagManagement
+                    control={control}
+                    fieldName={`personal_details.tag_line.${index}.tags`}
+                    resumeTags={resumeTags}
+                    currentTag={currentTag}
+                    onRemoveField={() => removeTagLine(index)}
+                    removeFieldLabel="Remove Title"
+                    canRemoveField={tagLineFields.length > 1}
+                    tagLabel="Tags"
+                  />
+                </div>
+              ))}
+              <FormField
+                control={control}
+                name={`personal_details.tag_line`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
 
           {/* Summary */}
-          <div className="border p-4 rounded-lg shadow-sm space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">Summary of your profile</h3>
+          <div className="p-2 space-y-4">
+            <div className="flex items-center gap-4">
+              <h3 className="text-xl font-bold">Summary of your profile</h3>
               <Button
                 type="button"
                 size="sm"
@@ -266,90 +272,96 @@ function PersonalDetailEditForm({
                 Add Summary
               </Button>
             </div>
-            {summaryFields.map((item, index) => (
-              <div key={item.id} className="border p-3 rounded space-y-2">
+            <div className="space-y-4">
+              {summaryFields.map((item, index) => (
+                <div key={item.id} className="border p-3 rounded space-y-2">
+                  <FormField
+                    control={control}
+                    name={`personal_details.summary.${index}.text`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Summary Text</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Describe yourself professionally"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <TagManagement
+                    control={control}
+                    fieldName={`personal_details.summary.${index}.tags`}
+                    resumeTags={resumeTags}
+                    currentTag={currentTag}
+                    onRemoveField={() => removeSummary(index)}
+                    removeFieldLabel="Remove Summary"
+                    canRemoveField={true}
+                    tagLabel="Tags"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Address */}
+          <div className="p-2 space-y-4">
+            <div className="flex items-center gap-4">
+              <h3 className="text-xl font-bold">Address</h3>
+            </div>
+            <div className="border p-4 rounded-lg space-y-4">
+              <FormField
+                control={control}
+                name="personal_details.address.address_line"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Address Line</FormLabel>
+                    <FormControl>
+                      <Input placeholder="123 Main St, Apt 4B" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />{" "}
+              <div className="grid grid-cols-2 gap-4">
                 <FormField
                   control={control}
-                  name={`personal_details.summary.${index}.text`}
+                  name="personal_details.address.city"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Summary Text</FormLabel>
+                      <FormLabel>City</FormLabel>
                       <FormControl>
-                        <Textarea
-                          placeholder="Describe yourself professionally"
-                          {...field}
-                        />
+                        <Input placeholder="San Francisco" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
 
-                <TagManagement
+                <FormField
                   control={control}
-                  fieldName={`personal_details.summary.${index}.tags`}
-                  resumeTags={resumeTags}
-                  currentTag={currentTag}
-                  onRemoveField={() => removeSummary(index)}
-                  removeFieldLabel="Remove Summary"
-                  canRemoveField={true}
-                  tagLabel="Tags"
+                  name="personal_details.address.country"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Country</FormLabel>
+                      <FormControl>
+                        <Input placeholder="United States" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
               </div>
-            ))}
-          </div>
-
-          {/* Address */}
-          <div className="border p-4 rounded-lg shadow-sm space-y-4">
-            <h3 className="text-lg font-semibold">Address</h3>
-            <FormField
-              control={control}
-              name="personal_details.address.address_line"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Address Line</FormLabel>
-                  <FormControl>
-                    <Input placeholder="123 Main St, Apt 4B" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />{" "}
-            <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={control}
-                name="personal_details.address.city"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>City</FormLabel>
-                    <FormControl>
-                      <Input placeholder="San Francisco" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={control}
-                name="personal_details.address.country"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Country</FormLabel>
-                    <FormControl>
-                      <Input placeholder="United States" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
             </div>
           </div>
 
           {/* Social Links */}
-          <div className="border p-4 rounded-lg shadow-sm space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">Social Links</h3>
+          <div className="p-2 space-y-4">
+            <div className="flex items-center gap-4">
+              <h3 className="text-xl font-bold">Social Links</h3>
               <Button
                 type="button"
                 size="sm"
@@ -364,50 +376,55 @@ function PersonalDetailEditForm({
                 Add Social Link
               </Button>
             </div>
-            {socialLinkFields.map((item, index) => (
-              <div key={item.id} className="border p-3 rounded space-y-2">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={control}
-                    name={`personal_details.social_links.${index}.name`}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Platform Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="e.g., LinkedIn" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+            <div className="space-y-4">
+              {socialLinkFields.map((item, index) => (
+                <div key={item.id} className="border p-3 rounded space-y-2">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={control}
+                      name={`personal_details.social_links.${index}.name`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Platform Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="e.g., LinkedIn" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                  <FormField
+                    <FormField
+                      control={control}
+                      name={`personal_details.social_links.${index}.url`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>URL</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="https://example.com"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <TagManagement
                     control={control}
-                    name={`personal_details.social_links.${index}.url`}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>URL</FormLabel>
-                        <FormControl>
-                          <Input placeholder="https://example.com" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                    fieldName={`personal_details.social_links.${index}.tags`}
+                    resumeTags={resumeTags}
+                    currentTag={currentTag}
+                    onRemoveField={() => removeSocialLink(index)}
+                    removeFieldLabel="Remove Social Link"
+                    canRemoveField={socialLinkFields.length > 1}
+                    tagLabel="Tags"
                   />
                 </div>
-
-                <TagManagement
-                  control={control}
-                  fieldName={`personal_details.social_links.${index}.tags`}
-                  resumeTags={resumeTags}
-                  currentTag={currentTag}
-                  onRemoveField={() => removeSocialLink(index)}
-                  removeFieldLabel="Remove Social Link"
-                  canRemoveField={socialLinkFields.length > 1}
-                  tagLabel="Tags"
-                />
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
           <div className="sticky bottom-0 bg-background p-4 border-t">
             <Button
