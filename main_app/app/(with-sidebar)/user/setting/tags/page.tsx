@@ -13,7 +13,7 @@ export default async function TagsSettingPage() {
       userId: session?.session.userId,
     },
     orderBy: {
-      createdAt: "desc",
+      id: "asc",
     },
   });
 

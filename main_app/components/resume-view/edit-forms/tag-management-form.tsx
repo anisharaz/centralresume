@@ -6,9 +6,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Control, FieldValues, useFieldArray } from "react-hook-form";
+import Link from "next/link";
 
 interface TagManagementProps<T extends FieldValues = any> {
   control: Control<T>;
@@ -56,14 +63,7 @@ export function TagManagement({
                   name={`${fieldName}.${tagIndex}.tag`}
                   render={({ field: tagInputField }) => (
                     <FormItem>
-                      <div className="flex items-center gap-2 flex-row-reverse">
-                        <FormControl>
-                          <Input
-                            {...tagInputField}
-                            placeholder={`Tag ${tagIndex + 1}`}
-                            list="tags"
-                          />
-                        </FormControl>
+                      <div className="flex gap-2">
                         <Button
                           type="button"
                           size="sm"
@@ -73,6 +73,23 @@ export function TagManagement({
                         >
                           Remove tag
                         </Button>
+                        <Select
+                          onValueChange={tagInputField.onChange}
+                          defaultValue={tagInputField.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a verified email to display" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {resumeTags.map((tag) => (
+                              <SelectItem key={tag} value={tag}>
+                                {tag}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
                       <FormMessage />
                     </FormItem>
@@ -85,9 +102,15 @@ export function TagManagement({
                 variant="addTag"
                 size="sm"
                 onClick={() => appendTag({ tag: currentTag })}
+                disabled={tagFields.length >= resumeTags.length}
               >
                 Add Tag
               </Button>
+              {tagFields.length >= resumeTags.length && (
+                <Button asChild size="sm" className="ml-2">
+                  <Link href="/user/setting/tags">Create new tags</Link>
+                </Button>
+              )}
               {onRemoveField && (
                 <>
                   <Separator className="my-2" />

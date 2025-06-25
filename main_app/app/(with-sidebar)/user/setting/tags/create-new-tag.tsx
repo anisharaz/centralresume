@@ -26,6 +26,7 @@ import { useState, useTransition } from "react";
 import { createTag } from "@/app/actions/resume/tag-management";
 import { toast } from "sonner";
 import { $Enums } from "@prisma/client";
+import { useRouter } from "next/navigation";
 
 const createTagSchema = z.object({
   fromTag: z.string(),
@@ -38,16 +39,17 @@ const createTagSchema = z.object({
 
 type CreateTagForm = z.infer<typeof createTagSchema>;
 
-interface CreateNewTagProps {
-  existingTags?: Array<{
+function CreateNewTag({
+  existingTags = [],
+}: {
+  existingTags: {
     id: string;
     resumeTagName: string;
-    visibility: $Enums.VISIBILITY;
-  }>;
-}
-
-function CreateNewTag({ existingTags = [] }: CreateNewTagProps) {
+    visibility: $Enums.VISIBILITY | null;
+  }[];
+}) {
   const [isOpen, setIsOpen] = useState(false);
+  const router  = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<CreateTagForm>({
@@ -72,8 +74,7 @@ function CreateNewTag({ existingTags = [] }: CreateNewTagProps) {
           toast.success(result.message || "Tag created successfully");
           form.reset();
           setIsOpen(false);
-          // Refresh the page to show the new tag
-          window.location.reload();
+          router.refresh(); 
         } else {
           toast.error(result.error || "Failed to create tag");
           form.setError("root", {
@@ -120,7 +121,8 @@ function CreateNewTag({ existingTags = [] }: CreateNewTagProps) {
                       {existingTags.length > 0 ? (
                         existingTags.map((tag) => (
                           <SelectItem key={tag.id} value={tag.resumeTagName}>
-                            {tag.resumeTagName} ({tag.visibility.toLowerCase()})
+                            {tag.resumeTagName}
+                            {tag.visibility && ` (${tag.visibility.toLowerCase()})`}
                           </SelectItem>
                         ))
                       ) : (

@@ -284,7 +284,9 @@ export function ResumePDFDocument({
                       <Text style={styles.projectUrl}>{project.url}</Text>
                     )}
                   </View>
-                  <Text style={styles.bulletPoint}>• {project.summary}</Text>
+                  {project.summary && (
+                    <Text style={styles.bulletPoint}>• {project.summary}</Text>
+                  )}
                 </View>
               ))}
             </View>
