@@ -36,13 +36,25 @@ async function ViewResume({
     },
   });
 
-  if (!resumeLink || resumeLink.visibility == "PRIVATE") {
+  if (!resumeLink) {
+    return (
+      <ErrorPage
+        errorDefinition={{
+          error: "Link or tag not found",
+          errorDescription:
+            "The requested resume link or tag does not exist",
+          errorType: "NotFound",
+        }}
+      />
+    );
+  }
+  if (resumeLink.visibility == "PRIVATE") {
     return (
       <ErrorPage
         errorDefinition={{
           error: "Private Resume Link",
           errorDescription:
-            "The requested resume link does not exist or is private.",
+            "The requested resume link is private.",
           errorType: "NotFound",
         }}
       />
