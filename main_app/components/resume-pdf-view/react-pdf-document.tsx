@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   },
   projectUrl: {
     fontSize: 10, // Reduced from 11
-    color: "#000000",
+    color: "#666666",
   },
   // Technologies styles
   techSection: {
@@ -171,10 +171,13 @@ export function ResumePDFDocument({
           <Text style={styles.contactLine}>
             {[
               personal_details.address
-                ? `${personal_details.address.city}`
+                ? `${personal_details.address.address_line}, ${personal_details.address.city}, ${personal_details.address.country}`
                 : null,
               personal_details.email,
               personal_details.phone,
+              personal_details.date_of_birth
+                ? `DOB: ${personal_details.date_of_birth}`
+                : null,
               personal_details.social_links.find((link) =>
                 link.name.toLowerCase().includes("website")
               )?.url,
@@ -191,7 +194,24 @@ export function ResumePDFDocument({
           </Text>
         </View>
 
-        {/* Welcome Section */}
+        {personal_details.tag_line?.length > 0 && (
+          <View style={styles.sectionContainer}>
+            <Text style={styles.sectionTitle}>Title</Text>
+            <View style={styles.line} />
+            <View
+              style={{
+                paddingHorizontal: 6, // Reduced padding
+              }}
+            >
+              {personal_details.tag_line.map((item, index) => (
+                <Text key={index} style={styles.paragraph}>
+                  {item.text}
+                </Text>
+              ))}
+            </View>
+          </View>
+        )}
+
         {personal_details.summary?.length > 0 && (
           <View style={styles.sectionContainer}>
             <Text style={styles.sectionTitle}>Summary</Text>
@@ -225,7 +245,8 @@ export function ResumePDFDocument({
                   <View style={styles.entryHeader}>
                     <Text style={styles.entryTitle}>
                       - {exp.position.map((p) => p.text).join(", ")},{" "}
-                      {exp.company}{" "}
+                      {exp.company}
+                      {exp.website ? ` (${exp.website})` : ""}{" "}
                     </Text>
                     <Text style={styles.entryDate}>
                       {formatDate(exp.start_date)} -{" "}
@@ -280,10 +301,23 @@ export function ResumePDFDocument({
                 <View key={index} style={styles.entryContainer}>
                   <View style={styles.projectHeader}>
                     <Text style={styles.projectTitle}>{project.title}</Text>
-                    {project.url && (
-                      <Text style={styles.projectUrl}>{project.url}</Text>
-                    )}
+                    <View style={{ alignItems: "flex-end" }}>
+                      {(project.startDate || project.endDate) && (
+                        <Text style={styles.entryDate}>
+                          {project.startDate
+                            ? formatDate(project.startDate)
+                            : ""}{" "}
+                          -{" "}
+                          {project.endDate
+                            ? formatDate(project.endDate)
+                            : "Present"}
+                        </Text>
+                      )}
+                    </View>
                   </View>
+                  {project.url && (
+                    <Text style={styles.projectUrl}>{project.url}</Text>
+                  )}
                   {project.summary && (
                     <Text style={styles.bulletPoint}>• {project.summary}</Text>
                   )}
@@ -372,7 +406,7 @@ export function ResumePDFDocument({
                 <View key={index} style={styles.entryContainer}>
                   <Text style={styles.publicationTitle}>{pub.name}</Text>
                   <Text style={styles.publicationDetails}>
-                    {formatDate(pub.releaseDate)}
+                    {pub.publisher} - {formatDate(pub.releaseDate)}
                   </Text>
                   {pub.summary?.map((summary, summaryIndex) => (
                     <Text key={summaryIndex} style={styles.publicationDetails}>
@@ -398,18 +432,30 @@ export function ResumePDFDocument({
             >
               {skills.technical?.length > 0 && (
                 <View style={styles.techSection}>
-                  <Text style={styles.techLabel}>- </Text>
+                  <Text style={styles.techLabel}>Technical: </Text>
                   <Text style={styles.techList}>
-                    {skills.technical.map((skill) => skill.name).join(", ")}
+                    {skills.technical
+                      .map((skill) =>
+                        skill.level
+                          ? `${skill.name} (${skill.level})`
+                          : skill.name
+                      )
+                      .join(", ")}
                   </Text>
                 </View>
               )}
 
               {skills.soft?.length > 0 && (
                 <View style={styles.techSection}>
-                  <Text style={styles.techLabel}>- </Text>
+                  <Text style={styles.techLabel}>Soft Skills: </Text>
                   <Text style={styles.techList}>
-                    {skills.soft.map((skill) => skill.name).join(", ")}
+                    {skills.soft
+                      .map((skill) =>
+                        skill.level
+                          ? `${skill.name} (${skill.level})`
+                          : skill.name
+                      )
+                      .join(", ")}
                   </Text>
                 </View>
               )}

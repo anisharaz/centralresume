@@ -64,26 +64,28 @@ export function PublicationsSectionView({
                   </div>
 
                   <div className="lg:text-right">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      asChild
-                      className="h-auto px-2.5 py-1.5 border-muted/40 bg-background/40 backdrop-blur-sm hover:bg-primary/5 hover:border-primary/30 transition-all duration-200"
-                    >
-                      <Link
-                        href={publication.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-1.5"
+                    {publication.url && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        asChild
+                        className="h-auto px-2.5 py-1.5 border-muted/40 bg-background/40 backdrop-blur-sm hover:bg-primary/5 hover:border-primary/30 transition-all duration-200"
                       >
-                        <div className="flex items-center justify-center w-4 h-4 rounded-full bg-primary/10">
-                          <ExternalLink className="h-2.5 w-2.5 text-primary" />
-                        </div>
-                        <span className="text-xs font-medium">
-                          View Publication
-                        </span>
-                      </Link>
-                    </Button>
+                        <Link
+                          href={publication.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1.5"
+                        >
+                          <div className="flex items-center justify-center w-4 h-4 rounded-full bg-primary/10">
+                            <ExternalLink className="h-2.5 w-2.5 text-primary" />
+                          </div>
+                          <span className="text-xs font-medium">
+                            View Publication
+                          </span>
+                        </Link>
+                      </Button>
+                    )}
                   </div>
                 </div>
 

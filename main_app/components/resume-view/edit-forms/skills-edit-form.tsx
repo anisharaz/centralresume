@@ -91,99 +91,107 @@ function SkillsEditForm({
     { value: "advanced", label: "Advanced" },
   ];
 
-  const renderSkillSection = (
-    title: string,
-    fieldArray: typeof softSkillsArray | typeof technicalSkillsArray,
-    fieldName: "skills.soft" | "skills.technical"
-  ) => (
-    <div className="p-2 space-y-4">
-      <div className="flex items-center gap-4">
-        <h3 className="text-xl font-bold">{title}</h3>
-        <Button
-          type="button"
-          size="sm"
-          className="cursor-pointer"
-          onClick={() => {
-            fieldArray.prepend({
-              name: "",
-              level: "",
-              tags: [{ tag: currentTag }],
-            });
-            toast.success(`Added new ${title.split(" ")[0]} skill`, {
-              position: "top-center",
-            });
-          }}
-        >
-          Add {title.split(" ")[0]} Skill
-        </Button>
-      </div>
-      <div className="space-y-4">
-        {fieldArray.fields.map((item, index) => (
-          <div key={item.id}>
-            <div className="">{index + 1}</div>
-            <div key={item.id} className="border p-3 rounded space-y-2">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FormField
-                  control={control}
-                  name={`${fieldName}.${index}.name`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-lg font-bold">
-                        Skill Name
-                      </FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={control}
-                  name={`${fieldName}.${index}.level`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-lg font-bold">Level</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                      >
+  const RenderSkillSection = ({
+    title,
+    fieldArray,
+    fieldName,
+  }: {
+    title: string;
+    fieldArray: typeof softSkillsArray | typeof technicalSkillsArray;
+    fieldName: "skills.soft" | "skills.technical";
+  }) => {
+    return (
+      <div className="p-2 space-y-4">
+        <div className="flex items-center gap-4">
+          <h3 className="text-xl font-bold">{title}</h3>
+          <Button
+            type="button"
+            size="sm"
+            className="cursor-pointer"
+            onClick={() => {
+              fieldArray.prepend({
+                name: "",
+                level: "",
+                tags: [{ tag: currentTag }],
+              });
+              toast.success(`Added new ${title.split(" ")[0]} skill`, {
+                position: "top-center",
+              });
+            }}
+          >
+            Add {title.split(" ")[0]} Skill
+          </Button>
+        </div>
+        <div className="space-y-4">
+          {fieldArray.fields.map((item, index) => (
+            <div key={item.id}>
+              <div className="">{index + 1}</div>
+              <div key={item.id} className="border p-3 rounded space-y-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={control}
+                    name={`${fieldName}.${index}.name`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-lg font-bold">
+                          Skill Name
+                        </FormLabel>
                         <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select level" />
-                          </SelectTrigger>
+                          <Input {...field} />
                         </FormControl>
-                        <SelectContent>
-                          {skillLevels.map((level) => (
-                            <SelectItem key={level.value} value={level.value}>
-                              {level.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={control}
+                    name={`${fieldName}.${index}.level`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-lg font-bold">
+                          Level
+                        </FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select level" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {skillLevels.map((level) => (
+                              <SelectItem key={level.value} value={level.value}>
+                                {level.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <TagManagement
+                  control={control}
+                  fieldName={`${fieldName}.${index}.tags`}
+                  resumeTags={resumeTags}
+                  currentTag={currentTag}
+                  tagLabel="Tags"
+                  onRemoveField={() => fieldArray.remove(index)}
+                  removeFieldLabel="Remove Skill"
+                  canRemoveField={true}
                 />
               </div>
-
-              <TagManagement
-                control={control}
-                fieldName={`${fieldName}.${index}.tags`}
-                resumeTags={resumeTags}
-                currentTag={currentTag}
-                tagLabel="Tags"
-                onRemoveField={() => fieldArray.remove(index)}
-                removeFieldLabel="Remove Skill"
-                canRemoveField={true}
-              />
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <BaseSheetComponentForEdit title={title} description={description}>
@@ -204,13 +212,16 @@ function SkillsEditForm({
             ))}
           </datalist>
           <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
-            {renderSkillSection("Soft Skills", softSkillsArray, "skills.soft")}
-
-            {renderSkillSection(
-              "Technical Skills",
-              technicalSkillsArray,
-              "skills.technical"
-            )}
+            <RenderSkillSection
+              title="Soft Skills"
+              fieldArray={softSkillsArray}
+              fieldName="skills.soft"
+            />
+            <RenderSkillSection
+              title="Technical Skills"
+              fieldArray={technicalSkillsArray}
+              fieldName="skills.technical"
+            />
           </div>
           <div className="sticky bottom-0 bg-background p-4 border-t">
             <Button

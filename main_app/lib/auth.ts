@@ -8,7 +8,6 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
-  trustedOrigins: ["https://centralresume.me"],
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,

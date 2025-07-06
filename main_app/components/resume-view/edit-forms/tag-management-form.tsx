@@ -14,8 +14,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { Control, FieldValues, useFieldArray } from "react-hook-form";
+import {
+  Control,
+  FieldValues,
+  useFieldArray,
+  useFormContext,
+} from "react-hook-form";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface TagManagementProps<T extends FieldValues = any> {
   control: Control<T>;
@@ -47,6 +54,8 @@ export function TagManagement({
     name: fieldName,
   });
 
+  const { formState } = useFormContext();
+  const router = useRouter();
   return (
     <FormField
       control={control}
@@ -106,11 +115,26 @@ export function TagManagement({
               >
                 Add Tag
               </Button>
-              {tagFields.length >= resumeTags.length && (
-                <Button asChild size="sm" className="ml-2">
-                  <Link href="/user/setting/tags">Create new tags</Link>
-                </Button>
-              )}
+              {tagFields.length >= resumeTags.length &&
+                (formState.isDirty ? (
+                  <Button
+                    size="sm"
+                    type="button"
+                    className="ml-2"
+                    onClick={() => {
+                      toast.warning("Please save the changes first", {
+                        position: "top-center",
+                        duration: 3000,
+                      });
+                    }}
+                  >
+                    Create new tags
+                  </Button>
+                ) : (
+                  <Button size="sm" type="button" className="ml-2" asChild>
+                    <Link href="/user/setting/tags">Create new tags</Link>
+                  </Button>
+                ))}
               {onRemoveField && (
                 <>
                   <Separator className="my-2" />
