@@ -90,6 +90,17 @@ export default function LandingPage({
         </div>
       </section>
 
+      {benefitsData.map((benefit, index) => (
+        <BenefitSection
+          key={index}
+          title={benefit.title}
+          description={benefit.description}
+          image={benefit.image}
+          background={benefit.background}
+          side={index % 2 === 0 ? "left" : "right"}
+        />
+      ))}
+
       {/* Features Section */}
       <section className="py-10 md:py-20 px-4 bg-gradient-to-br from-gray-900/50 via-slate-900 to-black relative overflow-hidden">
         {/* Subtle Background Pattern */}
@@ -168,46 +179,6 @@ export default function LandingPage({
           </div>
         </div>
       </section>
-
-      {/* Stats Section */}
-      <section className="py-20 px-4 bg-gradient-to-br from-slate-900 via-gray-900 to-black">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-            Join the Central<span className="text-amber-300">#Resume</span>{" "}
-            Community
-          </h2>
-          <p className="text-lg text-gray-300 mb-12 max-w-2xl mx-auto">
-            Join the job seekers who have streamlined their resume process
-          </p>
-
-          <div className="grid grid-cols-2 md:grid-cols-2 gap-8">
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-xl">
-              <div className="text-3xl md:text-4xl font-bold text-white mb-2">
-                {activeUsers}
-              </div>
-              <div className="text-sm text-gray-300">Active Users</div>
-            </div>
-
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-xl">
-              <div className="text-3xl md:text-4xl font-bold text-white mb-2">
-                {resumeCreated}
-              </div>
-              <div className="text-sm text-gray-300">Resumes Created</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {benefitsData.map((benefit, index) => (
-        <BenefitSection
-          key={index}
-          title={benefit.title}
-          description={benefit.description}
-          image={benefit.image}
-          background={benefit.background}
-          side={index % 2 === 0 ? "left" : "right"}
-        />
-      ))}
 
       {/* FAQ section */}
       <FAQSection
@@ -305,6 +276,36 @@ export default function LandingPage({
           </div>
         </div>
       </section>
+
+      {/* Stats Section */}
+      <section className="py-20 px-4 bg-gradient-to-br from-slate-900 via-gray-900 to-black">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+            Join the Central<span className="text-amber-300">#Resume</span>{" "}
+            Community
+          </h2>
+          <p className="text-lg text-gray-300 mb-12 max-w-2xl mx-auto">
+            Join the job seekers who have streamlined their resume process
+          </p>
+
+          <div className="grid grid-cols-2 md:grid-cols-2 gap-8">
+            <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-xl">
+              <div className="text-3xl md:text-4xl font-bold text-white mb-2">
+                {activeUsers}
+              </div>
+              <div className="text-sm text-gray-300">Active Users</div>
+            </div>
+
+            <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-xl">
+              <div className="text-3xl md:text-4xl font-bold text-white mb-2">
+                {resumeCreated}
+              </div>
+              <div className="text-sm text-gray-300">Resumes Created</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="py-20 px-4 text-white bg-[radial-gradient(ellipse_at_bottom_right,_#082f49,_transparent,_transparent)]">
         <div className="max-w-5xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
