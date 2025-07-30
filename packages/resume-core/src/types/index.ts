@@ -1,0 +1,10 @@
+export { type PERSONAL_DETAILS_SCHEMA_TYPE } from "../schema/resume/personal-detail";
+export { type WORK_EXPERIENCE_SCHEMA_TYPE } from "../schema/resume/work-experience";
+export { type SKILLS_SCHEMA_TYPE } from "../schema/resume/skills";
+export { type EDUCATION_SCHEMA_TYPE } from "../schema/resume/education";
+export { type ACHIEVEMENT_SCHEMA_TYPE } from "../schema/resume/achievement";
+export { type OTHER_LIST_SCHEMA_TYPE } from "../schema/resume/other-list";
+export { type PUBLICATION_SCHEMA_TYPE } from "../schema/resume/publication";
+export { type PROJECTS_SCHEMA_TYPE } from "../schema/resume/projects";
+export { type RESUME_SCHEMA_TYPE } from "../schema/resume";
+export { type TAGS_TYPE } from "../schema/resume/constants";

@@ -1,0 +1,14 @@
+{
+  "name": "centralresume",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint"
+  },
+  "packageManager": "pnpm@10.13.1",
+  "devDependencies": {
+    "turbo": "latest"
+  }
+}
