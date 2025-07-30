@@ -2,8 +2,9 @@
   "name": "@centralresume/database",
   "version": "1.0.0",
   "description": "",
-  "scripts": {},
-  "postinstall": "prisma generate",
+  "scripts": {
+    "postinstall": "prisma generate"
+  },
   "exports": {
     "./prisma": "./prisma/generated/prisma/index.js"
   },
