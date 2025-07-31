@@ -1,18 +1,18 @@
 networks:
   default:
     external: true
-    name: cr-app
+    name: cr-main-network
   postgres:
     external: true
-    name: cr-postgres
+    name: cr-postgres-net
   mongodb:
     external: true
-    name: cr-mongo
+    name: cr-mongo-net
 
 services:
-  backend:
+  api-backend:
     image: "ghcr.io/anisharaz/centralresume:be_1_0"
-    container_name: cr-backend
+    container_name: cr-api-backend
     ports:
       - "127.0.0.1:3011:4000"
     restart: always

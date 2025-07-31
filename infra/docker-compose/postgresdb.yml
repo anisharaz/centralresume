@@ -1,6 +1,6 @@
 networks:
   default:
-    name: cr-postgres
+    name: cr-postgres-net
     external: false
 
 services:
