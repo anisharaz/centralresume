@@ -1,5 +1,5 @@
 import { auth } from "@/lib/auth";
-import GettingStartedFormV2 from "@/components/getting-started-form-v2";
+import GettingStartedFormV2 from "@/components/getting-started-page";
 import prisma from "@/lib/db";
 import { headers } from "next/headers";
 import { permanentRedirect } from "next/navigation";
