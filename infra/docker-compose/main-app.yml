@@ -1,0 +1,25 @@
+networks:
+  default:
+    external: true
+    name: cr-main-network
+  postgres:
+    external: true
+    name: cr-postgres-net
+  mongodb:
+    external: true
+    name: cr-mongo-net
+
+services:
+  main-app:
+    image: "ghcr.io/anisharaz/centralresume:main_app_1_0"
+    container_name: cr-main-app
+    ports:
+      - "127.0.0.1:3010:3000"
+    restart: always
+    networks:
+      default:
+        gw_priority: 1
+      postgres:
+      mongodb:
+    volumes:
+      - ../data/main_app/.env:/app/.env:ro

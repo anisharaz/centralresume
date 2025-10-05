@@ -1,0 +1,26 @@
+{
+  "name": "@centralresume/resume-core",
+  "version": "1.0.0",
+  "type": "module",
+  "packageManager": "pnpm@10.13.1",
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  },
+  "exports": {
+    "./types": {
+      "types": "./src/types/index.ts",
+      "default": "./src/types/index.ts"
+    },
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./schema": {
+      "types": "./src/schema/resume/index.ts",
+      "default": "./src/schema/resume/index.ts"
+    }
+  },
+  "dependencies": {
+    "zod": "^4.0.14"
+  }
+}
