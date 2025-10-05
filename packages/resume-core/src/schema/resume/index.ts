@@ -7,6 +7,14 @@ import { OTHER_LIST_SCHEMA } from "./other-list";
 import { PERSONAL_DETAILS_SCHEMA } from "./personal-detail";
 import { PUBLICATION_SCHEMA } from "./publication";
 import { PROJECTS_SCHEMA } from "./projects";
+export { WORK_EXPERIENCE_SCHEMA } from "./work-experience";
+export { SKILLS_SCHEMA } from "./skills";
+export { EDUCATION_SCHEMA } from "./education";
+export { ACHIEVEMENT_SCHEMA } from "./achievement";
+export { OTHER_LIST_SCHEMA } from "./other-list";
+export { PERSONAL_DETAILS_SCHEMA } from "./personal-detail";
+export { PUBLICATION_SCHEMA } from "./publication";
+export { PROJECTS_SCHEMA } from "./projects";
 
 export const RESUME_ZOD_SCHEMA = z
   .object({

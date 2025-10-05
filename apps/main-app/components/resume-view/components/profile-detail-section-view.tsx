@@ -11,7 +11,7 @@ import {
   User,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ResumeDataType } from "@/lib/types";
+import { ResumeDataType } from "@centralresume/resume-core/types";
 type PersonalDetails = ResumeDataType["personal_details"];
 
 export function ProfileDetailSectionView({

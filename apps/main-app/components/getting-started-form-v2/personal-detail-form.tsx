@@ -1,7 +1,7 @@
 "use client";
 
 import type { UseFormReturn } from "react-hook-form";
-import type { RESUME_TYPE } from "@/lib/zod/schemas";
+import type { RESUME_SCHEMA_TYPE } from "@centralresume/resume-core/types";
 import {
   FormField,
   FormItem,
@@ -120,7 +120,7 @@ function TagManagement({
 }
 
 interface PersonalDetailsFormProps {
-  form: UseFormReturn<RESUME_TYPE>;
+  form: UseFormReturn<RESUME_SCHEMA_TYPE>;
 }
 
 export function PersonalDetailsForm({ form }: PersonalDetailsFormProps) {

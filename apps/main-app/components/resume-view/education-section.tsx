@@ -1,8 +1,8 @@
 import React from "react";
-import { ResumeDataType } from "@/lib/types";
+import { ResumeDataType } from "@centralresume/resume-core/types";
 import { DUMMY_MODE } from "@/lib/vars";
 import EducationEditForm from "./edit-forms/education-edit-form";
-import { RESUME_TYPE } from "@/lib/zod/schemas";
+import { RESUME_SCHEMA_TYPE } from "@centralresume/resume-core/types";
 import { EducationSectionView } from "./components/education-section-view";
 import { EDUCATION_DUMMY_DATA } from "@/lib/dummy-data";
 
@@ -14,7 +14,7 @@ export function EducationCard({
   resumeTags,
 }: {
   data: Education;
-  dataWithTag: RESUME_TYPE["education"];
+  dataWithTag: RESUME_SCHEMA_TYPE["education"];
   resumeTags: string[];
 }) {
   if (DUMMY_MODE) {

@@ -1,8 +1,8 @@
 import React from "react";
-import { ResumeDataType } from "@/lib/types";
+import { ResumeDataType } from "@centralresume/resume-core/types";
 import { DUMMY_MODE } from "@/lib/vars";
 import PublicationsEditForm from "./edit-forms/publications-edit-form";
-import { RESUME_TYPE } from "@/lib/zod/schemas";
+import { RESUME_SCHEMA_TYPE } from "@centralresume/resume-core/types";
 import { PublicationsSectionView } from "./components/publication-section-view";
 import { PUBLICATIONS_DUMMY_DATA } from "@/lib/dummy-data";
 
@@ -14,7 +14,7 @@ export function PublicationsCard({
   resumeTags,
 }: {
   data: Publications;
-  dataWithTag: RESUME_TYPE["publications"];
+  dataWithTag: RESUME_SCHEMA_TYPE["publications"];
   resumeTags: string[];
 }) {
   if (DUMMY_MODE) {

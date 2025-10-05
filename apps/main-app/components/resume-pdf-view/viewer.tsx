@@ -1,6 +1,6 @@
 "use client";
 import { usePDF } from "@react-pdf/renderer";
-import { ResumeDataType } from "@/lib/types";
+import { ResumeDataType } from "@centralresume/resume-core/types";
 import dynamic from "next/dynamic";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import { getFilePlugin } from "@react-pdf-viewer/get-file";

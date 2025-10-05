@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { GraduationCap, Calendar, Award } from "lucide-react";
-import { ResumeDataType } from "@/lib/types";
+import { ResumeDataType } from "@centralresume/resume-core/types";
 import { formatDate, calculateDuration } from "@/lib/utils";
 
 type Education = ResumeDataType["education"];

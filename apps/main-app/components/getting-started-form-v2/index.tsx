@@ -12,7 +12,8 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { Rocket, User } from "lucide-react";
 import { FormProvider, useForm } from "react-hook-form";
-import { RESUME_ZOD_SCHEMA, RESUME_TYPE } from "@/lib/zod/schemas";
+import { RESUME_SCHEMA_TYPE } from "@centralresume/resume-core/types";
+import { RESUME_ZOD_SCHEMA } from "@centralresume/resume-core/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PersonalDetailsForm } from "./personal-detail-form";
 import { HandleResumeCreation } from "@/app/actions/getting-started";
@@ -30,7 +31,7 @@ export default function GettingStartedFormV2({
 }) {
   const router = useRouter();
   const [currentStage, setCurrentStage] = useState(0);
-  const form = useForm<RESUME_TYPE>({
+  const form = useForm<RESUME_SCHEMA_TYPE>({
     resolver: zodResolver(RESUME_ZOD_SCHEMA),
     defaultValues: {
       version: "1.0.0",
@@ -60,7 +61,7 @@ export default function GettingStartedFormV2({
     mode: "all",
   });
 
-  const onSubmit = async (data: RESUME_TYPE) => {
+  const onSubmit = async (data: RESUME_SCHEMA_TYPE) => {
     const isValid = await form.trigger();
     if (!isValid) {
       // Show validation errors and prevent submission

@@ -1,8 +1,8 @@
 import React from "react";
-import { ResumeDataType } from "@/lib/types";
+import { ResumeDataType } from "@centralresume/resume-core/types";
 import { DUMMY_MODE } from "@/lib/vars";
 import OthersListEditForm from "./edit-forms/others-list-edit-form";
-import { RESUME_TYPE } from "@/lib/zod/schemas";
+import { RESUME_SCHEMA_TYPE } from "@centralresume/resume-core/types";
 import { OtherListsSectionView } from "./components/others-list-section-view";
 import { OTHER_LISTS_DUMMY_DATA } from "@/lib/dummy-data";
 
@@ -14,7 +14,7 @@ export function OtherListsCard({
   resumeTags,
 }: {
   data: OtherLists;
-  dataWithTag: RESUME_TYPE["otherLists"];
+  dataWithTag: RESUME_SCHEMA_TYPE["otherLists"];
   resumeTags: string[];
 }) {
   if (DUMMY_MODE) {

@@ -14,6 +14,10 @@
     ".": {
       "types": "./src/index.ts",
       "default": "./src/index.ts"
+    },
+    "./schema": {
+      "types": "./src/schema/resume/index.ts",
+      "default": "./src/schema/resume/index.ts"
     }
   },
   "dependencies": {

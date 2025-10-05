@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, ExternalLink, FolderOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ResumeDataType } from "@/lib/types";
+import { ResumeDataType } from "@centralresume/resume-core/types";
 import Link from "next/link";
 import { calculateDuration, formatDate } from "@/lib/utils";
 

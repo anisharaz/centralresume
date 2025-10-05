@@ -1,6 +1,6 @@
 "use client";
 
-import { ResumeDataType } from "@/lib/types";
+import { ResumeDataType } from "@centralresume/resume-core/types";
 import dynamic from "next/dynamic";
 
 const Viewer = dynamic(() => import("./viewer"), {

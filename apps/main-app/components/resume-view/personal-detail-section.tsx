@@ -1,8 +1,8 @@
 import React from "react";
-import { ResumeDataType } from "@/lib/types";
+import { ResumeDataType } from "@centralresume/resume-core/types";
 import { DUMMY_MODE } from "@/lib/vars";
 import PersonalDetailEditForm from "./edit-forms/personal-detail-edit-form";
-import { RESUME_TYPE } from "@/lib/zod/schemas/";
+import { RESUME_SCHEMA_TYPE } from "@centralresume/resume-core/types";
 import { ProfileDetailSectionView } from "./components/profile-detail-section-view";
 import { PROFILE_DETAIL_DUMMY_DATA } from "@/lib/dummy-data";
 type PersonalDetails = ResumeDataType["personal_details"];
@@ -13,7 +13,7 @@ export function PersonalDetailsCard({
   resumeTags,
 }: {
   data: PersonalDetails;
-  dataWithTag: RESUME_TYPE["personal_details"];
+  dataWithTag: RESUME_SCHEMA_TYPE["personal_details"];
   resumeTags: string[];
 }) {
   if (DUMMY_MODE) {

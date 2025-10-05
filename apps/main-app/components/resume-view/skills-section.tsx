@@ -1,7 +1,7 @@
-import { ResumeDataType } from "@/lib/types";
+import { ResumeDataType } from "@centralresume/resume-core/types";
 import { DUMMY_MODE } from "@/lib/vars";
 import SkillsEditForm from "./edit-forms/skills-edit-form";
-import { RESUME_TYPE } from "@/lib/zod/schemas";
+import { RESUME_SCHEMA_TYPE } from "@centralresume/resume-core/types";
 import { SKILLS_DUMMY_DATA } from "@/lib/dummy-data";
 import { SkillsSectionView } from "./components/skills-section-view";
 
@@ -13,7 +13,7 @@ export function SkillsCard({
   resumeTags,
 }: {
   data: Skills;
-  dataWithTag: RESUME_TYPE["skills"];
+  dataWithTag: RESUME_SCHEMA_TYPE["skills"];
   resumeTags: string[];
 }) {
   if (DUMMY_MODE) {

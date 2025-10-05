@@ -1,8 +1,8 @@
 import React from "react";
-import { ResumeDataType } from "@/lib/types";
+import { ResumeDataType } from "@centralresume/resume-core/types";
 import { DUMMY_MODE } from "@/lib/vars";
 import ProjectsEditForm from "./edit-forms/projects.edit-form";
-import { RESUME_TYPE } from "@/lib/zod/schemas";
+import { RESUME_SCHEMA_TYPE } from "@centralresume/resume-core/types";
 import { PROJECTS_DUMMY_DATA } from "@/lib/dummy-data";
 import { ProjectsSectionView } from "./components/projects-section-view";
 
@@ -14,7 +14,7 @@ export function ProjectsCard({
   resumeTags,
 }: {
   data: Projects;
-  dataWithTag: RESUME_TYPE["projects"];
+  dataWithTag: RESUME_SCHEMA_TYPE["projects"];
   resumeTags: string[];
 }) {
   if (DUMMY_MODE) {

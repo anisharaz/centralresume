@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen, Calendar, ExternalLink, Building } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ResumeDataType } from "@/lib/types";
+import { ResumeDataType } from "@centralresume/resume-core/types";
 import Link from "next/link";
 import { formatDate } from "@/lib/utils";
 

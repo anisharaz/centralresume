@@ -1,8 +1,8 @@
 import React from "react";
-import { ResumeDataType } from "@/lib/types";
+import { ResumeDataType } from "@centralresume/resume-core/types";
 import { DUMMY_MODE } from "@/lib/vars";
 import WorkExperienceEditForm from "./edit-forms/work-experience-edit-form";
-import { RESUME_TYPE } from "@/lib/zod/schemas";
+import { RESUME_SCHEMA_TYPE } from "@centralresume/resume-core/types";
 import { WORK_EXPERIENCE_DUMMY_DATA } from "@/lib/dummy-data";
 import { WorkExperienceSectionView } from "./components/work-experience-section-view";
 
@@ -14,7 +14,7 @@ export function WorkExperienceCard({
   resumeTags,
 }: {
   data: WorkExperience;
-  dataWithTag: RESUME_TYPE["work_experience"];
+  dataWithTag: RESUME_SCHEMA_TYPE["work_experience"];
   resumeTags: string[];
 }) {
   if (DUMMY_MODE) {
