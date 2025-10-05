@@ -43,11 +43,11 @@ This is a monorepo project managed with pnpm workspaces containing:
    - In a separate terminal, start the PostgreSQL database using Prisma dev:
 
    ```bash
-   cd packages/database
-   pnpm prisma dlx prisma dev
+      cd packages/database
+      pnpm dlx prisma dev
    ```
 
-   - Migrate the database schema:
+   - In the main terminal, migrate the database schema:
 
      ```bash
         cd packages/database
@@ -57,7 +57,7 @@ This is a monorepo project managed with pnpm workspaces containing:
 5. Start the development servers:
 
    ```bash
-   # Start all applications in development mode
+   # at the root of the repo run this
    pnpm dev
    ```
 
@@ -73,7 +73,6 @@ The applications will be available at:
 - `pnpm dev`: Start all applications in development mode
 - `pnpm build`: Build all applications and packages
 - `pnpm lint`: Run linting across all projects
-- `pnpm test`: Run tests across all projects
 
 ## Contributing
 
