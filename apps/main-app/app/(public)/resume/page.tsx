@@ -1,7 +1,7 @@
 import ErrorPage from "@/components/error-page";
 import prisma from "@/lib/db";
 import { getResumeFromResumeStore } from "@/lib/services/resume-store";
-import { Resume } from "@/lib/resume";
+import { Resume } from "@centralresume/resume-core";
 
 import ResumePDFViewer from "@/components/resume-pdf-view";
 
@@ -41,8 +41,7 @@ async function ViewResume({
       <ErrorPage
         errorDefinition={{
           error: "Link or tag not found",
-          errorDescription:
-            "The requested resume link or tag does not exist",
+          errorDescription: "The requested resume link or tag does not exist",
           errorType: "NotFound",
         }}
       />
@@ -53,8 +52,7 @@ async function ViewResume({
       <ErrorPage
         errorDefinition={{
           error: "Private Resume Link",
-          errorDescription:
-            "The requested resume link is private.",
+          errorDescription: "The requested resume link is private.",
           errorType: "NotFound",
         }}
       />

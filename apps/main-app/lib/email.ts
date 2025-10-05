@@ -1,14 +1,42 @@
 import nm from "nodemailer";
 
-export const EmailTransport = nm.createTransport({
-  host: "smtp.resend.com",
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.RESEND_SMTP_USER,
-    pass: process.env.RESEND_SMTP_PASS,
-  },
-});
+export class EmailFactory {
+  static instance: nm.Transporter;
+
+  static getInstance() {
+    if (!EmailFactory.instance) {
+      if (
+        process.env.NODE_ENV === "production" &&
+        (!process.env.SMTP_HOST ||
+          !process.env.SMTP_USER ||
+          !process.env.SMTP_PASS)
+      ) {
+        throw new Error("Missing SMTP configuration");
+      }
+      if (process.env.NODE_ENV === "production") {
+        EmailFactory.instance = nm.createTransport({
+          host: process.env.SMTP_HOST,
+          port: 465,
+          secure: true,
+          auth: {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASS,
+          },
+        });
+      }
+      if (process.env.NODE_ENV === "development") {
+        EmailFactory.instance = nm.createTransport({
+          host: "localhost",
+          port: 25,
+          secure: false,
+        });
+      }
+    }
+    return EmailFactory.instance;
+  }
+}
+
+const EmailTransport = EmailFactory.getInstance();
 
 // Better Auth expects this specific function signature for email verification
 export async function sendVerificationEmail({
@@ -22,7 +50,7 @@ export async function sendVerificationEmail({
 }) {
   await EmailTransport.sendMail({
     to: user.email,
-    from: process.env.RESEND_FROM_EMAIL,
+    from: process.env.SMTP_FROM_EMAIL,
     subject: "Verify your email - CentralResume",
     text: `Hi ${user.name}, please verify your email by clicking this link: ${url}`,
     html: `

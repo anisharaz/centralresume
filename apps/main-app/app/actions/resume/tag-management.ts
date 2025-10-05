@@ -2,7 +2,7 @@
 
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
-import { Resume } from "@/lib/resume";
+import { Resume } from "@centralresume/resume-core";
 import {
   getResumeFromResumeStore,
   updateResumeInResumeStore,

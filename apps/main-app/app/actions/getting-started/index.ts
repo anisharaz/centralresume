@@ -2,9 +2,9 @@
 
 import { auth } from "@//lib/auth";
 import prisma from "@/lib/db";
-import { Resume } from "@/lib/resume";
+import { Resume } from "@centralresume/resume-core";
 import { saveResumeToResumeStore } from "@/lib/services/resume-store";
-import { RESUME_TYPE } from "@/lib/zod/schemas";
+import { RESUME_SCHEMA_TYPE } from "@centralresume/resume-core/types";
 import { $Enums } from "@centralresume/database/prisma";
 import { headers } from "next/headers";
 
@@ -15,7 +15,7 @@ type ResumeCreationResponse = {
 export async function HandleResumeCreation({
   resumeData,
 }: {
-  resumeData: RESUME_TYPE;
+  resumeData: RESUME_SCHEMA_TYPE;
 }): Promise<ResumeCreationResponse> {
   try {
     const session = await auth.api.getSession({ headers: await headers() });

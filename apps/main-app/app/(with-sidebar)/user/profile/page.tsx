@@ -5,7 +5,7 @@ import SwitchCurrentResumeTag from "./switch-resume-tag";
 import prisma from "@/lib/db";
 import { Suspense } from "react";
 import { getResumeFromResumeStore } from "@/lib/services/resume-store";
-import { Resume } from "@/lib/resume";
+import { Resume } from "@centralresume/resume-core";
 import BannerBg from "@/public/banner_bg.jpg";
 import {
   AchievementsCard,

@@ -15,9 +15,9 @@ import {
   PERSONAL_DETAILS_SCHEMA_TYPE,
   PUBLICATION_SCHEMA_TYPE,
   PROJECTS_SCHEMA_TYPE,
-} from "@/lib/zod/schemas/resume";
+} from "@centralresume/resume-core/types";
 import { revalidatePath } from "next/cache";
-import { Resume } from "@/lib/resume";
+import { Resume } from "@centralresume/resume-core";
 import prisma from "@/lib/db";
 import { $Enums } from "@centralresume/database/prisma";
 

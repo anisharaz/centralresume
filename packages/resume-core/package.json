@@ -10,6 +10,10 @@
     "./types": {
       "types": "./src/types/index.ts",
       "default": "./src/types/index.ts"
+    },
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
     }
   },
   "dependencies": {

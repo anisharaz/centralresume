@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { RESUME_ZOD_SCHEMA } from "./resume";
 
 export const createOauthClientSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -39,6 +38,3 @@ export const signupSchema = z
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
-
-export { RESUME_ZOD_SCHEMA };
-export type RESUME_TYPE = z.infer<typeof RESUME_ZOD_SCHEMA>;

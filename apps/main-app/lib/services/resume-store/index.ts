@@ -1,5 +1,5 @@
 import { resumeBackendAxiosClient } from "@/lib/axios-client";
-import { RESUME_TYPE } from "@/lib/zod/schemas";
+import { RESUME_SCHEMA_TYPE } from "@centralresume/resume-core/types";
 
 export async function getResumeFromResumeStore({ userId }: { userId: string }) {
   const { data } = await resumeBackendAxiosClient.get("/v1/internal/resume", {
@@ -7,14 +7,14 @@ export async function getResumeFromResumeStore({ userId }: { userId: string }) {
       userId: userId,
     },
   });
-  return data as RESUME_TYPE;
+  return data as RESUME_SCHEMA_TYPE;
 }
 
 export async function saveResumeToResumeStore({
   resumeData,
   userId,
 }: {
-  resumeData: RESUME_TYPE;
+  resumeData: RESUME_SCHEMA_TYPE;
   userId: string;
 }) {
   const { data, status } = await resumeBackendAxiosClient.post(
@@ -36,7 +36,7 @@ export async function updateResumeInResumeStore({
   resumeData,
   userId,
 }: {
-  resumeData: RESUME_TYPE;
+  resumeData: RESUME_SCHEMA_TYPE;
   userId: string;
 }) {
   const { status } = await resumeBackendAxiosClient.put(

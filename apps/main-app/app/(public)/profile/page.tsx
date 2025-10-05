@@ -9,7 +9,7 @@ import { SkillsSectionView } from "@/components/resume-view/components/skills-se
 import { WorkExperienceSectionView } from "@/components/resume-view/components/work-experience-section-view";
 import { Separator } from "@/components/ui/separator";
 import prisma from "@/lib/db";
-import { Resume } from "@/lib/resume";
+import { Resume } from "@centralresume/resume-core";
 import { getResumeFromResumeStore } from "@/lib/services/resume-store";
 import { VISIBILITY } from "@centralresume/database/prisma";
 import Image from "next/image";
