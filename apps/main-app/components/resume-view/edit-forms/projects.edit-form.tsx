@@ -13,9 +13,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PROJECTS_SCHEMA } from "@/lib/zod/schemas/resume/projects";
+import { PROJECTS_SCHEMA } from "@centralresume/resume-core/schema";
 import { z } from "zod";
-import { RESUME_TYPE } from "@/lib/zod/schemas";
+import { RESUME_SCHEMA_TYPE } from "@centralresume/resume-core/types";
 import { updateResume } from "@/app/actions/resume/update-resume";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
@@ -33,7 +33,7 @@ function ProjectsEditForm({
 }: {
   title: string;
   description: string;
-  dataWithTag: RESUME_TYPE["projects"];
+  dataWithTag: RESUME_SCHEMA_TYPE["projects"];
   resumeTags: string[];
 }) {
   const router = useRouter();

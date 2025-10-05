@@ -12,9 +12,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm, useFieldArray, Control } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { OTHER_LIST_SCHEMA } from "@/lib/zod/schemas/resume/other-list";
+import { OTHER_LIST_SCHEMA } from "@centralresume/resume-core/schema";
 import { z } from "zod";
-import { RESUME_TYPE } from "@/lib/zod/schemas";
+import { RESUME_SCHEMA_TYPE } from "@centralresume/resume-core/types";
 import { updateResume } from "@/app/actions/resume/update-resume";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
@@ -33,7 +33,7 @@ function OthersListEditForm({
 }: {
   title: string;
   description: string;
-  dataWithTag: RESUME_TYPE["otherLists"];
+  dataWithTag: RESUME_SCHEMA_TYPE["otherLists"];
   resumeTags: string[];
 }) {
   const router = useRouter();

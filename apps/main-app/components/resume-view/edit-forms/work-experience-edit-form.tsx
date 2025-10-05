@@ -12,9 +12,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { WORK_EXPERIENCE_SCHEMA } from "@/lib/zod/schemas/resume/work-experience";
+import { WORK_EXPERIENCE_SCHEMA } from "@centralresume/resume-core/schema";
 import { z } from "zod";
-import { RESUME_TYPE } from "@/lib/zod/schemas";
+import { RESUME_SCHEMA_TYPE } from "@centralresume/resume-core/types";
 import { updateResume } from "@/app/actions/resume/update-resume";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
@@ -33,7 +33,7 @@ function WorkExperienceEditForm({
 }: {
   title: string;
   description: string;
-  dataWithTag: RESUME_TYPE["work_experience"];
+  dataWithTag: RESUME_SCHEMA_TYPE["work_experience"];
   resumeTags: string[];
 }) {
   const router = useRouter();
