@@ -11,7 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import prisma from "@/lib/db";
 import { Resume } from "@centralresume/resume-core";
 import { getResumeFromResumeStore } from "@/lib/services/resume-store";
-import { VISIBILITY } from "@centralresume/database/prisma";
+import { VISIBILITY } from "@centralresume/database/";
 import Image from "next/image";
 import BannerBg from "@/public/banner_bg.jpg";
 async function PublicProfilePage({

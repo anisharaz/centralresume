@@ -8,7 +8,7 @@ import {
   updateResumeInResumeStore,
 } from "@/lib/services/resume-store";
 import { ServerActionResponse } from "@/lib/types";
-import { $Enums } from "@centralresume/database/prisma";
+import { $Enums } from "@centralresume/database";
 import { headers } from "next/headers";
 
 export async function createTag(params: {
@@ -43,10 +43,6 @@ export async function createTag(params: {
       userId: session.session.userId,
     });
     const resumeData = new Resume(resume);
-    console.log(
-      "Resume data before copying tag:",
-      JSON.stringify(resumeData.getResume(), null, 2)
-    );
     resumeData.copyTag({
       fromTag: params.fromTag,
       newTagName: params.newTagName.trim(),

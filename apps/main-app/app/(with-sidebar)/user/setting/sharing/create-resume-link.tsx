@@ -21,7 +21,7 @@ import { Plus } from "lucide-react";
 import { createResumeLink } from "@/app/actions/resume/resume-links";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { $Enums } from "@centralresume/database/prisma";
+import { $Enums } from "@centralresume/database/";
 
 interface CreateResumeLinkProps {
   resumeTags: { resumeTagName: string }[];

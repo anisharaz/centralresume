@@ -2,7 +2,7 @@
 
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
-import { $Enums } from "@centralresume/database/prisma";
+import { $Enums } from "@centralresume/database";
 import { useTransition } from "react";
 import { toggleTagVisibility } from "@/app/actions/resume/tag-management";
 import { toast } from "sonner";

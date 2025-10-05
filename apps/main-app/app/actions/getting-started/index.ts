@@ -5,7 +5,7 @@ import prisma from "@/lib/db";
 import { Resume } from "@centralresume/resume-core";
 import { saveResumeToResumeStore } from "@/lib/services/resume-store";
 import { RESUME_SCHEMA_TYPE } from "@centralresume/resume-core/types";
-import { $Enums } from "@centralresume/database/prisma";
+import { $Enums } from "@centralresume/database";
 import { headers } from "next/headers";
 
 type ResumeCreationResponse = {

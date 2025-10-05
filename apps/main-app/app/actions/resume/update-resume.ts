@@ -19,7 +19,7 @@ import {
 import { revalidatePath } from "next/cache";
 import { Resume } from "@centralresume/resume-core";
 import prisma from "@/lib/db";
-import { $Enums } from "@centralresume/database/prisma";
+import { $Enums } from "@centralresume/database";
 
 type newResumeData =
   | {

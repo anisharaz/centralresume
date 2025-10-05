@@ -25,7 +25,7 @@ import { z } from "zod";
 import { useState, useTransition } from "react";
 import { createTag } from "@/app/actions/resume/tag-management";
 import { toast } from "sonner";
-import { $Enums } from "@centralresume/database/prisma";
+import { $Enums } from "@centralresume/database";
 import { useRouter } from "next/navigation";
 
 const createTagSchema = z.object({

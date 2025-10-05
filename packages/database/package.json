@@ -4,10 +4,11 @@
   "description": "",
   "scripts": {
     "postinstall": "prisma generate",
-    "generate": "prisma generate"
+    "db:migrate": "prisma migrate dev --skip-generate",
+    "db:generate": "prisma generate"
   },
   "exports": {
-    "./prisma": "./prisma/generated/prisma/index.js"
+    ".": "./src/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +18,7 @@
     "prisma": "^6.12.0"
   },
   "dependencies": {
-    "@prisma/client": "6.12.0"
+    "@prisma/client": "6.12.0",
+    "@types/node": "^24.6.2"
   }
 }

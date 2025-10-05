@@ -1,4 +1,4 @@
-import { PrismaClient } from "@centralresume/database/prisma";
+import { PrismaClient } from "@centralresume/database";
 const prismaClientSingleton = () => {
   return new PrismaClient();
 };

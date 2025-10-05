@@ -1,7 +1,7 @@
 "use server";
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
-import { $Enums } from "@centralresume/database/prisma";
+import { $Enums } from "@centralresume/database";
 import { nanoid } from "nanoid";
 import { headers } from "next/headers";
 

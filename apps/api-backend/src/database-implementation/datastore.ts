@@ -3,7 +3,7 @@ import { Session } from '@/database-interface/session';
 import { ResumeInterface } from '@/resume/resume';
 import mongoose from 'mongoose';
 import { ConfigManager } from '../config';
-import { PrismaClient } from '@centralresume/database/prisma';
+import { PrismaClient } from '@centralresume/database';
 const resumeSchema = new mongoose.Schema(
   {
     _id: mongoose.Schema.Types.ObjectId,
