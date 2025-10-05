@@ -1,16 +1,16 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { User } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { User, FileUp, FilePlus } from "lucide-react";
 import { FormProvider, useForm } from "react-hook-form";
 import { RESUME_SCHEMA_TYPE } from "@centralresume/resume-core/types";
 import { RESUME_ZOD_SCHEMA } from "@centralresume/resume-core/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PersonalDetailsForm } from "./personal-detail-form";
 import { HandleResumeCreation } from "@/app/actions/getting-started";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 import cookies from "js-cookie";
+import ImportExistingResume from "./import-resume";
 export default function GettingStartedFormV2({
   defaultData,
 }: {
@@ -89,36 +89,63 @@ export default function GettingStartedFormV2({
           </div>
         </div>
 
-        {/* Form Section */}
-        <FormProvider {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit, (err) => {
-              toast.error("Required fields have red titles", {
-                description: "fill in the required fields to proceed.",
-                duration: 5000,
-              });
-            })}
-            className="space-y-6"
-          >
-            <PersonalDetailsForm form={form} />
-            <div className="sticky bottom-0 bg-background pt-4 pb-6 border-t">
-              <Button
-                type="submit"
-                className="w-full"
-                size="lg"
-                disabled={
-                  form.formState.isSubmitting ||
-                  !form.getValues("personal_details.name") ||
-                  !form.getValues("personal_details.email")
-                }
+        {/* Tabs Section */}
+        <Tabs defaultValue="new-resume" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 max-w-md mx-auto mb-8">
+            <TabsTrigger value="new-resume" className="flex items-center gap-2">
+              <FilePlus className="w-4 h-4" />
+              Create New Resume
+            </TabsTrigger>
+            <TabsTrigger
+              value="import-resume"
+              className="flex items-center gap-2"
+            >
+              <FileUp className="w-4 h-4" />
+              Import Resume
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="new-resume">
+            <FormProvider {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6"
               >
-                {form.formState.isSubmitting
-                  ? "Submitting..."
-                  : "Complete Setup"}
-              </Button>
-            </div>
-          </form>
-        </FormProvider>
+                <div className="flex flex-col items-center justify-center space-y-6 py-12">
+                  <div className="text-center space-y-4 max-w-md">
+                    <div className="mx-auto w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center">
+                      <FilePlus className="w-10 h-10 text-primary" />
+                    </div>
+                    <h2 className="text-2xl font-semibold">
+                      Create a New Resume
+                    </h2>
+                    <p className="text-muted-foreground">
+                      Start fresh with a blank resume template. You can add your
+                      personal details, work experience, education, and more
+                      after creation.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex justify-center pt-4 pb-6">
+                  <Button
+                    type="submit"
+                    size="lg"
+                    disabled={form.formState.isSubmitting}
+                    className="min-w-[200px]"
+                  >
+                    {form.formState.isSubmitting
+                      ? "Creating..."
+                      : "Create New Resume"}
+                  </Button>
+                </div>
+              </form>
+            </FormProvider>
+          </TabsContent>
+
+          <TabsContent value="import-resume">
+            <ImportExistingResume />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
