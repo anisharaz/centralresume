@@ -79,19 +79,16 @@ export default function GettingStartedFormV2({
         <div className="text-center space-y-3 sm:space-y-4 mb-6 sm:mb-8 lg:mb-10">
           <div className="space-y-1.5 sm:space-y-2">
             <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight">
-              Welcome to Central
+              Getting started with Central
               <span className="text-yellow-400 dark:text-yellow-300">
                 #resume
               </span>
             </h1>
-            <p className="text-xs sm:text-sm lg:text-base text-muted-foreground max-w-xl mx-auto">
-              Let&apos;s get you set up with your resume in just a few clicks
-            </p>
           </div>
         </div>
 
         {/* Tabs Section */}
-        <Tabs defaultValue="new-resume" className="w-full">
+        <Tabs defaultValue="import-resume" className="w-full">
           <TabsList className="grid w-full grid-cols-2 max-w-md mx-auto mb-6 sm:mb-8 h-auto p-1">
             <TabsTrigger
               value="new-resume"
@@ -111,8 +108,8 @@ export default function GettingStartedFormV2({
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="new-resume" className="mt-0">
-            <FormProvider {...form}>
+          <FormProvider {...form}>
+            <TabsContent value="new-resume" className="mt-0">
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-6"
@@ -126,6 +123,9 @@ export default function GettingStartedFormV2({
                       <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold tracking-tight">
                         Start Fresh
                       </h2>
+                      <p className="text-sm sm:text-base text-muted-foreground">
+                        You can later edit and add more details.
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -136,16 +136,16 @@ export default function GettingStartedFormV2({
                     disabled={form.formState.isSubmitting}
                     className="min-w-[180px] sm:min-w-[200px] h-10 sm:h-11 text-sm sm:text-base font-medium shadow-md hover:shadow-lg transition-all"
                   >
-                    {form.formState.isSubmitting ? "Creating..." : "Finish"}
+                    {form.formState.isSubmitting ? "Creating..." : "Continue"}
                   </Button>
                 </div>
               </form>
-            </FormProvider>
-          </TabsContent>
+            </TabsContent>
 
-          <TabsContent value="import-resume" className="mt-0">
-            <ImportExistingResume form={form} />
-          </TabsContent>
+            <TabsContent value="import-resume" className="mt-0">
+              <ImportExistingResume form={form} />
+            </TabsContent>
+          </FormProvider>
         </Tabs>
       </div>
     </div>
