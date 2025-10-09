@@ -35,7 +35,9 @@ const ImportExistingResume = ({
 }: {
   form: UseFormReturn<RESUME_SCHEMA_TYPE>;
 }) => {
+  const { setValue } = form;
   const [input, setInput] = useState("");
+  //TODO: persist the chat history in DB https://ai-sdk.dev/docs/ai-sdk-ui/chatbot-message-persistence
   const { messages, sendMessage, status } = useChat({
     messages: [
       {
@@ -64,7 +66,6 @@ const ImportExistingResume = ({
     });
     setInput("");
   };
-  const { getValues } = form;
 
   return (
     <>
@@ -138,7 +139,7 @@ const ImportExistingResume = ({
       <Button
         type="submit"
         size="lg"
-        disabled={form.formState.isSubmitting}
+        disabled={form.formState.isSubmitting || status === "streaming"}
         className="min-w-[180px] sm:min-w-[200px] h-10 sm:h-11 w-full mt-2 text-sm sm:text-base font-medium shadow-md hover:shadow-lg transition-all"
       >
         {form.formState.isSubmitting ? "Creating..." : "Continue"}

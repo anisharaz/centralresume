@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import cookies from "js-cookie";
 import ImportExistingResume from "./import-resume";
 import Image from "next/image";
-export default function GettingStartedFormV2({
+export default function GettingStartedForm({
   defaultData,
 }: {
   defaultData: {

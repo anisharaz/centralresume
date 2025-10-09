@@ -1,3 +1,4 @@
 export const DUMMY_MODE = process.env.DUMMY_MODE === "true" || false;
 export const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
 export const DEFAULT_TAG_NAME = "#common";
+export const RESUME_SCHEMA_VERSION = "1.0";

@@ -1,22 +1,32 @@
 import { google } from "@ai-sdk/google";
-import { streamText, UIMessage, convertToModelMessages } from "ai";
+import { RESUME_ZOD_SCHEMA } from "@centralresume/resume-core/schema";
+
+import { convertToModelMessages, streamText, tool, UIMessage } from "ai";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
   const { messages }: { messages: UIMessage[] } = await req.json();
-  const result = streamText({
+  const responses = streamText({
     model: google("gemini-2.5-flash"),
-    messages: convertToModelMessages(messages),
     system:
-      "You are an assistance who help user to create resume. " +
-      "Users will provide you details in form of message and you extract key information for a resume. " +
-      "You will ask user for more information if you need. " +
-      "You will not answer any question which is not related to resume creation. " +
-      "You will not provide any information about yourself. " +
-      "You will not provide any information which is not related to resume creation.",
+      "You are an assistant who collects details for resume from user. " +
+      "Users will provide you details in form of message and you extract key information " +
+      "If the user hasn't provided all the fields required by the tool schema ask for the missing fields in natural language. " +
+      "Only ask the minimal required information and can leave other fields empty. Only call the tool once you have all required information. " +
+      "You will not answer any question which is not related to resume creation. ",
+    messages: convertToModelMessages(messages),
+    tools: {
+      extractResumeDataFromUserDescription: tool({
+        description: "Build a structured resume object.",
+        name: "extractResumeDataFromUserDescription",
+        inputSchema: RESUME_ZOD_SCHEMA,
+        async execute(data) {
+          return data;
+        },
+      }),
+    },
   });
-
-  return result.toUIMessageStreamResponse();
+  return responses.toUIMessageStreamResponse();
 }

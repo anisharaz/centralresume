@@ -1,5 +1,5 @@
 import { auth } from "@/lib/auth";
-import GettingStartedFormV2 from "@/components/getting-started-page";
+import GettingStartedForm from "@/components/getting-started-page";
 import prisma from "@/lib/db";
 import { headers } from "next/headers";
 import { permanentRedirect } from "next/navigation";
@@ -18,7 +18,7 @@ async function GettingStarted() {
   });
   if (user?.completedSignup === "true") permanentRedirect("/user/profile");
   return (
-    <GettingStartedFormV2
+    <GettingStartedForm
       defaultData={{
         firstName: user?.name.split(" ")[0] || "",
         lastName: user?.name.split(" ")[1] || "",

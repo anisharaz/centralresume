@@ -1,3 +1,6 @@
+import { RESUME_SCHEMA_TYPE } from "@centralresume/resume-core/schema";
+import { UIMessage } from "ai";
+
 export type AllowOauthAccessToGeneralTagParams = {
   response_type: string;
   client_id: string;
@@ -13,3 +16,10 @@ export type ServerActionResponse<T> = Promise<{
   error?: string | null;
   data?: T | null;
 }>;
+
+export type MyUIMessage = UIMessage<
+  never, // metadata type
+  {
+    ResumeData: RESUME_SCHEMA_TYPE;
+  } // data parts type
+>;

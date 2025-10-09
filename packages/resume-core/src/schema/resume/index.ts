@@ -16,6 +16,7 @@ export { PERSONAL_DETAILS_SCHEMA } from "./personal-detail";
 export { PUBLICATION_SCHEMA } from "./publication";
 export { PROJECTS_SCHEMA } from "./projects";
 
+// TODO: add description to each field of the whole schema
 export const RESUME_ZOD_SCHEMA = z
   .object({
     version: z.string(),
