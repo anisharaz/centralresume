@@ -27,7 +27,7 @@ import login_bg from "@/public/jonatan-pie-FOcMXBbe5rU-unsplash.jpg";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "@/lib/zod/schemas";
+import { loginSchema } from "@/lib/schemas";
 import { z } from "zod";
 
 type LoginFormValues = z.infer<typeof loginSchema>;

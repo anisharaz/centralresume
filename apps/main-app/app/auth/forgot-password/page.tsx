@@ -23,7 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useState } from "react";
-import { forgotPasswordSchema } from "@/lib/zod/schemas";
+import { forgotPasswordSchema } from "@/lib/schemas";
 import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
 import forgot_password_img from "@/public/forgot-password.png";

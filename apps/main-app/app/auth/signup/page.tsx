@@ -27,7 +27,7 @@ import { ArrowRight } from "lucide-react";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
-import { signupSchema } from "@/lib/zod/schemas";
+import { signupSchema } from "@/lib/schemas";
 import login_bg from "@/public/jonatan-pie-FOcMXBbe5rU-unsplash.jpg";
 import Image from "next/image";
 

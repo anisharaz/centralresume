@@ -13,14 +13,17 @@ import { useRouter } from "next/navigation";
 import cookies from "js-cookie";
 import ImportExistingResume from "./import-resume";
 import Image from "next/image";
+import { UIMessage } from "ai";
 export default function GettingStartedForm({
   defaultData,
+  chatHistory,
 }: {
   defaultData: {
     firstName: string;
     lastName: string;
     email: string;
   };
+  chatHistory: UIMessage[];
 }) {
   const router = useRouter();
   const form = useForm<RESUME_SCHEMA_TYPE>({
@@ -143,7 +146,7 @@ export default function GettingStartedForm({
             </TabsContent>
 
             <TabsContent value="import-resume" className="mt-0">
-              <ImportExistingResume form={form} />
+              <ImportExistingResume form={form} chatHistory={chatHistory} />
             </TabsContent>
           </FormProvider>
         </Tabs>

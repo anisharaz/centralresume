@@ -24,7 +24,7 @@ import {
 } from "@/components/ai-elements/prompt-input";
 import { File, MessageSquare } from "lucide-react";
 import { useState } from "react";
-import { useChat } from "@ai-sdk/react";
+import { UIMessage, useChat } from "@ai-sdk/react";
 import { Response } from "@/components/ai-elements/response";
 import { UseFormReturn } from "react-hook-form";
 import { RESUME_SCHEMA_TYPE } from "@centralresume/resume-core/schema";
@@ -32,25 +32,15 @@ import { Button } from "../ui/button";
 
 const ImportExistingResume = ({
   form,
+  chatHistory,
 }: {
   form: UseFormReturn<RESUME_SCHEMA_TYPE>;
+  chatHistory: UIMessage[];
 }) => {
   const { setValue } = form;
   const [input, setInput] = useState("");
-  //TODO: persist the chat history in DB https://ai-sdk.dev/docs/ai-sdk-ui/chatbot-message-persistence
   const { messages, sendMessage, status } = useChat({
-    messages: [
-      {
-        id: "1",
-        role: "assistant",
-        parts: [
-          {
-            type: "text",
-            text: "Hi, you can provide me more detail about you through chat or a resume file otherwise you can continue and edit later.",
-          },
-        ],
-      },
-    ],
+    messages: chatHistory,
   });
   const handleSubmit = (message: PromptInputMessage) => {
     const hasText = Boolean(message.text);

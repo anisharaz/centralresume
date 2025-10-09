@@ -1,12 +1,24 @@
+import { StoreGettingStartedChat } from "@/lib/ai/chat-store/getting-started-chat";
+import { auth } from "@/lib/auth";
 import { google } from "@ai-sdk/google";
 import { RESUME_ZOD_SCHEMA } from "@centralresume/resume-core/schema";
 
-import { convertToModelMessages, streamText, tool, UIMessage } from "ai";
+import {
+  convertToModelMessages,
+  createIdGenerator,
+  streamText,
+  tool,
+  UIMessage,
+} from "ai";
+import { headers } from "next/headers";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const { messages }: { messages: UIMessage[] } = await req.json();
   const responses = streamText({
     model: google("gemini-2.5-flash"),
@@ -28,5 +40,17 @@ export async function POST(req: Request) {
       }),
     },
   });
-  return responses.toUIMessageStreamResponse();
+  return responses.toUIMessageStreamResponse({
+    originalMessages: messages,
+    generateMessageId: createIdGenerator({
+      prefix: "msg",
+      size: 16,
+    }),
+    onFinish: async (result) => {
+      await StoreGettingStartedChat(
+        result.messages,
+        session?.user.id as string
+      );
+    },
+  });
 }

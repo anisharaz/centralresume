@@ -4,7 +4,7 @@ import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
 import { GenerateGrantToken, GenerateClientSecret } from "@/lib/oauth";
 import { AllowOauthAccessToGeneralTagParams } from "@/lib/types";
-import { createOauthClientSchema } from "@/lib/zod/schemas";
+import { createOauthClientSchema } from "@/lib/schemas";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";

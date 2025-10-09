@@ -24,7 +24,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { resetPasswordSchema } from "@/lib/zod/schemas";
+import { resetPasswordSchema } from "@/lib/schemas";
 import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
 import forgot_password_img from "@/public/forgot-password.png";
