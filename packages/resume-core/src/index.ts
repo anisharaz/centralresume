@@ -1,5 +1,7 @@
 import { ResumeDataType } from "@/types";
 import { RESUME_SCHEMA_TYPE } from "@/types";
+export const CORE_RESUME_VERSION = "1.0";
+
 export class Resume {
   private data: RESUME_SCHEMA_TYPE;
 

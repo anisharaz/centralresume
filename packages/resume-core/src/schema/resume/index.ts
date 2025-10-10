@@ -7,6 +7,7 @@ import { OTHER_LIST_SCHEMA } from "./other-list";
 import { PERSONAL_DETAILS_SCHEMA } from "./personal-detail";
 import { PUBLICATION_SCHEMA } from "./publication";
 import { PROJECTS_SCHEMA } from "./projects";
+import { CORE_RESUME_VERSION } from "../../index";
 export { WORK_EXPERIENCE_SCHEMA } from "./work-experience";
 export { SKILLS_SCHEMA } from "./skills";
 export { EDUCATION_SCHEMA } from "./education";
@@ -19,7 +20,11 @@ export { PROJECTS_SCHEMA } from "./projects";
 // TODO: add description to each field of the whole schema
 export const RESUME_ZOD_SCHEMA = z
   .object({
-    version: z.string(),
+    version: z
+      .string()
+      .describe(
+        `current version of the resume schema is ${CORE_RESUME_VERSION}`
+      ),
     personal_details: PERSONAL_DETAILS_SCHEMA,
     work_experience: WORK_EXPERIENCE_SCHEMA,
     skills: SKILLS_SCHEMA,

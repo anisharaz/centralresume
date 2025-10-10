@@ -23,21 +23,27 @@ import {
   PromptInputActionAddAttachments,
 } from "@/components/ai-elements/prompt-input";
 import { File, MessageSquare } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UIMessage, useChat } from "@ai-sdk/react";
 import { Response } from "@/components/ai-elements/response";
 import { UseFormReturn } from "react-hook-form";
-import { RESUME_SCHEMA_TYPE } from "@centralresume/resume-core/schema";
+import {
+  RESUME_SCHEMA_TYPE,
+  RESUME_ZOD_SCHEMA,
+} from "@centralresume/resume-core/schema";
 import { Button } from "../ui/button";
 
 const ImportExistingResume = ({
   form,
   chatHistory,
+  formSubmitFunction,
 }: {
   form: UseFormReturn<RESUME_SCHEMA_TYPE>;
   chatHistory: UIMessage[];
+  formSubmitFunction: (data: RESUME_SCHEMA_TYPE) => Promise<void>;
 }) => {
   const { setValue } = form;
+  const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [input, setInput] = useState("");
   const { messages, sendMessage, status } = useChat({
     messages: chatHistory,
@@ -56,6 +62,40 @@ const ImportExistingResume = ({
     });
     setInput("");
   };
+  useEffect(() => {
+    const toolCallPart = messages
+      .filter(
+        (msg) =>
+          msg.role === "assistant" &&
+          msg.parts.some(
+            (part) => part.type === "tool-extractResumeDataFromUserDescription"
+          )
+      )[0]
+      .parts.filter(
+        (part) => part.type === "tool-extractResumeDataFromUserDescription"
+      )[0];
+
+    const res: {
+      resume: RESUME_SCHEMA_TYPE;
+      success: boolean;
+    } = toolCallPart.output;
+
+    if (res.success) {
+      const parse = RESUME_ZOD_SCHEMA.safeParse(res.resume);
+      if (parse.success) {
+        setValue("version", parse.data.version);
+        setValue("personal_details", parse.data.personal_details);
+        setValue("work_experience", parse.data.work_experience);
+        setValue("skills", parse.data.skills);
+        setValue("projects", parse.data.projects);
+        setValue("achievements", parse.data.achievements);
+        setValue("education", parse.data.education);
+        setValue("publications", parse.data.publications);
+        setValue("otherLists", parse.data.otherLists);
+        setIsSubmitEnabled(true);
+      }
+    }
+  }, [messages]);
 
   return (
     <>
@@ -80,6 +120,38 @@ const ImportExistingResume = ({
                               <Response key={`${message.id}-${i}`}>
                                 {part.text}
                               </Response>
+                            );
+                          case "tool-extractResumeDataFromUserDescription":
+                            return (
+                              <div
+                                key={`${message.id}-${i}`}
+                                className="bg-gradient-to-r space-y-2 from-blue-400 to-purple-400 text-white font-semibold shadow-lg rounded-lg p-4"
+                              >
+                                <div className="text-base">
+                                  END: Resume is recorded. You can continue now.
+                                </div>
+                                <form
+                                  onSubmit={form.handleSubmit(
+                                    formSubmitFunction
+                                  )}
+                                >
+                                  <Button
+                                    type="submit"
+                                    size="sm"
+                                    variant={"outline"}
+                                    disabled={
+                                      form.formState.isSubmitting ||
+                                      status === "streaming" ||
+                                      !isSubmitEnabled
+                                    }
+                                    className="w-full"
+                                  >
+                                    {form.formState.isSubmitting
+                                      ? "Creating..."
+                                      : "Continue"}
+                                  </Button>
+                                </form>
+                              </div>
                             );
                           default:
                             return null;
@@ -126,14 +198,6 @@ const ImportExistingResume = ({
           </PromptInput>
         </div>
       </div>
-      <Button
-        type="submit"
-        size="lg"
-        disabled={form.formState.isSubmitting || status === "streaming"}
-        className="min-w-[180px] sm:min-w-[200px] h-10 sm:h-11 w-full mt-2 text-sm sm:text-base font-medium shadow-md hover:shadow-lg transition-all"
-      >
-        {form.formState.isSubmitting ? "Creating..." : "Continue"}
-      </Button>
     </>
   );
 };
