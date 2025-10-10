@@ -26,7 +26,6 @@ import { File, MessageSquare } from "lucide-react";
 import { useEffect, useState } from "react";
 import { UIMessage, useChat } from "@ai-sdk/react";
 import { Response } from "@/components/ai-elements/response";
-import { UseFormReturn } from "react-hook-form";
 import {
   RESUME_SCHEMA_TYPE,
   RESUME_ZOD_SCHEMA,
@@ -34,21 +33,21 @@ import {
 import { Button } from "../ui/button";
 
 const ImportExistingResume = ({
-  form,
   chatHistory,
-  formSubmitFunction,
+  isSubmitting,
+  handleSubmit,
+  setResumeData,
 }: {
-  form: UseFormReturn<RESUME_SCHEMA_TYPE>;
   chatHistory: UIMessage[];
-  formSubmitFunction: (data: RESUME_SCHEMA_TYPE) => Promise<void>;
+  isSubmitting: boolean;
+  handleSubmit: () => void;
+  setResumeData: (data: RESUME_SCHEMA_TYPE) => void;
 }) => {
-  const { setValue } = form;
-  const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [input, setInput] = useState("");
   const { messages, sendMessage, status } = useChat({
     messages: chatHistory,
   });
-  const handleSubmit = (message: PromptInputMessage) => {
+  const handlePromptSubmit = (message: PromptInputMessage) => {
     const hasText = Boolean(message.text);
     const hasAttachments = Boolean(message.files?.length);
 
@@ -70,32 +69,26 @@ const ImportExistingResume = ({
           msg.parts.some(
             (part) => part.type === "tool-extractResumeDataFromUserDescription"
           )
-      )[0]
-      .parts.filter(
+      )
+      .at(-1)
+      ?.parts.filter(
         (part) => part.type === "tool-extractResumeDataFromUserDescription"
-      )[0];
+      )
+      .at(-1);
 
     const res: {
       resume: RESUME_SCHEMA_TYPE;
       success: boolean;
-    } = toolCallPart.output;
+      // @ts-expect-error: missing type
+    } = toolCallPart?.output;
 
-    if (res.success) {
+    if (res?.success) {
       const parse = RESUME_ZOD_SCHEMA.safeParse(res.resume);
       if (parse.success) {
-        setValue("version", parse.data.version);
-        setValue("personal_details", parse.data.personal_details);
-        setValue("work_experience", parse.data.work_experience);
-        setValue("skills", parse.data.skills);
-        setValue("projects", parse.data.projects);
-        setValue("achievements", parse.data.achievements);
-        setValue("education", parse.data.education);
-        setValue("publications", parse.data.publications);
-        setValue("otherLists", parse.data.otherLists);
-        setIsSubmitEnabled(true);
+        setResumeData(parse.data);
       }
     }
-  }, [messages]);
+  }, [messages, setResumeData]);
 
   return (
     <>
@@ -110,7 +103,7 @@ const ImportExistingResume = ({
                   description="Your current details just contain your full name. You can either describe about you or upload a resume file to add more detail."
                 />
               ) : (
-                messages.map((message) => (
+                messages.map((message, msgIndex) => (
                   <Message from={message.role} key={message.id}>
                     <MessageContent>
                       {message.parts.map((part, i) => {
@@ -128,29 +121,22 @@ const ImportExistingResume = ({
                                 className="bg-gradient-to-r space-y-2 from-blue-400 to-purple-400 text-white font-semibold shadow-lg rounded-lg p-4"
                               >
                                 <div className="text-base">
+                                  {messages.length - 1 !== msgIndex && "(old)"}{" "}
                                   END: Resume is recorded. You can continue now.
                                 </div>
-                                <form
-                                  onSubmit={form.handleSubmit(
-                                    formSubmitFunction
-                                  )}
+                                <Button
+                                  type="button"
+                                  size="sm"
+                                  variant={"outline"}
+                                  className="w-full"
+                                  disabled={
+                                    messages.length - 1 !== msgIndex ||
+                                    isSubmitting
+                                  }
+                                  onClick={handleSubmit}
                                 >
-                                  <Button
-                                    type="submit"
-                                    size="sm"
-                                    variant={"outline"}
-                                    disabled={
-                                      form.formState.isSubmitting ||
-                                      status === "streaming" ||
-                                      !isSubmitEnabled
-                                    }
-                                    className="w-full"
-                                  >
-                                    {form.formState.isSubmitting
-                                      ? "Creating..."
-                                      : "Continue"}
-                                  </Button>
-                                </form>
+                                  Continue
+                                </Button>
                               </div>
                             );
                           default:
@@ -166,7 +152,7 @@ const ImportExistingResume = ({
           </Conversation>
 
           <PromptInput
-            onSubmit={handleSubmit}
+            onSubmit={handlePromptSubmit}
             className="mt-4"
             globalDrop
             multiple
@@ -193,7 +179,10 @@ const ImportExistingResume = ({
                   </PromptInputActionMenuContent>
                 </PromptInputActionMenu>
               </PromptInputTools>
-              <PromptInputSubmit disabled={!input && !status} status={status} />
+              <PromptInputSubmit
+                disabled={status === "streaming"}
+                status={status}
+              />
             </PromptInputToolbar>
           </PromptInput>
         </div>
