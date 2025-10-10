@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
 import { PrismaClient } from "@centralresume/database";
+import { MongoClient } from "mongodb";
 const prismaClientSingleton = () => {
   return new PrismaClient();
 };
@@ -14,42 +14,26 @@ export default prisma;
 
 if (process.env.NODE_ENV !== "production") globalThis.prismaGlobal = prisma;
 
-declare global {
-  var mongoose: any; // This must be a `var` and not a `let / const`
+class MongoDbClient {
+  private static instance: MongoDbClient;
+  private client: MongoClient;
+
+  private constructor() {
+    const uri = process.env.MONGODB_URI || "mongodb://localhost:27017";
+    this.client = new MongoClient(uri);
+  }
+  public static getInstance(): MongoDbClient {
+    if (!MongoDbClient.instance) {
+      MongoDbClient.instance = new MongoDbClient();
+    }
+    return MongoDbClient.instance;
+  }
+
+  public getClient(): MongoClient {
+    return this.client;
+  }
 }
 
-let cached = global.mongoose;
-
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
-}
-
-export async function MongoDbConnect() {
-  const MONGODB_URI = process.env.MONGODB_URI!;
-
-  if (!MONGODB_URI) {
-    throw new Error(
-      "Please define the MONGODB_URI environment variable inside .env.local"
-    );
-  }
-
-  if (cached.conn) {
-    return cached.conn;
-  }
-  if (!cached.promise) {
-    const opts = {
-      bufferCommands: false,
-    };
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      return mongoose;
-    });
-  }
-  try {
-    cached.conn = await cached.promise;
-  } catch (e) {
-    cached.promise = null;
-    throw e;
-  }
-
-  return cached.conn;
-}
+export const MongoResumeDBClient = MongoDbClient.getInstance()
+  .getClient()
+  .db("centralresume");

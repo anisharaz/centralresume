@@ -1,4 +1,3 @@
-import { RESUME_SCHEMA_TYPE } from "@centralresume/resume-core/schema";
 import { UIMessage } from "ai";
 
 export type AllowOauthAccessToGeneralTagParams = {
@@ -17,9 +16,7 @@ export type ServerActionResponse<T> = Promise<{
   data?: T | null;
 }>;
 
-export type MyUIMessage = UIMessage<
-  never, // metadata type
-  {
-    ResumeData: RESUME_SCHEMA_TYPE;
-  } // data parts type
->;
+export interface GettingStartedChatDoc {
+  userID: string;
+  messages: UIMessage[];
+}

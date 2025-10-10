@@ -1,10 +1,14 @@
 import { auth } from "@/lib/auth";
 import GettingStartedForm from "@/components/getting-started-page";
-import prisma, { MongoDbConnect } from "@/lib/db";
+import prisma, { MongoResumeDBClient } from "@/lib/db";
 import { headers } from "next/headers";
 import { permanentRedirect } from "next/navigation";
-import { GettingStartedChatModel } from "@/lib/schemas";
-import { GettingStartedChatInitMessage } from "@/lib/vars";
+import {
+  GettingStartedChatInitMessage,
+  MONGODB_GETTING_STARTED_CHAT_COLLECTION_NAME,
+} from "@/lib/vars";
+import { GettingStartedChatDoc } from "@/lib/types";
+import { UIMessage } from "ai";
 
 async function GettingStarted() {
   const session = await auth.api.getSession({
@@ -20,8 +24,10 @@ async function GettingStarted() {
   });
   if (user?.completedSignup === "true") permanentRedirect("/user/profile");
 
-  await MongoDbConnect();
-  const ChatHistory = await GettingStartedChatModel.findOneAndUpdate(
+  const collection = MongoResumeDBClient.collection<GettingStartedChatDoc>(
+    MONGODB_GETTING_STARTED_CHAT_COLLECTION_NAME
+  );
+  const ChatHistory = await collection.findOneAndUpdate(
     { userID: session.user.id },
     {
       $setOnInsert: {
@@ -30,8 +36,8 @@ async function GettingStarted() {
       },
     },
     {
-      new: true,
       upsert: true,
+      returnDocument: "after", // same as { new: true } in mongoose
     }
   );
 
@@ -42,7 +48,7 @@ async function GettingStarted() {
         lastName: user?.name.split(" ")[1] || "",
         email: user?.email as string,
       }}
-      chatHistory={ChatHistory.messages}
+      chatHistory={ChatHistory?.messages as UIMessage[]}
     />
   );
 }

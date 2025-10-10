@@ -1,5 +1,4 @@
 import { z } from "zod";
-import mongoose from "mongoose";
 export const createOauthClientSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   description: z.string().optional(),
@@ -38,12 +37,3 @@ export const signupSchema = z
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
-
-export const GettingStartedChatSchema = new mongoose.Schema({
-  userID: mongoose.Schema.Types.String,
-  messages: mongoose.Schema.Types.Mixed,
-});
-
-export const GettingStartedChatModel =
-  mongoose.models.GettingStartedChat ||
-  mongoose.model("getting-started-chat", GettingStartedChatSchema);

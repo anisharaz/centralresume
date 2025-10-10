@@ -1,9 +1,11 @@
+import { UIMessage } from "ai";
+
 export const DUMMY_MODE = process.env.DUMMY_MODE === "true" || false;
 export const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
 export const DEFAULT_TAG_NAME = "#common";
 export const RESUME_SCHEMA_VERSION = "1.0";
 
-export const GettingStartedChatInitMessage = [
+export const GettingStartedChatInitMessage: UIMessage[] = [
   {
     id: "1",
     role: "assistant",
@@ -15,3 +17,7 @@ export const GettingStartedChatInitMessage = [
     ],
   },
 ];
+
+export const MONGODB_RESUME_COLLECTION_NAME = "resumes";
+export const MONGODB_GETTING_STARTED_CHAT_COLLECTION_NAME =
+  "gettingstartedchats";
