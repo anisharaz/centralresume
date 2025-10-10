@@ -27,7 +27,7 @@ export async function POST(req: Request) {
       "Users will provide you details in form of message and you extract key information " +
       "If the user hasn't provided all the fields required by the tool schema ask for only the missing fields " +
       "Fields that are array can be left empty. Only call the tool once you have all required information. Add the tag #common in every detail that user provide according to the TAG schema" +
-      "If the user tell to generate some detail then do so. " +
+      "If the user tell to generate some detail then generate the minimal required field. " +
       "if user wants to update any data then then do so and again call the tool by validating the schema " +
       "You will not answer any question which is not related to resume creation. ",
     messages: convertToModelMessages(messages),

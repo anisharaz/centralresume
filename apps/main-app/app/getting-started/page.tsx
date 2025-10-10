@@ -4,7 +4,8 @@ import prisma, { MongoResumeDBClient } from "@/lib/db";
 import { headers } from "next/headers";
 import { permanentRedirect } from "next/navigation";
 import {
-  GettingStartedChatInitMessage,
+  DEFAULT_TAG_NAME,
+  GetGettingStartedChatInitMessage,
   MONGODB_GETTING_STARTED_CHAT_COLLECTION_NAME,
 } from "@/lib/vars";
 import { GettingStartedChatDoc } from "@/lib/types";
@@ -32,7 +33,15 @@ async function GettingStarted() {
     {
       $setOnInsert: {
         userID: session.user.id,
-        messages: GettingStartedChatInitMessage,
+        messages: GetGettingStartedChatInitMessage({
+          initData: {
+            firstName: user?.name.split(" ")[0] || "",
+            lastName: user?.name.split(" ")[1] || "",
+            email: user?.email as string,
+            tagLine: "Computer science student at ..(edit me)..",
+            initialTag: DEFAULT_TAG_NAME,
+          },
+        }),
       },
     },
     {

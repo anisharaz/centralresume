@@ -103,49 +103,56 @@ const ImportExistingResume = ({
                   description="Your current details just contain your full name. You can either describe about you or upload a resume file to add more detail."
                 />
               ) : (
-                messages.map((message, msgIndex) => (
-                  <Message from={message.role} key={message.id}>
-                    <MessageContent>
-                      {message.parts.map((part, i) => {
-                        switch (part.type) {
-                          case "text": // we don't use any reasoning or tool calls in this example
-                            return (
-                              <Response key={`${message.id}-${i}`}>
-                                {part.text}
-                              </Response>
-                            );
-                          case "tool-extractResumeDataFromUserDescription":
-                            return (
-                              <div
-                                key={`${message.id}-${i}`}
-                                className="bg-gradient-to-r space-y-2 from-blue-400 to-purple-400 text-white font-semibold shadow-lg rounded-lg p-4"
-                              >
-                                <div className="text-base">
-                                  {messages.length - 1 !== msgIndex && "(old)"}{" "}
-                                  END: Resume is recorded. You can continue now.
-                                </div>
-                                <Button
-                                  type="button"
-                                  size="sm"
-                                  variant={"outline"}
-                                  className="w-full"
-                                  disabled={
-                                    messages.length - 1 !== msgIndex ||
-                                    isSubmitting
-                                  }
-                                  onClick={handleSubmit}
+                messages.map((message, msgIndex) => {
+                  if (message.role === "system") {
+                    return;
+                  }
+                  return (
+                    <Message from={message.role} key={message.id}>
+                      <MessageContent>
+                        {message.parts.map((part, i) => {
+                          switch (part.type) {
+                            case "text": // we don't use any reasoning or tool calls in this example
+                              return (
+                                <Response key={`${message.id}-${i}`}>
+                                  {part.text}
+                                </Response>
+                              );
+                            case "tool-extractResumeDataFromUserDescription":
+                              return (
+                                <div
+                                  key={`${message.id}-${i}`}
+                                  className="bg-gradient-to-r space-y-2 from-blue-400 to-purple-400 text-white font-semibold shadow-lg rounded-lg p-4"
                                 >
-                                  Continue
-                                </Button>
-                              </div>
-                            );
-                          default:
-                            return null;
-                        }
-                      })}
-                    </MessageContent>
-                  </Message>
-                ))
+                                  <div className="text-base">
+                                    {messages.length - 1 !== msgIndex &&
+                                      "(old)"}{" "}
+                                    END: Resume is recorded. You can continue
+                                    now.
+                                  </div>
+                                  <Button
+                                    type="button"
+                                    size="sm"
+                                    variant={"outline"}
+                                    className="w-full"
+                                    disabled={
+                                      messages.length - 1 !== msgIndex ||
+                                      isSubmitting
+                                    }
+                                    onClick={handleSubmit}
+                                  >
+                                    Continue
+                                  </Button>
+                                </div>
+                              );
+                            default:
+                              return null;
+                          }
+                        })}
+                      </MessageContent>
+                    </Message>
+                  );
+                })
               )}
             </ConversationContent>
             <ConversationScrollButton />
