@@ -122,9 +122,15 @@ const ImportExistingResume = ({
                               return (
                                 <div
                                   key={`${message.id}-${i}`}
-                                  className="bg-gradient-to-r space-y-2 from-blue-400 to-purple-400 text-white font-semibold shadow-lg rounded-lg p-4"
+                                  className="bg-primary space-y-2 text-white font-semibold shadow-lg rounded-lg p-4"
                                 >
-                                  <div className="text-base">
+                                  <div
+                                    className={`text-base ${
+                                      messages.length - 1 !== msgIndex
+                                        ? "text-muted"
+                                        : ""
+                                    }`}
+                                  >
                                     {messages.length - 1 !== msgIndex &&
                                       "(old)"}{" "}
                                     END: Resume is recorded. You can continue
@@ -133,7 +139,7 @@ const ImportExistingResume = ({
                                   <Button
                                     type="button"
                                     size="sm"
-                                    variant={"outline"}
+                                    variant={"secondary"}
                                     className="w-full"
                                     disabled={
                                       messages.length - 1 !== msgIndex ||
