@@ -13,6 +13,10 @@
       "persistent": true,
       "cache": false
     },
+    "docs": {
+      "persistent": true,
+      "cache": false
+    },
     "db:generate": {
       "cache": false
     }
