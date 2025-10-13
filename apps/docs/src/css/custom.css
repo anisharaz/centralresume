@@ -1,0 +1,161 @@
+:root {
+  --ifm-color-primary: #1976d2; /* Example blue for light theme */
+  --ifm-color-primary-dark: #1565c0;
+  --ifm-color-primary-darker: #0d47a1;
+  --ifm-color-primary-darkest: #08306b;
+  --ifm-color-primary-light: #42a5f5;
+  --ifm-color-primary-lighter: #90caf9;
+  --ifm-color-primary-lightest: #e3f2fd;
+  --ifm-background-color: #ffffff;
+  --docusaurus-highlighted-code-line-bg: rgba(25, 118, 210, 0.1);
+}
+
+[data-theme='dark'] {
+  /* Primary Orange Colors */
+  --ifm-color-primary: #ff8c00; /* Dark Orange */
+  --ifm-color-primary-dark: #e67e00;
+  --ifm-color-primary-darker: #cc7000;
+  --ifm-color-primary-darkest: #b36300;
+  --ifm-color-primary-light: #ff9f2e;
+  --ifm-color-primary-lighter: #ffb25c;
+  --ifm-color-primary-lightest: #ffc68a;
+  
+  /* Background Colors - Black Theme */
+  --ifm-background-color: #000000; /* Pure black */
+  --ifm-background-surface-color: #0a0a0a; /* Slightly lighter black */
+  
+  /* Navbar */
+  --ifm-navbar-background-color: #000000;
+  --ifm-navbar-shadow: 0 1px 2px 0 rgba(255, 140, 0, 0.1);
+  
+  /* Footer */
+  --ifm-footer-background-color: #0a0a0a;
+  
+  /* Card/Paper backgrounds */
+  --ifm-card-background-color: #0f0f0f;
+  
+  /* Code blocks */
+  --ifm-code-background: #1a1a1a;
+  --ifm-pre-background: #1a1a1a;
+  --docusaurus-highlighted-code-line-bg: rgba(255, 140, 0, 0.15);
+  
+  /* Text colors */
+  --ifm-font-color-base: #e0e0e0;
+  --ifm-heading-color: #ffffff;
+  --ifm-link-color: #ff8c00;
+  --ifm-link-hover-color: #ffa733;
+  
+  /* Menu/Sidebar */
+  --ifm-menu-color: #e0e0e0;
+  --ifm-menu-color-active: #ff8c00;
+  --ifm-menu-color-background-active: rgba(255, 140, 0, 0.1);
+  --ifm-menu-color-background-hover: rgba(255, 140, 0, 0.05);
+  
+  /* Table of contents */
+  --ifm-toc-border-color: #1a1a1a;
+  --ifm-toc-link-color: #b0b0b0;
+  
+  /* Borders */
+  --ifm-color-emphasis-300: #2a2a2a;
+  --ifm-hr-background-color: #2a2a2a;
+  --ifm-table-border-color: #2a2a2a;
+  
+  /* Blockquote */
+  --ifm-blockquote-color: #b0b0b0;
+  --ifm-blockquote-border-left-color: #ff8c00;
+  
+  /* Tabs */
+  --ifm-tabs-color: #b0b0b0;
+  --ifm-tabs-color-active: #ff8c00;
+  --ifm-tabs-color-active-border: #ff8c00;
+  
+  /* Admonitions */
+  --docusaurus-tag-list-border: #2a2a2a;
+  
+  /* Scrollbar */
+  --ifm-scrollbar-track-background-color: #1a1a1a;
+  --ifm-scrollbar-thumb-background-color: #3a3a3a;
+  --ifm-scrollbar-thumb-hover-background-color: #ff8c00;
+}
+
+/* Additional dark mode customizations */
+[data-theme='dark'] .navbar {
+  border-bottom: 1px solid rgba(255, 140, 0, 0.1);
+}
+
+/* Footer - Force black background */
+[data-theme='dark'] .footer,
+[data-theme='dark'] .footer--dark {
+  background-color: #0a0a0a !important;
+  border-top: 1px solid rgba(255, 140, 0, 0.1);
+}
+
+[data-theme='dark'] .footer__title {
+  color: #ff8c00;
+}
+
+[data-theme='dark'] .footer__link-item {
+  color: #b0b0b0;
+}
+
+[data-theme='dark'] .footer__link-item:hover {
+  color: #ff8c00;
+}
+
+[data-theme='dark'] .footer__copyright {
+  color: #808080;
+}
+
+[data-theme='dark'] .navbar__link--active,
+[data-theme='dark'] .navbar__link:hover {
+  color: #ff8c00;
+}
+
+[data-theme='dark'] .pagination-nav__link:hover {
+  border-color: #ff8c00;
+  background-color: rgba(255, 140, 0, 0.1);
+}
+
+[data-theme='dark'] .button.button--secondary {
+  color: #ff8c00;
+  border-color: #ff8c00;
+}
+
+[data-theme='dark'] .button.button--secondary:hover {
+  background-color: rgba(255, 140, 0, 0.1);
+  border-color: #ffa733;
+}
+
+[data-theme='dark'] .markdown a:not(.hash-link) {
+  color: #ff8c00;
+}
+
+[data-theme='dark'] .markdown a:not(.hash-link):hover {
+  color: #ffa733;
+}
+
+/* Code block title bar */
+[data-theme='dark'] .prism-code {
+  background-color: #1a1a1a;
+}
+
+/* Search bar styling */
+[data-theme='dark'] .navbar__search-input {
+  background-color: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  color: #e0e0e0;
+}
+
+[data-theme='dark'] .navbar__search-input:focus {
+  border-color: #ff8c00;
+}
+
+/* Table of Contents active link */
+[data-theme='dark'] .table-of-contents__link--active {
+  color: #ff8c00;
+  font-weight: 600;
+}
+
+[data-theme='dark'] .table-of-contents__link:hover {
+  color: #ffa733;
+}
