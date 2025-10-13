@@ -31,6 +31,7 @@ import {
   RESUME_ZOD_SCHEMA,
 } from "@centralresume/resume-core/schema";
 import { Button } from "../ui/button";
+import { Loader } from "../ai-elements/loader";
 
 const ImportExistingResume = ({
   chatHistory,
@@ -67,12 +68,14 @@ const ImportExistingResume = ({
         (msg) =>
           msg.role === "assistant" &&
           msg.parts.some(
-            (part) => part.type === "tool-extractResumeDataFromUserDescription"
+            (part) =>
+              part.type === "tool-extractResumeDataFromUserDescriptionOrFile"
           )
       )
       .at(-1)
       ?.parts.filter(
-        (part) => part.type === "tool-extractResumeDataFromUserDescription"
+        (part) =>
+          part.type === "tool-extractResumeDataFromUserDescriptionOrFile"
       )
       .at(-1);
 
@@ -118,7 +121,7 @@ const ImportExistingResume = ({
                                   {part.text}
                                 </Response>
                               );
-                            case "tool-extractResumeDataFromUserDescription":
+                            case "tool-extractResumeDataFromUserDescriptionOrFile":
                               return (
                                 <div
                                   key={`${message.id}-${i}`}
@@ -160,6 +163,7 @@ const ImportExistingResume = ({
                   );
                 })
               )}
+              {status === "streaming" && <Loader />}
             </ConversationContent>
             <ConversationScrollButton />
           </Conversation>

@@ -32,9 +32,9 @@ export async function POST(req: Request) {
       "You will not answer any question which is not related to resume creation. ",
     messages: convertToModelMessages(messages),
     tools: {
-      extractResumeDataFromUserDescription: tool({
+      extractResumeDataFromUserDescriptionOrFile: tool({
         description: "Build a structured resume object.",
-        name: "extractResumeDataFromUserDescription",
+        name: "extractResumeDataFromUserDescriptionOrFile",
         inputSchema: RESUME_ZOD_SCHEMA,
         async execute(data) {
           const res = RESUME_ZOD_SCHEMA.safeParse(data);
