@@ -44,7 +44,7 @@ export const auth = betterAuth({
           },
         });
         if (user?.completedSignup === "false") {
-          ctx.redirect(`/getting-started/${newSession.user.id}`);
+          ctx.redirect(`/getting-started/`);
         }
       }
     }),

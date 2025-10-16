@@ -73,7 +73,7 @@ export default function GettingStartedForm({
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10">
+      <div className="container mx-auto p-4">
         {/* Header Section */}
         <div className="text-center space-y-3 sm:space-y-4 mb-4">
           <div className="space-y-1.5 sm:space-y-2">

@@ -185,7 +185,8 @@ const ImportExistingResume = ({
               />
             </PromptInputBody>
             <PromptInputToolbar>
-              <PromptInputTools>
+              {/* TODO:Commented due to unstable result with file uploads, enable it later */}
+              {/* <PromptInputTools>
                 <PromptInputActionMenu>
                   <PromptInputActionMenuTrigger className="text-amber-500">
                     <File className="size-5" />
@@ -195,7 +196,7 @@ const ImportExistingResume = ({
                     <PromptInputActionAddAttachments label="Select a resume file" />
                   </PromptInputActionMenuContent>
                 </PromptInputActionMenu>
-              </PromptInputTools>
+              </PromptInputTools> */}
               <PromptInputSubmit
                 disabled={status === "streaming"}
                 status={status}
