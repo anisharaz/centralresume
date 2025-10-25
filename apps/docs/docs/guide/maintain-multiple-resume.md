@@ -1,5 +1,6 @@
 ---
 title: Maintaining Multiple Resumes
+tags: [guide]
 ---
 
-# Maintain Multiple Resumes
+To be added

@@ -9,6 +9,7 @@ export { type PROJECTS_SCHEMA_TYPE } from "../schema/resume/projects";
 export { type RESUME_SCHEMA_TYPE } from "../schema/resume";
 export { type TAGS_TYPE } from "../schema/resume/constants";
 
+// TODO: update this to infer the type from the schema itself instead of manually defining here
 export type ResumeDataType = {
   personal_details: {
     name: string;
