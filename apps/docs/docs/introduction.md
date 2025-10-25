@@ -86,7 +86,7 @@ We use oAuth to share resume. The best example here is _login with google_. Simi
 
 ![oauth](/img/login-button.svg)
 
-## These approach brings us multiple benefits 🎁
+## These approach brings us multiple outcomes 🎁
 
-Benefits deserve as dedicated section, so continue reading
-[here...](/docs/benefits)
+Outcomes deserve as dedicated section, so continue reading
+[here...](/docs/outcomes)
