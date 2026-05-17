@@ -48,7 +48,7 @@ export function AppSidebar() {
         <Link href={"/home"} className="flex items-center gap-1 p-2">
           <div className="relative w-10 h-10 max-md:w-12 max-md:h-12">
             <Image
-              src={"https://static.centralresume.me/logo.svg"}
+              src={"https://crstatic.anisharaz.com.np/logo.svg"}
               fill
               alt="Logo"
             />

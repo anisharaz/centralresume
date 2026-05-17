@@ -57,7 +57,7 @@ export default function LoginForm() {
               message: error.error.message || "Sign in failed",
             });
           },
-        }
+        },
       );
     } catch (error) {
       console.error("Login error:", error);
@@ -76,7 +76,7 @@ export default function LoginForm() {
       <Card className="w-full max-w-md shadow-lg bg-black/60 backdrop-blur-md rounded-xl py-8">
         <CardHeader className="space-y-1">
           <Image
-            src="https://static.centralresume.me/logo.svg"
+            src="https://crstatic.anisharaz.com.np/logo.svg"
             alt="Logo"
             width={100}
             height={100}

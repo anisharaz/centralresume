@@ -40,7 +40,7 @@ export function NavBar() {
           <div className="flex items-center gap-2 max-md:gap-4">
             <div className="relative w-10 h-10 max-md:w-12 max-md:h-12">
               <Image
-                src={"https://static.centralresume.me/logo.svg"}
+                src={"https://crstatic.anisharaz.com.np/logo.svg"}
                 fill
                 alt="Logo"
               />

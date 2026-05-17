@@ -76,7 +76,7 @@ const config: Config = {
       title: "CentralResume",
       logo: {
         alt: "CentralResume Logo",
-        src: "https://static.centralresume.me/logo.svg",
+        src: "https://crstatic.anisharaz.com.np/logo.svg",
       },
       items: [
         {

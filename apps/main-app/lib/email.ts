@@ -98,7 +98,7 @@ export async function sendVerificationEmail({
                 style="padding: 35px 30px; background-color: #fafafa"
               >
                 <img
-                  src="https://static.centralresume.me/logo.png"
+                  src="https://crstatic.anisharaz.com.np/logo.png"
                   alt="CentralResume Logo"
                   width="150"
                   height="125"
@@ -276,7 +276,7 @@ export async function sendPasswordResetEmail({
                 style="padding: 35px 30px; background-color: #fafafa"
               >
                 <img
-                  src="https://static.centralresume.me/logo.png"
+                  src="https://crstatic.anisharaz.com.np/logo.png"
                   alt="CentralResume Logo"
                   width="150"
                   height="125"

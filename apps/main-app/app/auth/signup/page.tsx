@@ -70,7 +70,7 @@ export default function SignupPage() {
       });
       if (emailRes.data?.status) {
         alert(
-          "Verification email sent! Please check your inbox to verify your account."
+          "Verification email sent! Please check your inbox to verify your account.",
         );
         router.push("/auth/login");
       }
@@ -93,7 +93,7 @@ export default function SignupPage() {
       <Card className="w-full max-w-md shadow-lg bg-black/60 backdrop-blur-md rounded-xl py-8">
         <CardHeader className="space-y-1">
           <Image
-            src="https://static.centralresume.me/logo.svg"
+            src="https://crstatic.anisharaz.com.np/logo.svg"
             alt="Logo"
             width={100}
             height={100}

@@ -5,7 +5,7 @@ slug: outcomes
 ---
 
 <img
-src="https://static.centralresume.me/skyshot.jpg"
+src="https://crstatic.anisharaz.com.np/skyshot.jpg"
 alt="Rounded image"
 style={{ borderRadius: '50px' }}
 
