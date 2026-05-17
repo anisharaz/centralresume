@@ -23,7 +23,7 @@ export const RESUME_ZOD_SCHEMA = z
     version: z
       .string()
       .describe(
-        `current version of the resume schema is ${CORE_RESUME_VERSION}`
+        `current version of the resume schema is ${CORE_RESUME_VERSION}`,
       ),
     personal_details: PERSONAL_DETAILS_SCHEMA,
     work_experience: WORK_EXPERIENCE_SCHEMA,

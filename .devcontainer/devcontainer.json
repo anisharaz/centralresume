@@ -1,0 +1,22 @@
+{
+    "name": "dev-centralresume",
+    "dockerComposeFile": "../.devcontainer/docker-compose.yaml",
+    "service": "app",
+    "workspaceFolder": "/workspace",
+    "forwardPorts": [
+        3000, // Next.js app
+        8081, // API Backend
+        5432, // PostgreSQL
+        27017, // MongoDB
+        8081 // Mongo Express UI
+    ],
+    "customizations": {
+        // add extensions here
+        "vscode": {}
+    },
+    "features": {
+        "ghcr.io/devcontainers-extra/features/pnpm:2": {
+            "version": "10.13.1"
+        }
+    }
+}

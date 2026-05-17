@@ -104,7 +104,7 @@ export function AppSidebar() {
                   <span>Tags Management</span>
                 </Link>
               </SidebarMenuButton>
-              {/* <SidebarMenuButton
+              <SidebarMenuButton
                 asChild
                 isActive={pathName.endsWith("/user/setting/oauth")}
               >
@@ -112,7 +112,7 @@ export function AppSidebar() {
                   <Lock />
                   <span>oauth client</span>
                 </Link>
-              </SidebarMenuButton> */}
+              </SidebarMenuButton>
             </CollapsibleContent>
           </SidebarGroup>
         </Collapsible>
